@@ -1,0 +1,29 @@
+@use '../abstracts/variables' as a;
+
+@mixin respond($breakpoint) {
+	//  0 - 600px: Phone
+	@if $breakpoint == phone {
+		@media only screen and (max-width: 37.5em) {
+			@content;
+		}
+	}
+	// 600 - 900px - Tablet
+	@if $breakpoint == tab-port {
+		@media only screen and (max-width: 56.25em) {
+			@content;
+		}
+	}
+	// 900 - 1200px - Tablet landscape
+	@if $breakpoint == tab-land {
+		@media only screen and (max-width: 75em) {
+			@content;
+		}
+	}
+	// 1800px+ - big desktop
+	@if $breakpoint == big-desktop {
+		@media only screen and (min-width: 112.5em) {
+			@content;
+		}
+	}
+}
+

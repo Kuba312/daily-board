@@ -1,1 +1,11 @@
 $default-font-size: 1.6rem;
+
+:root {
+	--bg-color: #EEE6DF;
+	--color-text: #000A20;
+}
+
+.dark-mode {
+	--bg-color: #111920;
+	--color-text: #EEE6DF;
+}

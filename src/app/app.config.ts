@@ -2,7 +2,6 @@ import {
 	ApplicationConfig,
 	isDevMode,
 	provideExperimentalZonelessChangeDetection,
-	provideZoneChangeDetection
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
 
@@ -23,8 +22,8 @@ export const appConfig: ApplicationConfig = {
 			logOnly: !isDevMode(),
 			autoPause: true,
 			trace: false,
-			traceLimit: 75
+			traceLimit: 75,
 		}),
-		provideAnimationsAsync()
-	]
+		provideAnimationsAsync(),
+	],
 };

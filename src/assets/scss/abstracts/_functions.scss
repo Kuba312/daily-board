@@ -1,0 +1,11 @@
+@function generate-double-grid(
+	$min-col-width-1: 0,
+	$max-col-width-1: 1fr,
+	$min-col-width-2: 0,
+	$max-col-width-2: 1fr
+) {
+	$grid-template-columns: minmax($min-col-width-1, $max-col-width-1)
+		minmax($min-col-width-2, $max-col-width-2);
+
+	@return $grid-template-columns;
+}

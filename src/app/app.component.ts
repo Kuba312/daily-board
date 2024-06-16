@@ -11,11 +11,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DarkModeService } from '@core/services/dark-mode.service';
 import { configEffect } from '@core/helpers/signal-effects.helper';
 import { DARK_MODE_CLASS } from '@core/app.consts';
+import SideMenuComponent from './shared/components/side-menu/side-menu.component';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, TranslateModule],
+	imports: [RouterOutlet, TranslateModule, SideMenuComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })

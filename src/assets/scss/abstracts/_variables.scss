@@ -1,11 +1,20 @@
+// font sizes
 $default-font-size: 1.6rem;
+
+// font weights
+$slight-thickening: 550;
+
+// border radius values
+$normal-border-radius: 9px;
 
 :root {
 	--bg-color: #EEE6DF;
 	--color-text: #000A20;
+	--color-hover-text: #DACBB8;
 }
 
 .dark-mode {
 	--bg-color: #111920;
 	--color-text: #EEE6DF;
+	--color-hover-text: #253447
 }

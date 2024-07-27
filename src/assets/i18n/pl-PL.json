@@ -10,5 +10,8 @@
 		"settings": "Ustawienia",
 		"new": "Nowy",
 		"create-task": "Stwórz zadanie"
+	},
+	"planner": {
+		"weekly-planner": "Planer Tygodniowy"
 	}
 }

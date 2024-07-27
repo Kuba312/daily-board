@@ -10,5 +10,8 @@
 		"settings": "Settings",
 		"new": "New",
 		"create-task": "Create Task"
+	},
+	"planner": {
+		"weekly-planner": "Weekly Planner"
 	}
 }

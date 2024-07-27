@@ -1,5 +1,5 @@
 // Languages
-export const DEFAULT_LANGUAGE: string = 'pl-Pl';
+export const DEFAULT_LANGUAGE: string = 'pl-PL';
 export const EN_GB: string = 'en-GB';
 
 // Dark mode

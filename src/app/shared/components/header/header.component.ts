@@ -7,11 +7,11 @@ import {
 	input,
 	signal,
 } from '@angular/core';
-import { LocaleDateService } from '@shared/services/locale-date.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { DateDisplayMode } from '@shared/enums/date-display-mode.enum';
 import { DisplayDateMode } from '@shared/types/display-date-mode.type';
 import { DateRangeConfigurerComponent } from '../date-range-configurer/date-range-configurer.component';
+import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
 
 @Component({
 	selector: 'app-header',

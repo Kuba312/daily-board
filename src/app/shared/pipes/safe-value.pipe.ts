@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Option } from '@app/core/types/basics.types';
+import { Option } from '@core/types/basics.types';
 
 @Pipe({
 	standalone: true,

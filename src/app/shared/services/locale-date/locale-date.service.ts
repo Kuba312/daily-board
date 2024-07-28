@@ -13,7 +13,7 @@ import { DEFAULT_LANGUAGE } from '@core/app.consts';
 import moment from 'moment';
 import { LocaleDateFormat } from '@core/types/dates.types';
 import 'moment/locale/pl';
-import { WeekRange } from '../models/week-range';
+import { WeekRange } from '../../models/week-range';
 
 @Injectable({ providedIn: 'root' })
 export class LocaleDateService {

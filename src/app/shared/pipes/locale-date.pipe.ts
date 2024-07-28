@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { LocaleDateFormat } from '@core/types/dates.types';
 import moment from 'moment';
-import { LocaleDateService } from '../services/locale-date.service';
+import { LocaleDateService } from '../services/locale-date/locale-date.service';
 
 @Pipe({
 	name: 'momentDate',

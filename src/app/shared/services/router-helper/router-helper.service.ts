@@ -5,14 +5,14 @@ import { IsActiveMatchOptions, Router } from '@angular/router';
 export class RouterHelperService {
 	private readonly _router: Router = inject(Router);
 
-	isActive(link: string): boolean {
+	isActive(link: string): boolean {		
 		const options: IsActiveMatchOptions = {
 			paths: 'exact',
 			queryParams: 'exact',
 			fragment: 'ignored',
 			matrixParams: 'ignored',
 		};
-
+		
 		return this._router.isActive(link, options);
 	}
 }

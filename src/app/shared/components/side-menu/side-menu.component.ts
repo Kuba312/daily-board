@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { RouterHelperService } from '@app/shared/services/router-helper.service';
 import { TranslateModule } from '@ngx-translate/core';
 import PrimaryButtonComponent from '../primary-button/primary-button.component';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 
 @Component({
 	selector: 'app-side-menu',
@@ -20,6 +20,11 @@ import PrimaryButtonComponent from '../primary-button/primary-button.component';
 export default class SideMenuComponent {
 	private readonly _routerHelperService: RouterHelperService =
 		inject(RouterHelperService);
+
+	readonly CALENDAR_URL: string = '/calendar';
+	readonly PLANNER_URL: string = '/planner';
+	readonly TASKS_URL: string = '/tasks';
+	readonly SETTINGS_URL: string = '/settings';
 
 	isActive(link: string): boolean {
 		return this._routerHelperService.isActive(link);

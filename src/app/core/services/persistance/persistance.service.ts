@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Option } from '../types/basics.types';
+import { Option } from '@core/types/basics.types';
 
 @Injectable({ providedIn: 'root' })
 export class PersistanceService {

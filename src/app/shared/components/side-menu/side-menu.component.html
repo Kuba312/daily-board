@@ -5,19 +5,22 @@
 				<mat-icon fontIcon="wb_sunny"></mat-icon>
 				<span translate="side-menu.today"></span>
 			</a>
-			<a class="side-menu__item" [class.active]="isActive('/calendar')">
+			<a class="side-menu__item" [class.active]="isActive(CALENDAR_URL)">
 				<mat-icon fontIcon="calendar_month"></mat-icon>
 				<span translate="side-menu.calendar"></span>
 			</a>
-			<a class="side-menu__item" [class.active-link]="isActive('/planner')">
+			<a
+				class="side-menu__item"
+				[class.active-link]="isActive(PLANNER_URL)"
+			>
 				<mat-icon fontIcon="menu"></mat-icon>
 				<span translate="side-menu.planner"></span>
 			</a>
-			<a class="side-menu__item" [class.active]="isActive('/tasks')">
+			<a class="side-menu__item" [class.active]="isActive(TASKS_URL)">
 				<mat-icon fontIcon="checklist"></mat-icon>
 				<span translate="side-menu.tasks"></span>
 			</a>
-			<a class="side-menu__item" [class.active]="isActive('/settings')">
+			<a class="side-menu__item" [class.active]="isActive(SETTINGS_URL)">
 				<mat-icon fontIcon="settings"></mat-icon>
 				<span translate="side-menu.settings"></span>
 			</a>

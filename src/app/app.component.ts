@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DarkModeService } from '@core/services/dark-mode.service';
 import { configEffect } from '@core/helpers/signal-effects.helper';
 import { DARK_MODE_CLASS } from '@core/app.consts';
 import SideMenuComponent from './shared/components/side-menu/side-menu.component';
-import { LocaleDateService } from './shared/services/locale-date.service';
+import { LocaleDateService } from './shared/services/locale-date/locale-date.service';
+import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
 
 @Component({
 	selector: 'app-root',

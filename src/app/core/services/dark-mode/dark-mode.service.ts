@@ -6,8 +6,8 @@ import {
 	inject,
 	signal,
 } from '@angular/core';
-import { PersistanceService } from './persistance.service';
-import { DARK_MODE_KEY } from '../app.consts';
+import { DARK_MODE_KEY } from '@core/app.consts';
+import { PersistanceService } from '../persistance/persistance.service';
 
 @Injectable({ providedIn: 'root' })
 export class DarkModeService {

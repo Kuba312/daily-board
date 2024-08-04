@@ -1,5 +1,5 @@
 import { Component, InputSignal, input } from '@angular/core';
-import { Option } from '@app/core/types/basics.types';
+import { Option } from '@core/types/basics.types';
 
 @Component({
 	selector: 'app-primary-button',

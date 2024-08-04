@@ -28,6 +28,12 @@
 	}
 }
 
+@mixin responsive-daily-board-grid($width, $minWidth) {
+	@media (width <= $width) {
+		grid-template-columns: repeat(7, minmax($minWidth, 1fr));
+	}
+}
+
 // grid mixins
 @mixin apply-double-grid($gutter: 0, $col-width-1, $col-width-2) {
 	display: grid;
@@ -43,6 +49,17 @@
 @mixin flex-column {
 	display: flex;
 	flex-direction: column;
+}
+
+@mixin flex-space-between-center {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin flex-space-between {
+	display: flex;
+	justify-content: space-between;
 }
 
 @mixin flex-column-space-between {
@@ -63,4 +80,21 @@
 	&:hover {
 		background-color: var(--color-hover-text);
 	}
+}
+
+@mixin full-screen {
+	height: 100%;
+	width: 100%;
+}
+
+@mixin sticky-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+@mixin overlap-word {
+	overflow:hidden; 
+	white-space:nowrap; 
+	text-overflow: ellipsis;
 }

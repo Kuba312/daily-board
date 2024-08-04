@@ -12,6 +12,24 @@
 		"create-task": "Stwórz zadanie"
 	},
 	"planner": {
-		"weekly-planner": "Planer Tygodniowy"
+		"weekly-planner": "Planer Tygodniowy",
+		"full-days-names": {
+			"monday": "Poniedziałek",
+			"tuesday": "Wtorek",
+			"wednesday": "Środa",
+			"thursday": "Czwartek",
+			"friday": "Piątek",
+			"saturday": "Sobota",
+			"sunday": "Niedziela"
+		},
+		"short-days-names": {
+			"monday": "Pn",
+			"tuesday": "Wt",
+			"wednesday": "Śr",
+			"thursday": "Czw",
+			"friday": "Pt",
+			"saturday": "Sb",
+			"sunday": "Ni"
+		}
 	}
 }

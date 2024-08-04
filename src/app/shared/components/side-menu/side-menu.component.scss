@@ -14,7 +14,8 @@
 
 	#{$self}__container {
 		width: inherit;
-		height: inherit;
+		height: 100lvh;
+		@include sticky-header;
 		@include flex-column-space-between;
 		gap: 5rem;
 

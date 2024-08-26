@@ -27,6 +27,6 @@ export class DarkModeService {
 	}
 
 	get savedDarkModeState(): boolean {
-		return this._persistanceService.get(DARK_MODE_KEY) === 'true';
+		return !!this._persistanceService.get(DARK_MODE_KEY);
 	}
 }

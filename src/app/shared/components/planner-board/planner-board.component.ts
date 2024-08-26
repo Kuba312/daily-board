@@ -46,14 +46,14 @@ export default class PlannerBoardComponent {
 	);
 
 	applyHiddenPartialHourClass(time: string): Record<string, boolean> {
-		const isPartialHour = this.isPartialHour(time);
+		const isPartialHour = this._isPartialHour(time);
 
 		return {
 			[this.HIDDEN_PARTIAL_HOUR]: isPartialHour,
 		};
 	}
 
-	isPartialHour(time: string): boolean {
+	private _isPartialHour(time: string): boolean {
 		const splittedTime = time.split(':');
 
 		return splittedTime[1] !== '00';

@@ -1,0 +1,36 @@
+// font sizes
+$default-font-size: 1.6rem;
+$smaller-font-size: 1.4rem;
+$header-font-size: 2.4rem;
+
+// font weights
+$slight-thickening: 550;
+
+// border radius values
+$normal-border-radius: 9px;
+$tiny-border: 0.5px solid var(--color-border);
+$normal-border: 1px solid var(--color-border);
+
+// static colors
+$light-text-color: #EEE6DF;
+
+// box shadows
+$tiny-shadow: var(--bg-color) 0px 4px 2px;
+
+:root {
+	--bg-color: #EEE6DF;
+	--color-text: #000A20;
+	--color-text-secondary: #666F80;
+	--color-border: #cfb5a2;
+	--color-background-secondary: #e4d9cd;
+	--color-hover-text: #DACBB8;
+}
+
+.dark-mode {
+	--bg-color: #111920;
+	--color-text: #EEE6DF;
+	--color-text-secondary: #BBB6AF;
+	--color-border: #304a5d;
+	--color-background-secondary: #1b2632;
+	--color-hover-text: #2d4658;
+}

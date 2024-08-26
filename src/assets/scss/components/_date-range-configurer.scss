@@ -1,0 +1,9 @@
+.date-range-configurer {
+	padding-top: 0.5rem;
+	$self: &;
+
+	.week-range,
+	.day-range { 
+		color: var(--color-text-secondary);
+	}
+}

@@ -1,0 +1,33 @@
+<div class="side-menu">
+	<div class="side-menu__container">
+		<nav class="side-menu__nav-links">
+			<a class="side-menu__item">
+				<mat-icon fontIcon="wb_sunny"></mat-icon>
+				<span translate="side-menu.today"></span>
+			</a>
+			<a class="side-menu__item" [class.active]="isActive(CALENDAR_URL)">
+				<mat-icon fontIcon="calendar_month"></mat-icon>
+				<span translate="side-menu.calendar"></span>
+			</a>
+			<a
+				class="side-menu__item"
+				[class.active-link]="isActive(PLANNER_URL)"
+			>
+				<mat-icon fontIcon="menu"></mat-icon>
+				<span translate="side-menu.planner"></span>
+			</a>
+			<a class="side-menu__item" [class.active]="isActive(TASKS_URL)">
+				<mat-icon fontIcon="checklist"></mat-icon>
+				<span translate="side-menu.tasks"></span>
+			</a>
+			<a class="side-menu__item" [class.active]="isActive(SETTINGS_URL)">
+				<mat-icon fontIcon="settings"></mat-icon>
+				<span translate="side-menu.settings"></span>
+			</a>
+		</nav>
+		<div class="side-menu__actions">
+			<app-primary-button [label]="'side-menu.new' | translate" />
+			<app-primary-button [label]="'side-menu.create-task' | translate" />
+		</div>
+	</div>
+</div>

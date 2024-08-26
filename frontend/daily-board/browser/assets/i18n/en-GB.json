@@ -1,0 +1,17 @@
+{
+	"app-info": {
+		"name": "Daily Board"
+	},
+	"side-menu": {
+		"today": "Today",
+		"calendar": "Calendar",
+		"planner": "Planner",
+		"tasks": "Tasks",
+		"settings": "Settings",
+		"new": "New",
+		"create-task": "Create Task"
+	},
+	"planner": {
+		"weekly-planner": "Weekly Planner"
+	}
+}

@@ -1,0 +1,13 @@
+@use '../abstracts' as *;
+
+.db-header {
+	margin: 2.5rem 0 0 3.5rem;
+
+	$self: &;
+
+	#{$self}__main-title {
+		display: inline-block;
+		font-size: $header-font-size;
+		font-weight: $slight-thickening;
+	}
+}

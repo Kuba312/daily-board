@@ -1,6 +1,0 @@
-@use '../assets/scss/abstracts' as a;
-
-.app {
-	@include a.apply-double-grid(0, 20fr, 80fr);
-	height: 100%;
-}

@@ -1,10 +1,10 @@
-package com.daily_board.daily_board;
+package com.dailyboard.dailyboard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DailyBoardApplicationTests {
+class DailyboardApplicationTests {
 
 	@Test
 	void contextLoads() {

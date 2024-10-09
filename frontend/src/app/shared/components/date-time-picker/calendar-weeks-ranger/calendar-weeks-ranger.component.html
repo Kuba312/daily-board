@@ -1,0 +1,37 @@
+<div class="calendar-weeks-ranger">
+	<div class="calendar-weeks-ranger__header">
+		<mat-icon
+			class="calendar-weeks-ranger__header--close"
+			(click)="closeCalendar()"
+		>
+			close
+		</mat-icon>
+		<div class="calendar-weeks-ranger__header--action-label">
+			<mat-icon (click)="previousMonth()">chevron_left</mat-icon>
+			<span>
+				{{ currentMonth() | safeValue | momentDate : DAY_MONTH_FORMAT }}
+			</span>
+			<mat-icon (click)="nextMonth()">chevron_right</mat-icon>
+		</div>
+
+		<div class="calendar-weeks-ranger__days">
+			@for (day of DAYS; track $index) {
+				<span>{{ day | translate }}</span>
+			}
+		</div>
+	</div>
+	<div class="calendar-weeks-ranger__days-month">
+		@for (daysChunk of mothsDaysChunks(); track $index) {
+		<div class="calendar-weeks-ranger__days-month-chunk">
+			@for (day of daysChunk; track $index) {
+			<div class="calendar-weeks-ranger__days-month-chunk--item">
+				<span>{{ day }}</span>
+			</div>
+			}
+		</div>
+		}
+	</div>
+	<div class="calendar-weeks-ranger__time-picker">
+		<app-calendar-time-ranger/>
+	</div>
+</div>

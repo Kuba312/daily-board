@@ -1,6 +1,12 @@
 import { ElementRef } from '@angular/core';
+import {
+	AbstractControl,
+	AsyncValidatorFn,
+	ValidationErrors,
+} from '@angular/forms';
 import { TileBoardDto } from '@models/tile-board-dto';
 import { WeekRange } from '@shared/models/week-range';
+import { delay, Observable, of } from 'rxjs';
 
 export const WEEK_RANGE_MOCK: WeekRange = {
 	startOfWeek: '2024-07-21T22:00:00.000Z',
@@ -73,3 +79,11 @@ export const WEEKDAYS_MOCK: string[] = [
 	'planner.full-days-names.saturday',
 	'planner.full-days-names.sunday',
 ];
+
+export function asyncMockValidator(): AsyncValidatorFn {
+	return (control: AbstractControl): Observable<ValidationErrors | null> => {
+		return of(
+			control.value === 'valid' ? null : { invalidAsync: true },
+		).pipe(delay(1000));
+	};
+}

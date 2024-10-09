@@ -46,9 +46,21 @@
 	align-items: center;
 }
 
+@mixin flex-justify-align-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 @mixin flex-column {
 	display: flex;
 	flex-direction: column;
+}
+
+@mixin flex-column-center {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 @mixin flex-space-between-center {
@@ -94,7 +106,7 @@
 }
 
 @mixin overlap-word {
-	overflow:hidden; 
-	white-space:nowrap; 
+	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }

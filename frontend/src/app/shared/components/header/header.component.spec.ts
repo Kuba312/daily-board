@@ -53,10 +53,7 @@ describe('HeaderComponent', () => {
 	});
 
 	it('should set null if there is a none strategy set', () => {
-		fixture.componentRef.setInput('dateDisplayMode', DateDisplayMode.None);
-
 		component.ngOnInit();
-		fixture.detectChanges();
 
 		expect(component.properDateDisplayMode()).toEqual(null);
 	});

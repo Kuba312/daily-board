@@ -1,0 +1,18 @@
+@use '../../../assets/scss/abstracts' as *;
+
+:host {
+  display: block;
+}
+
+.task-board-form {
+  $self: &;
+
+  #{$self}__wrapper {
+    margin: $section-margin;
+  }
+
+  #{$self}__form {
+    margin: $section-margin;
+  }
+
+}

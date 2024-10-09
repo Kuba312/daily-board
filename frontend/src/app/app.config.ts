@@ -12,6 +12,7 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import appProvidersFrom from './import-providers';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -28,5 +29,6 @@ export const appConfig: ApplicationConfig = {
 		}),
 		provideAnimationsAsync(),
 		importProvidersFrom(appProvidersFrom),
+		provideEnvironmentNgxMask(),
 	],
 };

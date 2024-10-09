@@ -1,8 +1,8 @@
 import { Component, ElementRef, input, InputSignal } from '@angular/core';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 import { Option } from '@core/types/basics.types';
 import { TileBoardDto } from '@models/tile-board-dto';
 import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-heights';
-import { SafeValue } from '@shared/pipes/safe-value.pipe';
 
 @Component({
 	selector: 'app-planner-board-tile-duties',

@@ -25,7 +25,7 @@ describe('LocaleDateService', () => {
 
 	it('should return current day', () => {
 		const currentDate = moment().format('YYYY-MM-DD');
-		const currentDay = localeDateService.currentDay();
+		const currentDay = localeDateService.getCurrentDay();
 		const splittedCurrentDay = currentDay.split('T')[0];
 
 		expect(splittedCurrentDay).toEqual(currentDate);

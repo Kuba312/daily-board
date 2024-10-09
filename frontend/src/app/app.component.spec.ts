@@ -4,6 +4,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocaleDateService } from './shared/services/locale-date/locale-date.service';
 import { DARK_MODE_CLASS } from './core/app.consts';
 import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
+import { ActivatedRoute } from '@angular/router';
+import { ACTIVATED_ROUTE_PROVIDER } from './core/helpers/tests-functions.helper';
 
 describe('AppComponent', () => {
 	let component: AppComponent;
@@ -26,6 +28,10 @@ describe('AppComponent', () => {
 			providers: [
 				{ provide: DarkModeService, useValue: darkModeServiceSpy },
 				{ provide: LocaleDateService, useValue: localeDateServiceSpy },
+				{
+					provide: ActivatedRoute,
+					useValue: ACTIVATED_ROUTE_PROVIDER,
+				},
 			],
 		})
 			.compileComponents()

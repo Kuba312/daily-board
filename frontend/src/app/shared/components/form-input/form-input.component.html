@@ -1,0 +1,29 @@
+@if (formGroup() && controlName()) {
+	<div [formGroup]="formGroup()" class="form-input">
+		<mat-form-field
+			appearance="outline"
+			class="mat-form-field"
+			[style.width.%]="width()"
+		>
+			<mat-label>{{ label() }}</mat-label>
+			@if (matIcon()) {
+				<mat-icon matPrefix>
+					{{ matIcon() | safeValue }}
+				</mat-icon>
+			}
+			<input
+				data-input
+				[id]="controlName()"
+				[formControlName]="controlName()"
+				[type]="inputType()"
+				[placeholder]="placeholder() | safeValue"
+				matInput
+			/>
+		</mat-form-field>
+		<app-form-error-message
+			[formGroup]="formGroup()"
+			[controlName]="controlName()"
+			[customMessage]="customErrorMessages()"
+		/>
+	</div>
+}

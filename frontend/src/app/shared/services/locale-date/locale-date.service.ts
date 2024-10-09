@@ -43,7 +43,7 @@ export class LocaleDateService {
 		};
 	}
 
-	public currentDay(): string {
+	public getCurrentDay(): string {
 		const currentDay = moment().toISOString();
 
 		return currentDay;
@@ -55,6 +55,16 @@ export class LocaleDateService {
 			.subscribe((langSettings: LangChangeEvent) => {
 				this._setLocaleDateFormat(langSettings);
 			});
+	}
+
+	public getMonthsDaysChunksByDate(date: string): string[][] {
+		const momentDate = moment(date, 'YYYY-MM-DD');
+		const numberOfDays = moment(momentDate).daysInMonth();
+		const firstDayOfMonth = momentDate.startOf('month').isoWeekday();
+		const paddingDays = firstDayOfMonth === 1 ? 0 : firstDayOfMonth - 1;
+		const days = this._createRangeDaysMonth(numberOfDays, paddingDays);
+
+		return this._splitDaysIntoDaysChunks(days);
 	}
 
 	private _setLocaleDateFormat(langSettings: LangChangeEvent): void {
@@ -69,5 +79,45 @@ export class LocaleDateService {
 		moment.locale(langForDate);
 
 		this._localeDateFormat.set(langForDate);
+	}
+
+	private _createRangeDaysMonth(end: number, paddingDays: number): string[] {
+		const paddedDays: string[] = [];
+
+		this._createEmptyDaysUntilFirstMonthDay(paddingDays, paddedDays);
+		this._createCalendarDays(end, paddedDays);
+
+		return paddedDays;
+	}
+
+	private _createCalendarDays(end: number, paddedDays: string[]): void {
+		for (let day = 1; day <= end; day++) {
+			const dayStr = day < 10 ? `0${day}` : `${day}`;
+
+			paddedDays.push(dayStr);
+		}
+	}
+
+	private _createEmptyDaysUntilFirstMonthDay(
+		paddingDays: number,
+		paddedDays: string[],
+	): void {
+		for (let i = 0; i < paddingDays; i++) {
+			paddedDays.push('');
+		}
+	}
+
+	private _splitDaysIntoDaysChunks(days: string[]): string[][] {
+		return days.reduce((result: string[][], item, i) => {
+			const chunkIndex = Math.floor(i / 7);
+
+			if (!result[chunkIndex]) {
+				result[chunkIndex] = [];
+			}
+
+			result[chunkIndex].push(item);
+
+			return result;
+		}, []);
 	}
 }

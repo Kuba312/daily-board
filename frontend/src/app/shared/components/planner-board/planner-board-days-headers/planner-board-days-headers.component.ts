@@ -7,8 +7,8 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import { DayShortcutResponsivePipe } from '@shared/pipes/day-shortcuts.pipe';
-import { SafeValue } from '@shared/pipes/safe-value.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 
 @Component({
 	selector: 'app-planner-board-days-headers',

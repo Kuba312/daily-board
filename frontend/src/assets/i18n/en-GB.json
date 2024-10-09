@@ -31,5 +31,15 @@
 			"saturday": "Sat",
 			"sunday": "Sun"
 		}
+	},
+	"task-board-form": {
+		"title": "Create board task"
+	},
+	"form-validators": {
+		"required": "Field is required",
+		"email": "Field has to contain '@'",
+		"pattern": "Field doesn't match requirements",
+		"min-length": "Too few characters",
+		"max-length": "Too much characters"
 	}
 }

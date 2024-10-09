@@ -1,0 +1,41 @@
+@use '../abstracts' as *;
+
+.calendar-time-ranger {
+	font-size: $default-font-size;
+	@include flex-justify-align-center;
+	gap: 1rem;
+
+	$self: &;
+
+	mat-form-field {
+		flex-basis: 20%;
+	}
+
+	#{$self}__time-picker-input {
+		@include flex-column;
+		text-align: center;
+		flex-basis: 35%;
+
+		& > input {
+			font-size: $default-font-size;
+			text-align: center;
+			margin-bottom: 0.5rem;
+			margin-top: 5px;
+		}
+	}
+
+	.arrow-icon {
+		font-size: $default-font-size;
+		margin: 0 auto;
+		cursor: pointer;
+	}
+
+	.arrow-icon:first-child {
+		height: fit-content;
+	}
+
+	.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+		.mdc-text-field__input {
+		color: var(--color-text);
+	}
+}

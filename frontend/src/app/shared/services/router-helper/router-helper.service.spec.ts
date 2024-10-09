@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterHelperService } from './router-helper.service';
-import { IsActiveMatchOptions, Router } from '@angular/router';
+import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
 
 describe('RouterHelperService', () => {
 	let routerHelperService: RouterHelperService;
@@ -8,7 +8,9 @@ describe('RouterHelperService', () => {
 	let routerSpy: jasmine.SpyObj<Router>;
 
 	beforeEach(waitForAsync(() => {
-		routerSpy = jasmine.createSpyObj('Router', ['isActive']);
+		routerSpy = jasmine.createSpyObj('Router', ['isActive', 'navigate'], {
+			url: '/planner',
+		});
 
 		TestBed.configureTestingModule({
 			providers: [
@@ -16,6 +18,18 @@ describe('RouterHelperService', () => {
 				{
 					provide: Router,
 					useValue: routerSpy,
+				},
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						snapshot: {
+							paramMap: {
+								get(): string {
+									return '123';
+								},
+							},
+						},
+					},
 				},
 			],
 		})
@@ -67,4 +81,15 @@ describe('RouterHelperService', () => {
 
 		expect(result).toBe(false);
 	});
+
+	it('should navigate to proper page', () => {
+		const link = '/task-board-add';
+
+		expect(routerSpy.url).toBe('/planner');
+
+		routerHelperService.directToUrl(link)
+
+		expect(routerSpy.navigate).toHaveBeenCalledWith([link], {});
+		expect(routerSpy.url).toBe('/planner');
+	})
 });

@@ -10,8 +10,9 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { DateDisplayMode } from '@shared/enums/date-display-mode.enum';
 import { DisplayDateMode } from '@shared/types/display-date-mode.type';
-import { DateRangeConfigurerComponent } from '../date-range-configurer/date-range-configurer.component';
 import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
+import { DateRangeConfigurerComponent } 
+	from '../date-range-configurer/date-range-configurer.component';
 
 @Component({
 	selector: 'app-header',
@@ -25,6 +26,7 @@ export default class HeaderComponent implements OnInit {
 
 	public dateDisplayMode: InputSignal<DateDisplayMode> =
 		input<DateDisplayMode>(DateDisplayMode.None);
+	public label: InputSignal<string> = input.required<string>();
 
 	public properDateDisplayMode: WritableSignal<DisplayDateMode> =
 		signal<DisplayDateMode>(null);
@@ -41,8 +43,8 @@ export default class HeaderComponent implements OnInit {
 		return this.weeklyMode
 			? this._localeDateService.weekRange()
 			: this.dailyMode
-				? this._localeDateService.currentDay()
-				: null;
+			? this._localeDateService.getCurrentDay()
+			: null;
 	}
 
 	get weeklyMode(): boolean {

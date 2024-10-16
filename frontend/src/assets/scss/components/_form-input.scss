@@ -1,0 +1,28 @@
+@use '../abstracts' as *;
+
+.form-input {
+	mat-label,
+	input {
+		color: var(--color-text) !important;
+	}
+
+	mat-label {
+		font-size: $smaller-font-size;
+	}
+
+	input {
+		font-size: $default-font-size !important;
+	}
+
+	.mat-mdc-input-element {
+		font-size: $smaller-font-size;
+	}
+
+	.mat-mdc-form-field-subscript-wrapper {
+		display: none;
+	}
+
+	.mat-mdc-form-field-error {
+		font-size: $smaller-font-size;
+	}
+}

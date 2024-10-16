@@ -1,4 +1,4 @@
-import { Component, InputSignal, input } from '@angular/core';
+import { Component, InputSignal, OutputEmitterRef, input, output } from '@angular/core';
 import { Option } from '@core/types/basics.types';
 
 @Component({
@@ -10,4 +10,15 @@ import { Option } from '@core/types/basics.types';
 export default class PrimaryButtonComponent {
 	label: InputSignal<Option<string>> = input<Option<string>>();
 	icon: InputSignal<Option<string>> = input<Option<string>>();
+	emitOnClick: InputSignal<boolean> = input<boolean>(false);
+
+	ngClick: OutputEmitterRef<void> = output<void>();
+
+	onNgClick(): void {
+		if(!this.emitOnClick()) {
+			return;
+		}
+
+		this.ngClick.emit();
+	}
  }

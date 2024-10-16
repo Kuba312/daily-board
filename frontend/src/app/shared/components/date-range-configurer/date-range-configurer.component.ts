@@ -3,7 +3,7 @@ import { Option } from '@core/types/basics.types';
 import { WeekRange } from '@shared/models/week-range';
 import { DisplayDateMode } from '@shared/types/display-date-mode.type';
 import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
-import { SafeValue } from '@shared/pipes/safe-value.pipe';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 
 @Component({
 	selector: 'app-date-range-configurer',
@@ -28,7 +28,7 @@ export class DateRangeConfigurerComponent {
 	}
 
 	public isDayRange(value: DisplayDateMode): value is string {
-		return this._isNonNullValue(value) && typeof value === 'string';
+		return this._isNonNullValue(value) && typeof value === 'string';	
 	}
 
 	public isStartOfWeek(startOfWeek: Option<WeekRange>): boolean {

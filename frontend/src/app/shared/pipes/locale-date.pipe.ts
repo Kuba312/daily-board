@@ -1,9 +1,4 @@
-import {
-	Pipe,
-	PipeTransform,
-	effect,
-	inject,
-} from '@angular/core';
+import { Pipe, PipeTransform, effect, inject } from '@angular/core';
 import { LocaleDateFormat } from '@core/types/dates.types';
 import moment from 'moment';
 import { LocaleDateService } from '../services/locale-date/locale-date.service';
@@ -23,12 +18,14 @@ export default class LocaleDatePipe implements PipeTransform {
 		this._recalculateLocaleDateFormat();
 	}
 
-	transform(value: string, format: string): string {
+	transform(value: string, format: string): string {		
 		if (!value) {
 			return '';
 		}
 
-		return moment(value).locale(this._currentLanguage).format(format);
+		return moment(value)
+			.locale(this._currentLanguage)
+			.format(format);
 	}
 
 	private _recalculateLocaleDateFormat(): void {

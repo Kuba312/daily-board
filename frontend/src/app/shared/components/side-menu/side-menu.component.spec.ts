@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import SideMenuComponent from './side-menu.component';
 import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ACTIVATED_ROUTE_PROVIDER, ROUTER_MOCK } from '@core/helpers/tests-functions.helper';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import SideMenuComponent from './side-menu.component';
 
 describe('SideMenuComponent', () => {
 	let fixture: ComponentFixture<SideMenuComponent>;
@@ -28,13 +29,15 @@ describe('SideMenuComponent', () => {
 			providers: [
 				{
 					provide: Router,
-					useValue: {
-						url: '/planner',
-					},
+					useValue: ROUTER_MOCK,
 				},
 				{
 					provide: RouterHelperService,
 					useValue: routerHelperServiceSpy,
+				},
+				{
+					provide: ActivatedRoute,
+					useValue: ACTIVATED_ROUTE_PROVIDER,
 				},
 			],
 		})

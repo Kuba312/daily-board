@@ -31,5 +31,18 @@
 			"saturday": "Sb",
 			"sunday": "Ni"
 		}
+	},
+	"task-board-form": {
+		"title": "Stwórz zadanie"
+	},
+	"form-validators": {
+		"required": "Pole jest wymagane",
+		"email": "Pole musi zawierać '@'",
+		"pattern": "Pole nie spełnia wymagań",
+		"min-length": "Za mała ilość znaków",
+		"max-length": "Za duża ilość znaków",
+		"from-time": "Niewłaściwa godzina",
+		"invalid-date": "Niewłaściwa data",
+		"empty-time": "Nie podano godzin"
 	}
 }

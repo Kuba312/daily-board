@@ -10,6 +10,11 @@ const routes: Routes = [
 		path: 'planner',
 		loadComponent: () => import('./planner/planner.component'),
 	},
+	{
+		path: 'task-board-add',
+		loadComponent: () =>
+			import('./task-board-form/task-board-form.component'),
+	},
 ];
 
 export default routes;

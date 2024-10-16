@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateRangeConfigurerComponent } from './date-range-configurer.component';
 import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
-import { SafeValue } from '@shared/pipes/safe-value.pipe';
 import { DebugElement } from '@angular/core';
 import { WEEK_RANGE_MOCK } from 'src/mocks/mock-data';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 
 describe('DateRangeConfigurerComponent', () => {
 	let fixture: ComponentFixture<DateRangeConfigurerComponent>;
 	let component: DateRangeConfigurerComponent;
-	let el: DebugElement;
+	let el: DebugElement;	
 
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({

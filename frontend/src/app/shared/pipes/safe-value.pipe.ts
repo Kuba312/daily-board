@@ -5,7 +5,7 @@ import { Option } from '@core/types/basics.types';
 	standalone: true,
 	name: 'safeValue',
 })
-export class SafeValue implements PipeTransform {
+export default class SafeValue implements PipeTransform {
 	transform(value: Option<string>): string {
 		return value ?? '';
 	}

@@ -23,7 +23,7 @@ describe('PlannerComponent', () => {
 			component = fixture.componentInstance;
 			component.dailyBoardDuties.set(DUTIES_MOCK)
 			fixture.detectChanges();
-		})
+		}) 
 	}))
 
 	it('should create', () => {

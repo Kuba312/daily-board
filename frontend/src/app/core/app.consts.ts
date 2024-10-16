@@ -15,3 +15,13 @@ export const SHORTCUTS_DAYS: Map<string, string> = new Map<string, string>([
 	['planner.full-days-names.saturday', 'planner.short-days-names.saturday'],
 	['planner.full-days-names.sunday', 'planner.short-days-names.sunday'],
 ]);
+
+export const SHORT_NAME_DAYS: string[] = [
+	'planner.short-days-names.monday',
+	'planner.short-days-names.tuesday',
+	'planner.short-days-names.wednesday',
+	'planner.short-days-names.thursday',
+	'planner.short-days-names.friday',
+	'planner.short-days-names.saturday',
+	'planner.short-days-names.sunday',
+];

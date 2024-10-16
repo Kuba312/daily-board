@@ -1,0 +1,63 @@
+<div class="week-date-picker-input">
+	<mat-form-field
+		appearance="outline"
+		floatLabel="always"
+		class="week-date-picker-input__form-field"
+		[style.width.%]="width()"
+	>
+		<mat-icon
+			class="week-date-picker-input__form-field--icon"
+			matIconSuffix
+			(click)="toggleCalendarWeek()"
+		>
+			calendar_month
+		</mat-icon>
+		<div class="date-range-container">
+			<input
+				#dateInput
+				(input)="handleDateChange($event, controlDateName.Date)"
+				(blur)="touchControl()"
+				matInput
+				mask="00-00-0000"
+				[showMaskTyped]="true"
+			/>
+			<div class="date-range-container--times-range">
+				<input
+					#fromInput
+					(input)="handleDateChange($event, controlDateName.From)"
+					(blur)="touchControl()"
+					matInput
+					[mask]="TIME_MASK_FORMAT"
+					[showMaskTyped]="true"
+				/>
+				<span>-</span>
+				<input
+					#toInput
+					(input)="handleDateChange($event, controlDateName.To)"
+					(blur)="touchControl()"
+					matInput
+					[mask]="TIME_MASK_FORMAT"
+					[showMaskTyped]="true"
+				/>
+			</div>
+		</div>
+	</mat-form-field>
+	<app-form-error-message
+		[formGroup]="formGroup()"
+		[controlName]="controlName()"
+		[customMessage]="customErrorMessages()"
+	/>
+	@if (isWeeklyCalendarOpened()) {
+		<div 
+			class="week-date-picker-input__calendar" 
+			[style.min-width.%]="width()"
+		>
+			<app-calendar-weeks-ranger
+				[inputDate]="date()"
+				[fromTime]="from()"
+				[toTime]="to()"
+				(onCloseCalendar)="onCloseCalendarWeek($event)"
+			/>
+		</div>
+	}
+</div>

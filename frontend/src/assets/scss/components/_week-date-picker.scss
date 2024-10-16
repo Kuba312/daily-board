@@ -1,0 +1,48 @@
+@use '../abstracts' as *;
+
+.week-date-picker-input {
+	position: relative;
+	$self: &;
+
+	#{$self}__form-field {
+		@include flex-center;
+
+		&--icon {
+			cursor: pointer;
+			font-size: $default-font-size;
+			transform: translateY(3px);
+		}
+	}
+
+	.date-range-container {
+		font-size: $default-font-size;
+		@include flex-center;
+		gap: 0.8rem;
+		$date-range: &;
+
+		& > input {
+			width: fit-content;
+		}
+
+		&--times-range {
+			@include flex-center;
+
+			& > input {
+				text-align: center;
+			}
+		}
+	}
+
+	#{$self}__calendar {
+		position: absolute;
+	}
+
+	.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+		.mdc-text-field__input {
+		color: var(--color-text);
+	}
+
+	.mat-mdc-form-field-subscript-wrapper {
+		display: none;
+	}
+}

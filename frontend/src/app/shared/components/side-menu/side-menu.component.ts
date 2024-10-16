@@ -29,4 +29,8 @@ export default class SideMenuComponent {
 	isActive(link: string): boolean {
 		return this._routerHelperService.isActive(link);
 	}
+
+	directToTaskCreator(): void {
+		this._routerHelperService.directToUrl('/task-board-add');
+	}
 }

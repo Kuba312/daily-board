@@ -1,0 +1,22 @@
+<section class="task-board-form">
+	<app-header label="task-board-form.title" />
+	<div class="task-board-form__wrapper">
+		@if (formModel && formModel.formGroup) {
+		<form class="task-board-form__form" [formGroup]="formModel.formGroup">
+			<app-form-input
+				[controlName]="formModel.NAME"
+				[formGroup]="formModel.formGroup"
+				[label]="'test'"
+				[width]="50"
+			/>
+			<app-week-date-picker-input
+				[formControlName]="formModel.DATE"
+				[controlName]="formModel.DATE"
+				[formGroup]="formModel.formGroup"
+			/>
+			<!-- TODO: add send form -->
+			<!-- <button (click)="sendForm()">click</button> -->
+		</form>
+		}
+	</div>
+</section>

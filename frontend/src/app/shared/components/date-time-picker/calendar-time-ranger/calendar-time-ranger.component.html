@@ -1,0 +1,53 @@
+@if(formModel && formModel.formGroup()) {
+	<form
+		class="calendar-time-ranger"
+		[formGroup]="formModel.formGroup()"
+	>
+		<mat-form-field appearance="outline" floatLabel="always">
+			<div class="calendar-time-ranger__time-picker-input">
+				<mat-icon 
+					class="arrow-icon" 
+					(click)="formModel.addTime(formModel.FROM_HOUR)"
+				>
+					arrow_upward
+				</mat-icon>
+				<input
+					#fromInput
+					type="text"
+					[mask]="TIME_MASK_FORMAT"
+					[showMaskTyped]="true"
+					(keydown)="changeTimeOnFocusedTimeInputs($event, formModel.FROM_HOUR)"
+					matInput
+					[formControlName]="formModel.FROM_HOUR"
+				/>
+				<mat-icon 
+					class="arrow-icon" 
+					(click)="formModel.minusTime(formModel.FROM_HOUR)"
+				>
+					arrow_downward
+				</mat-icon>
+			</div>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" floatLabel="always">
+			<div class="calendar-time-ranger__time-picker-input">
+				<mat-icon class="arrow-icon" (click)="formModel.addTime(formModel.TO_HOUR)">arrow_upward</mat-icon>
+				<input
+					#toInput
+					type="text"
+					[mask]="TIME_MASK_FORMAT"
+					[showMaskTyped]="true"
+					(keydown)="changeTimeOnFocusedTimeInputs($event, formModel.TO_HOUR)"
+					matInput
+					[formControlName]="formModel.TO_HOUR"
+				/>
+				<mat-icon 
+					class="arrow-icon" 
+					(click)="formModel.minusTime(formModel.TO_HOUR)"
+				>
+					arrow_downward
+				</mat-icon>
+			</div>
+		</mat-form-field>
+	</form>
+}

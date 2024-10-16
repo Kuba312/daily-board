@@ -1,9 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SafeValue } from '@shared/pipes/safe-value.pipe';
 import { MOCK_HTML_ELEMENTS, TILE_BOARD_DUTIES_MOCK } from 'src/mocks/mock-data';
 import PlannerBoardTileDutiesComponent from './planner-board-tile-duties.component';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 
 describe('PlannerBoardTileDutiesComponent', () => {
 	let fixture: ComponentFixture<PlannerBoardTileDutiesComponent>;

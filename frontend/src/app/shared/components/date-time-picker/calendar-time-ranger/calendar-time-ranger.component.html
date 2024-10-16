@@ -1,4 +1,4 @@
-@if(formModel.formGroup()) {
+@if(formModel && formModel.formGroup()) {
 	<form
 		class="calendar-time-ranger"
 		[formGroup]="formModel.formGroup()"
@@ -16,7 +16,7 @@
 					type="text"
 					[mask]="TIME_MASK_FORMAT"
 					[showMaskTyped]="true"
-					(keydown)="increaseTimeOnFocusedFromTimeInput($event, formModel.FROM_HOUR)"
+					(keydown)="changeTimeOnFocusedTimeInputs($event, formModel.FROM_HOUR)"
 					matInput
 					[formControlName]="formModel.FROM_HOUR"
 				/>
@@ -37,7 +37,7 @@
 					type="text"
 					[mask]="TIME_MASK_FORMAT"
 					[showMaskTyped]="true"
-					(keydown)="increaseTimeOnFocusedFromTimeInput($event, formModel.TO_HOUR)"
+					(keydown)="changeTimeOnFocusedTimeInputs($event, formModel.TO_HOUR)"
 					matInput
 					[formControlName]="formModel.TO_HOUR"
 				/>

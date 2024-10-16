@@ -29,15 +29,9 @@ export class FormErrorMessageComponent {
 		const formControl = this._getCurrentControl();		
 		const errorName = this._findControlErrorMessage(formControl);
 
-		// console.log('control name', this.controlName());
-		// console.log('error name', errorName);
-		// console.log('formControl', formControl);
-
 		if (!errorName || !formControl?.touched) {
 			return '';
 		}
-
-		// console.log('error name 2', errorName);
 		
 		const customMessages = this._findCustomErrorMessage(errorName);
 		
@@ -48,8 +42,6 @@ export class FormErrorMessageComponent {
 		if (!this._isFormErrorDefinedInDefaultErrorList(errorName)) {
 			return '';
 		}
-
-		// console.log('trigger error message', this.controlName());
 
 		return FORM_ERROR_MESSAGES?.[errorName] || errorName;
 	}

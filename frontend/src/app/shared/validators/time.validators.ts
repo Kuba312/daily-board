@@ -37,7 +37,7 @@ export class TimeValidators {
 
 			return moment(fromTime, TIME_FORMAT).isBefore(
 				moment(toTime, TIME_FORMAT),
-			)
+			) 
 				? null
 				: { fromTime: true };
 		};

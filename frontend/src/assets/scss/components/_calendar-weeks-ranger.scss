@@ -5,6 +5,7 @@
 	background-color: var(--color-background-secondary);
 	border-radius: $normal-border-radius;
 	position: relative;
+	padding: 2rem 0;
 
 	$self: &;
 
@@ -43,10 +44,11 @@
 	#{$self}__days {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
-		gap: 2rem;
+		gap: 3rem;
 		width: 100%;
 		font-size: $smaller-font-size;
 		color: var(--color-text-secondary);
+		padding: 0 0.5rem;
 	}
 
 	#{$self}__days-month {
@@ -59,9 +61,22 @@
 		gap: 2rem;
 		padding: 1rem 1rem;
 		width: 100%;
-		
+
+		&--item {
+			text-align: start;
+		}
+
+
 		span {
 			cursor: pointer;
+			padding: 0.8rem;
+			border: none;
+			transition: border 0.5s;
+		}
+
+		.active-calendar-day {
+			border: $normal-border;
+			border-radius: $normal-border-radius;
 		}
 	}
 

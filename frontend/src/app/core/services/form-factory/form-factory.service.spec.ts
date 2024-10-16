@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormFactory } from './form-factory.service';
-import { FormConfig } from '@app/core/models/form-config';
+import { FormConfig } from '@core/models/form-config';
 import { FormControl, Validators } from '@angular/forms';
 import { asyncMockValidator } from 'src/mocks/mock-data';
 

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormFactory } from '@app/core/services/form-factory/form-factory.service';
-import { TimeValidators } from '@app/shared/validators/time.validators';
+import { FormFactory } from '@core/services/form-factory/form-factory.service';
+import { TimeValidators } from '@shared/validators/time.validators';
 
 export class TaskBoardFormModel {
 	private readonly _formFactory: FormFactory = inject(FormFactory);

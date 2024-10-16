@@ -22,16 +22,26 @@
 	</div>
 	<div class="calendar-weeks-ranger__days-month">
 		@for (daysChunk of mothsDaysChunks(); track $index) {
-		<div class="calendar-weeks-ranger__days-month-chunk">
-			@for (day of daysChunk; track $index) {
-			<div class="calendar-weeks-ranger__days-month-chunk--item">
-				<span>{{ day }}</span>
+			<div class="calendar-weeks-ranger__days-month-chunk">
+				@for (dayObj of daysChunk; track $index) {
+					<div class="calendar-weeks-ranger__days-month-chunk--item">
+						@if (isDayDate(dayObj)) {
+							<span
+								[ngClass]="{ 'active-calendar-day': isSelectedDay(dayObj) }"
+								(click)="selectDate(dayObj)"
+							>
+								{{ dayObj.day }}
+							</span>
+						}
+					</div>
+				}
 			</div>
-			}
-		</div>
 		}
 	</div>
 	<div class="calendar-weeks-ranger__time-picker">
-		<app-calendar-time-ranger/>
+		<app-calendar-time-ranger 
+			[fromTime]="fromTime()" 
+			[toTime]="toTime()" 
+		/>
 	</div>
 </div>

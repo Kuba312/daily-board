@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ACTIVATED_ROUTE_PROVIDER, ROUTER_MOCK } from '@app/core/helpers/tests-functions.helper';
+import { ACTIVATED_ROUTE_PROVIDER, ROUTER_MOCK } from '@core/helpers/tests-functions.helper';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import SideMenuComponent from './side-menu.component';

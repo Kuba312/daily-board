@@ -11,7 +11,7 @@ import { FormErrorMessageComponent } from '../form-error-message/form-error-mess
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 
-fdescribe('FormInputComponent', () => {
+describe('FormInputComponent', () => {
 	let fixture: ComponentFixture<FormInputComponent>;
 	let component: FormInputComponent;
 	let el: DebugElement;

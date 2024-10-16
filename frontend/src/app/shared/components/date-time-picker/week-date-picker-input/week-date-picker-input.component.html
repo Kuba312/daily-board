@@ -14,6 +14,7 @@
 		</mat-icon>
 		<div class="date-range-container">
 			<input
+				#dateInput
 				(input)="handleDateChange($event, controlDateName.Date)"
 				(blur)="touchControl()"
 				matInput
@@ -51,8 +52,11 @@
 			class="week-date-picker-input__calendar" 
 			[style.min-width.%]="width()"
 		>
-			<app-calendar-weeks-ranger 
-				(onCloseCalendar)="toggleCalendarWeek()" 
+			<app-calendar-weeks-ranger
+				[inputDate]="date()"
+				[fromTime]="from()"
+				[toTime]="to()"
+				(onCloseCalendar)="onCloseCalendarWeek($event)"
 			/>
 		</div>
 	}

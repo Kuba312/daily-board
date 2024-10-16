@@ -2,18 +2,24 @@ import {
 	Component,
 	ElementRef,
 	inject,
+	Injector,
+	input,
+	InputSignal,
+	model,
+	OnInit,
+	runInInjectionContext,
 	Signal,
 	viewChild,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective } from 'ngx-mask';
 import { MatIconModule } from '@angular/material/icon';
-import { CalendarTimeRangerFormModel } from './calendar-time-ranger.form-model.component';
+import { MatInputModule } from '@angular/material/input';
+import { Option } from '@core/types/basics.types';
+import { KeyboardEventService } from '@shared/services/keyboard-events/keyboard-events.service';
 import { TIME_MASK_FORMAT } from '@shared/shared-consts.const';
-import { Option } from '@app/core/types/basics.types';
-import { KeyboardEventService } from '@app/shared/services/keyboard-events/keyboard-events.service';
+import { NgxMaskDirective } from 'ngx-mask';
+import { CalendarTimeRangerFormModel } from './calendar-time-ranger.form-model.component';
 
 @Component({
 	selector: 'app-calendar-time-ranger',
@@ -27,21 +33,28 @@ import { KeyboardEventService } from '@app/shared/services/keyboard-events/keybo
 	],
 	templateUrl: './calendar-time-ranger.component.html',
 })
-export default class CalendarTimeRangerComponent {
+export default class CalendarTimeRangerComponent implements OnInit {
 	private readonly _keyboardEventService: KeyboardEventService =
 		inject(KeyboardEventService);
+	private readonly _injector: Injector = inject(Injector);
+
+	public fromTime: InputSignal<Option<string>> = input<Option<string>>(null);
+	public toTime: InputSignal<Option<string>> = model<Option<string>>(null);
 
 	public fromTimeElement: Signal<Option<ElementRef<HTMLElement>>> =
 		viewChild<ElementRef<HTMLElement>>('fromInput');
 	public toTimeElement: Signal<Option<ElementRef<HTMLElement>>> =
 		viewChild<ElementRef<HTMLElement>>('toInput');
 
-	public formModel: CalendarTimeRangerFormModel =
-		new CalendarTimeRangerFormModel();
+	public formModel: Option<CalendarTimeRangerFormModel> = null;
 
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
 
-	increaseTimeOnFocusedFromTimeInput(
+	ngOnInit(): void {
+		this._initializeRangeTimeForm();
+	}
+
+	changeTimeOnFocusedTimeInputs(
 		event: KeyboardEvent,
 		controlName: string,
 	): void {
@@ -64,25 +77,35 @@ export default class CalendarTimeRangerComponent {
 
 			return;
 		}
-	
+
 		if (this._keyboardEventService.isArrowDownEvent(code)) {
 			this._decreaseHour(controlName);
 		}
 	}
 
 	private _increaseHour(controlName: string): void {
-		this.formModel.addTime(controlName);
+		this.formModel?.addTime(controlName);
 	}
 
 	private _decreaseHour(controlName: string): void {
-		this.formModel.minusTime(controlName);
+		this.formModel?.minusTime(controlName);
 	}
 
 	private _getProperHourInputElement(
 		controlName: string,
 	): Option<ElementRef<HTMLElement>> {
-		return controlName === this.formModel.FROM_HOUR
+		const formModel = this.formModel;
+		return formModel && controlName === formModel.FROM_HOUR
 			? this.fromTimeElement()
 			: this.toTimeElement();
+	}
+
+	private _initializeRangeTimeForm(): void {
+		runInInjectionContext(this._injector, () => {
+			this.formModel = new CalendarTimeRangerFormModel(
+				this.fromTime() ?? null,
+				this.toTime() ?? null,
+			);
+		});
 	}
 }

@@ -40,6 +40,10 @@
 		"email": "Field has to contain '@'",
 		"pattern": "Field doesn't match requirements",
 		"min-length": "Too few characters",
-		"max-length": "Too much characters"
+		"max-length": "Too much characters",
+		"from-time": "Invalid hour",
+		"invalid-date": "Invalid date",
+		"empty-time": "There is no hours chosen"
+
 	}
 }

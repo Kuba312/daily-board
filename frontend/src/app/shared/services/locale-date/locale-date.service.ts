@@ -7,13 +7,16 @@ import {
 	inject,
 	signal,
 } from '@angular/core';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Option } from '@core/types/basics.types';
+import { DayDate } from '@shared/models/date-day';
 import { DEFAULT_LANGUAGE } from '@core/app.consts';
-import moment from 'moment';
 import { LocaleDateFormat } from '@core/types/dates.types';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import moment from 'moment';
 import 'moment/locale/pl';
 import { WeekRange } from '../../models/week-range';
+import { YEAR_MONTH_FORMAT, YEAR_MOTH_DAY_FORMAT } from '@shared/shared-consts.const';
 
 @Injectable({ providedIn: 'root' })
 export class LocaleDateService {
@@ -43,10 +46,25 @@ export class LocaleDateService {
 		};
 	}
 
+	public extractDayFromDate(date: string, isChosenDate?: boolean): string {
+		const formattedDAte = moment(date).format(YEAR_MOTH_DAY_FORMAT);
+		const splittedDate = formattedDAte.split('-');
+
+		return isChosenDate ? splittedDate[1] : splittedDate[2];
+	}
+
 	public getCurrentDay(): string {
 		const currentDay = moment().toISOString();
 
 		return currentDay;
+	}
+
+	public dateToString(date: Option<string>, format: string): string {
+		return moment(date, format).toISOString();
+	}
+
+	public stringToDate(date: Option<string>, format: string): string {
+		return moment(date).format(format);
 	}
 
 	public changeLocalDateBasedOnLanguageChange(): void {
@@ -57,12 +75,18 @@ export class LocaleDateService {
 			});
 	}
 
-	public getMonthsDaysChunksByDate(date: string): string[][] {
-		const momentDate = moment(date, 'YYYY-MM-DD');
+	public getMonthsDaysChunksByDate(date: string): (DayDate | string)[][] {
+		const momentDate = moment(date, YEAR_MOTH_DAY_FORMAT);
+		const currentYearAndMonth = momentDate.format(YEAR_MONTH_FORMAT);
+
 		const numberOfDays = moment(momentDate).daysInMonth();
 		const firstDayOfMonth = momentDate.startOf('month').isoWeekday();
 		const paddingDays = firstDayOfMonth === 1 ? 0 : firstDayOfMonth - 1;
-		const days = this._createRangeDaysMonth(numberOfDays, paddingDays);
+		const days = this._createRangeDaysMonth(
+			numberOfDays,
+			paddingDays,
+			currentYearAndMonth,
+		);
 
 		return this._splitDaysIntoDaysChunks(days);
 	}
@@ -81,41 +105,54 @@ export class LocaleDateService {
 		this._localeDateFormat.set(langForDate);
 	}
 
-	private _createRangeDaysMonth(end: number, paddingDays: number): string[] {
-		const paddedDays: string[] = [];
+	private _createRangeDaysMonth(
+		end: number,
+		paddingDays: number,
+		currentYearAndMonth: string,
+	): (DayDate | string)[] {
+		const paddedDays: (DayDate | string)[] = [];
 
 		this._createEmptyDaysUntilFirstMonthDay(paddingDays, paddedDays);
-		this._createCalendarDays(end, paddedDays);
+		this._createCalendarDays(end, paddedDays, currentYearAndMonth);
 
 		return paddedDays;
 	}
 
-	private _createCalendarDays(end: number, paddedDays: string[]): void {
+	private _createCalendarDays(
+		end: number,
+		paddedDays: (DayDate | string)[],
+		currentYearAndMonth: string,
+	): void {
 		for (let day = 1; day <= end; day++) {
 			const dayStr = day < 10 ? `0${day}` : `${day}`;
 
-			paddedDays.push(dayStr);
+			paddedDays.push({
+				date: `${currentYearAndMonth}-${dayStr}`,
+				day: dayStr,
+			});
 		}
 	}
 
 	private _createEmptyDaysUntilFirstMonthDay(
 		paddingDays: number,
-		paddedDays: string[],
+		paddedDays: (DayDate | string)[],
 	): void {
 		for (let i = 0; i < paddingDays; i++) {
 			paddedDays.push('');
 		}
 	}
 
-	private _splitDaysIntoDaysChunks(days: string[]): string[][] {
-		return days.reduce((result: string[][], item, i) => {
+	private _splitDaysIntoDaysChunks(
+		days: (DayDate | string)[],
+	): (DayDate | string)[][] {
+		return days.reduce((result: (DayDate | string)[][], day, i) => {
 			const chunkIndex = Math.floor(i / 7);
 
 			if (!result[chunkIndex]) {
 				result[chunkIndex] = [];
 			}
 
-			result[chunkIndex].push(item);
+			result[chunkIndex].push(day);
 
 			return result;
 		}, []);

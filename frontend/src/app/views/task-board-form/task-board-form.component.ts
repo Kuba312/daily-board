@@ -20,8 +20,4 @@ import WeekDatePickerInputComponent
 })
 export default class TaskBoardFormComponent {
 	formModel: TaskBoardFormModel = new TaskBoardFormModel();
-
-	sendForm(): void {
-		console.log(this.formModel.formGroup);
-	}
 }

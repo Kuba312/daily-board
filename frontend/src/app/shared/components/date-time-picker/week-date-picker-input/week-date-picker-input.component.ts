@@ -20,10 +20,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
 import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.type';
+import { TIME_MASK_FORMAT } from '@shared/shared-consts.const';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormErrorMessageComponent } from '../../form-error-message/form-error-message.component';
 import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-weeks-ranger.component';
-import { TIME_MASK_FORMAT } from '@shared/shared-consts.const';
+import { CalendarDateDetails } from '@shared/models/calendar-date-details';
+import moment from 'moment';
 
 @Component({
 	selector: 'app-week-date-picker-input',
@@ -52,8 +54,11 @@ export default class WeekDatePickerInputComponent
 {
 	fromInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('fromInput');
 	toInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('toInput');
+	dateInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('dateInput');
 
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
+
+	private readonly DATE_PLACEHOLDER: string = '__-__-____';
 
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
 	public controlName: InputSignal<string> = input.required<string>();
@@ -88,38 +93,43 @@ export default class WeekDatePickerInputComponent
 	}
 
 	registerOnTouched(fn: () => void): void {
-		console.log('on touched registered!!!');
-
 		this._onTouched.set(fn);
 	}
 
-	setDisabledState?(isDisabled: boolean): void {
-	}
-
 	handleDateChange(event: Event, controlName: ControlNameWeekRanger): void {
-		console.log('handleDateChange!!!!!!!');
 		event.stopPropagation();
+
 		const target = event.target;
 
 		if (!(target instanceof HTMLInputElement)) {
 			return;
 		}
 
-		const date = target.value;
+		let date = target.value;
+
+		if (this._isEmptyDate(date)) {
+			date = '';
+		}
 
 		this._adjustTypedDate(date, controlName);
-
-		const builtDate = `${this.date()}, ${this.from()} - ${this.to()}`;
-
-		console.log(builtDate);
-
-		this._triggerFormNotifiers(builtDate);
+		this._generateNotifierDate();
 	}
 
 	touchControl(): void {
 		if (this._onTouched()) {
 			this._onTouched()();
 		}
+	}
+
+	toggleCalendarWeek(): void {
+		this.isWeeklyCalendarOpened.update((value) => !value);
+	}
+
+	onCloseCalendarWeek(calendarDatesDetails: CalendarDateDetails): void {
+		this.isWeeklyCalendarOpened.update((value) => !value);
+
+		this._updateCalendarInputs(calendarDatesDetails);
+		this._generateNotifierDate();
 	}
 
 	private _triggerFormNotifiers(date: string): void {
@@ -152,10 +162,6 @@ export default class WeekDatePickerInputComponent
 		}
 	}
 
-	toggleCalendarWeek(): void {
-		this.isWeeklyCalendarOpened.update((value) => !value);
-	}
-
 	private _focusOnFromInput(): void {
 		if (!this._isDateFull()) {
 			return;
@@ -178,5 +184,39 @@ export default class WeekDatePickerInputComponent
 
 	private _isTimeFull(): boolean {
 		return this.from()?.length === 5 && !this.from()?.includes('_');
+	}
+
+	private _isEmptyDate(date: string): boolean {
+		return !!date && !!date.includes(this.DATE_PLACEHOLDER);
+	}
+
+	private _updateCalendarInputs(
+		calendarDatesDetails: CalendarDateDetails,
+	): void {
+		const { date, from, to } = calendarDatesDetails;
+		const dateInput = this.dateInput();
+		const fromInput = this.fromInput();
+		const toInput = this.toInput();
+
+		if (date && dateInput) {
+			this.date.set(moment(date).format('DD-MM-YYYY'));
+			dateInput.nativeElement.value = this.date();
+		}
+
+		if (from && fromInput) {
+			this.from.set(from);
+			fromInput.nativeElement.value = this.from();
+		}
+
+		if (to && toInput) {
+			this.to.set(to);
+			toInput.nativeElement.value = this.to();
+		}
+	}
+
+	private _generateNotifierDate(): void {
+		const builtDate = `${this.date()}, ${this.from()} - ${this.to()}`;
+
+		this._triggerFormNotifiers(builtDate);
 	}
 }

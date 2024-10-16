@@ -9,7 +9,9 @@ export enum ValidatorNames {
 	MIN = 'min',
 	DATE = 'date',
 	SPECIAL_CHARACTERS = 'containSpecialCharacters',
-	FROM_DATE = 'fromDate'
+	FROM_TIME = 'fromTime',
+	INVALID_DATE = 'invalidDate',
+	EMPTY_TIME = 'emptyTime',
 }
 
 export const ValidatorsImportanceOrderList: ValidatorNames[] = [
@@ -20,8 +22,10 @@ export const ValidatorsImportanceOrderList: ValidatorNames[] = [
 	ValidatorNames.MAX_LENGTH,
 	ValidatorNames.DATE,
 	ValidatorNames.SPECIAL_CHARACTERS,
-	ValidatorNames.FROM_DATE,
 	ValidatorNames.MIN,
+	ValidatorNames.INVALID_DATE,
+	ValidatorNames.EMPTY_TIME,
+	ValidatorNames.FROM_TIME,
 ];
 
 export const FORM_ERROR_MESSAGES: { [keys in ValidatorNames]: string } = {
@@ -32,6 +36,9 @@ export const FORM_ERROR_MESSAGES: { [keys in ValidatorNames]: string } = {
 	[ValidatorNames.MAX_LENGTH]: 'form-validators.max-length',
 	[ValidatorNames.DATE]: 'form-validators.date',
 	[ValidatorNames.SPECIAL_CHARACTERS]: 'form-validators.special-characters',
-	[ValidatorNames.FROM_DATE]: 'form-date.from-date',
 	[ValidatorNames.MIN]: 'form-validators.min',
+	[ValidatorNames.INVALID_DATE]: 'form-validators.invalid-date',
+	[ValidatorNames.EMPTY_TIME]: 'form-validators.empty-time',
+	[ValidatorNames.FROM_TIME]: 'form-validators.from-time',
+
 };

@@ -4,4 +4,5 @@ export interface TileBoardDto {
 	description?: string;
 	from?: string;
 	to?: string;
+	color?: string;
 }

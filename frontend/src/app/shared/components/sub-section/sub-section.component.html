@@ -1,0 +1,22 @@
+<div class="sub-section">
+	<div class="sub-section__title">
+		<span>{{ subHeaderTitle() }}</span>
+		@if (isExpandableSection()) {
+			<mat-icon
+				(click)="toggleSection()"
+				class="sub-section__title--arrow"
+				[ngClass]="{ 'rotated-arrow': isSectionHidden() }"
+			>
+				keyboard_arrow_down
+			</mat-icon>
+		}
+	</div>
+	<div
+		class="sub-section__content"
+		[ngClass]="{ 'shown-content': !isSectionHidden() }"
+	>
+		<div class="sub-section__wrapper">
+			<ng-content />
+		</div>
+	</div>
+</div>

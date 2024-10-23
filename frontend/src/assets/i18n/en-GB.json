@@ -33,7 +33,13 @@
 		}
 	},
 	"task-board-form": {
-		"title": "Create board task"
+		"title": "Create board task",
+		"task-name": "Task name",
+		"task-name-placeholder": "Enter task name",
+		"task-description": "Task description",
+		"task-description-placeholder": "Enter task description",
+		"task-date": "Task date",
+		"pick-color": "Pick color"
 	},
 	"form-validators": {
 		"required": "Field is required",

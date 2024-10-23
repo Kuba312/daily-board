@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as a;
+@use '../abstracts' as *;
 
 .primary-button {
 	$self: &;
@@ -6,21 +6,30 @@
 	#{$self}__content {
 		width: 100%;
 		text-align: center;
-		font-weight: a.$slight-thickening;
+		font-weight: $slight-thickening;
 		padding: 0.7rem 1rem;
 		border: none;
 		border-radius: 12px;
 		color: #eee6df;
-		background-color: #1973d2;
+		background-color: $bg-button;
 		font-family: 'Montserrat', sans-serif;
 		box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 		font-size: 1.4rem;
 		cursor: pointer;
-		transition: background-color 0.3s;
+		transition: background-color $animation-duration;
 
 		&:hover,
 		&:active {
-			background-color: #145a9e;
+			background-color: $bg-hover-button;
 		}
+	}
+}
+
+.secondary-button {
+	background-color: $bg-secondary-button !important;
+
+	&:hover,
+	&:active {
+		background-color: $bg-hover-secondary-button !important;
 	}
 }

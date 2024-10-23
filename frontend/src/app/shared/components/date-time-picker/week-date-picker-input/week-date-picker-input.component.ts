@@ -10,6 +10,7 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import {
+	AbstractControl,
 	ControlValueAccessor,
 	FormGroup,
 	NG_VALUE_ACCESSOR,
@@ -59,12 +60,15 @@ export default class WeekDatePickerInputComponent
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
 
 	private readonly DATE_PLACEHOLDER: string = '__-__-____';
+	private readonly INVALID_DATE_ERROR: string = 'invalidDate';
 
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
 	public controlName: InputSignal<string> = input.required<string>();
+	public label: InputSignal<Option<string>> = input<Option<string>>(null);
 	public customErrorMessages: InputSignal<Option<Record<string, string>>> =
 		input<Option<Record<string, string>>>(null);
-	public width: InputSignal<number> = input<number>(30);
+	public width: InputSignal<number> = input<number>(100);
+	public onlyHours: InputSignal<boolean> = input<boolean>(false);
 
 	public isWeeklyCalendarOpened: WritableSignal<boolean> =
 		signal<boolean>(false);
@@ -122,6 +126,10 @@ export default class WeekDatePickerInputComponent
 	}
 
 	toggleCalendarWeek(): void {
+		if(this.dateControlHasError(this.INVALID_DATE_ERROR)) {
+			return;
+		}
+	
 		this.isWeeklyCalendarOpened.update((value) => !value);
 	}
 
@@ -218,5 +226,13 @@ export default class WeekDatePickerInputComponent
 		const builtDate = `${this.date()}, ${this.from()} - ${this.to()}`;
 
 		this._triggerFormNotifiers(builtDate);
+	}
+
+	private dateControlHasError(error: string): Option<boolean> {
+		return this.controlDate?.hasError(error)
+	}
+
+	get controlDate(): Option<AbstractControl> {
+		return this.formGroup().get(this.controlName());
 	}
 }

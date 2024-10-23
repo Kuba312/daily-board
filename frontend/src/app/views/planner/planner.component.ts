@@ -25,6 +25,7 @@ export default class PlannerComponent {
 						description: '',
 						from: '08:00',
 						to: '10:30',
+						color: 'pink',
 					},
 					{
 						id: 12,

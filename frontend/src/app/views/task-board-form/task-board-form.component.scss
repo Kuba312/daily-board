@@ -12,6 +12,8 @@
   }
 
   #{$self}__form {
+    @include flex-column;
+    gap: 3.5rem;
     margin: $section-margin;
   }
 

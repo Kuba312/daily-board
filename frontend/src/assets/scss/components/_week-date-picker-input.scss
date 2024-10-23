@@ -12,13 +12,16 @@
 			font-size: $default-font-size;
 			transform: translateY(3px);
 		}
+
+		mat-label {
+			color: var(--color-text);
+		}
 	}
 
 	.date-range-container {
 		font-size: $default-font-size;
 		@include flex-center;
 		gap: 0.8rem;
-		$date-range: &;
 
 		& > input {
 			width: fit-content;
@@ -34,7 +37,9 @@
 	}
 
 	#{$self}__calendar {
-		position: absolute;
+		position: absolute;	
+		z-index: 1;
+		box-shadow: $normal-shadow;
 	}
 
 	.mdc-text-field--outlined:not(.mdc-text-field--disabled)

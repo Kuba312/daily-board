@@ -1,24 +1,23 @@
-@if (formGroup() && controlName()) {
-	<div [formGroup]="formGroup()" class="form-field">
+@let formGroupField = formGroup();
+
+@if(formGroupField) {
+	<div [formGroup]="formGroupField" class="form-field">
 		<mat-form-field
 			appearance="outline"
 			class="mat-form-field"
 			[style.width.%]="width()"
 		>
-			<mat-label>{{ label() }}</mat-label>
-			@if (matIcon()) {
-				<mat-icon matPrefix>
-					{{ matIcon() | safeValue }}
-				</mat-icon>
+			@if (label()) {
+				<mat-label>{{ label() }}</mat-label>
 			}
-			<input
-				data-input
-				[id]="controlName()"
-				[formControlName]="controlName()"
-				[type]="inputType()"
-				[placeholder]="placeholder() | safeValue"
+			<textarea
 				matInput
-			/>
+				[formControlName]="controlName()"
+				[placeholder]="placeholder() | safeValue"
+				[rows]="rows()"
+				[cols]="cols()"
+			>
+			</textarea>
 		</mat-form-field>
 		<app-form-error-message
 			[formGroup]="formGroup()"

@@ -28,10 +28,15 @@
 	}
 }
 
-@mixin responsive-daily-board-grid($width, $minWidth) {
+@mixin media-columns-grid($cols, $width, $minWidth) {
 	@media (width <= $width) {
-		grid-template-columns: repeat(7, minmax($minWidth, 1fr));
+		grid-template-columns: repeat($cols, minmax($minWidth, 1fr));
 	}
+}
+
+@mixin media-columns-grid-responsive($minWidth) {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax($minWidth, 1fr));
 }
 
 // grid mixins
@@ -44,6 +49,12 @@
 @mixin flex-center {
 	display: flex;
 	align-items: center;
+}
+
+@mixin flex-center-end {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 
 @mixin flex-justify-align-center {
@@ -78,6 +89,15 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+}
+
+@mixin flex-group-field {
+	@include flex-justify-align-center;
+	gap: 1.5rem;
+
+	& > * {
+		flex: 1;
+	}
 }
 
 // nav mixins

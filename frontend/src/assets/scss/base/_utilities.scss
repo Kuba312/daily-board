@@ -1,0 +1,57 @@
+@use '../abstracts' as *;
+
+.form-group {
+	@include flex-group-field;
+
+	@media (max-width: 60.625rem) {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+.form-field {
+	mat-label,
+	input,
+	textarea {
+		color: var(--color-text) !important;
+	}
+
+	mat-label {
+		font-size: $smaller-font-size;
+	}
+
+	input,
+	textarea {
+		font-size: $default-font-size !important;
+	}
+
+	.mat-mdc-input-element {
+		font-size: $smaller-font-size;
+	}
+
+	.mat-mdc-form-field-subscript-wrapper {
+		display: none;
+	}
+}
+
+.doubled-first-flex-input {
+	& > :first-child {
+		flex: 2 !important;
+	}
+}
+
+.form-actions {
+	@include flex-center-end;
+	gap: 3rem;
+
+	& > * {
+		flex-basis: 30%;
+		padding-top: 1rem;
+	}
+
+	@media (max-width: 60.625rem) {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+	}
+}

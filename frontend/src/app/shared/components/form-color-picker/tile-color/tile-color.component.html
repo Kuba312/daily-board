@@ -1,0 +1,10 @@
+<div 
+	class="tile-color" 
+	(click)="ngClickColorTile.emit(tileColor())"
+>
+	<div 
+		class="tile-color__wrapper"
+		[ngClass]="{'chosen-color': isChosenColor()}"
+		[style.background]="tileColor()">
+	</div>
+</div>

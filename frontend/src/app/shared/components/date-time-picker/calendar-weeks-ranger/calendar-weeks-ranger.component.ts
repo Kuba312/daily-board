@@ -2,6 +2,8 @@ import { NgClass } from '@angular/common';
 import {
 	Component,
 	computed,
+	Host,
+	HostListener,
 	inject,
 	input,
 	InputSignal,
@@ -92,12 +94,23 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 		this._setMonthDaysChunks();
 	}
 
+	@HostListener('document:keydown.enter', ['$event'])
+	onEnterPress(event: KeyboardEvent): void {
+		if (event.key === 'Enter') {
+			this.closeCalendar();
+		}
+	}
+
 	closeCalendar(): void {
 		const from = this._timeValueConnector.timeValueFrom() ?? '';
 		const to = this._timeValueConnector.timeValueTo() ?? '';
-		const date = this.userSelectedDate() ||
-		this._localeDateService.stringToDate(this.currentMonth(), YEAR_MOTH_DAY_FORMAT) ||
-		'';
+		const date =
+			this.userSelectedDate() ||
+			this._localeDateService.stringToDate(
+				this.currentMonth(),
+				YEAR_MOTH_DAY_FORMAT,
+			) ||
+			'';
 
 		this.onCloseCalendar.emit({
 			date,
@@ -145,7 +158,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 				this.currentMonth(),
 			);
 
-		this.mothsDaysChunks.set(mothsDaysChunks);		
+		this.mothsDaysChunks.set(mothsDaysChunks);
 	}
 
 	private _setUserCalendarDate(): void {
@@ -156,7 +169,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 		this.currentMonth.set(
 			this._localeDateService.dateToString(this.inputDate(), 'DD-MM-YYYY'),
 		);
-		
+
 		this.selectedMonth.set(
 			this._localeDateService.dateToString(this.inputDate(), 'DD-MM-YYYY'),
 		);

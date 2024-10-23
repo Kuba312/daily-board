@@ -14,11 +14,24 @@ $normal-border: 1px solid var(--color-border);
 // static colors
 $light-text-color: #EEE6DF;
 
+// global settings
+$section-margin: 3.5rem 1.5rem 3rem 1.8rem;
+
+// button-colors:
+$bg-button: #1973d2;
+$bg-hover-button: darken($bg-button, 10%);;
+$bg-secondary-button: #E0A832; // Suggested secondary button color
+$bg-hover-secondary-button: darken($bg-secondary-button, 10%);
+
+$animation-duration: 0.3s;
+
 // box shadows
 $tiny-shadow: var(--bg-color) 0px 4px 2px;
-
-// global settings
-$section-margin: 3.5rem 1.5rem 0px 1.8rem;
+$normal-shadow: var(--color-border) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+$highlight-effect: 
+	0 0 0 0.2rem var(--bg-color),   
+	0 0 0 0.4rem $bg-button,
+	0 0 0 0.5rem var(--bg-color);
 
 :root {
 	--bg-color: #EEE6DF;

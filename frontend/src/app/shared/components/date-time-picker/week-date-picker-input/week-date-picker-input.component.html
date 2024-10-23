@@ -4,26 +4,35 @@
 		floatLabel="always"
 		class="week-date-picker-input__form-field"
 		[style.width.%]="width()"
-	>
-		<mat-icon
+	>	
+		@if (label()) {
+			<mat-label>{{ label() }}</mat-label>
+		}
+		@if (!onlyHours()) {
+			<mat-icon
 			class="week-date-picker-input__form-field--icon"
 			matIconSuffix
 			(click)="toggleCalendarWeek()"
 		>
 			calendar_month
-		</mat-icon>
+			</mat-icon>
+		}
 		<div class="date-range-container">
-			<input
-				#dateInput
-				(input)="handleDateChange($event, controlDateName.Date)"
-				(blur)="touchControl()"
-				matInput
-				mask="00-00-0000"
-				[showMaskTyped]="true"
-			/>
+			@if (!onlyHours()) {
+				<input
+					#dateInput
+					[readonly]="isWeeklyCalendarOpened()"
+					(input)="handleDateChange($event, controlDateName.Date)"
+					(blur)="touchControl()"
+					matInput
+					mask="00-00-0000"
+					[showMaskTyped]="true"
+				/>
+			}
 			<div class="date-range-container--times-range">
 				<input
 					#fromInput
+					[readonly]="isWeeklyCalendarOpened()"	
 					(input)="handleDateChange($event, controlDateName.From)"
 					(blur)="touchControl()"
 					matInput
@@ -33,6 +42,7 @@
 				<span>-</span>
 				<input
 					#toInput
+					[readonly]="isWeeklyCalendarOpened()"
 					(input)="handleDateChange($event, controlDateName.To)"
 					(blur)="touchControl()"
 					matInput
@@ -50,7 +60,7 @@
 	@if (isWeeklyCalendarOpened()) {
 		<div 
 			class="week-date-picker-input__calendar" 
-			[style.min-width.%]="width()"
+			[style.width.%]="width()"
 		>
 			<app-calendar-weeks-ranger
 				[inputDate]="date()"

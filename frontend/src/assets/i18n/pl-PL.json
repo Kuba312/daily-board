@@ -33,7 +33,15 @@
 		}
 	},
 	"task-board-form": {
-		"title": "Stwórz zadanie"
+		"title": "Stwórz zadanie",
+		"task-name": "Nazwa zadania",
+		"task-name-placeholder": "Wpisz nazwę zadania",
+		"task-description": "Opis zadania",
+		"task-description-placeholder": "Wpisz opis zadania",
+		"task-date": "Data zadania",
+		"pick-color": "Wybierz kolor",
+		"add": "Dodaj",
+		"add-and-create": "Dodaj i stwórz kolejny"
 	},
 	"form-validators": {
 		"required": "Pole jest wymagane",

@@ -35,12 +35,31 @@ export class TimeValidators {
 				return { emptyTime: true };
 			}
 
-			return moment(fromTime, TIME_FORMAT).isBefore(
-				moment(toTime, TIME_FORMAT),
-			) 
-				? null
-				: { fromTime: true };
+			if (
+				!TimeValidators._isValidTimeFormat(fromTime) ||
+				!TimeValidators._isValidTimeFormat(toTime)
+			) {
+				return { fromTime: true };
+			}
+
+			return TimeValidators._timeIsInvalid(fromTime, toTime);
 		};
+	}
+
+	private static _timeIsInvalid(fromTime: string, toTime: string): { fromTime: boolean; } | null {
+		return moment(fromTime, TIME_FORMAT).isAfter(
+			moment(toTime, TIME_FORMAT) ||
+			!TimeValidators._isValidTimeFormat(fromTime) ||
+			!TimeValidators._isValidTimeFormat(toTime),
+		)
+			? { fromTime: true }
+			: null;
+	}
+
+	private static _isValidTimeFormat(time: string): boolean {
+		const timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+		return timeFormat.test(time);
 	}
 
 	static validateSingleTime(): ValidatorFn {

@@ -1,0 +1,63 @@
+@use '../abstracts' as *;
+
+.sub-section {
+	$self: &;
+
+	#{$self}__title {
+		@include flex-justify-align-center;
+		gap: 0.5rem;
+		border: $normal-border;
+		border-radius: $normal-border-radius $normal-border-radius 0 0;
+		background-color: var(--color-background-secondary);
+		box-shadow: $tiny-shadow;
+		padding: 1rem 0;
+		text-align: center;
+		font-weight: $slight-thickening;
+
+		&--arrow {
+			cursor: pointer;
+			transform: translate(0);
+			transition: transform $animation-duration;
+		}
+
+		.rotated-arrow {
+			transform: rotate(180deg);
+		}
+	}
+
+	#{$self}__content {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows $animation-duration ease-out;
+	}
+
+	#{$self}__wrapper {
+		width: 100%;
+		border-radius: 0 0 $normal-border-radius $normal-border-radius;
+		border: none;
+		overflow: hidden;
+		@include media-columns-grid-responsive(14rem);
+		place-items: center;
+		gap: 2rem;
+		padding: 0;
+		transition: all $animation-duration;
+	}
+
+	.shown-content {
+		grid-template-rows: 1fr;
+
+		& > div {
+			padding: 3rem 3rem;
+			border: $normal-border;
+			overflow: auto;
+			border-top: none;
+
+			max-height: 38rem;
+		}
+
+		div::-webkit-scrollbar {
+			width: 0;
+		}
+
+	}
+}

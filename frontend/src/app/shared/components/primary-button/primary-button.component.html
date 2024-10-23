@@ -3,6 +3,7 @@
 		class="primary-button__content" 
 		[innerText]="label()"
 		(click)="onNgClick()"
+		[ngClass]="{'secondary-button': secondary()}"
 	>
 	</button>
 </div>

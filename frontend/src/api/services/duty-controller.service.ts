@@ -13,8 +13,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { DutyDto } from '../models/duty-dto';
 import { getDuties } from '../fn/duty-controller/get-duties';
 import { GetDuties$Params } from '../fn/duty-controller/get-duties';
-import { getDutiesWithout } from '../fn/duty-controller/get-duties-without';
-import { GetDutiesWithout$Params } from '../fn/duty-controller/get-duties-without';
+import { getDutiesWithoutDates } from '../fn/duty-controller/get-duties-without-dates';
+import { GetDutiesWithoutDates$Params } from '../fn/duty-controller/get-duties-without-dates';
 import { saveDuty } from '../fn/duty-controller/save-duty';
 import { SaveDuty$Params } from '../fn/duty-controller/save-duty';
 
@@ -74,27 +74,27 @@ export class DutyControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getDutiesWithout()` */
-  static readonly GetDutiesWithoutPath = '/api/v1/duties/constant';
+  /** Path part for operation `getDutiesWithoutDates()` */
+  static readonly GetDutiesWithoutDatesPath = '/api/v1/duties/constant';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDutiesWithout()` instead.
+   * To access only the response body, use `getDutiesWithoutDates()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDutiesWithout$Response(params?: GetDutiesWithout$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
-    return getDutiesWithout(this.http, this.rootUrl, params, context);
+  getDutiesWithoutDates$Response(params?: GetDutiesWithoutDates$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
+    return getDutiesWithoutDates(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getDutiesWithout$Response()` instead.
+   * To access the full response (for headers, for example), `getDutiesWithoutDates$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDutiesWithout(params?: GetDutiesWithout$Params, context?: HttpContext): Observable<Array<DutyDto>> {
-    return this.getDutiesWithout$Response(params, context).pipe(
+  getDutiesWithoutDates(params?: GetDutiesWithoutDates$Params, context?: HttpContext): Observable<Array<DutyDto>> {
+    return this.getDutiesWithoutDates$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<DutyDto>>): Array<DutyDto> => r.body)
     );
   }

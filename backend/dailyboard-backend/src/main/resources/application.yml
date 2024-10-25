@@ -19,6 +19,4 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
-  flyway:
-    enabled: false
+      ddl-auto: none

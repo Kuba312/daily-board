@@ -4,9 +4,8 @@ import { LocalTime } from '../models/local-time';
 export interface DutyDto {
   description?: string;
   effectiveDate?: string;
-  effectiveTime?: LocalTime;
-  from?: string;
+  from?: LocalTime;
   id?: string;
   name?: string;
-  to?: string;
+  to?: LocalTime;
 }

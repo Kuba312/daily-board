@@ -33,7 +33,7 @@ import HeaderComponent from '@shared/components/header/header.component';
 export default class TaskBoardFormComponent {
 	formModel: TaskBoardFormModel = new TaskBoardFormModel();
 
-	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
+	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(false);
 	tileColor: WritableSignal<Option<string>> = signal<Option<string>>(null);
 
 	sendForm(): void {

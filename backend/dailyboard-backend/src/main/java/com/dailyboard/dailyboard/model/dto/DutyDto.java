@@ -17,8 +17,7 @@ public class DutyDto {
     private UUID id;
     private String name;
     private String description;
-    private String from;
-    private String to;
     private LocalDate effectiveDate;
-    private LocalTime effectiveTime;
+    private LocalTime from;
+    private LocalTime to;
 }

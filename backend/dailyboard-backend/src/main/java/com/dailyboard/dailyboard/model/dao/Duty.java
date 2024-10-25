@@ -24,5 +24,6 @@ public class Duty {
     private String name;
     private String description;
     private LocalDate effectiveDate;
-    private LocalTime effectiveTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 }

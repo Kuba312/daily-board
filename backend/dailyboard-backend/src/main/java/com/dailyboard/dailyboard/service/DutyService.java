@@ -21,4 +21,8 @@ public class DutyService {
     public List<Duty> getDuties(LocalDate from, LocalDate to) {
         return dutyRepository.findByEffectiveDateBetween(from, to);
     }
+
+    public List<Duty> getDutiesWithoutDates() {
+        return dutyRepository.findByEffectiveDateIsNull();
+    }
 }

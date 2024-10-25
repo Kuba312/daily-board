@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface DutyRepository extends JpaRepository<Duty, UUID> {
 
     List<Duty> findByEffectiveDateBetween(LocalDate from, LocalDate to);
+
+    List<Duty> findByEffectiveDateIsNull();
 }

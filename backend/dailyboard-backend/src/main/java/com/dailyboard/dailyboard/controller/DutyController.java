@@ -28,7 +28,12 @@ public class DutyController {
     }
 
     @GetMapping()
-    public List<DutyDto> getDualities(@RequestParam LocalDate from, @RequestParam LocalDate to) {
+    public List<DutyDto> getDuties(@RequestParam LocalDate from, @RequestParam LocalDate to) {
         return  dutyMapper.toDtos(dutyService.getDuties(from, to));
+    }
+
+    @GetMapping("/constant")
+    public List<DutyDto> getDutiesWithoutDates() {
+        return  dutyMapper.toDtos(dutyService.getDutiesWithoutDates());
     }
 }

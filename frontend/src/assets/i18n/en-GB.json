@@ -37,6 +37,7 @@
 		"task-name": "Task name",
 		"task-name-placeholder": "Enter task name",
 		"task-description": "Task description",
+		"chose-day": "Choose day",
 		"task-description-placeholder": "Enter task description",
 		"task-date": "Task date",
 		"pick-color": "Pick color"

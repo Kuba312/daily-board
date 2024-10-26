@@ -1,0 +1,33 @@
+@if (formGroup() && controlName()) {
+	<div [formGroup]="formGroup()" class="form-field">
+		<mat-form-field
+			appearance="outline"
+			class="mat-form-field"
+			[style.width.%]="width()"
+		>
+			@if (label()) {
+			<mat-label>{{ label() }}</mat-label>
+			}
+
+			<mat-select [id]="controlName()" [formControlName]="controlName()">
+				@let valToSend = valueToSend(); 
+				@let valToShow = valueToShow();
+
+				@for(option of options(); track $index) {
+					<mat-option [value]="valToSend ? option[valToSend] : option">
+						{{
+							(valToShow
+								? option[valToShow]
+								: option) | translatePath : translateKey() | translate
+						}}
+					</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<app-form-error-message
+			[formGroup]="formGroup()"
+			[controlName]="controlName()"
+			[customMessage]="customErrorMessages()"
+		/>
+	</div>
+}

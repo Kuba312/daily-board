@@ -17,7 +17,6 @@
 		height: 100lvh;
 		@include sticky-header;
 		@include flex-column-space-between;
-		gap: 5rem;
 
 		.active-link {
 			background-color: var(--color-hover-text);

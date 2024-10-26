@@ -2,6 +2,7 @@
 
 .form-group {
 	@include flex-group-field;
+	gap: 3rem;
 
 	@media (max-width: 60.625rem) {
 		flex-direction: column;
@@ -22,7 +23,7 @@
 
 	input,
 	textarea {
-		font-size: $default-font-size !important;
+		font-size: $smaller-font-size !important;
 	}
 
 	.mat-mdc-input-element {
@@ -43,12 +44,8 @@
 .form-actions {
 	@include flex-center-end;
 	gap: 3rem;
-
-	& > * {
-		flex-basis: 30%;
-		padding-top: 1rem;
-	}
-
+	margin-inline: 1.5rem;
+	
 	@media (max-width: 60.625rem) {
 		flex-direction: column;
 		align-items: stretch;

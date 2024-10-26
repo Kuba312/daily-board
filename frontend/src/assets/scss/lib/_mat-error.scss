@@ -1,5 +1,7 @@
 @use '../abstracts' as *;
+@use './variables' as v;
 
 .mat-mdc-form-field-error {
 	font-size: $smaller-font-size;
+	padding-top: v.$mat-error-top-padding;
 }

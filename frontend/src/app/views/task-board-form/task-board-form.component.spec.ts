@@ -15,6 +15,7 @@ describe('TaskBoardFormComponent', () => {
 	const nameControl = 'name';
 	const dateControl = 'date';
 	const descriptionControl = 'description';
+	const dayControl = 'day';
 
 	beforeEach(waitForAsync(() => {
 		textProcessingServiceSpy = jasmine.createSpyObj(
@@ -56,6 +57,10 @@ describe('TaskBoardFormComponent', () => {
 		).toBeTruthy();
 		expect(component.formModel.formGroup().get(dateControl)).toBeTruthy();
 	});
+
+	it('should create additional day control if user selected constant planner', () => {
+		expect(component.formModel.formGroup().get(dayControl)).toBeTruthy();
+	})
 
 	it('should form has default values on form', () => {
 		expect(component.formModel?.formGroup().get(nameControl)?.value).toBe(

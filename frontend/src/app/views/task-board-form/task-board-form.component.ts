@@ -12,6 +12,7 @@ import FormTextareaComponent from '@shared/components/form-textarea/form-textare
 import FormColorPickerComponent from '@shared/components/form-color-picker/form-color-picker.component';
 import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
 import HeaderComponent from '@shared/components/header/header.component';
+import FormSelectComponent from '@shared/components/form-select/form-select.component';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -26,6 +27,7 @@ import HeaderComponent from '@shared/components/header/header.component';
 		FormTextareaComponent,
 		FormColorPickerComponent,
 		PrimaryButtonComponent,
+		FormSelectComponent,
 	],
 	templateUrl: './task-board-form.component.html',
 	styleUrl: './task-board-form.component.scss',
@@ -33,7 +35,7 @@ import HeaderComponent from '@shared/components/header/header.component';
 export default class TaskBoardFormComponent {
 	formModel: TaskBoardFormModel = new TaskBoardFormModel();
 
-	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(false);
+	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
 	tileColor: WritableSignal<Option<string>> = signal<Option<string>>(null);
 
 	sendForm(): void {
@@ -47,6 +49,7 @@ export default class TaskBoardFormComponent {
 			return;
 		}
 
-		// const model = this.formModel.toModel();		
+		// const model = this.formModel.toModel();
+		
 	}
 }

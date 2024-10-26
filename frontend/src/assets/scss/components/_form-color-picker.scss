@@ -1,5 +1,5 @@
 @use '../abstracts' as *;
 
 .form-color-picker {
-	$self: &;
+	margin-top: $color-picker-section-margin;
 }

@@ -4,6 +4,7 @@ import {
 	AsyncValidatorFn,
 	ValidationErrors,
 } from '@angular/forms';
+import { WeekDays } from '@app/enums/week-days.enum';
 import { TileBoardDto } from '@models/tile-board-dto';
 import { WeekRange } from '@shared/models/week-range';
 import { delay, Observable, of } from 'rxjs';
@@ -132,3 +133,7 @@ export const MOCK_CHUNKS_DAYS = [
 		{ date: '2024-10-31', day: '31' },
 	],
 ];
+
+export const MOCK_DAY_OPTIONS = Object.values(WeekDays).map((val) =>
+	val.toLowerCase(),
+);

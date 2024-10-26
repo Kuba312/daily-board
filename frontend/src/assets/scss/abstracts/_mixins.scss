@@ -93,7 +93,6 @@
 
 @mixin flex-group-field {
 	@include flex-justify-align-center;
-	gap: 1.5rem;
 
 	& > * {
 		flex: 1;

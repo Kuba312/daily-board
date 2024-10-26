@@ -11,6 +11,7 @@ import { createRandomId } from '@shared/helpers/create-random-id.helper';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
 import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { TimeValidators } from '@shared/validators/time.validators';
+import { WeekDays } from '@app/enums/week-days.enum';
 
 export class TaskBoardFormModel {
 	private readonly _formFactory: FormFactory = inject(FormFactory);
@@ -21,9 +22,10 @@ export class TaskBoardFormModel {
 	public readonly NAME: string = 'name';
 	public readonly DATE: string = 'date';
 	public readonly DESCRIPTION: string = 'description';
+	public readonly DAY: string = 'day';
 
-	formGroup: WritableSignal<FormGroup> = signal<FormGroup>(new FormGroup({}));
-	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
+	public formGroup: WritableSignal<FormGroup> = signal<FormGroup>(new FormGroup({}));
+	public isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
 
 	constructor() {
 		this._buildForm();
@@ -44,7 +46,14 @@ export class TaskBoardFormModel {
 						this.dateControl.value,
 				  )
 				: '',
+			...(this.isOnlyHourConfig() && {
+				day: this.formGroup().get(this.DAY)?.value,
+			}),
 		};
+	}
+
+	public dayOptions(): string[] {
+		return Object.values(WeekDays).map((val) => val.toLowerCase());
 	}
 
 	private _buildForm(): void {
@@ -60,6 +69,9 @@ export class TaskBoardFormModel {
 						TimeValidators.validateTime(),
 					]),
 					[this.DESCRIPTION]: new FormControl(''),
+					...(this.isOnlyHourConfig() && {
+						[this.DAY]: new FormControl('', [Validators.required]),
+					}),
 				},
 			}),
 		);

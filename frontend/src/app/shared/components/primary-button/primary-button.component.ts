@@ -13,6 +13,7 @@ export default class PrimaryButtonComponent {
 	icon: InputSignal<Option<string>> = input<Option<string>>();
 	secondary: InputSignal<Option<boolean>> = input<Option<boolean>>();
 	emitOnClick: InputSignal<boolean> = input<boolean>(false);
+	width: InputSignal<Option<number>> = input<Option<number>>(null);
 
 	ngClick: OutputEmitterRef<void> = output<void>();
 

@@ -1,20 +1,24 @@
 @use '../../../assets/scss/abstracts' as *;
 
 :host {
-  display: block;
+	display: block;
 }
 
 .task-board-form {
-  $self: &;
+	$self: &;
 
-  #{$self}__wrapper {
-    margin: $section-margin;
-  }
+	#{$self}__wrapper {
+		margin: $section-margin;
+		margin-top: 1rem;
+	}
 
-  #{$self}__form {
-    @include flex-column;
-    gap: 3.5rem;
-    margin: $section-margin;
-  }
+	#{$self}__form {
+		@include flex-column-space-between;
 
+		&--container {
+			@include flex-column;
+			gap: 1.5rem;
+			margin: $section-margin;
+		}
+	}
 }

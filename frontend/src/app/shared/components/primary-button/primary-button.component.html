@@ -1,9 +1,8 @@
-<div class="primary-button">
-	<button 
-		class="primary-button__content" 
+<div class="primary-button" [style.width.rem]="width()">
+	<button
+		class="primary-button__content"
 		[innerText]="label()"
 		(click)="onNgClick()"
-		[ngClass]="{'secondary-button': secondary()}"
-	>
-	</button>
+		[ngClass]="{ 'secondary-button': secondary() }"
+	></button>
 </div>

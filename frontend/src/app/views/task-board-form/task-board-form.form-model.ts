@@ -5,13 +5,12 @@ import {
 	FormGroup,
 	Validators,
 } from '@angular/forms';
-import { Option } from '@core/types/basics.types';
-import { TileBoardDto } from '@models/tile-board-dto';
-import { createRandomId } from '@shared/helpers/create-random-id.helper';
-import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
-import { FormFactory } from '@core/services/form-factory/form-factory.service';
-import { TimeValidators } from '@shared/validators/time.validators';
 import { WeekDays } from '@app/enums/week-days.enum';
+import { FormFactory } from '@core/services/form-factory/form-factory.service';
+import { Option } from '@core/types/basics.types';
+import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
+import { TimeValidators } from '@shared/validators/time.validators';
+import { DutyDto } from 'src/api/models';
 
 export class TaskBoardFormModel {
 	private readonly _formFactory: FormFactory = inject(FormFactory);
@@ -22,32 +21,38 @@ export class TaskBoardFormModel {
 	public readonly NAME: string = 'name';
 	public readonly DATE: string = 'date';
 	public readonly DESCRIPTION: string = 'description';
-	public readonly DAY: string = 'day';
+	public readonly DAY: string = 'weekDay';
 
-	public formGroup: WritableSignal<FormGroup> = signal<FormGroup>(new FormGroup({}));
+	public formGroup: WritableSignal<FormGroup> = signal<FormGroup>(
+		new FormGroup({}),
+	);
+	public tileColor: WritableSignal<Option<string>> =
+		signal<Option<string>>(null);
 	public isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
 
 	constructor() {
 		this._buildForm();
 	}
 
-	public toModel(): TileBoardDto {
+	public toModel(): DutyDto {
 		return {
-			id: createRandomId(),
 			name: this.formGroup().get(this.NAME)?.value,
 			description: this.formGroup().get(this.DESCRIPTION)?.value ?? null,
 			from: this.dateControl
 				? this._textProcessingService.extractFromHourFromControl(
 						this.dateControl.value,
 				  )
-				: '',
+				: undefined,
 			to: this.dateControl
 				? this._textProcessingService.extractToHourFromControl(
 						this.dateControl.value,
 				  )
-				: '',
+				: undefined,
 			...(this.isOnlyHourConfig() && {
-				day: this.formGroup().get(this.DAY)?.value,
+				weekDay: this.formGroup().get(this.DAY)?.value.toUpperCase(),
+			}),
+			...(this.tileColor() && {
+				color: this.tileColor() ?? undefined,
 			}),
 		};
 	}

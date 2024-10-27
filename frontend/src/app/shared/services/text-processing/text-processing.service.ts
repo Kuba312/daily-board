@@ -5,8 +5,6 @@ export class TextProcessingService {
 	public extractFromHourFromControl(value: string): string {
 		const splittedValue = this._splitDateControl(value);
 
-		console.log(splittedValue);
-
 		return splittedValue[0];
 	}
 
@@ -19,6 +17,8 @@ export class TextProcessingService {
 	private _splitDateControl(value: string): string[] {
 		const cleanedValue = value.replace(/[^\d:-]/g, '');
 		const splittedValue = cleanedValue.split('-');
+
 		return splittedValue;
 	}
+
 }

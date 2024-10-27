@@ -29,6 +29,7 @@
       "@shared/*": ["src/app/shared/*"],
       "@views/*": ["src/app/views/*"],
       "@models/*": ["src/app/models/*"],
+      "@shared-store/*": ["src/app/shared-store/*"],
     }
   },
   "angularCompilerOptions": {

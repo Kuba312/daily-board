@@ -4,5 +4,8 @@ CREATE TABLE duty (
     description TEXT,
     effective_date DATE,
     start_time TIME,
-    end_time TIME
+    end_time TIME,
+    week_day VARCHAR(10),
+    color VARCHAR(7)
 );
+

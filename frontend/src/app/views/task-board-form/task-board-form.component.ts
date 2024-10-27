@@ -1,18 +1,19 @@
-import { Component, signal, WritableSignal } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TaskBoardFormModel } from './task-board-form.form-model';
 import { NgClass } from '@angular/common';
-import { Option } from '@core/types/basics.types';
-import { validateForm } from '@shared/utils/form.utils';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import FormInputComponent from '@shared/components/form-input/form-input.component';
 import WeekDatePickerInputComponent 
 	from '@shared/components/date-time-picker/week-date-picker-input/week-date-picker-input.component';
-import FormTextareaComponent from '@shared/components/form-textarea/form-textarea.component';
 import FormColorPickerComponent from '@shared/components/form-color-picker/form-color-picker.component';
-import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
-import HeaderComponent from '@shared/components/header/header.component';
+import FormInputComponent from '@shared/components/form-input/form-input.component';
 import FormSelectComponent from '@shared/components/form-select/form-select.component';
+import FormTextareaComponent from '@shared/components/form-textarea/form-textarea.component';
+import HeaderComponent from '@shared/components/header/header.component';
+import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
+import { validateForm } from '@shared/utils/form.utils';
+import { TaskBoardFormModel } from './task-board-form.form-model';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -33,23 +34,24 @@ import FormSelectComponent from '@shared/components/form-select/form-select.comp
 	styleUrl: './task-board-form.component.scss',
 })
 export default class TaskBoardFormComponent {
+	private readonly _store: Store = inject(Store);
+
 	formModel: TaskBoardFormModel = new TaskBoardFormModel();
 
 	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
-	tileColor: WritableSignal<Option<string>> = signal<Option<string>>(null);
 
 	sendForm(): void {
 		const formGroup = this.formModel.formGroup();
 
 		validateForm(formGroup);
 
-		// TODO: implement snackbar service		
-		if(formGroup.invalid) {
-
+		// TODO: implement snackbar service
+		if (formGroup.invalid) {
 			return;
 		}
 
-		// const model = this.formModel.toModel();
+		const duty = this.formModel.toModel();
 		
+		this._store.dispatch(dutyActions.saveDuty({ duty }));
 	}
 }

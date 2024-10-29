@@ -1,15 +1,15 @@
 <div class="planner-board-tile-duty">
-	@for (tiles of dutiesBoard(); track $index) {
+	@for (tiles of dutyTiles(); track $index) {
 		<div class="planner-board-tile-duty__wrapper">
 			@for (tile of tiles; track $index) {
 				<div 
 					class="planner-board-tile-duty__item"
-					[style.height]="calculateHeightOfDutyTile(tile)"
-					[style.top]="calculateTopOfDutyTile(tile)"
-					[style.background]="tile?.color ?? 'red'"
+					[style.height]="tile.height"
+					[style.top]="tile.top"
+					[style.background]="tile?.tile?.color ?? 'red'"
 				>
 					<div class="planner-board-tile-duty__name-wrapper">
-						<span [innerText]="tile.name | safeValue"></span>
+						<span [innerText]="tile.tile.name | safeValue"></span>
 					</div>
 				</div>
 			}

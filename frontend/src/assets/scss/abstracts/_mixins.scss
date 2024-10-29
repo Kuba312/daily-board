@@ -145,7 +145,6 @@
 
 	.mat-mdc-snack-bar-label {
 		background-color: $background !important;
-		font-weight: a.$slight-thickening !important;
 		font-size: a.$smaller-font-size !important;
 		color: var(--color-text) !important;
 		font-family: 'Montserrat', sans-serif !important;
@@ -168,7 +167,6 @@
 	.mdc-button__label {
 		position: relative;
 		color: transparent;
-		font-weight: a.$slight-thickening !important;
 		visibility: none;
 		height: 0;
 		font-family: 'Montserrat', sans-serif !important;

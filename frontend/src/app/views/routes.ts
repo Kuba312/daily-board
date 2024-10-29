@@ -6,6 +6,7 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import * as dutyEffects from '../shared-store/duty-store/duty.effects';
+import { dutiesResolver } from './planner/planner.resolver';
 
 const routes: Routes = [
 	{
@@ -16,6 +17,13 @@ const routes: Routes = [
 	{
 		path: 'planner',
 		loadComponent: () => import('./planner/planner.component'),
+		providers: [
+			provideState(dutyFeatureKey, dutyReducer),
+			provideEffects(dutyEffects),
+		],
+		resolve: {
+			duties: dutiesResolver,
+		},
 	},
 	{
 		path: 'task-board-add',

@@ -5,17 +5,24 @@ import { TranslateModule } from "@ngx-translate/core";
 import { MockComponent } from "ng-mocks";
 import { DUTIES_MOCK } from "src/mocks/mock-data";
 import PlannerComponent from "./planner.component";
+import { Store } from "@ngrx/store";
 
 describe('PlannerComponent', () => {
 	let component: PlannerComponent;
 	let fixture: ComponentFixture<PlannerComponent>;
+	let mockStore: jasmine.SpyObj<Store>;
 
 	beforeEach(waitForAsync(() => {
+		mockStore = jasmine.createSpyObj('Store', ['selectSignal']);
+
 		TestBed.configureTestingModule({
 			imports: [
 				PlannerComponent,
 				TranslateModule.forRoot(),
 				MockComponent(HeaderComponent),
+			],
+			providers: [
+				{ provide: Store, useValue: mockStore },
 			],
 		}).compileComponents()
 		.then(() => {

@@ -1,8 +1,18 @@
-import { Component, ElementRef, input, InputSignal } from '@angular/core';
-import SafeValue from '@shared/pipes/safe-value.pipe';
+import {
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	inject,
+	input,
+	InputSignal,
+	signal,
+	WritableSignal,
+} from '@angular/core';
 import { Option } from '@core/types/basics.types';
-import { TileBoardDto } from '@models/tile-board-dto';
 import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-heights';
+import { DutyTile } from '@shared/models/duty-tile';
+import SafeValue from '@shared/pipes/safe-value.pipe';
+import { DutyDto } from 'src/api/models';
 
 @Component({
 	selector: 'app-planner-board-tile-duties',
@@ -11,14 +21,45 @@ import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-hei
 	templateUrl: './planner-board-tile-duties.component.html',
 })
 export default class PlannerBoardTileDutiesComponent {
-	timelineValuesElements: InputSignal<readonly ElementRef<HTMLElement>[]> =
-		input.required<readonly ElementRef<HTMLElement>[]>();
-	dutiesBoard: InputSignal<TileBoardDto[][]> =
-		input.required<TileBoardDto[][]>();
+	private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+	public timelineValuesElements: InputSignal<
+		readonly ElementRef<HTMLElement>[]
+	> = input.required<readonly ElementRef<HTMLElement>[]>();
+	public dutiesBoard: InputSignal<DutyDto[][]> =
+		input.required<DutyDto[][]>();
+
+	public dutyTiles: WritableSignal<DutyTile[][]> = signal([]);
 
 	private _heightOfTimelineParentContainer: Option<number> = null;
 
-	calculateHeightOfDutyTile(tile: TileBoardDto): Option<string> {		
+	ngAfterViewInit(): void {
+		this._adjustDutiesOnTimelineChange();
+	}
+
+	private _adjustDutiesOnTimelineChange(): void {
+		if (!this.timelineValuesElements().length) {
+			return;
+		}
+
+		this.dutyTiles.set(this._adjustDutyToBoard());
+	}
+
+	private _adjustDutyToBoard(): {
+		tile: DutyDto;
+		height: Option<string>;
+		top: Option<string>;
+	}[][] {
+		return this.dutiesBoard().map((tiles) =>
+			tiles.map((tile) => ({
+				tile,
+				height: this.calculateHeightOfDutyTile(tile),
+				top: this.calculateTopOfDutyTile(tile),
+			})),
+		);
+	}
+
+	private calculateHeightOfDutyTile(tile: DutyDto): Option<string> {
 		const { from, to } = tile;
 
 		if (!from || !to) {
@@ -31,11 +72,11 @@ export default class PlannerBoardTileDutiesComponent {
 		return `${offsetHeightOfToHour - offsetHeightOfFromHour}px`;
 	}
 
-	calculateTopOfDutyTile(tile: TileBoardDto): Option<string> {
+	private calculateTopOfDutyTile(tile: DutyDto): Option<string> {
 		const { from } = tile;
 
 		if (!from) {
-			return;
+			return null;
 		}
 
 		return `${this._getTopOfHour(from)}px`;

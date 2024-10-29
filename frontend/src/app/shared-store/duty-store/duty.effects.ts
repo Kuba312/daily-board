@@ -41,3 +41,36 @@ export const saveDutyEffect = createEffect(
 		),
 	{ functional: true },
 );
+
+export const getDutiesEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		dutyControllerService = inject(DutyControllerService),
+		snackBarService = inject(SnackBarService),
+	) =>
+		$actions.pipe(
+			ofType(dutyActions.getDutiesWithoutDates),
+			switchMap(() =>
+				dutyControllerService
+					.getDutiesWithoutDates()
+					.pipe(
+						map((duties) =>
+							dutyActions.getDutiesWithoutDatesSuccess({ duties }),
+						),
+						catchError((error: HttpErrorResponse) => {
+							snackBarService.onShowSnackBarError({
+								message: ERROR_CODE_TRANSLATE_KEY,
+								dynamicMessage: { errorCode: error.status },
+							});
+
+							return of(
+								dutyActions.getDutiesWithoutDatesFailure({
+									errorMessage: error?.message ?? '',
+								}),
+							);
+						}),
+					),
+			),
+		),
+	{ functional: true },
+);

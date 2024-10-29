@@ -15,8 +15,7 @@ const initialDutyState: DutyState = dutyAdapter.getInitialState({
 	allDutiesLoaded: false,
 });
 
-const dutyFeature = createFeature({
-	name: 'duty',
+const dutyFeature = createFeature({	name: 'duty',
 	reducer: createReducer(
 		initialDutyState,
 		on(dutyActions.saveDuty, (state) => ({
@@ -35,6 +34,22 @@ const dutyFeature = createFeature({
 			isLoading: false,
 			error: errorMessage,
 		})),
+		on(dutyActions.getDutiesWithoutDates, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(dutyActions.getDutiesWithoutDatesSuccess, (state, { duties }) =>
+			dutyAdapter.addMany(duties, {
+				...state,
+				isLoading: false,
+				allDutiesLoaded: true,
+			}),
+		),
+		on(dutyActions.getDutiesWithoutDatesFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
 	),
 });
 
@@ -43,6 +58,7 @@ export const {
 	reducer: dutyReducer,
 	selectIsLoading,
 	selectError,
+	selectAllDutiesLoaded,
 } = dutyFeature;
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

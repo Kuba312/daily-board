@@ -5,24 +5,24 @@ import {
 	ValidationErrors,
 } from '@angular/forms';
 import { WeekDays } from '@app/enums/week-days.enum';
-import { TileBoardDto } from '@models/tile-board-dto';
 import { WeekRange } from '@shared/models/week-range';
 import { delay, Observable, of } from 'rxjs';
+import { DutyDto } from 'src/api/models';
 
 export const WEEK_RANGE_MOCK: WeekRange = {
 	startOfWeek: '2024-07-21T22:00:00.000Z',
 	endOfWeek: '2024-07-28T21:59:59.999Z',
 };
 
-export const DUTIES_MOCK: Map<string, TileBoardDto[]> = new Map<
+export const DUTIES_MOCK: Map<string, DutyDto[]> = new Map<
 	string,
-	TileBoardDto[]
+	DutyDto[]
 >([
 	[
 		'planner.full-days-names.monday',
 		[
 			{
-				id: 1,
+				id: 'asdasdasd',
 				name: 'Matematyka',
 				description: '',
 				from: '08:00',
@@ -38,10 +38,10 @@ export const DUTIES_MOCK: Map<string, TileBoardDto[]> = new Map<
 	['planner.full-days-names.sunday', []],
 ]);
 
-export const TILE_BOARD_DUTIES_MOCK: TileBoardDto[][] = [
+export const TILE_BOARD_DUTIES_MOCK: DutyDto[][] = [
 	[
 		{
-			id: 1,
+			id: 'asdasd',
 			name: 'Matematyka',
 			description: '',
 			from: '08:00',

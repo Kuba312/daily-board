@@ -1,8 +1,7 @@
 <div class="planner-board">
 	<div class="planner-board__header">
-		<div class="planner-board__timeline">
-		</div>
-		<app-planner-board-days-headers [keysTileBoard]="keysTileBoard"/>
+		<div class="planner-board__timeline"></div>
+		<app-planner-board-days-headers [keysTileBoard]="keysTileBoard" />
 	</div>
 	<div class="planner-board__content">
 		<div class="planner-board__timeline-content">
@@ -10,15 +9,15 @@
 				<div
 					#timelineValue
 					[id]="time"
-					class="planner-board__timeline-content--item" 
-					[innerText]="time"
-					[ngClass]="applyHiddenPartialHourClass(time)"
+					class="planner-board__timeline-content--item"
+					[ngClass]="time | hiddenPartialHourClass : HIDDEN_PARTIAL_HOUR"
 				>
+					{{ time }}
 				</div>
 			}
 		</div>
-		<app-planner-board-tile-duties 
-			[timelineValuesElements]="timelineValues()" 
+		<app-planner-board-tile-duties
+			[timelineValuesElements]="timelineValues()"
 			[dutiesBoard]="dutiesBoard"
 		/>
 	</div>

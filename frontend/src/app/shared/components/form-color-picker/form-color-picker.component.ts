@@ -2,7 +2,7 @@ import { Component, OnInit, output, OutputEmitterRef, signal, WritableSignal } f
 import { TranslateModule } from '@ngx-translate/core';
 import TileColorComponent from './tile-color/tile-color.component';
 import SubSectionComponent from '../sub-section/sub-section.component';
-import { TILE_COLORS } from '@shared/shared-consts.const';
+import { TILE_COLORS } from '@shared/constants/shared-consts.const';
 
 @Component({
 	selector: 'app-form-color-picker',

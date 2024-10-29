@@ -10,7 +10,7 @@ import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
-import { YEAR_MOTH_DAY_FORMAT } from '@shared/shared-consts.const';
+import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';

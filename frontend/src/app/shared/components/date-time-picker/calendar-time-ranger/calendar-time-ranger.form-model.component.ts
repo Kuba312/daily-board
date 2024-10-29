@@ -6,7 +6,7 @@ import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { TimeValidators } from '@shared/validators/time.validators';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import moment from 'moment';
-import { MOMENT_MINUTES_TYPE, TIME_FORMAT } from '@shared/shared-consts.const';
+import { MOMENT_MINUTES_TYPE, TIME_FORMAT } from '@shared/constants/shared-consts.const';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
 
 export class CalendarTimeRangerFormModel {

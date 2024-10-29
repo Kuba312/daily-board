@@ -41,6 +41,10 @@ $highlight-effect:
 	--color-border: #cfb5a2;
 	--color-background-secondary: #e4d9cd;
 	--color-hover-text: #DACBB8;
+	--bg-snackbar-color-success: #C8E6C9;
+	--border-snack-bar-color-success: #81C784;
+	--bg-snackbar-color-error: #FFCDD2;
+	--border-snack-bar-color-error: #C62828;
 }
 
 .dark-mode {
@@ -50,4 +54,8 @@ $highlight-effect:
 	--color-border: #304a5d;
 	--color-background-secondary: #1b2632;
 	--color-hover-text: #2d4658;
+	--bg-snackbar-color-success: #2E7D32;
+	--border-snack-bar-color-success: #66BB6A;
+	--bg-snackbar-color-error: #D32F2F;
+	--border-snack-bar-color-error: #E57373;
 }

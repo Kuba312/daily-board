@@ -42,7 +42,8 @@
 		"chose-day": "Wybierz dzień",
 		"pick-color": "Wybierz kolor",
 		"add": "Dodaj",
-		"add-and-create": "Dodaj i stwórz kolejny"
+		"add-and-create": "Dodaj i stwórz kolejny",
+		"task-has-been-added": "Zadanie zostało dodane"
 	},
 	"form-validators": {
 		"required": "Pole jest wymagane",
@@ -53,5 +54,9 @@
 		"from-time": "Niewłaściwa godzina",
 		"invalid-date": "Niewłaściwa data",
 		"empty-time": "Nie podano godzin"
+	},
+	"global-snack-bar-messages": {
+		"form-invalid": "Formularz zawiera błędy",
+		"error-code": "Coś poszło nie tak. Kod błędu: {{errorCode}}"
 	}
 }

@@ -16,7 +16,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import 'moment/locale/pl';
 import { WeekRange } from '../../models/week-range';
-import { YEAR_MONTH_FORMAT, YEAR_MOTH_DAY_FORMAT } from '@shared/shared-consts.const';
+import { YEAR_MONTH_FORMAT, YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 
 @Injectable({ providedIn: 'root' })
 export class LocaleDateService {

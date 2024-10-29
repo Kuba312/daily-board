@@ -14,6 +14,8 @@ import HeaderComponent from '@shared/components/header/header.component';
 import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
 import { validateForm } from '@shared/utils/form.utils';
 import { TaskBoardFormModel } from './task-board-form.form-model';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
+import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -35,6 +37,8 @@ import { TaskBoardFormModel } from './task-board-form.form-model';
 })
 export default class TaskBoardFormComponent {
 	private readonly _store: Store = inject(Store);
+	private readonly _snackbarService: SnackBarService =
+		inject(SnackBarService);
 
 	formModel: TaskBoardFormModel = new TaskBoardFormModel();
 
@@ -45,13 +49,16 @@ export default class TaskBoardFormComponent {
 
 		validateForm(formGroup);
 
-		// TODO: implement snackbar service
 		if (formGroup.invalid) {
+			this._snackbarService.onShowSnackBarError({
+				message: INVALID_FORM_TRANSLATE_KEY,
+			});
+
 			return;
 		}
 
 		const duty = this.formModel.toModel();
-		
+
 		this._store.dispatch(dutyActions.saveDuty({ duty }));
 	}
 }

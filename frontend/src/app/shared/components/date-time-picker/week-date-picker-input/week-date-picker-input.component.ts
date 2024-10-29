@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
 import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.type';
-import { TIME_MASK_FORMAT } from '@shared/shared-consts.const';
+import { TIME_MASK_FORMAT } from '@shared/constants/shared-consts.const';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormErrorMessageComponent } from '../../form-error-message/form-error-message.component';
 import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-weeks-ranger.component';

@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DutyDto {
 
-    private UUID id;
+    private String id;
     private String name;
     private String description;
     private WeekDay weekDay;

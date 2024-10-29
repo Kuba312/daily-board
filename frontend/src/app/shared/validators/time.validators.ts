@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import moment from 'moment';
-import { DATE_REGEX, TIME_FORMAT } from '../shared-consts.const';
+import { DATE_REGEX, TIME_FORMAT } from '../constants/shared-consts.const';
 
 export class TimeValidators {
 	private static TIME_SEPARATOR: string = ':';

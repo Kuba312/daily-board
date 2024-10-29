@@ -15,6 +15,7 @@ public class DutyService {
     private final DutyRepository dutyRepository;
 
     public Duty save(Duty duty) {
+
         return dutyRepository.save(duty);
     }
 

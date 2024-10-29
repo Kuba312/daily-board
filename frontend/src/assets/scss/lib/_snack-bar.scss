@@ -1,0 +1,15 @@
+@use '../abstracts' as *;
+
+.snack-bar-error {
+	@include snackbar-styles(
+		var(--bg-snackbar-color-error),
+		var(--border-snack-bar-color-error)
+	);
+}
+
+.snack-bar-success {
+	@include snackbar-styles(
+		var(--bg-snackbar-color-success),
+		var(--border-snack-bar-color-success),
+	);
+}

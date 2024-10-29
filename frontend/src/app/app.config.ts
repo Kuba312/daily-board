@@ -13,6 +13,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import appProvidersFrom from './import-providers';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { SnackBarService } from './shared/services/snackbar-service/snack-bar.service';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
 		provideAnimationsAsync(),
 		importProvidersFrom(appProvidersFrom),
 		provideEnvironmentNgxMask(),
+		SnackBarService,
 	],
 };

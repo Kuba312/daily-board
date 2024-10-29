@@ -4,7 +4,7 @@ import {
 } from '@ngx-translate/core';
 import moment from 'moment';
 import { LocaleDateService } from './locale-date.service';
-import { YEAR_MOTH_DAY_FORMAT } from '@shared/shared-consts.const';
+import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 
 describe('LocaleDateService', () => {
 	let localeDateService: LocaleDateService;

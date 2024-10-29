@@ -40,7 +40,8 @@
 		"chose-day": "Choose day",
 		"task-description-placeholder": "Enter task description",
 		"task-date": "Task date",
-		"pick-color": "Pick color"
+		"pick-color": "Pick color",
+		"task-has-been-added": "Task has been added"
 	},
 	"form-validators": {
 		"required": "Field is required",
@@ -51,6 +52,9 @@
 		"from-time": "Invalid hour",
 		"invalid-date": "Invalid date",
 		"empty-time": "There is no hours chosen"
-
+	},
+	"global-snack-bar-message": {
+		"form-invalid": "The form contains errors",
+		"error-code": "Something went wrong. Error code: {{errorCode}}."
 	}
 }

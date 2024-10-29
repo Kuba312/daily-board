@@ -1,5 +1,6 @@
 @use '../abstracts/variables' as a;
 @use '../abstracts/functions' as f;
+@use '@angular/material';
 
 @mixin respond($breakpoint) {
 	//  0 - 600px: Phone
@@ -128,4 +129,64 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+@mixin snackbar-styles($background, $border-color) {
+	.mdc-snackbar {
+		background-color: $background !important;
+	}
+
+	.mdc-snackbar__surface {
+		background-color: $background !important;
+		padding: 0 !important;
+		border-radius: 16px !important;
+		border: 1.5px solid $border-color;
+	}
+
+	.mat-mdc-snack-bar-label {
+		background-color: $background !important;
+		font-weight: a.$slight-thickening !important;
+		font-size: a.$smaller-font-size !important;
+		color: var(--color-text) !important;
+		font-family: 'Montserrat', sans-serif !important;
+		padding: 0.9rem 1rem;
+		border-radius: 16px !important;
+	}
+
+	.mat-mdc-button .mat-mdc-button-persistent-ripple {
+		width: 3rem !important;
+		height: 3rem !important;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.mdc-snackbar__label {
+		@include flex-justify-align-center;
+	}
+
+	.mdc-button__label {
+		position: relative;
+		color: transparent;
+		font-weight: a.$slight-thickening !important;
+		visibility: none;
+		height: 0;
+		font-family: 'Montserrat', sans-serif !important;
+		width: 0;
+		padding: 1rem 1rem;
+		border-radius: 9px;
+		position: relative;
+
+		&::after {
+			content: '\2715';
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: a.$smaller-font-size !important;
+			color: var(--color-text);
+			cursor: pointer;
+		}
+	}
 }

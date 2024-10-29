@@ -1,10 +1,7 @@
 package com.dailyboard.dailyboard.model.dao;
 
 import com.dailyboard.dailyboard.model.enums.WeekDay;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,12 +19,14 @@ import java.util.UUID;
 public class Duty {
 
     @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String name;
     private String description;
+
+    @Enumerated(EnumType.STRING)
     private WeekDay weekDay;
+
     private LocalDate effectiveDate;
     private LocalTime startTime;
     private LocalTime endTime;

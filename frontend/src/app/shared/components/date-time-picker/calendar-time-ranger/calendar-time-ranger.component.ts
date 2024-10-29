@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
 import { KeyboardEventService } from '@shared/services/keyboard-events/keyboard-events.service';
-import { TIME_MASK_FORMAT } from '@shared/shared-consts.const';
+import { TIME_MASK_FORMAT } from '@shared/constants/shared-consts.const';
 import { NgxMaskDirective } from 'ngx-mask';
 import { CalendarTimeRangerFormModel } from './calendar-time-ranger.form-model.component';
 

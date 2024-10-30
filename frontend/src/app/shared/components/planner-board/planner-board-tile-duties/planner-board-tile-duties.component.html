@@ -6,7 +6,7 @@
 					class="planner-board-tile-duty__item"
 					[style.height]="tile.height"
 					[style.top]="tile.top"
-					[style.background]="tile?.tile?.color ?? 'red'"
+					[style.background]="tile?.tile?.color"
 				>
 					<div class="planner-board-tile-duty__name-wrapper">
 						<span [innerText]="tile.tile.name | safeValue"></span>

@@ -5,6 +5,7 @@ $header-font-size: 2.4rem;
 
 // font weights
 $slight-thickening: 550;
+$fat-thickening: 600;
 
 // border radius values
 $normal-border-radius: 9px;
@@ -12,7 +13,7 @@ $tiny-border: 0.5px solid var(--color-border);
 $normal-border: 1px solid var(--color-border);
 
 // static colors
-$light-text-color: #EEE6DF;
+$light-text-color: #eee6df;
 
 // global settings
 $section-margin: 3.5rem 1.5rem 3rem 1.8rem;
@@ -20,42 +21,46 @@ $color-picker-section-margin: 3rem;
 
 // button-colors:
 $bg-button: #1973d2;
-$bg-hover-button: darken($bg-button, 10%);;
-$bg-secondary-button: #E0A832; // Suggested secondary button color
+$bg-hover-button: darken($bg-button, 10%);
+$bg-secondary-button: #e0a832; // Suggested secondary button color
 $bg-hover-secondary-button: darken($bg-secondary-button, 10%);
 
 $animation-duration: 0.3s;
 
 // box shadows
 $tiny-shadow: var(--bg-color) 0px 4px 2px;
-$normal-shadow: var(--color-border) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-$highlight-effect: 
-	0 0 0 0.2rem var(--bg-color),   
-	0 0 0 0.4rem $bg-button,
+$normal-shadow: var(--color-border) 0px 13px 27px -5px,
+	rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+$highlight-effect: 0 0 0 0.2rem var(--bg-color), 0 0 0 0.4rem $bg-button,
 	0 0 0 0.5rem var(--bg-color);
+$convex-shadow: inset 1px 1px 3px var(--color-shadow), 
+3px 3px 8px var(--color-shadow);
+$text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 
 :root {
-	--bg-color: #EEE6DF;
-	--color-text: #000A20;
-	--color-text-secondary: #666F80;
+	--bg-color: #eee6df;
+	--color-text: #000a20;
+	--color-text-secondary: #666f80;
 	--color-border: #cfb5a2;
+	--color-shadow: #cfb5a29c;
 	--color-background-secondary: #e4d9cd;
-	--color-hover-text: #DACBB8;
-	--bg-snackbar-color-success: #C8E6C9;
-	--border-snack-bar-color-success: #81C784;
-	--bg-snackbar-color-error: #FFCDD2;
-	--border-snack-bar-color-error: #C62828;
+	--color-hover-text: #dacbb8;
+	--bg-snackbar-color-success: #c8e6c9;
+	--border-snack-bar-color-success: #81c784;
+	--bg-snackbar-color-error: #ffcdd2;
+	--border-snack-bar-color-error: #c62828;
 }
 
 .dark-mode {
 	--bg-color: #111920;
-	--color-text: #EEE6DF;
-	--color-text-secondary: #BBB6AF;
+	--color-text: #eee6df;
+	--color-text-secondary: #bbb6af;
 	--color-border: #304a5d;
+	--color-shadow: #304a5d6c;
 	--color-background-secondary: #1b2632;
 	--color-hover-text: #2d4658;
-	--bg-snackbar-color-success: #2E7D32;
-	--border-snack-bar-color-success: #66BB6A;
-	--bg-snackbar-color-error: #D32F2F;
-	--border-snack-bar-color-error: #E57373;
+	--bg-snackbar-color-success: #2e7d32;
+	--border-snack-bar-color-success: #66bb6a;
+	--bg-snackbar-color-error: #d32f2f;
+	--border-snack-bar-color-error: #e57373;
 }

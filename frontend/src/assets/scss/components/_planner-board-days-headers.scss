@@ -6,14 +6,15 @@
 
 	@include media-columns-grid(7, 134.375em, 18rem);
 	@include media-columns-grid(7, 124.375em, 16rem);
-	@include media-columns-grid(7, 112.8125em, 14rem);
+	@include media-columns-grid(7, 112.8125em, 15rem);
 	@include media-columns-grid(7, 86.56em, 12rem);
-	@include media-columns-grid(7, 70em, 10rem);
-	@include media-columns-grid(7, 61.875em, 6rem);
+	@include media-columns-grid(7, 70em, 11rem);
+	@include media-columns-grid(7, 61.875em, 10rem);
 
 	$self: &;
 
 	#{$self}__day-container {
+		font-weight: $slight-thickening;
 		text-align: center;
 		display: inline-block;
 		padding: 1rem 0;

@@ -1,8 +1,6 @@
 import {
-	ChangeDetectorRef,
 	Component,
 	ElementRef,
-	inject,
 	input,
 	InputSignal,
 	signal,
@@ -21,7 +19,9 @@ import { DutyDto } from 'src/api/models';
 	templateUrl: './planner-board-tile-duties.component.html',
 })
 export default class PlannerBoardTileDutiesComponent {
-	private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+	private readonly HEIGHT_OF_TIME_VALUE: number = 0;
+	private readonly TOP_OF_TIME_VALUE: number = 3;
 
 	public timelineValuesElements: InputSignal<
 		readonly ElementRef<HTMLElement>[]
@@ -69,7 +69,16 @@ export default class PlannerBoardTileDutiesComponent {
 		const offsetHeightOfFromHour = this._getTopOfHour(from);
 		const offsetHeightOfToHour = this._getTopOfHour(to);
 
-		return `${offsetHeightOfToHour - offsetHeightOfFromHour}px`;
+		const remInPixels = parseFloat(
+			getComputedStyle(document.documentElement).fontSize,
+		);
+		const heightInRem =
+			(offsetHeightOfToHour -
+				offsetHeightOfFromHour +
+				this.HEIGHT_OF_TIME_VALUE) /
+			remInPixels;
+
+		return `${heightInRem}rem`;
 	}
 
 	private calculateTopOfDutyTile(tile: DutyDto): Option<string> {
@@ -79,7 +88,11 @@ export default class PlannerBoardTileDutiesComponent {
 			return null;
 		}
 
-		return `${this._getTopOfHour(from)}px`;
+		const remInPixels = parseFloat(
+			getComputedStyle(document.documentElement).fontSize,
+		);
+
+		return `${(this._getTopOfHour(from) + this.TOP_OF_TIME_VALUE) / remInPixels}rem`;
 	}
 
 	private _getTopOfHour(hour: string): number {

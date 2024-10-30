@@ -2,7 +2,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { SnackBarService } from './snack-bar.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarMessage } from '@app/shared/models/snack-bar-message';
+import { SnackBarMessage } from '@shared/models/snack-bar-message';
 
 describe('SnackBarService', () => {
 	let snackBarService: SnackBarService;

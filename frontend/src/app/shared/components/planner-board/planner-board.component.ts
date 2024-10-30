@@ -49,7 +49,7 @@ export default class PlannerBoardComponent {
 	private _getTimelineValues(): string[] {
 		return this._timeManagerService.alreadyProvidedTimelineValues().length
 			? this._timeManagerService.alreadyProvidedTimelineValues()
-			: this._timeManagerService.createTimeLineEveryNumOfMinutes(5);
+			: this._timeManagerService.createTimeLineEveryNumOfMinutes(1);
 	}
 
 	get keysTileBoard(): string[] {

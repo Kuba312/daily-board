@@ -6,6 +6,7 @@ import { MockComponent } from "ng-mocks";
 import { DUTIES_MOCK } from "src/mocks/mock-data";
 import PlannerComponent from "./planner.component";
 import { Store } from "@ngrx/store";
+import { signal } from "@angular/core";
 
 describe('PlannerComponent', () => {
 	let component: PlannerComponent;
@@ -14,6 +15,7 @@ describe('PlannerComponent', () => {
 
 	beforeEach(waitForAsync(() => {
 		mockStore = jasmine.createSpyObj('Store', ['selectSignal']);
+		mockStore.selectSignal.and.returnValue(signal(DUTIES_MOCK));
 
 		TestBed.configureTestingModule({
 			imports: [
@@ -28,7 +30,6 @@ describe('PlannerComponent', () => {
 		.then(() => {
 			fixture = TestBed.createComponent(PlannerComponent);
 			component = fixture.componentInstance;
-			component.dailyBoardDuties.set(DUTIES_MOCK)
 			fixture.detectChanges();
 		}) 
 	}))

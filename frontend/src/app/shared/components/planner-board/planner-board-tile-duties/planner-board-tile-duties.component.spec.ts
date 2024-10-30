@@ -34,13 +34,13 @@ describe('PlannerBoardTileDutiesComponent', () => {
 	it('duty tile should have proper top property', () => {
 		const dutyTileElement = el.query(By.css('.planner-board-tile-duty__item'));
 
-		expect(dutyTileElement.nativeElement.style.top).toEqual('131px');
+		expect(dutyTileElement.nativeElement.style.top).toEqual('14.8889rem');
 	})
 
 	it('duty tile should have proper height property', () => {
 		const dutyTileElement = el.query(By.css('.planner-board-tile-duty__item'));
 
-		expect(dutyTileElement.nativeElement.style.height).toEqual('121px');
+		expect(dutyTileElement.nativeElement.style.height).toEqual('13.4444rem');
 	})
 
 	it('should set proper duty label on the tile', () => {

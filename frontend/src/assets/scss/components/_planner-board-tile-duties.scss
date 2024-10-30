@@ -7,10 +7,10 @@
 	@include full-screen;
 	@include media-columns-grid(7,134.375em, 18rem);
 	@include media-columns-grid(7,124.375em, 16rem);
-	@include media-columns-grid(7,112.8125em, 14rem);
+	@include media-columns-grid(7,112.8125em, 15rem);
 	@include media-columns-grid(7,86.56em, 12rem);
-	@include media-columns-grid(7,70em, 10rem);
-	@include media-columns-grid(7,61.875em, 6rem);
+	@include media-columns-grid(7,70em, 11rem);
+	@include media-columns-grid(7,61.875em, 10rem);
 
 	$self: &;
 
@@ -30,9 +30,21 @@
 
 	#{$self}__item {
 		position: absolute;
-		background-color: red;
 		width: 100%;
 		border-radius: $normal-border-radius;
+		box-shadow: $convex-shadow;
+
+		&::before {
+			position: absolute;
+			content: "";
+			top: 0;
+			left: 50%;
+			width: 94%;
+			height: 0.1rem;
+			background-color: var(--bg-color);
+			transform: translate(-50%, -50%);
+			z-index: 11;
+		}
 	}
 
 	#{$self}__name-wrapper {
@@ -44,7 +56,8 @@
 			top: 50%;
 			transform: translate(-50%, -50%);
 			color: $light-text-color;
-			font-weight: $slight-thickening;
+			font-weight: $fat-thickening;
+			text-shadow: $text-shadow;
 
 			@include overlap-word;
 			max-width: 90%;

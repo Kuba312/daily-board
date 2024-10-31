@@ -8,18 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { DutyDto } from '../../models/duty-dto';
+import { PlannerDto } from '../../models/planner-dto';
 
-export interface SaveDuty$Params {
-  plannerId: string;
-      body: DutyDto
+export interface GetPlannerById$Params {
+  id: string;
 }
 
-export function saveDuty(http: HttpClient, rootUrl: string, params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
-  const rb = new RequestBuilder(rootUrl, saveDuty.PATH, 'post');
+export function getPlannerById(http: HttpClient, rootUrl: string, params: GetPlannerById$Params, context?: HttpContext): Observable<StrictHttpResponse<PlannerDto>> {
+  const rb = new RequestBuilder(rootUrl, getPlannerById.PATH, 'get');
   if (params) {
-    rb.path('plannerId', params.plannerId, {});
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -27,9 +25,9 @@ export function saveDuty(http: HttpClient, rootUrl: string, params: SaveDuty$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<DutyDto>;
+      return r as StrictHttpResponse<PlannerDto>;
     })
   );
 }
 
-saveDuty.PATH = '/api/v1/duties/{plannerId}';
+getPlannerById.PATH = '/api/v1/planners/{id}';

@@ -15,8 +15,8 @@ export const saveDutyEffect = createEffect(
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.saveDuty),
-			switchMap(({ duty }) =>
-				dutyControllerService.saveDuty({ body: duty }).pipe(
+			switchMap(({ duty, plannerId }) =>
+				dutyControllerService.saveDuty({ body: duty, plannerId }).pipe(
 					map((savedDuty) => {
 						snackBarService.onShowSnackBarSuccess({
 							message: 'task-board-form.task-has-been-added',
@@ -27,7 +27,9 @@ export const saveDutyEffect = createEffect(
 					catchError((error: HttpErrorResponse) => {
 						snackBarService.onShowSnackBarError({
 							message: ERROR_CODE_TRANSLATE_KEY,
-							dynamicMessage: { errorCode: error.status },
+							dynamicMessage: { 
+								errorCode: error.status,
+							},
 						});
 
 						return of(

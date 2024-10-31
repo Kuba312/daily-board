@@ -8,8 +8,8 @@
 		"planner": "Planer",
 		"tasks": "Zadania",
 		"settings": "Ustawienia",
-		"new": "Nowy",
-		"create-task": "Stwórz zadanie"
+		"new-duty": "Dodaj zadanie",
+		"add-planner": "Dodaj planer"
 	},
 	"planner": {
 		"weekly-planner": "Planer Tygodniowy",

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,10 +22,10 @@ public class DutyController {
     private final DutyMapper dutyMapper;
     private final DutyService dutyService;
 
-    @PostMapping
+    @PostMapping("/{plannerId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public DutyDto saveDuty(@RequestBody DutyDto dutyDto) {
-        return dutyMapper.toDto(dutyService.save(dutyMapper.toDao(dutyDto)));
+    public DutyDto saveDuty(@RequestBody DutyDto dutyDto, @PathVariable UUID plannerId) {
+        return dutyMapper.toDto(dutyService.save(dutyMapper.toDao(dutyDto), plannerId));
     }
 
     @GetMapping()

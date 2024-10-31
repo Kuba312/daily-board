@@ -25,6 +25,31 @@ export class DutyControllerService extends BaseService {
     super(config, http);
   }
 
+  /** Path part for operation `saveDuty()` */
+  static readonly SaveDutyPath = '/api/v1/duties/{plannerId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `saveDuty()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  saveDuty$Response(params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
+    return saveDuty(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `saveDuty$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  saveDuty(params: SaveDuty$Params, context?: HttpContext): Observable<DutyDto> {
+    return this.saveDuty$Response(params, context).pipe(
+      map((r: StrictHttpResponse<DutyDto>): DutyDto => r.body)
+    );
+  }
+
   /** Path part for operation `getDuties()` */
   static readonly GetDutiesPath = '/api/v1/duties';
 
@@ -47,31 +72,6 @@ export class DutyControllerService extends BaseService {
   getDuties(params: GetDuties$Params, context?: HttpContext): Observable<Array<DutyDto>> {
     return this.getDuties$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<DutyDto>>): Array<DutyDto> => r.body)
-    );
-  }
-
-  /** Path part for operation `saveDuty()` */
-  static readonly SaveDutyPath = '/api/v1/duties';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `saveDuty()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  saveDuty$Response(params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
-    return saveDuty(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `saveDuty$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  saveDuty(params: SaveDuty$Params, context?: HttpContext): Observable<DutyDto> {
-    return this.saveDuty$Response(params, context).pipe(
-      map((r: StrictHttpResponse<DutyDto>): DutyDto => r.body)
     );
   }
 

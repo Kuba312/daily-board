@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { dutyActions } from '@shared-store/duty-store/duty.actions';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import WeekDatePickerInputComponent 
@@ -12,10 +11,10 @@ import FormSelectComponent from '@shared/components/form-select/form-select.comp
 import FormTextareaComponent from '@shared/components/form-textarea/form-textarea.component';
 import HeaderComponent from '@shared/components/header/header.component';
 import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
+import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
 import { TaskBoardFormModel } from './task-board-form.form-model';
-import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
-import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -57,8 +56,9 @@ export default class TaskBoardFormComponent {
 			return;
 		}
 
-		const duty = this.formModel.toModel();
+		// const duty = this.formModel.toModel();
 
-		this._store.dispatch(dutyActions.saveDuty({ duty }));
+		// TODO: Adjust for planner creation!
+		// this._store.dispatch(dutyActions.saveDuty({ duty,  }));
 	}
 }

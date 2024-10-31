@@ -31,4 +31,8 @@ public class Duty {
     private LocalTime startTime;
     private LocalTime endTime;
     private String color;
+
+    @ManyToOne
+    @JoinColumn(name = "planner_id")
+    private Planner planner;
 }

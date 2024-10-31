@@ -15,6 +15,7 @@ export const dutyActions = createActionGroup({
 	events: {
 		[DutyActions.SaveDuty]: props<{
 			duty: DutyDto;
+			plannerId: string;
 		}>(),
 		[DutyActions.SaveDutySuccess]: props<{
 			duty: DutyDto;

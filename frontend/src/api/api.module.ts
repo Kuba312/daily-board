@@ -6,6 +6,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { PlannerControllerService } from './services/planner-controller.service';
 import { DutyControllerService } from './services/duty-controller.service';
 
 /**
@@ -16,6 +17,7 @@ import { DutyControllerService } from './services/duty-controller.service';
   exports: [],
   declarations: [],
   providers: [
+    PlannerControllerService,
     DutyControllerService,
     ApiConfiguration
   ],

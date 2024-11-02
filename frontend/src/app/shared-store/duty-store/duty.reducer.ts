@@ -15,7 +15,8 @@ const initialDutyState: DutyState = dutyAdapter.getInitialState({
 	allDutiesLoaded: false,
 });
 
-const dutyFeature = createFeature({	name: 'duty',
+const dutyFeature = createFeature({
+	name: 'duty',
 	reducer: createReducer(
 		initialDutyState,
 		on(dutyActions.saveDuty, (state) => ({

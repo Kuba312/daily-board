@@ -21,6 +21,8 @@ import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.c
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
 import { PlannerFormModel } from './planner-form.form-model';
+import { Store } from '@ngrx/store';
+import { plannerActions } from '@shared-store/planner-store/planner.actions';
 
 @Component({
 	selector: 'app-planner-form',
@@ -40,6 +42,7 @@ import { PlannerFormModel } from './planner-form.form-model';
 })
 export default class PlannerFormComponent implements OnInit {
 	private readonly _injector: Injector = inject(Injector);
+	private readonly _store: Store = inject(Store);
 	private readonly _snackbarService: SnackBarService =
 		inject(SnackBarService);
 
@@ -50,12 +53,13 @@ export default class PlannerFormComponent implements OnInit {
 	}
 
 	public sendForm(): void {
+		const formModel = this.formModel();
 		const formGroup = this.formModel()?.formGroup();
 
-		if(!formGroup) {
+		if (!formGroup || !formModel) {
 			return;
 		}
-	
+
 		validateForm(formGroup);
 
 		if (formGroup.invalid) {
@@ -66,9 +70,9 @@ export default class PlannerFormComponent implements OnInit {
 			return;
 		}
 
-		// TODO: add saving planner
-		// const planner = this.formModel()?.toModel();
-		
+		const planner = formModel.toModel();
+
+		this._store.dispatch(plannerActions.savePlanner({ planner }));
 	}
 
 	private _initializeForm(): void {

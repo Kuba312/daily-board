@@ -39,9 +39,8 @@ export default class TaskBoardFormComponent {
 	private readonly _snackbarService: SnackBarService =
 		inject(SnackBarService);
 
-	formModel: TaskBoardFormModel = new TaskBoardFormModel();
-
-	isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
+	public formModel: TaskBoardFormModel = new TaskBoardFormModel();
+	public isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
 
 	sendForm(): void {
 		const formGroup = this.formModel.formGroup();

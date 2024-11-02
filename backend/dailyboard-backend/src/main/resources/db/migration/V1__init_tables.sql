@@ -1,7 +1,9 @@
 CREATE TABLE planner (
     id VARCHAR(36) PRIMARY KEY NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    until_time TIME,
+    name VARCHAR(255) NOT NULL,
+    note TEXT,
+    start_time TIME,
+    end_time TIME,
     is_constant BOOLEAN
 );
 

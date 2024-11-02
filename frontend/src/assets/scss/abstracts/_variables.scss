@@ -37,6 +37,9 @@ $convex-shadow: inset 1px 1px 3px var(--color-shadow),
 3px 3px 8px var(--color-shadow);
 $text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 
+// gaps
+$form-fields-gap: 4rem;
+
 :root {
 	--bg-color: #eee6df;
 	--color-text: #000a20;

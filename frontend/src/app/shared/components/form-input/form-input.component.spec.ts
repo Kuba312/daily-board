@@ -1,15 +1,16 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import FormInputComponent from './form-input.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
-import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
+import { MockComponent } from 'ng-mocks';
+import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
+import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormInputComponent from './form-input.component';
 
 describe('FormInputComponent', () => {
 	let fixture: ComponentFixture<FormInputComponent>;
@@ -19,6 +20,10 @@ describe('FormInputComponent', () => {
 
 	const controlName = 'name';
 
+	const maskConfig: Partial<IConfig> = {
+		validation: false,
+	};
+
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
 			imports: [
@@ -26,9 +31,13 @@ describe('FormInputComponent', () => {
 				MatIconModule,
 				MatInputModule,
 				MatFormFieldModule,
+				NgxMaskDirective,
 				MockComponent(FormErrorMessageComponent),
 				NoopAnimationsModule,
 				TranslateModule.forRoot(),
+			],
+			providers: [
+				{ provide: NGX_MASK_CONFIG, useValue: maskConfig },
 			],
 		})
 			.compileComponents()

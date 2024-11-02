@@ -119,9 +119,15 @@
 	width: 100%;
 }
 
-@mixin sticky-header {
+@mixin sticky-top {
 	position: sticky;
 	top: 0;
+	z-index: 10;
+}
+
+@mixin sticky-bottom {
+	position: sticky;
+	bottom: 0;
 	z-index: 10;
 }
 

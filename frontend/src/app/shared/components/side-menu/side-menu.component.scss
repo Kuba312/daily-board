@@ -7,15 +7,12 @@
 .side-menu {
 	width: 100%;
 	height: 100%;
-	position: sticky;
-	top: 0;
-	padding: 2.5rem 1rem 0rem 3.5rem;
 	$self: &;
+	@include sticky-top;
 
 	#{$self}__container {
 		width: inherit;
-		height: 100lvh;
-		@include sticky-header;
+		height: 100%;
 		@include flex-column-space-between;
 
 		.active-link {
@@ -24,7 +21,9 @@
 	}
 
 	#{$self}__nav-links {
+		@include sticky-top;
 		@include flex-column;
+		padding: 2.5rem 1rem 0rem 3.5rem;
 		gap: 1rem;
 	}
 
@@ -35,8 +34,9 @@
 	}
 
 	#{$self}__actions {
+		@include sticky-bottom;
 		@include flex-column;
 		gap: 1rem;
-		margin-bottom: 3rem;
+		padding: 2.5rem 1rem 2.5rem 3.5rem;
 	}
 }

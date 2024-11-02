@@ -1,0 +1,65 @@
+<section class="planner-form">
+	<app-header label="planner-form.title"/>
+
+	<div class="planner-form__wrapper">
+		@let formModelValue = formModel();
+		@let formGroupValue = formModel()?.formGroup();
+
+		@if (formModelValue && formGroupValue) {
+			<form
+				[formGroup]="formGroupValue" 
+				class="planner-form__form"
+			>
+				<div class="planner-form__form--container">
+					<div class="form-group doubled-first-flex-input">
+						<app-form-input
+							[controlName]="formModelValue.NAME"
+							[formGroup]="formGroupValue"
+							[label]="'planner-form.planner-name' | translate"
+						/>
+						<app-week-date-picker-input
+							[formControlName]="formModelValue.RANGE_TIME"
+							[controlName]="formModelValue.RANGE_TIME"
+							[formGroup]="formGroupValue"
+							[label]="'planner-form.range-planner-time' | translate"
+							[onlyHours]="true"
+						/>
+					</div>
+
+				<app-form-textarea
+					[controlName]="formModelValue.NOTE"
+					[formGroup]="formGroupValue"
+					[label]="'planner-form.planner-note' | translate"
+				/>
+			
+					<app-form-select
+						[formGroup]="formGroupValue"
+						[controlName]="formModelValue.IS_CONSTANT"
+						[label]="'planner-form.planner-mode' | translate"
+						[options]="formModelValue.getPlannerModes()"
+						[valueToShow]="formModelValue.SELECT_VALUE_TO_SHOW"
+						[valueToSend]="formModelValue.SELECT_VALUE_TO_SEND"
+						translateKey="planner-form"
+					/>
+
+	
+			</div>
+
+			<div class="form-actions">
+				<app-primary-button
+					[label]="'task-board-form.add-and-create' | translate"
+					[emitOnClick]="true"
+					[width]="30"
+				/>
+				<app-primary-button
+					[label]="'task-board-form.add' | translate"
+					[emitOnClick]="true"
+					[width]="30"
+					(ngClick)="sendForm()"
+				/>
+			</div>
+				
+			</form>
+		}
+	</div>
+</section>

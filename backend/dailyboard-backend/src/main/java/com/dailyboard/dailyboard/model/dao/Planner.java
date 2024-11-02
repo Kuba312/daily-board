@@ -17,8 +17,10 @@ public class Planner {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String title;
-    private LocalTime untilTime;
+    private String name;
+    private String note;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private Boolean isConstant;
 
     @OneToMany(mappedBy = "planner", orphanRemoval = true)

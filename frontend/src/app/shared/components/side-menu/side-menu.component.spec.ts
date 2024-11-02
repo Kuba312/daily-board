@@ -57,7 +57,7 @@ describe('SideMenuComponent', () => {
 	});
 
 	it('should highlight item on nav menu when user direct to proper page', () => {
-		routerHelperServiceSpy.isActive.withArgs('/planner').and.returnValue(true);
+		routerHelperServiceSpy.isActive.withArgs('/planners').and.returnValue(true);
 		routerHelperServiceSpy.isActive.withArgs('/calendar').and.returnValue(false);
 		routerHelperServiceSpy.isActive.withArgs('/tasks').and.returnValue(false);
 		routerHelperServiceSpy.isActive.withArgs('/settings').and.returnValue(false);
@@ -65,6 +65,6 @@ describe('SideMenuComponent', () => {
 	
 		const plannerActiveLink = el.query(By.css('.active-link span'));
 		
-		expect(plannerActiveLink.nativeElement.textContent).toBe('side-menu.planner')
+		expect(plannerActiveLink.nativeElement.textContent).toBe('side-menu.planners')
 	});
 });

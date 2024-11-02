@@ -26,7 +26,7 @@ public class PlannerService {
     public Planner getPlanner(UUID id) {
         return plannerRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(STR."Planner with ID \{id} not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + id + "not found"));
     }
 
 }

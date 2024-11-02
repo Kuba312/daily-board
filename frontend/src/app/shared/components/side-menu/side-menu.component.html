@@ -11,11 +11,11 @@
 			</a>
 			<a
 				class="side-menu__item"
-				[class.active-link]="isActive(PLANNER_URL)"
-				routerLink="/planner"
+				[class.active-link]="isActive(PLANNERS_URL)"
+				[routerLink]="PLANNERS_URL"
 			>
 				<mat-icon fontIcon="menu"></mat-icon>
-				<span translate="side-menu.planner"></span>
+				<span translate="side-menu.planners"></span>
 			</a>
 			<a class="side-menu__item" [class.active]="isActive(TASKS_URL)">
 				<mat-icon fontIcon="checklist"></mat-icon>
@@ -28,11 +28,15 @@
 		</nav>
 		<div class="side-menu__actions">
 			<app-primary-button 
-				[label]="'side-menu.add-planner' | translate"
+				[label]="'side-menu.new-duty' | translate"
 				[emitOnClick]="true"
 				(ngClick)="directToTaskCreator()"
 			/>
-			<app-primary-button [label]="'side-menu.new-duty' | translate" />
+			<app-primary-button 
+				[label]="'side-menu.add-planner' | translate"
+				[emitOnClick]="true"
+				(click)="directToPlannerCreator()"
+			/>
 		</div>
 	</div>
 </div>

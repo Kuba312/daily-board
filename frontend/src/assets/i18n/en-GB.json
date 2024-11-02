@@ -52,7 +52,8 @@
 		"dynamic-planner": "Dynamic (changes weekly)",
 		"constant-planner": "Constant (same schedule)",
 		"end-planner-hour": "Planner start and end time",
-		"range-planner-time": "Planner hours range"
+		"range-planner-time": "Planner hours range",
+		"planner-has-been-added": "Planner has been added"
 	},
 	"form-validators": {
 		"required": "Field is required",

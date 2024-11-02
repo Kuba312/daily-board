@@ -52,7 +52,8 @@
 		"planner-mode": "Tryb planera",
 		"dynamic-planner": "Dynamiczny (zmieniający się tygodniowo)",
 		"constant-planner": "Stały (ten sam grafik)",
-		"range-planner-time": "Zakres godzin planera"
+		"range-planner-time": "Zakres godzin planera",
+		"planner-has-been-added": "Planer został dodany"
 	},
 	"form-validators": {
 		"required": "Pole jest wymagane",

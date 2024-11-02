@@ -6,7 +6,12 @@ import {
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import * as dutyEffects from '../shared-store/duty-store/duty.effects';
+import * as plannerEffects from '../shared-store/planner-store/planner.effects';
 import { dutiesResolver } from './planner/planner.resolver';
+import {
+	plannerFeatureKey,
+	plannerReducer,
+} from '@app/shared-store/planner-store/planner.reducer';
 
 const routes: Routes = [
 	{
@@ -37,6 +42,10 @@ const routes: Routes = [
 	{
 		path: 'planner-add',
 		loadComponent: () => import('./planner-form/planner-form.component'),
+		providers: [
+			provideState(plannerFeatureKey, plannerReducer),
+			provideEffects(plannerEffects),
+		],
 	},
 ];
 

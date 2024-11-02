@@ -41,14 +41,24 @@
 	}
 }
 
+.tripled-first-flex-input {
+	& > :first-child {
+		flex: 3 !important;
+	}
+}
+
 .form-actions {
 	@include flex-center-end;
 	gap: 3rem;
-	margin-inline: 1.5rem;
+	margin-top: 3rem;
 	
 	@media (max-width: 60.625rem) {
 		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
 	}
+}
+
+.none-margin-top {
+	margin-top: 0 !important;
 }

@@ -5,7 +5,7 @@
 	"side-menu": {
 		"today": "Today",
 		"calendar": "Calendar",
-		"planner": "Planner",
+		"planners": "Planners",
 		"tasks": "Tasks",
 		"settings": "Settings",
 		"new-duty": "Add duty",
@@ -41,7 +41,18 @@
 		"task-description-placeholder": "Enter task description",
 		"task-date": "Task date",
 		"pick-color": "Pick color",
-		"task-has-been-added": "Task has been added"
+		"range-planner-time": "Task has been added"
+
+	},
+	"planner-form": {
+		"title": "Create planner",
+		"planner-name": "Planner's name",
+		"planner-note": "Planner's note",
+		"planner-mode": "Planner Mode",
+		"dynamic-planner": "Dynamic (changes weekly)",
+		"constant-planner": "Constant (same schedule)",
+		"end-planner-hour": "Planner start and end time",
+		"range-planner-time": "Planner hours range"
 	},
 	"form-validators": {
 		"required": "Field is required",
@@ -51,7 +62,9 @@
 		"max-length": "Too much characters",
 		"from-time": "Invalid hour",
 		"invalid-date": "Invalid date",
-		"empty-time": "There is no hours chosen"
+		"empty-time": "There is no hours chosen",
+		"incomplete-hours": "The provided hour(s) are incomplete",
+		"invalid-time-difference": "The time difference must be at least 5 hours"
 	},
 	"global-snack-bar-message": {
 		"form-invalid": "The form contains errors",

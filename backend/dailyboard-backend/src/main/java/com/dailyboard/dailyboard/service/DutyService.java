@@ -23,7 +23,7 @@ public class DutyService {
     public Duty save(Duty duty, UUID plannerId) {
         Planner planner = plannerRepository
                 .findById(plannerId)
-                .orElseThrow(() -> new EntityNotFoundException(STR."Planner with ID \{plannerId} not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + plannerId + "not found"));
 
         duty.setPlanner(planner);
 

@@ -5,7 +5,7 @@
 	"side-menu": {
 		"today": "Dzisiaj",
 		"calendar": "Kalendarz",
-		"planner": "Planer",
+		"planners": "Planery",
 		"tasks": "Zadania",
 		"settings": "Ustawienia",
 		"new-duty": "Dodaj zadanie",
@@ -45,6 +45,15 @@
 		"add-and-create": "Dodaj i stwórz kolejny",
 		"task-has-been-added": "Zadanie zostało dodane"
 	},
+	"planner-form": {
+		"title": "Stwórz planer",
+		"planner-name": "Nazwa planera",
+		"planner-note": "Notatka do planera",
+		"planner-mode": "Tryb planera",
+		"dynamic-planner": "Dynamiczny (zmieniający się tygodniowo)",
+		"constant-planner": "Stały (ten sam grafik)",
+		"range-planner-time": "Zakres godzin planera"
+	},
 	"form-validators": {
 		"required": "Pole jest wymagane",
 		"email": "Pole musi zawierać '@'",
@@ -53,7 +62,9 @@
 		"max-length": "Za duża ilość znaków",
 		"from-time": "Niewłaściwa godzina",
 		"invalid-date": "Niewłaściwa data",
-		"empty-time": "Nie podano godzin"
+		"empty-time": "Nie podano godzin",
+		"incomplete-hours": "Podana(e) godzina(y) są niepełne",
+		"invalid-time-difference": "Różnica między godzinami musi wynosić co najmniej 5h"
 	},
 	"global-snack-bar-messages": {
 		"form-invalid": "Formularz zawiera błędy",

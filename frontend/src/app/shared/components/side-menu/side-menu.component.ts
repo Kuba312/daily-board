@@ -22,7 +22,7 @@ export default class SideMenuComponent {
 		inject(RouterHelperService);
 
 	readonly CALENDAR_URL: string = '/calendar';
-	readonly PLANNER_URL: string = '/planner';
+	readonly PLANNERS_URL: string = '/planners';
 	readonly TASKS_URL: string = '/tasks';
 	readonly SETTINGS_URL: string = '/settings';
 
@@ -33,4 +33,9 @@ export default class SideMenuComponent {
 	directToTaskCreator(): void {
 		this._routerHelperService.directToUrl('/task-board-add');
 	}
+	
+	directToPlannerCreator(): void { 
+		this._routerHelperService.directToUrl('/planner-add');
+	}
+
 }

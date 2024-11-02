@@ -2,6 +2,8 @@
 @use './variables' as v;
 
 .mat-mdc-form-field-error {
+	position: absolute;
+	display: flex !important;
 	font-size: $smaller-font-size;
 	padding-top: v.$mat-error-top-padding;
 }

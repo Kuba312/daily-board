@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import {
 	dutyFeatureKey,
 	dutyReducer,
-} from '@app/shared-store/duty-store/duty.reducer';
+} from '@shared-store/duty-store/duty.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import * as dutyEffects from '../shared-store/duty-store/duty.effects';
@@ -11,11 +11,11 @@ import { dutiesResolver } from './planner/planner.resolver';
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: 'planner',
+		redirectTo: 'planners',
 		pathMatch: 'full',
 	},
 	{
-		path: 'planner',
+		path: 'planners',
 		loadComponent: () => import('./planner/planner.component'),
 		providers: [
 			provideState(dutyFeatureKey, dutyReducer),
@@ -33,6 +33,10 @@ const routes: Routes = [
 			provideState(dutyFeatureKey, dutyReducer),
 			provideEffects(dutyEffects),
 		],
+	},
+	{
+		path: 'planner-add',
+		loadComponent: () => import('./planner-form/planner-form.component'),
 	},
 ];
 

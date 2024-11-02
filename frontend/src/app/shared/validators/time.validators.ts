@@ -46,22 +46,6 @@ export class TimeValidators {
 		};
 	}
 
-	private static _timeIsInvalid(fromTime: string, toTime: string): { fromTime: boolean; } | null {
-		return moment(fromTime, TIME_FORMAT).isAfter(
-			moment(toTime, TIME_FORMAT) ||
-			!TimeValidators._isValidTimeFormat(fromTime) ||
-			!TimeValidators._isValidTimeFormat(toTime),
-		)
-			? { fromTime: true }
-			: null;
-	}
-
-	private static _isValidTimeFormat(time: string): boolean {
-		const timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
-
-		return timeFormat.test(time);
-	}
-
 	static validateSingleTime(): ValidatorFn {
 		return (control: AbstractControl) => {
 			const { value } = control;
@@ -98,6 +82,74 @@ export class TimeValidators {
 				? null
 				: { fromTime: true };
 		};
+	}
+
+	static validFullTime(): ValidatorFn {
+		return (control: AbstractControl) => {
+			if (!control.value) {
+				return null;
+			}
+
+			const [, time] = TimeValidators._splitControlDateValue(control);
+			const { fromTime, toTime } =
+				TimeValidators._splitProvidedTime(time);
+
+			return TimeValidators._isFullHour(fromTime) &&
+				TimeValidators._isFullHour(toTime)
+				? null
+				: { incompleteHour: true };
+		};
+	}
+
+	static validateEnoughTimeDifference(): ValidatorFn {
+		return (control: AbstractControl) => {
+			if (!control.value) {
+				return null;
+			}
+
+			const [, time] = TimeValidators._splitControlDateValue(control);
+			const { fromTime, toTime } =
+				TimeValidators._splitProvidedTime(time);
+
+			return TimeValidators._isEnoughTimeDifference(fromTime, toTime)
+				? null
+				: { invalidTimeDifference: true };
+		};
+	}
+
+	private static _isEnoughTimeDifference(
+		fromTime: string,
+		toTime: string,
+	): boolean {
+		const from = moment(fromTime, 'HH:mm');
+		const to = moment(toTime, 'HH:mm');
+		const differenceInHours = to.diff(from, 'hours');
+
+		return differenceInHours >= 5;
+	}
+
+	private static _isFullHour(value: string): boolean {
+		// Regex to match 'HH:00' format, where HH is any valid hour (00 to 23)
+		return /^([01]\d|2[0-3]):00$/.test(value);
+	}
+
+	private static _timeIsInvalid(
+		fromTime: string,
+		toTime: string,
+	): { fromTime: boolean } | null {
+		return moment(fromTime, TIME_FORMAT).isAfter(
+			moment(toTime, TIME_FORMAT) ||
+				!TimeValidators._isValidTimeFormat(fromTime) ||
+				!TimeValidators._isValidTimeFormat(toTime),
+		)
+			? { fromTime: true }
+			: null;
+	}
+
+	private static _isValidTimeFormat(time: string): boolean {
+		const timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+		return timeFormat.test(time);
 	}
 
 	private static _splitSingleTimeValue(value: string): [string, string] {

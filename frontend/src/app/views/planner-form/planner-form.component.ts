@@ -1,0 +1,79 @@
+import {
+	Component,
+	inject,
+	Injector,
+	OnInit,
+	runInInjectionContext,
+	signal,
+	WritableSignal,
+} from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Option } from '@core/types/basics.types';
+import { TranslateModule } from '@ngx-translate/core';
+import WeekDatePickerInputComponent 
+	from '@shared/components/date-time-picker/week-date-picker-input/week-date-picker-input.component';
+import FormInputComponent from '@shared/components/form-input/form-input.component';
+import FormSelectComponent from '@shared/components/form-select/form-select.component';
+import FormTextareaComponent from '@shared/components/form-textarea/form-textarea.component';
+import HeaderComponent from '@shared/components/header/header.component';
+import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
+import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
+import { validateForm } from '@shared/utils/form.utils';
+import { PlannerFormModel } from './planner-form.form-model';
+
+@Component({
+	selector: 'app-planner-form',
+	standalone: true,
+	imports: [
+		TranslateModule,
+		ReactiveFormsModule,
+		HeaderComponent,
+		FormInputComponent,
+		FormTextareaComponent,
+		FormSelectComponent,
+		PrimaryButtonComponent,
+		WeekDatePickerInputComponent,
+	],
+	templateUrl: './planner-form.component.html',
+	styleUrl: './planner-form.component.scss',
+})
+export default class PlannerFormComponent implements OnInit {
+	private readonly _injector: Injector = inject(Injector);
+	private readonly _snackbarService: SnackBarService =
+		inject(SnackBarService);
+
+	public formModel: WritableSignal<Option<PlannerFormModel>> = signal(null);
+
+	ngOnInit(): void {
+		this._initializeForm();
+	}
+
+	public sendForm(): void {
+		const formGroup = this.formModel()?.formGroup();
+
+		if(!formGroup) {
+			return;
+		}
+	
+		validateForm(formGroup);
+
+		if (formGroup.invalid) {
+			this._snackbarService.onShowSnackBarError({
+				message: INVALID_FORM_TRANSLATE_KEY,
+			});
+
+			return;
+		}
+
+		// TODO: add saving planner
+		// const planner = this.formModel()?.toModel();
+		
+	}
+
+	private _initializeForm(): void {
+		runInInjectionContext(this._injector, () => {
+			this.formModel.set(new PlannerFormModel());
+		});
+	}
+}

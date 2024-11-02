@@ -7,7 +7,7 @@
 
 	#{$self}__header {
 		@include flex-space-between-center;
-		@include sticky-header;
+		@include sticky-top;
 
 		border: $normal-border;
 		border-radius: $normal-border-radius $normal-border-radius 0 0;

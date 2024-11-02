@@ -4,7 +4,10 @@
 		@let formGroupValue = formModel.formGroup(); 
 
 		@if (formGroupValue) {
-			<form class="task-board-form__form" [formGroup]="formGroupValue">
+			<form 
+				class="task-board-form__form" 
+				[formGroup]="formGroupValue"
+			>
 				<div class="task-board-form__form--container">
 					<div
 						class="form-group"

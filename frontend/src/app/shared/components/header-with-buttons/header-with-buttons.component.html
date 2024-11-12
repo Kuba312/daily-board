@@ -1,0 +1,17 @@
+<div class="header-with-buttons">
+	<app-header
+		[label]="label()"
+		[dateDisplayMode]="dateDisplayMode()"
+	/>
+	<div class="header-with-buttons__buttons">
+		@for (button of buttons(); track $index) {
+			<app-primary-button
+				[label]="button.buttonLabel | translate"
+				[emitOnClick]="button.emitOnClick || false"
+				(ngClick)="button?.callback()"
+				[width]="button.width"
+				[disabled]="button.disabled ? button.disabled() : false"
+			/>
+		}
+	</div>
+</div>

@@ -1,11 +1,15 @@
-import { inject } from '@angular/core';
-import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { PlannerControllerService } from 'src/api/services';
-import { plannerActions } from './planner.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ERROR_CODE_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
+import { inject } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
+import { catchError, map, of, switchMap } from 'rxjs';
+import { PlannerControllerService } from 'src/api/services';
+import { showErrorMessage } from '../helpers/show-error-message.helper';
+import { plannerActions } from './planner.actions';
+import moment from 'moment';
+
+import { PlannerDto } from 'src/api/models/planner-dto';
+import { TIME_FORMAT_WITH_SECONDS, TIME_FORMAT } from '@app/shared/constants/shared-consts.const';
 
 export const savePlannerEffect = createEffect(
 	(
@@ -27,12 +31,7 @@ export const savePlannerEffect = createEffect(
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						snackBarService.onShowSnackBarError({
-							message: ERROR_CODE_TRANSLATE_KEY,
-							dynamicMessage: {
-								errorCode: error.status,
-							},
-						});
+						showErrorMessage(snackBarService, error);
 
 						return of(
 							plannerActions.savePlannerFailure({
@@ -45,3 +44,45 @@ export const savePlannerEffect = createEffect(
 		),
 	{ functional: true },
 );
+
+export const getPlannersEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		plannerControllerService = inject(PlannerControllerService),
+		snackBarService = inject(SnackBarService),
+	) =>
+		$actions.pipe(
+			ofType(plannerActions.getPlanners),
+			switchMap(() =>
+				plannerControllerService.getPlanners().pipe(
+					map((plannersResponse) => {
+						const planners = adjustTimeInPlanners(plannersResponse);
+
+						return plannerActions.getPlannersSuccess({
+							planners,
+						});
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showErrorMessage(snackBarService, error);
+
+						return of(
+							plannerActions.getPlannersFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
+function adjustTimeInPlanners(
+	plannersResponse: PlannerDto[],
+): PlannerDto[] {
+	return plannersResponse.map((planner) => ({
+		...planner,
+		startTime: moment(planner.startTime , TIME_FORMAT_WITH_SECONDS).format(TIME_FORMAT),
+		endTime: moment(planner.endTime, TIME_FORMAT_WITH_SECONDS).format(TIME_FORMAT),
+	}));
+}

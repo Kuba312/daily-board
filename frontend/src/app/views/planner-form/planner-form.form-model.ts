@@ -60,11 +60,11 @@ export class PlannerFormModel {
 		return [
 			{
 				label: 'dynamic-planner',
-				value: true,
+				value: false,
 			},
 			{
 				label: 'constant-planner',
-				value: false,
+				value: true,
 			},
 		];
 	}

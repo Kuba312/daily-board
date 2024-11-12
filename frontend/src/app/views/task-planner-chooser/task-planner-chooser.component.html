@@ -1,0 +1,16 @@
+<section class="task-planner-chooser">
+	<app-header-with-buttons
+		label="task-planner-chooser.title"
+		[buttons]="HEADER_BUTTONS"
+	/>
+	<app-planner-items-container>
+		@for (planner of planners(); track planner.id) {
+			<app-planner-card
+				[emitSelection]="true"
+				[plannerDetails]="planner"
+				[isSelectedCard]="planner.id === selectedPlannerCard()?.id"
+				(ngClickPlannerCard)="selectPlannerCard($event)"
+			/>
+		}
+	</app-planner-items-container>
+</section>

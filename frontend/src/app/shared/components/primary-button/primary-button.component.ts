@@ -14,6 +14,7 @@ export default class PrimaryButtonComponent {
 	secondary: InputSignal<Option<boolean>> = input<Option<boolean>>();
 	emitOnClick: InputSignal<boolean> = input<boolean>(false);
 	width: InputSignal<Option<number>> = input<Option<number>>(null);
+	disabled: InputSignal<boolean> = input<boolean>(false);
 
 	ngClick: OutputEmitterRef<void> = output<void>();
 

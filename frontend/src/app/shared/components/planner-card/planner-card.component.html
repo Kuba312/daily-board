@@ -1,0 +1,26 @@
+<div
+	class="planner-card"
+	[ngClass]="{
+		'selectable-card': emitSelection(),
+		'selected-card': isSelectedCard()
+	}"
+	(click)="onSelectedPlannerCard()"
+>
+	<div class="planner-card__range-time">
+		<span>{{ plannerDetails().startTime }}</span>
+		-
+		<span>{{ plannerDetails().endTime }}</span>
+	</div>
+	<div class="planner-card__wrapper">
+		<div class="planner-card__content">
+			<span class="planner-card__content--name">
+				{{ plannerDetails().name }}
+			</span>
+			<div class="planner-card__content--note">
+				<p>
+					{{ plannerDetails().note }}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

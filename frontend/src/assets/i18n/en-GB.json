@@ -8,7 +8,7 @@
 		"planners": "Planners",
 		"tasks": "Tasks",
 		"settings": "Settings",
-		"new-duty": "Add duty",
+		"new-duty": "Create new task",
 		"add-planner": "Add planner"
 	},
 	"planner": {
@@ -31,6 +31,10 @@
 			"saturday": "Sat",
 			"sunday": "Sun"
 		}
+	},
+	"task-planner-chooser": {
+		"title": "Choose planner",
+		"assign-task": "Add task for planner"
 	},
 	"task-board-form": {
 		"title": "Create board task",

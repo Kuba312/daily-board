@@ -35,6 +35,22 @@ const plannerFeature = createFeature({
 			isLoading: false,
 			error: errorMessage,
 		})),
+		on(plannerActions.getPlanners, (state) => ({
+			...state,
+			isLoading: false,
+		})),
+		on(plannerActions.getPlannersSuccess, (state, { planners }) =>
+			plannerAdapter.addMany(planners, {
+				...state,
+				isLoading: false,
+				allPlannersLoaded: true,
+			}),
+		),
+		on(plannerActions.getPlannersFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
 	),
 });
 

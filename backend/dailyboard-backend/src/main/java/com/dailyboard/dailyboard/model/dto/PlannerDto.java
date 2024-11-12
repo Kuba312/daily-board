@@ -16,14 +16,7 @@ public class PlannerDto {
     private String id;
     private String name;
     private String note;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    @Schema(type = "string", example = "22:00")
     private LocalTime endTime;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    @Schema(type = "string", example = "07:00")
     private LocalTime startTime;
-
     private Boolean isConstant;
 }

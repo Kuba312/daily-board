@@ -30,8 +30,8 @@ export default class SideMenuComponent {
 		return this._routerHelperService.isActive(link);
 	}
 
-	directToTaskCreator(): void {
-		this._routerHelperService.directToUrl('/task-board-add');
+	directToTaskPlannerChooser(): void {
+		this._routerHelperService.directToUrl('/choose-planner');
 	}
 	
 	directToPlannerCreator(): void { 

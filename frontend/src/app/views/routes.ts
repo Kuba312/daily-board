@@ -7,11 +7,12 @@ import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import * as dutyEffects from '../shared-store/duty-store/duty.effects';
 import * as plannerEffects from '../shared-store/planner-store/planner.effects';
-import { dutiesResolver } from './planner/planner.resolver';
+import { dutiesResolver } from './planner/duties.resolver';
 import {
 	plannerFeatureKey,
 	plannerReducer,
 } from '@app/shared-store/planner-store/planner.reducer';
+import { plannersResolver } from '@app/resolvers/planners.resolver';
 
 const routes: Routes = [
 	{
@@ -31,7 +32,19 @@ const routes: Routes = [
 		},
 	},
 	{
-		path: 'task-board-add',
+		path: 'choose-planner',
+		loadComponent: () =>
+			import('./task-planner-chooser/task-planner-chooser.component'),
+		providers: [
+			provideState(plannerFeatureKey, plannerReducer),
+			provideEffects(plannerEffects),
+		],
+		resolve: {
+			planners: plannersResolver,
+		},
+	},
+	{
+		path: 'task-board-add/:plannerId/:isConstant',
 		loadComponent: () =>
 			import('./task-board-form/task-board-form.component'),
 		providers: [

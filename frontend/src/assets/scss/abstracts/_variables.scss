@@ -2,6 +2,7 @@
 $default-font-size: 1.6rem;
 $smaller-font-size: 1.4rem;
 $header-font-size: 2.4rem;
+$bigger-font-size: 2rem;
 
 // font weights
 $slight-thickening: 550;
@@ -9,6 +10,9 @@ $fat-thickening: 600;
 
 // border radius values
 $normal-border-radius: 9px;
+$doubled-normal-border-radius: 16px;
+
+// borders
 $tiny-border: 0.5px solid var(--color-border);
 $normal-border: 1px solid var(--color-border);
 
@@ -24,6 +28,8 @@ $bg-button: #1973d2;
 $bg-hover-button: darken($bg-button, 10%);
 $bg-secondary-button: #e0a832; // Suggested secondary button color
 $bg-hover-secondary-button: darken($bg-secondary-button, 10%);
+
+$bg-disabled-button: #A1C0E2;
 
 $animation-duration: 0.3s;
 

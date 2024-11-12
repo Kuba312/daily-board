@@ -1,16 +1,13 @@
 package com.dailyboard.dailyboard.model.dao;
 
-import com.dailyboard.dailyboard.model.enums.WeekDay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UuidGenerator;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -25,7 +22,7 @@ public class Duty {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private WeekDay weekDay;
+    private DayOfWeek weekDay;
 
     private LocalDate effectiveDate;
     private LocalTime startTime;

@@ -1,0 +1,57 @@
+@use '../abstracts' as *;
+
+.planner-card {
+	position: relative;
+	background-color: var(--color-background-secondary);
+	border-radius: $doubled-normal-border-radius;
+
+	$self: &;
+
+	#{$self}__wrapper {
+		padding: 2.5rem 2rem 2rem;
+	}
+
+	#{$self}__content {
+		@include flex-column;
+		gap: 1.5rem;
+		height: 12rem;
+
+		&--name {
+			font-size: $bigger-font-size;
+			font-weight: $slight-thickening;
+			@include wrap-text-vertically(30rem);
+		}
+
+		&--note {
+			p {
+				font-size: $smaller-font-size;
+				@include wrap-text-horizontally(3, 35rem);
+			}
+		}
+	}
+
+
+	#{$self}__range-time {
+		font-size: $smaller-font-size;
+		color: var(--color-text-secondary);
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 1rem 1.5rem 0 0;
+	}
+
+}
+
+.selectable-card {
+	cursor: pointer;
+	box-shadow: none;
+	transition: box-shadow $animation-duration;
+
+	&:hover {
+		box-shadow: $highlight-effect;
+	}
+}
+
+.selected-card {
+	box-shadow: $highlight-effect; 
+}

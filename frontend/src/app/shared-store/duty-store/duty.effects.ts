@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { DutyControllerService } from 'src/api/services';
+import { showErrorMessage } from '../helpers/show-error-message.helper';
 import { dutyActions } from './duty.actions';
-import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
-import { ERROR_CODE_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
 
 export const saveDutyEffect = createEffect(
 	(
@@ -25,12 +25,7 @@ export const saveDutyEffect = createEffect(
 						return dutyActions.saveDutySuccess({ duty: savedDuty });
 					}),
 					catchError((error: HttpErrorResponse) => {
-						snackBarService.onShowSnackBarError({
-							message: ERROR_CODE_TRANSLATE_KEY,
-							dynamicMessage: { 
-								errorCode: error.status,
-							},
-						});
+						showErrorMessage(snackBarService, error);
 
 						return of(
 							dutyActions.saveDutyFailure({
@@ -60,10 +55,7 @@ export const getDutiesEffect = createEffect(
 							dutyActions.getDutiesWithoutDatesSuccess({ duties }),
 						),
 						catchError((error: HttpErrorResponse) => {
-							snackBarService.onShowSnackBarError({
-								message: ERROR_CODE_TRANSLATE_KEY,
-								dynamicMessage: { errorCode: error.status },
-							});
+							showErrorMessage(snackBarService, error);
 
 							return of(
 								dutyActions.getDutiesWithoutDatesFailure({

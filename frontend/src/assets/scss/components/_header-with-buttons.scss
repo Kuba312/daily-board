@@ -1,0 +1,13 @@
+@use '../abstracts' as *;
+
+.header-with-buttons {
+	@include flex-space-between-center;
+
+	$self: &;
+
+	#{$self}__buttons {
+		@include flex-center;
+		gap: 1.5rem;
+		margin: 2.5rem 3.5rem 0rem 0rem;
+	}
+}

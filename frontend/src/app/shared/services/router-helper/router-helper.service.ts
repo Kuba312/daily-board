@@ -17,9 +17,15 @@ export class RouterHelperService {
 		return this._router.isActive(link, options);
 	}
 
-	directToUrl(url: string, relativeToCurrentPath?: boolean): void {
+	directToUrl(
+		url: string,
+		params?: string[],
+		relativeToCurrentPath?: boolean,
+	): void {
+		const pathSegments = [url, ...(params ? [...params] : [])];
+
 		this._router.navigate(
-			[url],
+			pathSegments,
 			relativeToCurrentPath ? { relativeTo: this._activatedRoute } : {},
 		);
 	}

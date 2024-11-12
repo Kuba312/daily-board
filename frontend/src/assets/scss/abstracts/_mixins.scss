@@ -194,3 +194,26 @@
 		}
 	}
 }
+
+@mixin disable-btn {
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+@mixin wrap-text-horizontally($num-of-lines, $width) {
+	width: $width;
+	display: -webkit-box;
+	-webkit-line-clamp: $num-of-lines;
+	line-clamp: $num-of-lines;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+@mixin wrap-text-vertically($width) {
+	display: block;
+	width: $width;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

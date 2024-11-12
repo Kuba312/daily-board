@@ -14,10 +14,7 @@ export const WEEK_RANGE_MOCK: WeekRange = {
 	endOfWeek: '2024-07-28T21:59:59.999Z',
 };
 
-export const DUTIES_MOCK: Map<string, DutyDto[]> = new Map<
-	string,
-	DutyDto[]
->([
+export const DUTIES_MOCK: Map<string, DutyDto[]> = new Map<string, DutyDto[]>([
 	[
 		'planner.full-days-names.monday',
 		[
@@ -137,3 +134,31 @@ export const MOCK_CHUNKS_DAYS = [
 export const MOCK_DAY_OPTIONS = Object.values(WeekDays).map((val) =>
 	val.toLowerCase(),
 );
+
+export const MOCK_PLANNERS = [
+	{
+		id: '21a67b1e-935a-4f38-bd14-8f35b205ba78',
+		name: 'Grafik prywatny',
+		note: 'Dynamiczny grafik życia prywatnego :)',
+		endTime: '22:00',
+		startTime: '07:00',
+		isConstant: false,
+	},
+	{
+		id: 'b3da025b-452d-4b69-898b-af95e7acd7ee',
+		name: 'Grafik szkolny',
+		note: 'To jest stały grafik do szkoły ze stałymi lekcjami.',
+		endTime: '16:00',
+		startTime: '08:00',
+		isConstant: true,
+	},
+	{
+		id: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
+		name: 'Grafik do pracy',
+		// eslint-disable-next-line max-len
+		note: 'To jest grafik pozwalający na planowanie zadań w czasie pracy. Dzięki temu, dzień będzie lepiej zorganizowany i poukładany.\nGodziny pracy są niezmienne.',
+		endTime: '16:00',
+		startTime: '08:00',
+		isConstant: true,
+	},
+];

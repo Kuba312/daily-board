@@ -1,8 +1,6 @@
 package com.dailyboard.dailyboard.mapper;
 
-import com.dailyboard.dailyboard.model.dao.Duty;
 import com.dailyboard.dailyboard.model.dao.Planner;
-import com.dailyboard.dailyboard.model.dto.DutyDto;
 import com.dailyboard.dailyboard.model.dto.PlannerDto;
 import org.mapstruct.Mapper;
 

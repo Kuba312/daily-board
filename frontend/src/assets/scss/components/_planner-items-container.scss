@@ -1,0 +1,16 @@
+@use '../abstracts' as *;
+
+.planner-items-container {
+	margin: $section-margin;
+	$self: &;
+
+
+	#{$self}__wrapper {
+		margin: $section-margin;
+	}
+
+	#{$self}__cards {
+		@include media-columns-grid-responsive(37rem);
+		gap: 2.5rem;
+	}
+}

@@ -9,7 +9,10 @@ import { plannerActions } from './planner.actions';
 import moment from 'moment';
 
 import { PlannerDto } from 'src/api/models/planner-dto';
-import { TIME_FORMAT_WITH_SECONDS, TIME_FORMAT } from '@app/shared/constants/shared-consts.const';
+import {
+	TIME_FORMAT_WITH_SECONDS,
+	TIME_FORMAT,
+} from '@shared/constants/shared-consts.const';
 
 export const savePlannerEffect = createEffect(
 	(
@@ -77,12 +80,52 @@ export const getPlannersEffect = createEffect(
 	{ functional: true },
 );
 
-function adjustTimeInPlanners(
-	plannersResponse: PlannerDto[],
-): PlannerDto[] {
-	return plannersResponse.map((planner) => ({
-		...planner,
-		startTime: moment(planner.startTime , TIME_FORMAT_WITH_SECONDS).format(TIME_FORMAT),
-		endTime: moment(planner.endTime, TIME_FORMAT_WITH_SECONDS).format(TIME_FORMAT),
-	}));
+export const getPlannerEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		plannerControllerService = inject(PlannerControllerService),
+		snackBarService = inject(SnackBarService),
+	) =>
+		$actions.pipe(
+			ofType(plannerActions.getPlanner),
+			switchMap(({ id }) =>
+				plannerControllerService.getPlannerById({ id }).pipe(
+					map((plannerResponse) => {
+						const planner = adjustTimeInPlanner(plannerResponse);
+
+						return plannerActions.getPlannerSuccess({
+							planner,
+						});
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showErrorMessage(snackBarService, error);
+
+						return of(
+							plannerActions.getPlannerFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
+function adjustTimeInPlanners(plannersResponse: PlannerDto[]): PlannerDto[] {
+	return plannersResponse.map((planner) => adjustTimeInPlanner(planner));
+}
+
+function adjustTimeInPlanner(plannerResponse: PlannerDto): PlannerDto {
+	return {
+		...plannerResponse,
+		startTime: moment(
+			plannerResponse.startTime,
+			TIME_FORMAT_WITH_SECONDS,
+		).format(TIME_FORMAT),
+		endTime: moment(
+			plannerResponse.endTime,
+			TIME_FORMAT_WITH_SECONDS,
+		).format(TIME_FORMAT),
+	};
 }

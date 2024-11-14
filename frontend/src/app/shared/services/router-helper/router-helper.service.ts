@@ -6,7 +6,7 @@ export class RouterHelperService {
 	private readonly _router: Router = inject(Router);
 	private readonly _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-	isActive(link: string): boolean {
+	public isActive(link: string): boolean {
 		const options: IsActiveMatchOptions = {
 			paths: 'exact',
 			queryParams: 'exact',
@@ -17,7 +17,7 @@ export class RouterHelperService {
 		return this._router.isActive(link, options);
 	}
 
-	directToUrl(
+	public directToUrl(
 		url: string,
 		params?: string[],
 		relativeToCurrentPath?: boolean,
@@ -28,5 +28,15 @@ export class RouterHelperService {
 			pathSegments,
 			relativeToCurrentPath ? { relativeTo: this._activatedRoute } : {},
 		);
+	}
+
+	public getParameterValue(activatedRoute: ActivatedRoute, param: string): string {
+		const routeParam = activatedRoute.snapshot.params[param];
+			
+		if(!routeParam) {
+			throw new Error(`Parameter: '${param}' does not exist`);
+		}
+
+		return routeParam;
 	}
 }

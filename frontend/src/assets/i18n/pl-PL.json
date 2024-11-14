@@ -69,10 +69,14 @@
 		"invalid-date": "Niewłaściwa data",
 		"empty-time": "Nie podano godzin",
 		"incomplete-hours": "Podana(e) godzina(y) są niepełne",
-		"invalid-time-difference": "Różnica między godzinami musi wynosić co najmniej 5h"
+		"invalid-time-difference": "Różnica między godzinami musi wynosić co najmniej 5h",
+		"invalid-time-range": "Godziny zadania muszą znajdować się w przedziale {{startTime}} - {{endTime}}"
 	},
 	"global-snack-bar-messages": {
 		"form-invalid": "Formularz zawiera błędy",
 		"error-code": "Coś poszło nie tak. Kod błędu: {{errorCode}}"
+	},
+	"global": {
+		"for": "dla"
 	}
 }

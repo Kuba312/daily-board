@@ -1,8 +1,25 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+	Component,
+	computed,
+	DestroyRef,
+	inject,
+	Injector,
+	runInInjectionContext,
+	Signal,
+	signal,
+	WritableSignal,
+} from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Option } from '@core/types/basics.types';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { plannerActions } from '@shared-store/planner-store/planner.actions';
+import { selectPlannerById } from '@shared-store/planner-store/planner.selectors';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { Store } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import WeekDatePickerInputComponent 
 	from '@shared/components/date-time-picker/week-date-picker-input/week-date-picker-input.component';
 import FormColorPickerComponent from '@shared/components/form-color-picker/form-color-picker.component';
@@ -14,6 +31,8 @@ import PrimaryButtonComponent from '@shared/components/primary-button/primary-bu
 import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
+import { filter, take } from 'rxjs';
+import { PlannerDto } from 'src/api/models';
 import { TaskBoardFormModel } from './task-board-form.form-model';
 
 @Component({
@@ -36,14 +55,49 @@ import { TaskBoardFormModel } from './task-board-form.form-model';
 })
 export default class TaskBoardFormComponent {
 	private readonly _store: Store = inject(Store);
+	private readonly _routerHelperService: RouterHelperService =
+		inject(RouterHelperService);
+	private readonly _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 	private readonly _snackbarService: SnackBarService =
 		inject(SnackBarService);
+	private readonly _translateService: TranslateService =
+		inject(TranslateService);
+	private readonly _injector: Injector = inject(Injector);
+	private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
-	public formModel: TaskBoardFormModel = new TaskBoardFormModel();
-	public isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
+	public readonly BACK_URL: string = '/choose-planner';
 
-	sendForm(): void {
-		const formGroup = this.formModel.formGroup();
+	public plannerId: string = this._routerHelperService.getParameterValue(
+		this._activatedRoute,
+		'plannerId',
+	);
+	public currentPlanner: Signal<PlannerDto | undefined> =
+		this._store.selectSignal(selectPlannerById(this.plannerId));
+
+	public currentPlannerLabel: Signal<string> = computed(() =>
+		this.currentPlanner()
+			? `${this._translateService.instant('global.for')} '${
+					this.currentPlanner()?.name
+			  }'`
+			: '',
+	);
+
+	public formModel: WritableSignal<Option<TaskBoardFormModel>> = signal(null);
+	public isConstantPlanner: WritableSignal<boolean> = signal<boolean>(true);
+
+	ngOnInit(): void {
+		this._getCurrentPlanner();
+
+		this._initializeForm();
+	}
+
+	public sendForm(): void {
+		const formModel = this.formModel();
+		const formGroup = this.formModel()?.formGroup();
+
+		if (!formGroup || !formModel) {
+			return;
+		}
 
 		validateForm(formGroup);
 
@@ -55,9 +109,46 @@ export default class TaskBoardFormComponent {
 			return;
 		}
 
-		// const duty = this.formModel.toModel();
+		const duty = formModel.toModel();
 
-		// TODO: Adjust for planner creation!
-		// this._store.dispatch(dutyActions.saveDuty({ duty,  }));
+		this._store.dispatch(
+			dutyActions.saveDuty({ duty, plannerId: this.plannerId }),
+		);
+	}
+
+	private _getCurrentPlanner(): void {
+		this._store.dispatch(plannerActions.getPlanner({ id: this.plannerId }));
+	}
+
+	private _initializeForm(): void {
+		toObservable(this.currentPlanner, { injector: this._injector })
+			.pipe(
+				filter((currentPlanner) => !!currentPlanner),
+				take(1),
+				takeUntilDestroyed(this._destroyRef),
+			)
+			.subscribe((currentPlanner) => {
+				if (!currentPlanner) {
+					return;
+				}
+
+				runInInjectionContext(this._injector, () => {
+					this._setIsConstantPlanner(currentPlanner);
+					this._setFormModel(currentPlanner);
+				});
+			});
+	}
+
+	private _setIsConstantPlanner(currentPlanner: PlannerDto): void {
+		this.isConstantPlanner.set(currentPlanner?.isConstant ?? false);
+	}
+
+	private _setFormModel(currentPlanner: PlannerDto): void {
+		this.formModel.set(
+			new TaskBoardFormModel(
+				this.isConstantPlanner(),
+				currentPlanner,
+			),
+		);
 	}
 }

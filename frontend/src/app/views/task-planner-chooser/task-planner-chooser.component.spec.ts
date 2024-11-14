@@ -109,7 +109,7 @@ describe('TaskPlannerChooserComponent', () => {
 
 		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
 			'/task-board-add',
-			['21a67b1e-935a-4f38-bd14-8f35b205ba78', 'dynamic'],
+			['21a67b1e-935a-4f38-bd14-8f35b205ba78'],
 		);
 	});
 });

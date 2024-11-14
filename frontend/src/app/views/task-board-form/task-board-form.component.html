@@ -1,10 +1,15 @@
 <section class="task-board-form">
-	<app-header label="task-board-form.title" />
+	<app-header 
+		label="task-board-form.title" 
+		[additionalTextLabel]="currentPlannerLabel()"
+		[backToUrl]="BACK_URL"
+	/>
 	<div class="task-board-form__wrapper">
-		@let formGroupValue = formModel.formGroup(); 
+		@let formGroupValue = formModel()?.formGroup();
+		@let formModelValue = formModel();
 
-		@if (formGroupValue) {
-			<form 
+		@if (formModelValue && formGroupValue) {
+			<form
 				class="task-board-form__form" 
 				[formGroup]="formGroupValue"
 			>
@@ -12,11 +17,11 @@
 					<div
 						class="form-group"
 						[ngClass]="{
-							'doubled-first-flex-input': isOnlyHourConfig()
+							'doubled-first-flex-input': isConstantPlanner()
 						}"
 					>
 						<app-form-input
-							[controlName]="formModel.NAME"
+							[controlName]="formModelValue.NAME"
 							[formGroup]="formGroupValue"
 							[label]="'task-board-form.task-name' | translate"
 							[placeholder]="
@@ -24,23 +29,26 @@
 							"
 						/>
 						<app-week-date-picker-input
-							[formControlName]="formModel.DATE"
-							[controlName]="formModel.DATE"
+							[formControlName]="formModelValue.DATE"
+							[controlName]="formModelValue.DATE"
 							[formGroup]="formGroupValue"
 							[label]="'task-board-form.task-date' | translate"
-							[onlyHours]="isOnlyHourConfig()"
+							[customErrorMessages]="formModelValue.invalidTimeRangesMessage()"
+							[onlyHours]="isConstantPlanner()"
 						/>
 					</div>
-					<app-form-select
-						[formGroup]="formGroupValue"
-						[controlName]="formModel.DAY"
-						[label]="'task-board-form.chose-day' | translate"
-						[options]="formModel.dayOptions()"
-						translateKey="planner.full-days-names"
-					/>
+					@if (isConstantPlanner()) {
+						<app-form-select
+							[formGroup]="formGroupValue"
+							[controlName]="formModelValue.DAY"
+							[label]="'task-board-form.chose-day' | translate"
+							[options]="formModelValue.dayOptions()"
+							translateKey="planner.full-days-names"
+						/>
+					}
 					<app-form-textarea
 						[formGroup]="formGroupValue"
-						[controlName]="formModel.DESCRIPTION"
+						[controlName]="formModelValue.DESCRIPTION"
 						[label]="'task-board-form.task-description' | translate"
 						[placeholder]="
 							'task-board-form.task-description-placeholder'
@@ -48,7 +56,7 @@
 						"
 					/>
 					<app-form-color-picker
-						(selectedColor)="formModel.tileColor.set($event)"
+						(selectedColor)="formModelValue.tileColor.set($event)"
 					/>
 				</div>
 				<div class="form-actions">

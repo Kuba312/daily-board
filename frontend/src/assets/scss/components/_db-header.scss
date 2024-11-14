@@ -5,6 +5,10 @@
 
 	$self: &;
 
+	#{$self}__arrow-back {
+		cursor: pointer;
+	}
+
 	#{$self}__main-title {
 		display: inline-block;
 		font-size: $header-font-size;

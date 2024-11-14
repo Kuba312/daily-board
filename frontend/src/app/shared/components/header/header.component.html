@@ -1,8 +1,14 @@
 <div class="db-header">
-	<span
-		class="db-header__main-title"
-		[translate]="label()"
-	></span>
+	@if (backToUrl()) {
+		<div class="db-header__arrow-back">
+			<mat-icon (click)="directToPreviousPage()">
+				arrow_back
+			</mat-icon>
+		</div>
+	}
+	<span class="db-header__main-title">
+		{{ label() | additionalLabel : additionalTextLabel() }}
+	</span>
 	<app-date-range-configurer
 		[properDateDisplayMode]="properDateDisplayMode()"
 	/>

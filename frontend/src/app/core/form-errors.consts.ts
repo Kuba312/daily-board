@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { EMPTY_CUSTOM_MESSAGE } from "./app.consts";
+
 export enum ValidatorNames {
 	REQUIRED = 'required',
 	EMAIL = 'email',
@@ -13,7 +15,8 @@ export enum ValidatorNames {
 	INVALID_DATE = 'invalidDate',
 	EMPTY_TIME = 'emptyTime',
 	INCOMPLETE_HOUR = 'incompleteHour',
-	INVALID_TIME_DIFFERENCE = 'invalidTimeDifference'
+	INVALID_TIME_DIFFERENCE = 'invalidTimeDifference',
+	INVALID_RANGE_TIME = 'invalidRangeTime'
 }
 
 export const ValidatorsImportanceOrderList: ValidatorNames[] = [
@@ -30,6 +33,7 @@ export const ValidatorsImportanceOrderList: ValidatorNames[] = [
 	ValidatorNames.FROM_TIME,
 	ValidatorNames.INCOMPLETE_HOUR,
 	ValidatorNames.INVALID_TIME_DIFFERENCE,
+	ValidatorNames.INVALID_RANGE_TIME,
 ];
 
 export const FORM_ERROR_MESSAGES: { [keys in ValidatorNames]: string } = {
@@ -46,5 +50,5 @@ export const FORM_ERROR_MESSAGES: { [keys in ValidatorNames]: string } = {
 	[ValidatorNames.FROM_TIME]: 'form-validators.from-time',
 	[ValidatorNames.INCOMPLETE_HOUR]: 'form-validators.incomplete-hours',
 	[ValidatorNames.INVALID_TIME_DIFFERENCE]: 'form-validators.invalid-time-difference',
-
+	[ValidatorNames.INVALID_RANGE_TIME]: EMPTY_CUSTOM_MESSAGE,
 };

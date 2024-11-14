@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import PlannerFormComponent from './planner-form.component';
 import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
+import { ActivatedRoute } from '@angular/router';
 
 describe('PlannerFormComponent', () => {
 	let fixture: ComponentFixture<PlannerFormComponent>;
@@ -48,6 +49,18 @@ describe('PlannerFormComponent', () => {
 				},
 				{ provide: Store, useValue: mockStore },
 				{ provide: NGX_MASK_CONFIG, useValue: maskConfig },
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						snapshot: {
+							paramMap: {
+								get(): string {
+									return '1234';
+								},
+							},
+						},
+					},
+				},
 			],
 		})
 			.compileComponents()

@@ -11,7 +11,7 @@ import { dutiesResolver } from './planner/duties.resolver';
 import {
 	plannerFeatureKey,
 	plannerReducer,
-} from '@app/shared-store/planner-store/planner.reducer';
+} from '@shared-store/planner-store/planner.reducer';
 import { plannersResolver } from '@app/resolvers/planners.resolver';
 
 const routes: Routes = [
@@ -44,12 +44,14 @@ const routes: Routes = [
 		},
 	},
 	{
-		path: 'task-board-add/:plannerId/:isConstant',
+		path: 'task-board-add/:plannerId',
 		loadComponent: () =>
 			import('./task-board-form/task-board-form.component'),
 		providers: [
 			provideState(dutyFeatureKey, dutyReducer),
+			provideState(plannerFeatureKey, plannerReducer),
 			provideEffects(dutyEffects),
+			provideEffects(plannerEffects),
 		],
 	},
 	{

@@ -10,6 +10,9 @@ export const MOMENT_MINUTES_TYPE: DurationInputArg2 = 'minutes';
 export const YEAR_MOTH_DAY_FORMAT: string = 'YYYY-MM-DD';
 export const YEAR_MONTH_FORMAT: string = 'YYYY-MM';
 
+export const DYNAMIC_PLANNER: string = 'dynamic';
+export const CONSTANT_PLANNER: string = 'constant';
+
 export const TILE_COLORS: string[] = [
 	'#E27D60', // Soft Coral
 	'#85C1E9', // Light Sky Blue

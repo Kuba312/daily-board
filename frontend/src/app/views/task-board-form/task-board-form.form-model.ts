@@ -8,11 +8,14 @@ import {
 import { WeekDays } from '@app/enums/week-days.enum';
 import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { Option } from '@core/types/basics.types';
+import { TranslateService } from '@ngx-translate/core';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
 import { TimeValidators } from '@shared/validators/time.validators';
-import { DutyDto } from 'src/api/models';
+import { DutyDto, PlannerDto } from 'src/api/models';
 
 export class TaskBoardFormModel {
+	private readonly _translateService: TranslateService =
+		inject(TranslateService);
 	private readonly _formFactory: FormFactory = inject(FormFactory);
 	private readonly _textProcessingService: TextProcessingService = inject(
 		TextProcessingService,
@@ -28,9 +31,11 @@ export class TaskBoardFormModel {
 	);
 	public tileColor: WritableSignal<Option<string>> =
 		signal<Option<string>>(null);
-	public isOnlyHourConfig: WritableSignal<boolean> = signal<boolean>(true);
+	public invalidTimeRangesMessage: WritableSignal<
+		Option<Record<string, string>>
+	> = signal(null);
 
-	constructor() {
+	constructor(public isConstantPlanner: boolean, public planner: PlannerDto) {
 		this._buildForm();
 	}
 
@@ -48,7 +53,7 @@ export class TaskBoardFormModel {
 						this.dateControl.value,
 				  )
 				: undefined,
-			...(this.isOnlyHourConfig() && {
+			...(this.isConstantPlanner && {
 				weekDay: this.formGroup().get(this.DAY)?.value.toUpperCase(),
 			}),
 			...(this.tileColor() && {
@@ -62,24 +67,47 @@ export class TaskBoardFormModel {
 	}
 
 	private _buildForm(): void {
+		const { startTime, endTime } = this.planner;
+
+		if (!startTime || !endTime) {
+			return;
+		}
+
 		this.formGroup.set(
 			this._formFactory.createForm({
 				controls: {
 					[this.NAME]: new FormControl('', [Validators.required]),
 					[this.DATE]: new FormControl('', [
 						Validators.required,
-						...(this.isOnlyHourConfig()
+						...(this.isConstantPlanner
 							? []
 							: [TimeValidators.validateDate()]),
 						TimeValidators.validateTime(),
+						TimeValidators.validateTimeRanges(startTime, endTime),
 					]),
 					[this.DESCRIPTION]: new FormControl(''),
-					...(this.isOnlyHourConfig() && {
+					...(this.isConstantPlanner && {
 						[this.DAY]: new FormControl('', [Validators.required]),
 					}),
 				},
 			}),
 		);
+
+		this.setInvalidTimeRangesMessage();
+	}
+
+	private setInvalidTimeRangesMessage(): void {
+		const { startTime, endTime } = this.planner;
+
+		this.invalidTimeRangesMessage.set({
+			invalidRangeTime: this._translateService.instant(
+				'form-validators.invalid-time-range',
+				{
+					startTime,
+					endTime,
+				},
+			),
+		});
 	}
 
 	get dateControl(): Option<AbstractControl> {

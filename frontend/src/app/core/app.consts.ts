@@ -25,3 +25,5 @@ export const SHORT_NAME_DAYS: string[] = [
 	'planner.short-days-names.saturday',
 	'planner.short-days-names.sunday',
 ];
+
+export const EMPTY_CUSTOM_MESSAGE: string = '';

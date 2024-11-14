@@ -69,10 +69,14 @@
 		"invalid-date": "Invalid date",
 		"empty-time": "There is no hours chosen",
 		"incomplete-hours": "The provided hour(s) are incomplete",
-		"invalid-time-difference": "The time difference must be at least 5 hours"
+		"invalid-time-difference": "The time difference must be at least 5 hours",
+		"invalid-time-range": "Task hours must be within the range {{startTime}} - {{endTime}}"
 	},
 	"global-snack-bar-message": {
 		"form-invalid": "The form contains errors",
 		"error-code": "Something went wrong. Error code: {{errorCode}}."
+	},
+	"global": {
+		"for": "for"
 	}
 }

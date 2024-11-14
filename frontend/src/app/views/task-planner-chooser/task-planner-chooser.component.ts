@@ -34,9 +34,6 @@ export default class TaskPlannerChooserComponent {
 	private readonly _routerHelperService: RouterHelperService =
 		inject(RouterHelperService);
 
-	private readonly DYNAMIC_PLANNER: string = 'dynamic';
-	private readonly CONSTANT_PLANNER: string = 'constant';
-
 	public planners: Signal<PlannerDto[]> =
 		this._store.selectSignal(selectAllPlanners);
 
@@ -69,16 +66,8 @@ export default class TaskPlannerChooserComponent {
 	}
 
 	private _directToDutyCreationPage(selectedPlannerCardId: string): void {
-		const selectedPlannerCardIsConstant =
-			this.selectedPlannerCard()?.isConstant;
-
 		this._routerHelperService.directToUrl('/task-board-add', [
 			selectedPlannerCardId,
-			`${
-				selectedPlannerCardIsConstant
-					? this.CONSTANT_PLANNER
-					: this.DYNAMIC_PLANNER
-			}`,
 		]);
 	}
 }

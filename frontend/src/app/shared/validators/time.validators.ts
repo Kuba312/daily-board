@@ -101,6 +101,33 @@ export class TimeValidators {
 		};
 	}
 
+	static validateTimeRanges(
+		minFromHour: string,
+		maxFromHour: string,
+	): ValidatorFn {
+		return (control: AbstractControl) => {
+			if (!control.value) {
+				return null;
+			}
+
+			const [, time] = TimeValidators._splitControlDateValue(control);
+			const { fromTime, toTime } =
+				TimeValidators._splitProvidedTime(time);
+
+			const minTime = moment(minFromHour, TIME_FORMAT);
+			const maxTime = moment(maxFromHour, TIME_FORMAT);
+			const fromTimeMoment = moment(fromTime, TIME_FORMAT);
+			const toTimeMoment = moment(toTime, TIME_FORMAT);
+
+			return fromTimeMoment.isBefore(minTime) ||
+				fromTimeMoment.isAfter(maxTime) ||
+				toTimeMoment.isAfter(maxTime) ||
+				toTimeMoment.isBefore(minTime)
+				? { invalidRangeTime: true }
+				: null;
+		};
+	}
+
 	static validateEnoughTimeDifference(): ValidatorFn {
 		return (control: AbstractControl) => {
 			if (!control.value) {

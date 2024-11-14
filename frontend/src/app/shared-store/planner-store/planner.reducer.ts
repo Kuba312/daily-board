@@ -51,6 +51,21 @@ const plannerFeature = createFeature({
 			isLoading: false,
 			error: errorMessage,
 		})),
+		on(plannerActions.getPlanner, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(plannerActions.getPlannerSuccess, (state, { planner }) =>
+			plannerAdapter.upsertOne(planner, {
+				...state,
+				isLoading: false,
+			}),
+		),
+		on(plannerActions.getPlannerFailure, (state, { errorMessage }) => ({
+			...state,
+			error: errorMessage,
+			isLoading: false,
+		})),
 	),
 });
 

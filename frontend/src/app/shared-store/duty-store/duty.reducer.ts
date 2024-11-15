@@ -13,6 +13,7 @@ const initialDutyState: DutyState = dutyAdapter.getInitialState({
 	isLoading: false,
 	error: null,
 	allDutiesLoaded: false,
+	loadedPlannerIds: [],
 });
 
 const dutyFeature = createFeature({
@@ -23,11 +24,16 @@ const dutyFeature = createFeature({
 			...state,
 			isLoading: true,
 		})),
-		on(dutyActions.saveDutySuccess, (state, { duty }) =>
+		on(dutyActions.saveDutySuccess, (state, { duty, plannerId }) =>
 			dutyAdapter.addOne(duty, {
 				...state,
 				isLoading: false,
 				allDutiesLoaded: false,
+				loadedPlannerIds: [
+					...state.loadedPlannerIds.filter(
+						(loadedPlannerId) => loadedPlannerId !== plannerId,
+					),
+				],
 			}),
 		),
 		on(dutyActions.saveDutyFailure, (state, { errorMessage }) => ({
@@ -46,11 +52,36 @@ const dutyFeature = createFeature({
 				allDutiesLoaded: true,
 			}),
 		),
-		on(dutyActions.getDutiesWithoutDatesFailure, (state, { errorMessage }) => ({
+		on(
+			dutyActions.getDutiesWithoutDatesFailure,
+			(state, { errorMessage }) => ({
+				...state,
+				isLoading: false,
+				error: errorMessage,
+			}),
+		),
+		on(dutyActions.getDutiesByPlannerId, (state) => ({
 			...state,
-			isLoading: false,
-			error: errorMessage,
+			isLoading: true,
 		})),
+		on(
+			dutyActions.getDutiesByPlannerIdSuccess,
+			(state, { duties, plannerId }): DutyState => {
+				return dutyAdapter.addMany(duties, {
+					...state,
+					isLoading: false,
+					loadedPlannerIds: [...state.loadedPlannerIds, plannerId],
+				});
+			},
+		),
+		on(
+			dutyActions.getDutiesByPlannerIdFailure,
+			(state, { errorMessage }) => ({
+				...state,
+				isLoading: false,
+				error: errorMessage,
+			}),
+		),
 	),
 });
 

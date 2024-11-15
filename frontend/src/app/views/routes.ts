@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
+import { plannersResolver } from '@app/resolvers/planners.resolver';
+import { provideEffects } from '@ngrx/effects';
+import { provideState } from '@ngrx/store';
 import {
 	dutyFeatureKey,
 	dutyReducer,
 } from '@shared-store/duty-store/duty.reducer';
-import { provideEffects } from '@ngrx/effects';
-import { provideState } from '@ngrx/store';
-import * as dutyEffects from '../shared-store/duty-store/duty.effects';
-import * as plannerEffects from '../shared-store/planner-store/planner.effects';
-import { dutiesResolver } from './planner/duties.resolver';
 import {
 	plannerFeatureKey,
 	plannerReducer,
 } from '@shared-store/planner-store/planner.reducer';
-import { plannersResolver } from '@app/resolvers/planners.resolver';
+import * as dutyEffects from '../shared-store/duty-store/duty.effects';
+import * as plannerEffects from '../shared-store/planner-store/planner.effects';
+import { dutiesResolver } from './planner/duties.resolver';
 
 const routes: Routes = [
 	{
@@ -21,14 +21,27 @@ const routes: Routes = [
 		pathMatch: 'full',
 	},
 	{
-		path: 'planners',
+		path: 'planners/:plannerId',
 		loadComponent: () => import('./planner/planner.component'),
 		providers: [
+			provideState(plannerFeatureKey, plannerReducer),
 			provideState(dutyFeatureKey, dutyReducer),
 			provideEffects(dutyEffects),
+			provideEffects(plannerEffects),
 		],
 		resolve: {
 			duties: dutiesResolver,
+		},
+	},
+	{
+		path: 'planners',
+		loadComponent: () => import('./planners-dashboard/planners-dashboard.component'),
+		providers: [
+			provideState(plannerFeatureKey, plannerReducer),
+			provideEffects(plannerEffects),
+		],
+		resolve: {
+			planners: plannersResolver,
 		},
 	},
 	{

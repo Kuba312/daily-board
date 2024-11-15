@@ -34,4 +34,9 @@ public class DutyController {
     public List<DutyDto> getDutiesWithoutDates() {
         return  dutyMapper.toDtos(dutyService.getDutiesWithoutDates());
     }
+
+    @GetMapping("/{plannerId}")
+    public List<DutyDto> getDutiesByPlannerId(@PathVariable String plannerId) {
+        return dutyMapper.toDtos(dutyService.getDutiesByPlannerId(plannerId));
+    }
 }

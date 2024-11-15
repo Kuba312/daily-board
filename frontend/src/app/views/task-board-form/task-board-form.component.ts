@@ -34,6 +34,7 @@ import { validateForm } from '@shared/utils/form.utils';
 import { filter, take } from 'rxjs';
 import { PlannerDto } from 'src/api/models';
 import { TaskBoardFormModel } from './task-board-form.form-model';
+import { PLANNER_ID } from '@shared/constants/shared-consts.const';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -69,7 +70,7 @@ export default class TaskBoardFormComponent {
 
 	public plannerId: string = this._routerHelperService.getParameterValue(
 		this._activatedRoute,
-		'plannerId',
+		PLANNER_ID,
 	);
 	public currentPlanner: Signal<PlannerDto | undefined> =
 		this._store.selectSignal(selectPlannerById(this.plannerId));

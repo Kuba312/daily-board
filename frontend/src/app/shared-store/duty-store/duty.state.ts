@@ -6,4 +6,5 @@ export interface DutyState extends EntityState<DutyDto> {
 	isLoading: boolean;
 	error: Option<string>;
 	allDutiesLoaded: boolean;
+	loadedPlannerIds: string[];
 }

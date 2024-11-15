@@ -11,9 +11,13 @@
 		padding: 2.5rem 2rem 2rem;
 	}
 
-	#{$self}__content {
+	#{$self}__content-wrapper {
 		@include flex-column;
 		gap: 1.5rem;
+	}
+
+	#{$self}__content {
+		@include flex-column-space-between;
 		height: 12rem;
 
 		&--name {
@@ -27,6 +31,10 @@
 				font-size: $smaller-font-size;
 				@include wrap-text-horizontally(3, 35rem);
 			}
+		}
+
+		&--buttons {
+			@include flex-space-between;
 		}
 	}
 

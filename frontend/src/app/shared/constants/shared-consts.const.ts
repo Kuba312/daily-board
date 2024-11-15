@@ -13,6 +13,8 @@ export const YEAR_MONTH_FORMAT: string = 'YYYY-MM';
 export const DYNAMIC_PLANNER: string = 'dynamic';
 export const CONSTANT_PLANNER: string = 'constant';
 
+export const PLANNER_ID: string = 'plannerId';
+
 export const TILE_COLORS: string[] = [
 	'#E27D60', // Soft Coral
 	'#85C1E9', // Light Sky Blue

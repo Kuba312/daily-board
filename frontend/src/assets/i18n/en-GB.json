@@ -59,6 +59,9 @@
 		"range-planner-time": "Planner hours range",
 		"planner-has-been-added": "Planner has been added"
 	},
+	"planners-dashboard": {
+		"title": "Your planners"
+	},
 	"form-validators": {
 		"required": "Field is required",
 		"email": "Field has to contain '@'",
@@ -77,6 +80,8 @@
 		"error-code": "Something went wrong. Error code: {{errorCode}}."
 	},
 	"global": {
-		"for": "for"
+		"for": "for",
+		"edit": "edit",
+		"delete": "delete"
 	}
 }

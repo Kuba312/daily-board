@@ -34,6 +34,10 @@ public class DutyService {
         return dutyRepository.findByEffectiveDateBetween(from, to);
     }
 
+    public List<Duty> getDutiesByPlannerId(String plannerId) {
+        return dutyRepository.findByPlannerId(plannerId);
+    }
+
     public List<Duty> getDutiesWithoutDates() {
         return dutyRepository.findByEffectiveDateIsNull();
     }

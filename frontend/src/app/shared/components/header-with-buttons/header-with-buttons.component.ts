@@ -12,9 +12,9 @@ import { TranslateModule } from '@ngx-translate/core';
 	templateUrl: './header-with-buttons.component.html',
 })
 export default class HeaderWithButtonsComponent {
-	public dateDisplayMode: InputSignal<DateDisplayMode> =
-		input<DateDisplayMode>(DateDisplayMode.None);
 	public label: InputSignal<string> = input.required<string>();
 	public buttons: InputSignal<ButtonConfig[]> =
 		input.required<ButtonConfig[]>();
+	public dateDisplayMode: InputSignal<DateDisplayMode> =
+		input<DateDisplayMode>(DateDisplayMode.None);
 }

@@ -59,6 +59,9 @@
 		"range-planner-time": "Zakres godzin planera",
 		"planner-has-been-added": "Planer został dodany"
 	},
+	"planners-dashboard": {
+		"title": "Twoje planery"
+	},
 	"form-validators": {
 		"required": "Pole jest wymagane",
 		"email": "Pole musi zawierać '@'",
@@ -77,6 +80,8 @@
 		"error-code": "Coś poszło nie tak. Kod błędu: {{errorCode}}"
 	},
 	"global": {
-		"for": "dla"
+		"for": "dla",
+		"edit": "edytuj",
+		"delete": "usuń"
 	}
 }

@@ -9,6 +9,7 @@ export interface DutyDto {
   from?: string;
   id?: string;
   name?: string;
+  plannerId?: string;
   to?: string;
   weekDay?: 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY';
 }

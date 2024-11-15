@@ -12,10 +12,12 @@ public interface DutyMapper {
 
     @Mapping(source = "startTime", target = "from")
     @Mapping(source = "endTime", target = "to")
+    @Mapping(source = "planner.id", target = "plannerId")
     DutyDto toDto(Duty duty);
 
     @Mapping(source = "from", target = "startTime")
     @Mapping(source = "to", target = "endTime")
+    @Mapping(source = "plannerId", target = "planner.id")
     Duty toDao(DutyDto duty);
 
 

@@ -26,15 +26,15 @@ export default class SideMenuComponent {
 	readonly TASKS_URL: string = '/tasks';
 	readonly SETTINGS_URL: string = '/settings';
 
-	isActive(link: string): boolean {
+	public isActive(link: string): boolean {
 		return this._routerHelperService.isActive(link);
 	}
 
-	directToTaskPlannerChooser(): void {
+	public directToTaskPlannerChooser(): void {
 		this._routerHelperService.directToUrl('/choose-planner');
 	}
 	
-	directToPlannerCreator(): void { 
+	public directToPlannerCreator(): void { 
 		this._routerHelperService.directToUrl('/planner-add');
 	}
 

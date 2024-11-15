@@ -65,7 +65,7 @@ describe('FormTextareaComponent', () => {
 		);
 
 		expect(formMessageErrorComponent).toBeTruthy();
-	})
+	}, 500)
 
 	it('should display mat label if it is provided', () => {
 		fixture.componentRef.setInput('label', 'Desc');

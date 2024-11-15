@@ -1,10 +1,14 @@
 <section>
 	<app-header 
 		[dateDisplayMode]="DISPLAY_MODE" 
-		label="planner.weekly-planner"
+		[label]="this.plannerDetails()?.name | safeValue"
 		[backToUrl]="BACK_URL"
+		[useTranslate]="false"
 	/>
 	<div class="planner-board">
-		<app-planner-board [dailyBoardDuties]="duties"/>
+		<app-planner-board 
+			[dailyBoardDuties]="duties"
+			[plannerDetails]="plannerDetails()"
+		/>
 	</div>
 </section>

@@ -1,10 +1,10 @@
 import {
 	Component,
+	computed,
 	ElementRef,
 	input,
 	InputSignal,
-	signal,
-	WritableSignal,
+	Signal,
 } from '@angular/core';
 import { Option } from '@core/types/basics.types';
 import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-heights';
@@ -19,7 +19,6 @@ import { DutyDto } from 'src/api/models';
 	templateUrl: './planner-board-tile-duties.component.html',
 })
 export default class PlannerBoardTileDutiesComponent {
-
 	private readonly HEIGHT_OF_TIME_VALUE: number = 0;
 	private readonly TOP_OF_TIME_VALUE: number = 3;
 
@@ -29,21 +28,17 @@ export default class PlannerBoardTileDutiesComponent {
 	public dutiesBoard: InputSignal<DutyDto[][]> =
 		input.required<DutyDto[][]>();
 
-	public dutyTiles: WritableSignal<DutyTile[][]> = signal([]);
-
 	private _heightOfTimelineParentContainer: Option<number> = null;
 
-	ngAfterViewInit(): void {
-		this._adjustDutiesOnTimelineChange();
-	}
+	public dutyTiles: Signal<DutyTile[][]> = computed(() => {
+		const timelinesValues = this.timelineValuesElements();
 
-	private _adjustDutiesOnTimelineChange(): void {
-		if (!this.timelineValuesElements().length) {
-			return;
+		if(!timelinesValues.length) {
+			return [];
 		}
 
-		this.dutyTiles.set(this._adjustDutyToBoard());
-	}
+		return this._adjustDutyToBoard();
+	})
 
 	private _adjustDutyToBoard(): {
 		tile: DutyDto;
@@ -92,7 +87,9 @@ export default class PlannerBoardTileDutiesComponent {
 			getComputedStyle(document.documentElement).fontSize,
 		);
 
-		return `${(this._getTopOfHour(from) + this.TOP_OF_TIME_VALUE) / remInPixels}rem`;
+		return `${
+			(this._getTopOfHour(from) + this.TOP_OF_TIME_VALUE) / remInPixels
+		}rem`;
 	}
 
 	private _getTopOfHour(hour: string): number {

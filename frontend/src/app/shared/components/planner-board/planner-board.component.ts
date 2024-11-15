@@ -1,21 +1,24 @@
 import { NgClass } from '@angular/common';
 import {
 	Component,
+	computed,
 	ElementRef,
 	inject,
 	input,
 	InputSignal,
 	Signal,
-	signal,
 	viewChildren,
-	WritableSignal,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Option } from '@core/types/basics.types';
+import { PLANNER_ID } from '@shared/constants/shared-consts.const';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TimeManagerService } from '@shared/services/time-manager/time-manager.service';
-import { DutyDto } from 'src/api/models';
+import { DutyDto, PlannerDto } from 'src/api/models';
+import { HiddenPartialHourClassPipe } from './pipes/hidden-partial-hour-class.pipe';
 import PlannerBoardDaysHeadersComponent from './planner-board-days-headers/planner-board-days-headers.component';
 import PlannerBoardTileDutiesComponent from './planner-board-tile-duties/planner-board-tile-duties.component';
-import { HiddenPartialHourClassPipe } from './pipes/hidden-partial-hour-class.pipe';
 
 @Component({
 	selector: 'app-planner-board',
@@ -33,30 +36,52 @@ import { HiddenPartialHourClassPipe } from './pipes/hidden-partial-hour-class.pi
 export default class PlannerBoardComponent {
 	private readonly _timeManagerService: TimeManagerService =
 		inject(TimeManagerService);
+	private readonly _routerHelperService: RouterHelperService =
+		inject(RouterHelperService);
+	private readonly _activateRoute: ActivatedRoute = inject(ActivatedRoute);
 
-	timelineValues: Signal<readonly ElementRef<HTMLElement>[]> =
+	public timelineValues: Signal<readonly ElementRef<HTMLElement>[]> =
 		viewChildren<ElementRef<HTMLElement>>('timelineValue');
 
-	dailyBoardDuties: InputSignal<Map<string, DutyDto[]>> =
+	public dailyBoardDuties: InputSignal<Map<string, DutyDto[]>> =
 		input.required<Map<string, DutyDto[]>>();
+	public plannerDetails: InputSignal<Option<PlannerDto>> =
+		input.required<Option<PlannerDto>>();
 
 	public readonly HIDDEN_PARTIAL_HOUR: string = 'hidden-partial-hour';
 
-	timeline: WritableSignal<string[]> = signal<string[]>(
-		this._getTimelineValues(),
-	);
+	public readonly plannerId: string =
+		this._routerHelperService.getParameterValue(
+			this._activateRoute,
+			PLANNER_ID,
+		);
+	public readonly duties: Signal<DutyDto[][]> = computed(() => {
+		const planner = this.plannerDetails();
+
+		if (!planner) {
+			return [];
+		}
+
+		return [...this.dailyBoardDuties().values()];
+	});
+	public readonly keysTileBoard: Signal<string[]> = computed(() => [
+		...this.dailyBoardDuties().keys(),
+	]);
+	public readonly timeline: Signal<string[]> = computed(() => {
+		const planner = this.plannerDetails();
+
+		if (!planner) {
+			return [];
+		}
+
+		return this._getTimelineValues();
+	});
 
 	private _getTimelineValues(): string[] {
-		return this._timeManagerService.alreadyProvidedTimelineValues().length
-			? this._timeManagerService.alreadyProvidedTimelineValues()
-			: this._timeManagerService.createTimeLineEveryNumOfMinutes(1);
-	}
-
-	get keysTileBoard(): string[] {
-		return [...this.dailyBoardDuties().keys()];
-	}
-
-	get dutiesBoard(): DutyDto[][] {
-		return [...this.dailyBoardDuties().values()];
+		return this._timeManagerService.createTimeLineEveryNumOfMinutes(
+			this.plannerDetails()?.startTime,
+			this.plannerDetails()?.endTime,
+			1,
+		);
 	}
 }

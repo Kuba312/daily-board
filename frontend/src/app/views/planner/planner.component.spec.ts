@@ -10,6 +10,7 @@ import { signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
+import SafeValue from '@shared/pipes/safe-value.pipe';
 
 describe('PlannerComponent', () => {
 	let component: PlannerComponent;
@@ -36,6 +37,7 @@ describe('PlannerComponent', () => {
 		TestBed.configureTestingModule({
 			imports: [
 				PlannerComponent,
+				SafeValue,
 				TranslateModule.forRoot(),
 				MockComponent(HeaderComponent),
 			],

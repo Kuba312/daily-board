@@ -39,6 +39,7 @@ export default class HeaderComponent implements OnInit {
 	public additionalTextLabel: InputSignal<Option<string>> =
 		input<Option<string>>();
 	public backToUrl: InputSignal<Option<string>> = input<Option<string>>();
+	public useTranslate: InputSignal<boolean> = input<boolean>(true);
 
 	public properDateDisplayMode: WritableSignal<DisplayDateMode> =
 		signal<DisplayDateMode>(null);

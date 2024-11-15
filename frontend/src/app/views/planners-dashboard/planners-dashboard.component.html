@@ -1,0 +1,17 @@
+<section class="planners-dashboard">
+	<app-header-with-buttons
+		label="planners-dashboard.title"
+		[buttons]="HEADER_BUTTONS"
+	/>
+	<app-planner-items-container>
+		@for (planner of planners(); track planner.id) {
+			<app-planner-card
+				[emitSelection]="true"
+				[plannerDetails]="planner"
+				[buttons]="PLANNER_CARD_BUTTONS"
+				(ngClickPlannerCard)="directToPlannerDetailsView($event)"
+				[cardHeightInRem]="16"
+			/>
+		}
+	</app-planner-items-container>
+</section>

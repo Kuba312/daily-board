@@ -4,10 +4,11 @@ import {
 	ResolveFn,
 	RouterStateSnapshot,
 } from '@angular/router';
-import { selectAllDutiesLoaded } from '@shared-store/duty-store/duty.reducer';
+import { isPlannerLoaded } from '@shared-store/duty-store/duty.selectors';
 import { Store } from '@ngrx/store';
-import { filter, finalize, first, Observable, tap } from 'rxjs';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { filter, finalize, first, Observable, tap } from 'rxjs';
+import { PLANNER_ID } from '@shared/constants/shared-consts.const';
 
 const loading: WritableSignal<boolean> = signal(false);
 
@@ -16,15 +17,17 @@ export const dutiesResolver: ResolveFn<boolean> = (
 	_state: RouterStateSnapshot,
 	store: Store = inject(Store),
 ): Observable<boolean> => {
-	return store.select(selectAllDutiesLoaded).pipe(
+	const plannerId = _route.params[PLANNER_ID];
+
+	return store.select(isPlannerLoaded(plannerId)).pipe(
 		tap((areLoaded) => {
 			if (!loading() && !areLoaded) {
 				loading.set(true);
 
-				store.dispatch(dutyActions.getDutiesWithoutDates());
+				store.dispatch(dutyActions.getDutiesByPlannerId({ plannerId }));
 			}
 		}),
-		filter((areLoaded) => areLoaded),
+		filter((areLoaded) => !!areLoaded),
 		first(),
 		finalize(() => loading.set(false)),
 	);

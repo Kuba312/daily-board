@@ -14,6 +14,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { DutyDto } from '../models/duty-dto';
 import { getDuties } from '../fn/duty-controller/get-duties';
 import { GetDuties$Params } from '../fn/duty-controller/get-duties';
+import { getDutiesByPlannerId } from '../fn/duty-controller/get-duties-by-planner-id';
+import { GetDutiesByPlannerId$Params } from '../fn/duty-controller/get-duties-by-planner-id';
 import { getDutiesWithoutDates } from '../fn/duty-controller/get-duties-without-dates';
 import { GetDutiesWithoutDates$Params } from '../fn/duty-controller/get-duties-without-dates';
 import { saveDuty } from '../fn/duty-controller/save-duty';
@@ -23,6 +25,31 @@ import { SaveDuty$Params } from '../fn/duty-controller/save-duty';
 export class DutyControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `getDutiesByPlannerId()` */
+  static readonly GetDutiesByPlannerIdPath = '/api/v1/duties/{plannerId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getDutiesByPlannerId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDutiesByPlannerId$Response(params: GetDutiesByPlannerId$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
+    return getDutiesByPlannerId(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getDutiesByPlannerId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDutiesByPlannerId(params: GetDutiesByPlannerId$Params, context?: HttpContext): Observable<Array<DutyDto>> {
+    return this.getDutiesByPlannerId$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<DutyDto>>): Array<DutyDto> => r.body)
+    );
   }
 
   /** Path part for operation `saveDuty()` */

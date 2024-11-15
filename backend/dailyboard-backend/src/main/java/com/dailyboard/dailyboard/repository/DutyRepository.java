@@ -13,4 +13,6 @@ public interface DutyRepository extends JpaRepository<Duty, UUID> {
     List<Duty> findByEffectiveDateBetween(LocalDate from, LocalDate to);
 
     List<Duty> findByEffectiveDateIsNull();
+
+    List<Duty> findByPlannerId(String id);
 }

@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { adjustTimeInDuties } from '@shared/helpers/adjust-time-in-duties.helper';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { catchError, map, of, switchMap } from 'rxjs';
@@ -22,7 +23,10 @@ export const saveDutyEffect = createEffect(
 							message: 'task-board-form.task-has-been-added',
 						});
 
-						return dutyActions.saveDutySuccess({ duty: savedDuty });
+						return dutyActions.saveDutySuccess({
+							duty: savedDuty,
+							plannerId,
+						});
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showErrorMessage(snackBarService, error);
@@ -39,7 +43,7 @@ export const saveDutyEffect = createEffect(
 	{ functional: true },
 );
 
-export const getDutiesEffect = createEffect(
+export const getDutiesWithoutDatesEffect = createEffect(
 	(
 		$actions = inject(Actions),
 		dutyControllerService = inject(DutyControllerService),
@@ -48,22 +52,53 @@ export const getDutiesEffect = createEffect(
 		$actions.pipe(
 			ofType(dutyActions.getDutiesWithoutDates),
 			switchMap(() =>
-				dutyControllerService
-					.getDutiesWithoutDates()
-					.pipe(
-						map((duties) =>
-							dutyActions.getDutiesWithoutDatesSuccess({ duties }),
-						),
-						catchError((error: HttpErrorResponse) => {
-							showErrorMessage(snackBarService, error);
+				dutyControllerService.getDutiesWithoutDates().pipe(
+					map((dutiesResponse) => {
+						const duties = adjustTimeInDuties(dutiesResponse);
 
-							return of(
-								dutyActions.getDutiesWithoutDatesFailure({
-									errorMessage: error?.message ?? '',
-								}),
-							);
-						}),
-					),
+						return dutyActions.getDutiesWithoutDatesSuccess({
+							duties,
+						});
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showErrorMessage(snackBarService, error);
+
+						return of(
+							dutyActions.getDutiesWithoutDatesFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
+export const getDutiesByPlannerIdEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		dutyControllerService = inject(DutyControllerService),
+		snackBarService = inject(SnackBarService),
+	) =>
+		$actions.pipe(
+			ofType(dutyActions.getDutiesByPlannerId),
+			switchMap(({ plannerId }) =>
+				dutyControllerService.getDutiesByPlannerId({ plannerId }).pipe(
+					map((duties) => dutyActions.getDutiesByPlannerIdSuccess({
+						duties,
+						plannerId,
+					})),
+					catchError((error: HttpErrorResponse) => {
+						showErrorMessage(snackBarService, error);
+
+						return of(
+							dutyActions.getDutiesWithoutDatesFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
 			),
 		),
 	{ functional: true },

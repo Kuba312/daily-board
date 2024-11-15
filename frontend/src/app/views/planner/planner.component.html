@@ -1,7 +1,8 @@
 <section>
 	<app-header 
 		[dateDisplayMode]="DISPLAY_MODE" 
-		label="planner.weekly-planner" 
+		label="planner.weekly-planner"
+		[backToUrl]="BACK_URL"
 	/>
 	<div class="planner-board">
 		<app-planner-board [dailyBoardDuties]="duties"/>

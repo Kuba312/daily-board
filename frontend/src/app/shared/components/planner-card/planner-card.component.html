@@ -12,14 +12,30 @@
 		<span>{{ plannerDetails().endTime }}</span>
 	</div>
 	<div class="planner-card__wrapper">
-		<div class="planner-card__content">
-			<span class="planner-card__content--name">
-				{{ plannerDetails().name }}
-			</span>
-			<div class="planner-card__content--note">
-				<p>
-					{{ plannerDetails().note }}
-				</p>
+		<div 
+			class="planner-card__content" 
+			[style.height.rem]="cardHeightInRem()"
+		>
+			<div class="planner-card__content-wrapper">
+				<span class="planner-card__content--name">
+					{{ plannerDetails().name }}
+				</span>
+				<div class="planner-card__content--note">
+					<p>
+						{{ plannerDetails().note }}
+					</p>
+				</div>
+			</div>
+			<div class="planner-card__content--buttons" (click)="$event.stopPropagation()">
+				@for (button of buttons(); track $index) {
+					<app-primary-button
+						[label]="button.buttonLabel | translate"
+						[emitOnClick]="button.emitOnClick || false"
+						(ngClick)="button?.callback(plannerDetails())"
+						[width]="button.width"
+						[disabled]="button.disabled ? button.disabled() : false"
+					/>
+				}
 			</div>
 		</div>
 	</div>

@@ -24,6 +24,6 @@ public class DutyDto {
     private LocalDate effectiveDate;
     private LocalTime from;
     private LocalTime to;
-
     private String color;
+    private String plannerId;
 }

@@ -7,7 +7,7 @@
 		</div>
 	}
 	<span class="db-header__main-title">
-		{{ label() | additionalLabel : additionalTextLabel() }}
+		{{ label() | additionalLabel : additionalTextLabel(): useTranslate() }}
 	</span>
 	<app-date-range-configurer
 		[properDateDisplayMode]="properDateDisplayMode()"

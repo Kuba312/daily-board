@@ -187,7 +187,7 @@ describe('PlannerFormComponent', () => {
 		fixture.detectChanges();
 
 		expect(rangeTime?.errors).toBeNull();
-	});
+	}, 500);
 
 	it('should save planner when user click add button', () => {
 		component

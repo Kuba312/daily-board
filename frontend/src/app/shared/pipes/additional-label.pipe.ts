@@ -11,7 +11,7 @@ export class AdditionalLabelPipe implements PipeTransform {
 		inject(TranslateService);
 
 	transform(value: string, label?: Option<string>, useTranslate: boolean = true): string {
-		if (!label) {			
+		if (!label) {
 			return useTranslate ? this._translateService.instant(value) : value;
 		}
 

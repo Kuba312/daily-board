@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormErrorMessageComponent } from './form-error-message.component';
+import FormErrorMessageComponent from './form-error-message.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

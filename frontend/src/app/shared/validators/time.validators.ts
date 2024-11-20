@@ -4,6 +4,8 @@ import { DATE_REGEX, TIME_FORMAT } from '../constants/shared-consts.const';
 
 export class TimeValidators {
 	private static TIME_SEPARATOR: string = ':';
+	private static HALF_HOUR: number = 0.5;
+	private static FIVE_HOURS: number = 5;
 
 	static validateDate(): ValidatorFn {
 		return (control: AbstractControl) => {
@@ -128,6 +130,22 @@ export class TimeValidators {
 		};
 	}
 
+	public static validateMinimumTimeDifference(): ValidatorFn {
+		return (control: AbstractControl) => {
+			if (!control.value) {
+				return null;
+			}
+
+			const [, time] = TimeValidators._splitControlDateValue(control);
+			const { fromTime, toTime } =
+				TimeValidators._splitProvidedTime(time);
+
+			return TimeValidators._isEnoughTimeDifference(fromTime, toTime, this.HALF_HOUR)
+				? null
+				: { invalidTimeDutyDifference: true };
+		};
+	}
+
 	static validateEnoughTimeDifference(): ValidatorFn {
 		return (control: AbstractControl) => {
 			if (!control.value) {
@@ -147,16 +165,16 @@ export class TimeValidators {
 	private static _isEnoughTimeDifference(
 		fromTime: string,
 		toTime: string,
+		minTimeDifference: number = this.FIVE_HOURS,
 	): boolean {
 		const from = moment(fromTime, 'HH:mm');
 		const to = moment(toTime, 'HH:mm');
-		const differenceInHours = to.diff(from, 'hours');
+		const differenceInHours = to.diff(from, 'minutes') / 60;
 
-		return differenceInHours >= 5;
+		return differenceInHours >= minTimeDifference;
 	}
 
 	private static _isFullHour(value: string): boolean {
-		// Regex to match 'HH:00' format, where HH is any valid hour (00 to 23)
 		return /^([01]\d|2[0-3]):00$/.test(value);
 	}
 

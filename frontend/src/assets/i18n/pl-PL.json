@@ -47,7 +47,8 @@
 		"pick-color": "Wybierz kolor",
 		"add": "Dodaj",
 		"add-and-create": "Dodaj i stwórz kolejny",
-		"task-has-been-added": "Zadanie zostało dodane"
+		"task-has-been-added": "Zadanie zostało dodane",
+		"duty-conflict": "Nie można dodać zadania: czas jego realizacji koliduje z: {{conflictingDuties}}"
 	},
 	"planner-form": {
 		"title": "Stwórz planer",
@@ -76,7 +77,8 @@
 		"empty-time": "Nie podano godzin",
 		"incomplete-hours": "Podana(e) godzina(y) są niepełne",
 		"invalid-time-difference": "Różnica między godzinami musi wynosić co najmniej 5h",
-		"invalid-time-range": "Godziny zadania muszą znajdować się w przedziale {{startTime}} - {{endTime}}"
+		"invalid-time-range": "Godziny zadania muszą znajdować się w przedziale {{startTime}} - {{endTime}}",
+		"invalid-time-duty-difference": "Minimalny czas trwania zadania to 30min"
 	},
 	"global-snack-bar-messages": {
 		"form-invalid": "Formularz zawiera błędy",

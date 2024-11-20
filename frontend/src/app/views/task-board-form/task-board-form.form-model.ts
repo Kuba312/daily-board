@@ -66,6 +66,10 @@ export class TaskBoardFormModel {
 		return Object.values(WeekDays).map((val) => val.toLowerCase());
 	}
 
+	public clearForm(): void { 
+		this.formGroup().reset();
+	}
+
 	private _buildForm(): void {
 		const { startTime, endTime } = this.planner;
 
@@ -84,6 +88,7 @@ export class TaskBoardFormModel {
 							: [TimeValidators.validateDate()]),
 						TimeValidators.validateTime(),
 						TimeValidators.validateTimeRanges(startTime, endTime),
+						TimeValidators.validateMinimumTimeDifference(),
 					]),
 					[this.DESCRIPTION]: new FormControl(''),
 					...(this.isConstantPlanner && {

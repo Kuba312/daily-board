@@ -47,12 +47,13 @@ export default class PlannerFormComponent implements OnInit {
 		inject(SnackBarService);
 
 	public formModel: WritableSignal<Option<PlannerFormModel>> = signal(null);
+	public clearDateInput: WritableSignal<boolean> = signal(false);
 
 	ngOnInit(): void {
 		this._initializeForm();
 	}
 
-	public sendForm(): void {
+	public sendForm(redirectToPlanners: boolean = true): void {
 		const formModel = this.formModel();
 		const formGroup = this.formModel()?.formGroup();
 
@@ -71,8 +72,16 @@ export default class PlannerFormComponent implements OnInit {
 		}
 
 		const planner = formModel.toModel();
+		
+		this._store.dispatch(
+			plannerActions.savePlanner({ planner, redirectToPlanners }),
+		);
+	}
 
-		this._store.dispatch(plannerActions.savePlanner({ planner }));
+	public saveAndClearForm(): void {
+		this.sendForm(false);
+
+		this.formModel()?.clearForm();
 	}
 
 	private _initializeForm(): void {

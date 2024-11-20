@@ -30,3 +30,9 @@ export const SHORT_NAME_DAYS: string[] = [
 ];
 
 export const EMPTY_CUSTOM_MESSAGE: string = '';
+
+// error codes
+export const CONFLICT_ERROR_STATUS: number = 409;
+
+// custom snackbar times
+export const DUTIES_CONFLICT_MESSAGE_TIME: number = 6000;

@@ -61,9 +61,11 @@
 				</div>
 				<div class="form-actions">
 					<app-primary-button
+						[secondary]="true"
 						[label]="'task-board-form.add-and-create' | translate"
 						[emitOnClick]="true"
 						[width]="30"
+						(ngClick)="saveAndClearForm()"
 					/>
 					<app-primary-button
 						[label]="'task-board-form.add' | translate"

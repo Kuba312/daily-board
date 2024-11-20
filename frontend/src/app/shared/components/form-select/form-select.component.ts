@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Option } from '@core/types/basics.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslatePath } from '@shared/pipes/translate-path.pipe';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 
 @Component({
 	selector: 'app-form-select',

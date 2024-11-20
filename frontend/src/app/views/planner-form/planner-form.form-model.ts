@@ -56,6 +56,10 @@ export class PlannerFormModel {
 		};
 	}
 
+	public clearForm(): void { 
+		this.formGroup().reset();
+	}
+
 	public getPlannerModes(): SelectPair<string, boolean>[] {
 		return [
 			{

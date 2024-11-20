@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslatePath } from '@shared/pipes/translate-path.pipe';
 import { MockComponent } from 'ng-mocks';
 import { MOCK_DAY_OPTIONS } from 'src/mocks/mock-data';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 import FormSelectComponent from './form-select.component';
 
 describe('FormSelectComponent', () => {

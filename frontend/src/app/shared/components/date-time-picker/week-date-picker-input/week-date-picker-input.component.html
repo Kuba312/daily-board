@@ -21,6 +21,7 @@
 			@if (!onlyHours()) {
 				<input
 					#dateInput
+					[value]="date()"
 					[readonly]="isWeeklyCalendarOpened()"
 					(input)="handleDateChange($event, controlDateName.Date)"
 					(blur)="touchControl()"
@@ -32,6 +33,7 @@
 			<div class="date-range-container--times-range">
 				<input
 					#fromInput
+					[value]="from()"
 					[readonly]="isWeeklyCalendarOpened()"	
 					(input)="handleDateChange($event, controlDateName.From)"
 					(blur)="touchControl()"
@@ -42,6 +44,7 @@
 				<span>-</span>
 				<input
 					#toInput
+					[value]="to()"
 					[readonly]="isWeeklyCalendarOpened()"
 					(input)="handleDateChange($event, controlDateName.To)"
 					(blur)="touchControl()"

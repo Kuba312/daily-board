@@ -1,7 +1,6 @@
 import { Component, input, InputSignal } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatError } from '@angular/material/form-field';
-import SafeValue from '@shared/pipes/safe-value.pipe';
 import {
 	FORM_ERROR_MESSAGES,
 	ValidatorNames,
@@ -13,13 +12,13 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
 	selector: 'app-form-error-message',
 	standalone: true,
-	imports: [MatError, TranslateModule, SafeValue],
+	imports: [MatError, TranslateModule],
 	template: `
 	<mat-error>
 		{{ errorMessage | translate }}
 	</mat-error>`,
 })
-export class FormErrorMessageComponent {
+export default class FormErrorMessageComponent {
 	formGroup: InputSignal<Option<FormGroup>> = input<Option<FormGroup>>(null);
 	controlName: InputSignal<Option<string>> = input<Option<string>>(null);
 	customMessage: InputSignal<Option<Record<string, string>>> =
@@ -42,7 +41,7 @@ export class FormErrorMessageComponent {
 		if (!this._isFormErrorDefinedInDefaultErrorList(errorName)) {
 			return '';
 		}
-
+		
 		return FORM_ERROR_MESSAGES?.[errorName] || errorName;
 	}
 

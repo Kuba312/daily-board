@@ -1,24 +1,26 @@
-import { DebugElement, signal } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/header-with-buttons.component';
-import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
-import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/header-with-buttons.component';
+import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { MockComponent } from 'ng-mocks';
+import { PlannerDto } from 'src/api/models';
 import { MOCK_PLANNERS } from 'src/mocks/mock-data';
 import PlannersDashboardComponent from './planners-dashboard.component';
-import { By } from '@angular/platform-browser';
 
-describe('TaskPlannerChooserComponent', () => {
+describe('PlannersDashboardComponent', () => {
 	let fixture: ComponentFixture<PlannersDashboardComponent>;
 	let component: PlannersDashboardComponent;
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
 	let el: DebugElement;
+	let planners: PlannerDto[];
 
 	beforeEach(waitForAsync(() => {
 		mockStore = jasmine.createSpyObj('Store', ['selectSignal']);
@@ -26,7 +28,12 @@ describe('TaskPlannerChooserComponent', () => {
 			'directToUrl',
 		]);
 
-		mockStore.selectSignal.and.returnValue(signal(MOCK_PLANNERS));
+		planners = MOCK_PLANNERS;
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		mockStore.selectSignal.and.callFake((): any => {
+			return () => planners;
+		});
 
 		TestBed.configureTestingModule({
 			imports: [
@@ -121,8 +128,8 @@ describe('TaskPlannerChooserComponent', () => {
 	})
 
 	it('should show info dialog if user has no added planners', () => {
-		mockStore.selectSignal.and.returnValue(signal([]));
-
+		planners = [];
+	
 		fixture.detectChanges();
 
 		const noPlannersInfo = el.query(

@@ -96,6 +96,6 @@ export default class TaskPlannerChooserComponent implements OnInit {
 	}
 
 	get areNoPlanners(): boolean {
-		return this.planners.length === 0;
+		return this.planners().length === 0;
 	}
 }

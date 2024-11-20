@@ -45,7 +45,8 @@
 		"task-description-placeholder": "Enter task description",
 		"task-date": "Task date",
 		"pick-color": "Pick color",
-		"range-planner-time": "Task has been added"
+		"range-planner-time": "Task has been added",
+		"duty-conflict": "Cannot add the task: its scheduled time conflicts with the following: {{conflictingDuties}}"
 	},
 	"planner-form": {
 		"title": "Create planner",

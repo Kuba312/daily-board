@@ -106,6 +106,6 @@ export default class PlannersDashboardComponent {
 	}
 
 	get areNoPlanners(): boolean {
-		return this.planners.length === 0;
+		return this.planners().length === 0;
 	}
 }

@@ -10,7 +10,7 @@
 	}
 
 	#{$self}__cards {
-		@include media-columns-grid-responsive(37rem);
+		@include media-columns-grid-responsive-fill(37rem);
 		gap: 2.5rem;
 	}
 }

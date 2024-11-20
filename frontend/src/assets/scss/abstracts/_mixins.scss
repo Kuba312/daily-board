@@ -40,6 +40,11 @@
 	grid-template-columns: repeat(auto-fit, minmax($minWidth, 1fr));
 }
 
+@mixin media-columns-grid-responsive-fill($minWidth) {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax($minWidth, 1fr));
+}
+
 // grid mixins
 @mixin apply-double-grid($gutter: 0, $col-width-1, $col-width-2) {
 	display: grid;
@@ -156,6 +161,7 @@
 		font-family: 'Montserrat', sans-serif !important;
 		padding: 0.9rem 1rem;
 		border-radius: 16px !important;
+		line-height: 1.5 !important;
 	}
 
 	.mat-mdc-button .mat-mdc-button-persistent-ripple {

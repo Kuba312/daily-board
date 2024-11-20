@@ -3,7 +3,7 @@ import { Component, input, InputSignal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { Option } from '@core/types/basics.types';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 import { MatInputModule } from '@angular/material/input';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 

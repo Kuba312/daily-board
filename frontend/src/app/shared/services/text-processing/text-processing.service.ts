@@ -16,9 +16,8 @@ export class TextProcessingService {
 
 	private _splitDateControl(value: string): string[] {
 		const cleanedValue = value.replace(/[^\d:-]/g, '');
-		const splittedValue = cleanedValue.split('-');
+		const splittedValue = cleanedValue.split('-').filter(Boolean);
 
 		return splittedValue;
 	}
-
 }

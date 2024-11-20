@@ -19,6 +19,7 @@ export const dutyActions = createActionGroup({
 		[DutyActions.SaveDuty]: props<{
 			duty: DutyDto;
 			plannerId: string;
+			redirectToBoard: boolean;
 		}>(),
 		[DutyActions.SaveDutySuccess]: props<{
 			duty: DutyDto;

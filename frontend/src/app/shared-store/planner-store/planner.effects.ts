@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { PlannerControllerService } from 'src/api/services';
-import { showErrorMessage } from '../helpers/show-error-message.helper';
+import { showGeneralErrorMessage } from '../helpers/show-error-message.helper';
 import { plannerActions } from './planner.actions';
 import moment from 'moment';
 
@@ -13,28 +13,38 @@ import {
 	TIME_FORMAT_WITH_SECONDS,
 	TIME_FORMAT,
 } from '@shared/constants/shared-consts.const';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 
 export const savePlannerEffect = createEffect(
 	(
 		$actions = inject(Actions),
 		plannerControllerService = inject(PlannerControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
 	) =>
 		$actions.pipe(
 			ofType(plannerActions.savePlanner),
-			switchMap(({ planner }) =>
+			switchMap(({ planner, redirectToPlanners }) =>
 				plannerControllerService.savePlanner({ body: planner }).pipe(
 					map((savedPlanner) => {
 						snackBarService.onShowSnackBarSuccess({
 							message: 'planner-form.planner-has-been-added',
 						});
 
+						const adjustedTimePlanner =
+							adjustTimeInPlanner(savedPlanner);
+
+						redirectToPlannersDashboard(
+							redirectToPlanners,
+							routerHelperService,
+						);
+
 						return plannerActions.savePlannerSuccess({
-							planner: savedPlanner,
+							planner: adjustedTimePlanner,
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							plannerActions.savePlannerFailure({
@@ -66,7 +76,7 @@ export const getPlannersEffect = createEffect(
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							plannerActions.getPlannersFailure({
@@ -98,7 +108,7 @@ export const getPlannerEffect = createEffect(
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							plannerActions.getPlannerFailure({
@@ -111,6 +121,15 @@ export const getPlannerEffect = createEffect(
 		),
 	{ functional: true },
 );
+
+function redirectToPlannersDashboard(
+	redirectToPlanners: boolean,
+	routerHelperService: RouterHelperService,
+): void {
+	if (redirectToPlanners) {
+		routerHelperService.directToUrl('/planners');
+	}
+}
 
 function adjustTimeInPlanners(plannersResponse: PlannerDto[]): PlannerDto[] {
 	return plannersResponse.map((planner) => adjustTimeInPlanner(planner));

@@ -17,7 +17,7 @@ import { Nullable, Option } from '@core/types/basics.types';
 import { InputType } from '@core/types/dates.types';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 import { debounceTime, filter } from 'rxjs';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 
 @Component({
 	standalone: true,

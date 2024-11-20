@@ -145,6 +145,14 @@ describe('TaskBoardFormComponent', () => {
 		expect(date?.errors).toBeTruthy();
 	});
 
+	it('should control date has error, if user provide to small time difference', () => {
+		const date = component.formModel()?.formGroup().get(dateControl);
+		date?.setValue('null, 12:00 - 12:20');
+		fixture.detectChanges();
+
+		expect(date?.errors).toBeTruthy();
+	});
+
 	it('should control date has error, if user provide invalid time format', () => {
 		const date = component.formModel()?.formGroup().get(dateControl);
 		date?.setValue('null, 12:00 - 9:00');
@@ -199,7 +207,52 @@ describe('TaskBoardFormComponent', () => {
 				type: '[duty] Save duty',
 				duty: jasmine.objectContaining(duty ?? {}),
 				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
+				redirectToBoard: true,
 			}),
+		);
+	});
+
+	it('should save duty when user click add button and create new', () => {
+		component.formModel()?.tileColor.set('#B39DDB');
+
+		component.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue('null, 12:00 - 13:00');
+		component.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+		component.formModel()
+			?.formGroup()
+			.get(descriptionControl)
+			?.setValue('Opis testowy');
+		component?.formModel()?.formGroup().get(weekDayControl)?.setValue('MONDAY');
+		
+		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue('10:00');
+		textProcessingServiceSpy.extractToHourFromControl.and.returnValue('13:00');
+
+		const duty = component.formModel()?.toModel();
+
+		component.saveAndClearForm();
+		fixture.detectChanges();
+		
+		expect(mockStore.dispatch).toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[duty] Save duty',
+				duty: jasmine.objectContaining(duty ?? {}),
+				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
+				redirectToBoard: false,
+			}),
+		);
+		expect(component.formModel()?.formGroup().get(nameControl)?.value).toBe(
+			null,
+		);
+		expect(
+			component.formModel()?.formGroup().get(descriptionControl)?.value,
+		).toBe(null);
+		expect(component.formModel()?.formGroup().get(dateControl)?.value).toBe(
+			null,
 		);
 	});
 });

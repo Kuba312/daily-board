@@ -1,11 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { adjustTimeInDuties } from '@shared/helpers/adjust-time-in-duties.helper';
+import {
+	TIME_FORMAT,
+	TIME_FORMAT_WITH_SECONDS,
+} from '@shared/constants/shared-consts.const';
+import {
+	CONFLICT_ERROR_STATUS,
+	DUTIES_CONFLICT_MESSAGE_TIME,
+} from '@core/app.consts';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ConflictingDuty } from '@shared/models/conflicting-duty';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
+import moment from 'moment';
 import { catchError, map, of, switchMap } from 'rxjs';
+import { DutyDto } from 'src/api/models';
 import { DutyControllerService } from 'src/api/services';
-import { showErrorMessage } from '../helpers/show-error-message.helper';
+import {
+	showCustomErrorMessage,
+	showGeneralErrorMessage,
+} from '../helpers/show-error-message.helper';
 import { dutyActions } from './duty.actions';
 
 export const saveDutyEffect = createEffect(
@@ -13,23 +27,44 @@ export const saveDutyEffect = createEffect(
 		$actions = inject(Actions),
 		dutyControllerService = inject(DutyControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.saveDuty),
-			switchMap(({ duty, plannerId }) =>
+			switchMap(({ duty, plannerId, redirectToBoard }) =>
 				dutyControllerService.saveDuty({ body: duty, plannerId }).pipe(
 					map((savedDuty) => {
 						snackBarService.onShowSnackBarSuccess({
 							message: 'task-board-form.task-has-been-added',
 						});
 
+						const adjustedTimeDuty = adjustTimeInDuty(savedDuty);
+
+						redirectToPlannerBoard(
+							redirectToBoard,
+							routerHelperService,
+							plannerId,
+						);
+
 						return dutyActions.saveDutySuccess({
-							duty: savedDuty,
+							duty: adjustedTimeDuty,
 							plannerId,
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						const { status } = error;
+
+						if (status === CONFLICT_ERROR_STATUS) {
+							showConflictingDutiesErrorMessage(
+								error,
+								snackBarService,
+								DUTIES_CONFLICT_MESSAGE_TIME,
+							);
+
+							return of();
+						}
+
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							dutyActions.saveDutyFailure({
@@ -61,7 +96,7 @@ export const getDutiesWithoutDatesEffect = createEffect(
 						});
 					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							dutyActions.getDutiesWithoutDatesFailure({
@@ -85,12 +120,16 @@ export const getDutiesByPlannerIdEffect = createEffect(
 			ofType(dutyActions.getDutiesByPlannerId),
 			switchMap(({ plannerId }) =>
 				dutyControllerService.getDutiesByPlannerId({ plannerId }).pipe(
-					map((duties) => dutyActions.getDutiesByPlannerIdSuccess({
-						duties,
-						plannerId,
-					})),
+					map((dutiesResponse) => {
+						const duties = adjustTimeInDuties(dutiesResponse);
+
+						return dutyActions.getDutiesByPlannerIdSuccess({
+							duties,
+							plannerId,
+						});
+					}),
 					catchError((error: HttpErrorResponse) => {
-						showErrorMessage(snackBarService, error);
+						showGeneralErrorMessage(snackBarService, error);
 
 						return of(
 							dutyActions.getDutiesWithoutDatesFailure({
@@ -103,3 +142,63 @@ export const getDutiesByPlannerIdEffect = createEffect(
 		),
 	{ functional: true },
 );
+
+function redirectToPlannerBoard(
+	redirectToBoard: boolean,
+	routerHelperService: RouterHelperService,
+	plannerId: string,
+): void {
+	if (!redirectToBoard) {
+		return;
+	}
+
+	routerHelperService.directToUrl('/planners', [plannerId]);
+}
+
+function isConflictingDuties(
+	conflictingDuties: unknown,
+): conflictingDuties is ConflictingDuty[] {
+	return (
+		!!conflictingDuties &&
+		typeof conflictingDuties === 'object' &&
+		Array.isArray(conflictingDuties) &&
+		conflictingDuties.every((obj) => 'id' in obj && 'name' in obj)
+	);
+}
+
+function adjustTimeInDuties(plannersResponse: DutyDto[]): DutyDto[] {
+	return plannersResponse.map((planner) => adjustTimeInDuty(planner));
+}
+
+function adjustTimeInDuty(dutyResponse: DutyDto): DutyDto {
+	return {
+		...dutyResponse,
+		from: moment(dutyResponse.from, TIME_FORMAT_WITH_SECONDS).format(
+			TIME_FORMAT,
+		),
+		to: moment(dutyResponse.to, TIME_FORMAT_WITH_SECONDS).format(
+			TIME_FORMAT,
+		),
+	};
+}
+
+function showConflictingDutiesErrorMessage(
+	error: HttpErrorResponse,
+	snackBarService: SnackBarService,
+	messageDuration?: number,
+): void {
+	const conflictingDutiesResponse = error.error.conflictingDuties;
+
+	if (isConflictingDuties(conflictingDutiesResponse)) {
+		const conflictingDuties = conflictingDutiesResponse
+			.map((duty) => duty.name)
+			.join(', ');
+
+		showCustomErrorMessage(
+			snackBarService,
+			'task-board-form.duty-conflict',
+			{ conflictingDuties },
+			messageDuration,
+		);
+	}
+}

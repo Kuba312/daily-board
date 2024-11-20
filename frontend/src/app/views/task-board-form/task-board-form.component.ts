@@ -92,7 +92,7 @@ export default class TaskBoardFormComponent {
 		this._initializeForm();
 	}
 
-	public sendForm(): void {
+	public sendForm(redirectToBoard: boolean = true): void {
 		const formModel = this.formModel();
 		const formGroup = this.formModel()?.formGroup();
 
@@ -113,8 +113,18 @@ export default class TaskBoardFormComponent {
 		const duty = formModel.toModel();
 
 		this._store.dispatch(
-			dutyActions.saveDuty({ duty, plannerId: this.plannerId }),
+			dutyActions.saveDuty({
+				duty,
+				plannerId: this.plannerId,
+				redirectToBoard,
+			}),
 		);
+	}
+
+	public saveAndClearForm(): void {
+		this.sendForm(false);
+
+		this.formModel()?.clearForm();
 	}
 
 	private _getCurrentPlanner(): void {
@@ -146,10 +156,7 @@ export default class TaskBoardFormComponent {
 
 	private _setFormModel(currentPlanner: PlannerDto): void {
 		this.formModel.set(
-			new TaskBoardFormModel(
-				this.isConstantPlanner(),
-				currentPlanner,
-			),
+			new TaskBoardFormModel(this.isConstantPlanner(), currentPlanner),
 		);
 	}
 }

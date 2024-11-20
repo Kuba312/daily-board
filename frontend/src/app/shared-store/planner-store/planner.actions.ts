@@ -18,6 +18,7 @@ export const plannerActions = createActionGroup({
 	events: {
 		[PlannerActions.SavePlanner]: props<{
 			planner: PlannerDto;
+			redirectToPlanners: boolean;
 		}>(),
 		[PlannerActions.SavePlannerSuccess]: props<{
 			planner: PlannerDto;

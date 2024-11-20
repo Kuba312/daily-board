@@ -1,5 +1,4 @@
 import { Injectable, Signal } from '@angular/core';
-import { adjustTimeInDuties } from '@shared/helpers/adjust-time-in-duties.helper';
 import { DutyDto } from 'src/api/models';
 
 @Injectable({ providedIn: 'root' })
@@ -7,7 +6,7 @@ export class DutyHelperService {
 	public groupDutiesByDays(
 		duties: Signal<DutyDto[]>,
 	): Map<string, DutyDto[]> {
-		const providedDuties = adjustTimeInDuties(duties());
+		const providedDuties = duties();
 		const groupDuties = new Map<string, DutyDto[]>(
 			this._getWeekDaysForBoard(),
 		);

@@ -9,7 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
 import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
-import { FormErrorMessageComponent } from '../form-error-message/form-error-message.component';
+import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 import FormInputComponent from './form-input.component';
 
 describe('FormInputComponent', () => {

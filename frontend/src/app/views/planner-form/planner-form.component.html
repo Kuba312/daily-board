@@ -50,6 +50,8 @@
 					[label]="'task-board-form.add-and-create' | translate"
 					[emitOnClick]="true"
 					[width]="30"
+					[secondary]="true"
+					(ngClick)="saveAndClearForm()"
 				/>
 				<app-primary-button
 					[label]="'task-board-form.add' | translate"

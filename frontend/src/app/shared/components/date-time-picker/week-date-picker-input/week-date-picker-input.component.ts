@@ -13,6 +13,7 @@ import {
 	AbstractControl,
 	ControlValueAccessor,
 	FormGroup,
+	FormsModule,
 	NG_VALUE_ACCESSOR,
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -20,18 +21,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
-import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.type';
 import { TIME_MASK_FORMAT } from '@shared/constants/shared-consts.const';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { FormErrorMessageComponent } from '../../form-error-message/form-error-message.component';
-import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-weeks-ranger.component';
+import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.type';
 import { CalendarDateDetails } from '@shared/models/calendar-date-details';
 import moment from 'moment';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import FormErrorMessageComponent from '../../form-error-message/form-error-message.component';
+import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-weeks-ranger.component';
 
 @Component({
 	selector: 'app-week-date-picker-input',
 	standalone: true,
 	imports: [
+		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,
 		MatFormFieldModule,
@@ -59,6 +61,7 @@ export default class WeekDatePickerInputComponent
 
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
 
+	private readonly TIME_PLACEHOLDER: string = '__:__'
 	private readonly DATE_PLACEHOLDER: string = '__-__-____';
 	private readonly INVALID_DATE_ERROR: string = 'invalidDate';
 
@@ -89,6 +92,8 @@ export default class WeekDatePickerInputComponent
 	});
 
 	writeValue(date: string): void {
+		this._clearTimeValues(date);
+
 		this.selectedDate.set(date);
 	}
 
@@ -219,6 +224,14 @@ export default class WeekDatePickerInputComponent
 		if (to && toInput) {
 			this.to.set(to);
 			toInput.nativeElement.value = this.to();
+		}
+	}
+
+	private _clearTimeValues(date: string): void {
+		if (!date) {
+			this.from.set(this.TIME_PLACEHOLDER);
+			this.to.set(this.TIME_PLACEHOLDER);
+			this.date.set(this.DATE_PLACEHOLDER);
 		}
 	}
 

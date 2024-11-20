@@ -1,5 +1,6 @@
-@use 'mat-icon';
-@use 'mat-error';
-@use 'variables';
-@use 'mat-select';
-@use 'snack-bar';
+@forward 'mat-icon';
+@forward 'mat-error';
+@forward 'variables';
+@forward 'mat-select';
+@forward 'snack-bar';
+@forward 'mat-dialog';

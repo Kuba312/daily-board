@@ -1,10 +1,14 @@
 import {
 	Component,
+	DestroyRef,
 	inject,
+	OnInit,
 	signal,
 	Signal,
 	WritableSignal,
 } from '@angular/core';
+import InformationDialogComponent from '@shared/components/infromation-dialog/infromation-dialog.component';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { Option } from '@core/types/basics.types';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,10 +33,14 @@ import { PlannerDto } from 'src/api/models';
 	templateUrl: './task-planner-chooser.component.html',
 	styleUrl: './task-planner-chooser.component.scss',
 })
-export default class TaskPlannerChooserComponent {
+export default class TaskPlannerChooserComponent implements OnInit {
 	private readonly _store: Store = inject(Store);
 	private readonly _routerHelperService: RouterHelperService =
 		inject(RouterHelperService);
+	private readonly _dialogService: DialogService = inject(DialogService);
+	private readonly _destroyRef: DestroyRef = inject(DestroyRef);
+
+	private readonly COMPONENT_ID: string = 'task-planner-chooser';
 
 	public planners: Signal<PlannerDto[]> =
 		this._store.selectSignal(selectAllPlanners);
@@ -50,6 +58,10 @@ export default class TaskPlannerChooserComponent {
 		},
 	];
 
+	ngOnInit(): void {
+		this._showInformationDialogWhenThereIsNoPlannerCard();
+	}
+
 	public selectPlannerCard(planner: PlannerDto): void {
 		this.selectedPlannerCard.set(planner);
 		this.disabledButton.set(false);
@@ -65,9 +77,25 @@ export default class TaskPlannerChooserComponent {
 		this._directToDutyCreationPage(selectedPlannerCardId);
 	}
 
+	private _showInformationDialogWhenThereIsNoPlannerCard(): void {
+		if (!this.areNoPlanners) {
+			return;
+		}
+
+		this._dialogService.openSimpleDialog(
+			this._destroyRef,
+			InformationDialogComponent,
+			this.COMPONENT_ID,
+		);
+	}
+
 	private _directToDutyCreationPage(selectedPlannerCardId: string): void {
 		this._routerHelperService.directToUrl('/task-board-add', [
 			selectedPlannerCardId,
 		]);
+	}
+
+	get areNoPlanners(): boolean {
+		return this.planners.length === 0;
 	}
 }

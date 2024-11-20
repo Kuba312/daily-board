@@ -1,12 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { PersistanceService } from '../persistance/persistance.service';
+import { PersistenceService } from '../persistance/persistance.service';
 import { DarkModeService } from './dark-mode.service';
 import { DARK_MODE_KEY } from '@core/app.consts';
 
 describe('DarkModeService', () => {
 	let darkModeService: DarkModeService;
-	let persistanceService: PersistanceService;
-	let persistanceServiceSpy: jasmine.SpyObj<PersistanceService>;
+	let persistanceService: PersistenceService;
+	let persistanceServiceSpy: jasmine.SpyObj<PersistenceService>;
 
 	beforeEach(waitForAsync(() => {
 		persistanceServiceSpy = jasmine.createSpyObj('PersistanceService', [
@@ -17,13 +17,13 @@ describe('DarkModeService', () => {
 		TestBed.configureTestingModule({
 			providers: [
 				DarkModeService,
-				{ provide: PersistanceService, useValue: persistanceServiceSpy },
+				{ provide: PersistenceService, useValue: persistanceServiceSpy },
 			],
 		})
 			.compileComponents()
 			.then(() => {
 				darkModeService = TestBed.inject(DarkModeService);
-				persistanceService = TestBed.inject(PersistanceService);
+				persistanceService = TestBed.inject(PersistenceService);
 			});
 	}));
 

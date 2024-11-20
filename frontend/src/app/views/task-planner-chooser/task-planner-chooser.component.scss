@@ -1,3 +1,16 @@
+@use '../../../assets/scss/abstracts' as *;
+
 :host {
 	display: block;
+}
+
+.task-planner-chooser {
+	$self: &;
+
+	#{$self}__no-planners {
+		margin: 5rem 0;
+		@include flex-justify-align-center;
+		color: var(--color-text-secondary);
+		font-size: $bigger-font-size;
+	}
 }

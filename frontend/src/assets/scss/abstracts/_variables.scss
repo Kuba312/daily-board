@@ -26,7 +26,7 @@ $color-picker-section-margin: 3rem;
 // button-colors:
 $bg-button: #1973d2;
 $bg-hover-button: darken($bg-button, 10%);
-$bg-secondary-button: #e0a832; // Suggested secondary button color
+$bg-secondary-button: #e0a93200; // Suggested secondary button color
 $bg-hover-secondary-button: darken($bg-secondary-button, 10%);
 
 $bg-disabled-button: #A1C0E2;
@@ -46,6 +46,11 @@ $text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 // gaps
 $form-fields-gap: 5rem;
 
+.dark-mode .cdk-overlay-container {
+	--color-background-secondary: #1b2632;
+	--color-text: #eee6df;
+}
+
 :root {
 	--bg-color: #eee6df;
 	--color-text: #000a20;
@@ -58,6 +63,7 @@ $form-fields-gap: 5rem;
 	--border-snack-bar-color-success: #81c784;
 	--bg-snackbar-color-error: #ffcdd2;
 	--border-snack-bar-color-error: #c62828;
+	--bg-hover-secondary-button: #ded6cf;
 }
 
 .dark-mode {
@@ -72,4 +78,6 @@ $form-fields-gap: 5rem;
 	--border-snack-bar-color-success: #66bb6a;
 	--bg-snackbar-color-error: #d32f2f;
 	--border-snack-bar-color-error: #e57373;
+	--bg-hover-secondary-button: #0b1015;;
 }
+

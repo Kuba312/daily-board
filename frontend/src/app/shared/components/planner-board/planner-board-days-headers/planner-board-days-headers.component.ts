@@ -1,36 +1,52 @@
 import {
 	Component,
-	HostListener,
+	DestroyRef,
+	inject,
 	input,
 	InputSignal,
+	NgZone,
+	OnInit,
 	signal,
 	WritableSignal,
 } from '@angular/core';
-import { DayShortcutResponsivePipe } from '@shared/pipes/day-shortcuts.pipe';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
-import SafeValue from '@shared/pipes/safe-value.pipe';
+import { DayShortcutResponsivePipe } from '@shared/pipes/day-shortcuts.pipe';
+import { fromEvent } from 'rxjs';
 
 @Component({
 	selector: 'app-planner-board-days-headers',
 	standalone: true,
-	imports: [DayShortcutResponsivePipe, SafeValue, TranslateModule],
+	imports: [DayShortcutResponsivePipe, TranslateModule],
 	templateUrl: './planner-board-days-headers.component.html',
 })
-export default class PlannerBoardDaysHeadersComponent {
-	keysTileBoard: InputSignal<string[]> = input.required<string[]>();
+export default class PlannerBoardDaysHeadersComponent implements OnInit {
+	private readonly _ngZone: NgZone = inject(NgZone);
+	private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
-	currentInnerWidth: WritableSignal<number> = signal<number>(
+	public keysTileBoard: InputSignal<string[]> = input.required<string[]>();
+
+	public currentInnerWidth: WritableSignal<number> = signal<number>(
 		window.innerWidth,
 	);
 
-	@HostListener('window:resize', ['$event'])
-	onResize(event: Event): void {
-		const target = event.target;
+	ngOnInit(): void {
+		this._listenToScreenResize();
+	}
 
-		if (!(target instanceof Window)) {
-			return;
-		}
+	private _listenToScreenResize(): void {
+		this._ngZone.runOutsideAngular(() => {
+			fromEvent(window, 'resize')
+				.pipe(takeUntilDestroyed(this._destroyRef))
+				.subscribe((event) => {
+					const target = event.target;
 
-		this.currentInnerWidth.set(target.innerWidth);
+					if (!(target instanceof Window)) {
+						return;
+					}
+
+					this.currentInnerWidth.set(target.innerWidth);
+				});
+		});
 	}
 }

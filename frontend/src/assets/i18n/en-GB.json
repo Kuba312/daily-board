@@ -46,7 +46,6 @@
 		"task-date": "Task date",
 		"pick-color": "Pick color",
 		"range-planner-time": "Task has been added"
-
 	},
 	"planner-form": {
 		"title": "Create planner",
@@ -61,6 +60,9 @@
 	},
 	"planners-dashboard": {
 		"title": "Your planners"
+	},
+	"information-dialog": {
+		"no-planner-to-chose": "It seems that you don’t have any planners added yet. Create your first planner to start adding your tasks! :)"
 	},
 	"form-validators": {
 		"required": "Field is required",
@@ -79,9 +81,14 @@
 		"form-invalid": "The form contains errors",
 		"error-code": "Something went wrong. Error code: {{errorCode}}."
 	},
+	"global-messages": {
+		"no-planners": "No planners created. Add your first planner!"
+	},
 	"global": {
 		"for": "for",
 		"edit": "edit",
-		"delete": "delete"
+		"delete": "delete",
+		"close": "Close",
+		"not-show-once-again": "Don't show again"
 	}
 }

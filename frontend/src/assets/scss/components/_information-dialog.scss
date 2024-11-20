@@ -1,0 +1,14 @@
+@use '../abstracts' as *;
+
+.information-dialog {
+	@include flex-column-space-between;
+	height: 100%;
+	background-color: (--color-background-secondary);
+
+	$self: &;
+
+	#{$self}__actions {
+		@include flex-center-end;
+		gap: 2rem;
+	}
+}

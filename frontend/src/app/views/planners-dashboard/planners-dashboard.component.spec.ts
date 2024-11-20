@@ -119,5 +119,18 @@ describe('TaskPlannerChooserComponent', () => {
 
 		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalled();
 	})
+
+	it('should show info dialog if user has no added planners', () => {
+		mockStore.selectSignal.and.returnValue(signal([]));
+
+		fixture.detectChanges();
+
+		const noPlannersInfo = el.query(
+			By.css('.planners-dashboard__no-planners'),
+		);
+
+		expect(noPlannersInfo).toBeTruthy();
+
+	})
 	
 });

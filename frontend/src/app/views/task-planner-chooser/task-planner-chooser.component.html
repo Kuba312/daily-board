@@ -13,4 +13,11 @@
 			/>
 		}
 	</app-planner-items-container>
+	@if (areNoPlanners) {
+		<div class="task-planner-chooser__no-planners">
+			<p>
+				{{ 'global-messages.no-planners' | translate }}
+			</p>
+		</div>
+	}
 </section>

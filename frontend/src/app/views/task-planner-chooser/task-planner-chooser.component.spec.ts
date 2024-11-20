@@ -1,17 +1,17 @@
 import { DebugElement, signal } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/header-with-buttons.component';
+import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { MockComponent } from 'ng-mocks';
 import { MOCK_PLANNERS } from 'src/mocks/mock-data';
 import TaskPlannerChooserComponent from './task-planner-chooser.component';
-import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
-import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/header-with-buttons.component';
 
 describe('TaskPlannerChooserComponent', () => {
 	let fixture: ComponentFixture<TaskPlannerChooserComponent>;
@@ -75,13 +75,13 @@ describe('TaskPlannerChooserComponent', () => {
 		expect(headerWithButtonsComponent).toBeTruthy();
 	});
 
-	it('should render planner items container', () => {
+	it('should render planner items container', fakeAsync(async () => {
 		const plannerItemsContainerComponent = el.query(
 			By.directive(PlannerItemsContainerComponent),
 		);
 
 		expect(plannerItemsContainerComponent).toBeTruthy();
-	});
+	}));
 
 	it('should render planner cards', () => {
 		fixture.detectChanges();
@@ -112,4 +112,17 @@ describe('TaskPlannerChooserComponent', () => {
 			['21a67b1e-935a-4f38-bd14-8f35b205ba78'],
 		);
 	});
+
+	it('should show info dialog if user has no added planners', () => {
+		mockStore.selectSignal.and.returnValue(signal([]));
+
+		fixture.detectChanges();
+
+		const noPlannersInfo = el.query(
+			By.css('.task-planner-chooser__no-planners'),
+		);
+
+		expect(noPlannersInfo).toBeTruthy();
+
+	})
 });

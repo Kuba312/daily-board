@@ -62,6 +62,9 @@
 	"planners-dashboard": {
 		"title": "Twoje planery"
 	},
+	"information-dialog": {
+		"no-planner-to-chose": "Wygląda na to, że nie masz dodanych planerów. Stwórz swój pierwszy planer, aby móc dodać swoje pierwsze zadania! :)"
+	},
 	"form-validators": {
 		"required": "Pole jest wymagane",
 		"email": "Pole musi zawierać '@'",
@@ -79,9 +82,14 @@
 		"form-invalid": "Formularz zawiera błędy",
 		"error-code": "Coś poszło nie tak. Kod błędu: {{errorCode}}"
 	},
+	"global-messages": {
+		"no-planners": "Brak stworzonych planerów. Dodaj swój pierwszy planer!"
+	},
 	"global": {
 		"for": "dla",
 		"edit": "edytuj",
-		"delete": "usuń"
+		"delete": "usuń",
+		"close": "Zamknij",
+		"not-show-once-again": "Nie pokazuj ponownie"
 	}
 }

@@ -19,6 +19,18 @@ div.mat-mdc-select-panel {
 	transition: background-color $animation-duration;
 }
 
+.mat-pseudo-checkbox-full {
+	border-color: var(--color-border) !important;
+}
+
+.mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+	background-color: var(--color-background-secondary) !important;
+}
+
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
+	border-color: transparent !important;
+}
+
 .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
 		.mat-mdc-option-multiple
 	),

@@ -12,10 +12,10 @@ import { DutyDto } from '../../models/duty-dto';
 
 export interface SaveDuty$Params {
   plannerId: string;
-      body: DutyDto
+      body: Array<DutyDto>
 }
 
-export function saveDuty(http: HttpClient, rootUrl: string, params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
+export function saveDuty(http: HttpClient, rootUrl: string, params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
   const rb = new RequestBuilder(rootUrl, saveDuty.PATH, 'post');
   if (params) {
     rb.path('plannerId', params.plannerId, {});
@@ -27,7 +27,7 @@ export function saveDuty(http: HttpClient, rootUrl: string, params: SaveDuty$Par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<DutyDto>;
+      return r as StrictHttpResponse<Array<DutyDto>>;
     })
   );
 }

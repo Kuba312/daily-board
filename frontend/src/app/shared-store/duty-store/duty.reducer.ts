@@ -24,8 +24,8 @@ const dutyFeature = createFeature({
 			...state,
 			isLoading: true,
 		})),
-		on(dutyActions.saveDutySuccess, (state, { duty, plannerId }) =>
-			dutyAdapter.addOne(duty, {
+		on(dutyActions.saveDutySuccess, (state, { duties, plannerId }) =>
+			dutyAdapter.addMany(duties, {
 				...state,
 				isLoading: false,
 				allDutiesLoaded: false,

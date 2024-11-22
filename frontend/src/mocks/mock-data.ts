@@ -162,3 +162,15 @@ export const MOCK_PLANNERS = [
 		isConstant: true,
 	},
 ];
+
+export const DUTY_MOCK: DutyDto[] = [
+	{
+		id: 'asdasdasd',
+		name: 'Matematyka',
+		description: '',
+		weekDay: WeekDays.MONDAY,
+		color: 'red',
+		from: '08:00',
+		to: '10:00',
+	},
+]

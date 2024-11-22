@@ -110,11 +110,11 @@ export default class TaskBoardFormComponent {
 			return;
 		}
 
-		const duty = formModel.toModel();
-
+		const duties = formModel.toModel();
+		
 		this._store.dispatch(
 			dutyActions.saveDuty({
-				duty,
+				duties: duties,
 				plannerId: this.plannerId,
 				redirectToBoard,
 			}),

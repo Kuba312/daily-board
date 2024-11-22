@@ -17,12 +17,12 @@ export const dutyActions = createActionGroup({
 	source: 'duty',
 	events: {
 		[DutyActions.SaveDuty]: props<{
-			duty: DutyDto;
+			duties: DutyDto[];
 			plannerId: string;
 			redirectToBoard: boolean;
 		}>(),
 		[DutyActions.SaveDutySuccess]: props<{
-			duty: DutyDto;
+			duties: DutyDto[];
 			plannerId: string;
 		}>(),
 		[DutyActions.SaveDutyFailure]: props<{

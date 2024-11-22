@@ -5,7 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 	standalone: true,
 })
 export class TranslatePath<T> implements PipeTransform {
-	transform(value: T, translateKey: string): string {
-		return `${translateKey}.${value}`;
+	transform(value: T, translateKey: string, toLowerCase?: boolean): string {		
+		return `${translateKey}.${
+			toLowerCase && typeof value === 'string'
+				? value.toLowerCase()
+				: value
+		}`;
 	}
 }

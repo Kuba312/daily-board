@@ -26,12 +26,24 @@ describe('DutyHelperService', () => {
 
 		const groupedDuties = service.groupDutiesByDays(mockDuties);
 
-		expect(groupedDuties.get('planner.full-days-names.monday')?.length).toBe(2);
-		expect(groupedDuties.get('planner.full-days-names.tuesday')?.length).toBe(1);
-		expect(groupedDuties.get('planner.full-days-names.friday')?.length).toBe(1);
-		expect(groupedDuties.get('planner.full-days-names.wednesday')?.length).toBe(0);
-		expect(groupedDuties.get('planner.full-days-names.saturday')?.length).toBe(0);
-		expect(groupedDuties.get('planner.full-days-names.sunday')?.length).toBe(0);
+		expect(
+			groupedDuties.get('planner.full-days-names.monday')?.length,
+		).toBe(2);
+		expect(
+			groupedDuties.get('planner.full-days-names.tuesday')?.length,
+		).toBe(1);
+		expect(
+			groupedDuties.get('planner.full-days-names.friday')?.length,
+		).toBe(1);
+		expect(
+			groupedDuties.get('planner.full-days-names.wednesday')?.length,
+		).toBe(0);
+		expect(
+			groupedDuties.get('planner.full-days-names.saturday')?.length,
+		).toBe(0);
+		expect(
+			groupedDuties.get('planner.full-days-names.sunday')?.length,
+		).toBe(0);
 	});
 
 	it('should return correct key for a duty based on the weekday', () => {
@@ -51,5 +63,28 @@ describe('DutyHelperService', () => {
 		expect(weekDays.has('planner.full-days-names.friday')).toBeTruthy();
 		expect(weekDays.has('planner.full-days-names.saturday')).toBeTruthy();
 		expect(weekDays.has('planner.full-days-names.sunday')).toBeTruthy();
+	});
+
+	it('should create an array of duties based on given week days', () => {
+		const mockDuty: DutyDto = {
+			id: 'duty-123',
+			weekDay: WeekDays.MONDAY,
+			name: 'Mock Duty',
+		};
+		const days: WeekDays[] = [
+			WeekDays.MONDAY,
+			WeekDays.TUESDAY,
+			WeekDays.FRIDAY,
+		];
+
+		const result = service.crateArrayOfDutiesBasedOnWeekDays(
+			days,
+			mockDuty,
+		);
+
+		expect(result.length).toBe(days.length);
+		expect(result[0]).toEqual({ ...mockDuty, weekDay: WeekDays.MONDAY });
+		expect(result[1]).toEqual({ ...mockDuty, weekDay: WeekDays.TUESDAY });
+		expect(result[2]).toEqual({ ...mockDuty, weekDay: WeekDays.FRIDAY });
 	});
 });

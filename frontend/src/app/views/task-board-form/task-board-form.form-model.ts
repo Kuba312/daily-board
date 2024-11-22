@@ -6,6 +6,7 @@ import {
 	Validators,
 } from '@angular/forms';
 import { WeekDays } from '@app/enums/week-days.enum';
+import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { Option } from '@core/types/basics.types';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +21,8 @@ export class TaskBoardFormModel {
 	private readonly _textProcessingService: TextProcessingService = inject(
 		TextProcessingService,
 	);
+	private readonly _dutyHelperService: DutyHelperService =
+		inject(DutyHelperService);
 
 	public readonly NAME: string = 'name';
 	public readonly DATE: string = 'date';
@@ -39,8 +42,9 @@ export class TaskBoardFormModel {
 		this._buildForm();
 	}
 
-	public toModel(): DutyDto {
-		return {
+	public toModel(): DutyDto[] {
+		const dayControl: WeekDays[] = this.dayControl?.value;
+		const duty = {
 			name: this.formGroup().get(this.NAME)?.value,
 			description: this.formGroup().get(this.DESCRIPTION)?.value ?? null,
 			from: this.dateControl
@@ -53,20 +57,24 @@ export class TaskBoardFormModel {
 						this.dateControl.value,
 				  )
 				: undefined,
-			...(this.isConstantPlanner && {
-				weekDay: this.formGroup().get(this.DAY)?.value.toUpperCase(),
-			}),
 			...(this.tileColor() && {
 				color: this.tileColor() ?? undefined,
 			}),
 		};
+
+		return this.isConstantPlanner
+			? this._dutyHelperService.crateArrayOfDutiesBasedOnWeekDays(
+					dayControl,
+					duty,
+			  )
+			: [duty];
 	}
 
 	public dayOptions(): string[] {
-		return Object.values(WeekDays).map((val) => val.toLowerCase());
+		return Object.values(WeekDays);
 	}
 
-	public clearForm(): void { 
+	public clearForm(): void {
 		this.formGroup().reset();
 	}
 
@@ -117,5 +125,9 @@ export class TaskBoardFormModel {
 
 	get dateControl(): Option<AbstractControl> {
 		return this.formGroup().get(this.DATE);
+	}
+
+	get dayControl(): Option<AbstractControl> {
+		return this.formGroup().get(this.DAY);
 	}
 }

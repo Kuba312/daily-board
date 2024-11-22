@@ -35,4 +35,4 @@ export const EMPTY_CUSTOM_MESSAGE: string = '';
 export const CONFLICT_ERROR_STATUS: number = 409;
 
 // custom snackbar times
-export const DUTIES_CONFLICT_MESSAGE_TIME: number = 6000;
+export const DUTIES_CONFLICT_MESSAGE_TIME: number = 8000;

@@ -9,16 +9,22 @@
 			<mat-label>{{ label() }}</mat-label>
 			}
 
-			<mat-select [id]="controlName()" [formControlName]="controlName()">
+			<mat-select
+				[multiple]="isMultiple()"
+				[id]="controlName()"
+				[formControlName]="controlName()"
+			>
 				@let valToSend = valueToSend(); 
 				@let valToShow = valueToShow();
 
 				@for(option of options(); track $index) {
 					<mat-option [value]="valToSend ? option[valToSend] : option">
 						{{
-							(valToShow
-								? option[valToShow]
-								: option) | translatePath : translateKey() | translate
+							(valToShow ? option[valToShow] : option)
+								| translatePath
+									: translateKey()
+									: transformToSmallerCase()
+								| translate
 						}}
 					</mat-option>
 				}

@@ -31,48 +31,51 @@ export const saveDutyEffect = createEffect(
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.saveDuty),
-			switchMap(({ duty, plannerId, redirectToBoard }) =>
-				dutyControllerService.saveDuty({ body: duty, plannerId }).pipe(
-					map((savedDuty) => {
-						snackBarService.onShowSnackBarSuccess({
-							message: 'task-board-form.task-has-been-added',
-						});
+			switchMap(({ duties, plannerId, redirectToBoard }) =>
+				dutyControllerService
+					.saveDuty({ body: duties, plannerId })
+					.pipe(
+						map((savedDuties) => {
+							snackBarService.onShowSnackBarSuccess({
+								message: 'task-board-form.task-has-been-added',
+							});
 
-						const adjustedTimeDuty = adjustTimeInDuty(savedDuty);
+							const adjustedTimeDuties =
+								adjustTimeInDuties(savedDuties);
 
-						redirectToPlannerBoard(
-							redirectToBoard,
-							routerHelperService,
-							plannerId,
-						);
-
-						return dutyActions.saveDutySuccess({
-							duty: adjustedTimeDuty,
-							plannerId,
-						});
-					}),
-					catchError((error: HttpErrorResponse) => {
-						const { status } = error;
-
-						if (status === CONFLICT_ERROR_STATUS) {
-							showConflictingDutiesErrorMessage(
-								error,
-								snackBarService,
-								DUTIES_CONFLICT_MESSAGE_TIME,
+							redirectToPlannerBoard(
+								redirectToBoard,
+								routerHelperService,
+								plannerId,
 							);
 
-							return of();
-						}
+							return dutyActions.saveDutySuccess({
+								duties: adjustedTimeDuties,
+								plannerId,
+							});
+						}),
+						catchError((error: HttpErrorResponse) => {
+							const { status } = error;
 
-						showGeneralErrorMessage(snackBarService, error);
+							if (status === CONFLICT_ERROR_STATUS) {
+								showConflictingDutiesErrorMessage(
+									error,
+									snackBarService,
+									DUTIES_CONFLICT_MESSAGE_TIME,
+								);
 
-						return of(
-							dutyActions.saveDutyFailure({
-								errorMessage: error?.message ?? '',
-							}),
-						);
-					}),
-				),
+								return of();
+							}
+
+							showGeneralErrorMessage(snackBarService, error);
+
+							return of(
+								dutyActions.saveDutyFailure({
+									errorMessage: error?.message ?? '',
+								}),
+							);
+						}),
+					),
 			),
 		),
 	{ functional: true },
@@ -187,9 +190,12 @@ function showConflictingDutiesErrorMessage(
 	snackBarService: SnackBarService,
 	messageDuration?: number,
 ): void {
-	const conflictingDutiesResponse = error.error.conflictingDuties;
+	const conflictingDutiesResponse = error.error?.information;
 
-	if (isConflictingDuties(conflictingDutiesResponse)) {
+	if (
+		conflictingDutiesResponse &&
+		isConflictingDuties(conflictingDutiesResponse)
+	) {
 		const conflictingDuties = conflictingDutiesResponse
 			.map((duty) => duty.name)
 			.join(', ');

@@ -1,4 +1,5 @@
 import { Injectable, Signal } from '@angular/core';
+import { WeekDays } from '@app/enums/week-days.enum';
 import { DutyDto } from 'src/api/models';
 
 @Injectable({ providedIn: 'root' })
@@ -16,12 +17,20 @@ export class DutyHelperService {
 				continue;
 			}
 
-			groupDuties
-				.get(this.getDutyKey(duty))
-				?.push(duty);
+			groupDuties.get(this.getDutyKey(duty))?.push(duty);
 		}
 
 		return groupDuties;
+	}
+
+	public crateArrayOfDutiesBasedOnWeekDays(
+		days: WeekDays[],
+		duty: DutyDto,
+	): DutyDto[] {
+		return days.map((day) => ({
+			...duty,
+			weekDay: day,
+		}));
 	}
 
 	private getDutyKey(duty: DutyDto): string {

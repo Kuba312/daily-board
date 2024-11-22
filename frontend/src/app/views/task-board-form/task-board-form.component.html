@@ -43,6 +43,8 @@
 							[controlName]="formModelValue.DAY"
 							[label]="'task-board-form.chose-day' | translate"
 							[options]="formModelValue.dayOptions()"
+							[isMultiple]="true"
+							[transformToSmallerCase]="true"
 							translateKey="planner.full-days-names"
 						/>
 					}

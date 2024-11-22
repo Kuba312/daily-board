@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.dailyboard.dailyboard.controller.JpaUtils;
 import com.dailyboard.dailyboard.exepctions.DutyConflictException;
-import com.dailyboard.dailyboard.exepctions.InvalidDutyTimeException;
 import com.dailyboard.dailyboard.model.dto.ConflictingDutyDto;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.dailyboard.dailyboard.model.dao.Duty;
@@ -24,12 +25,10 @@ public class DutyService {
     private final DutyRepository dutyRepository;
     private final PlannerRepository plannerRepository;
 
-    public Duty save(Duty duty, String plannerId) {
-        checkTimeValidation(duty);
+    public List<Duty> save(List<Duty> duties, String plannerId) {
+        checkConflictedDuties(duties, plannerId);
 
-        checkConflictedDuties(duty, plannerId);
-
-        return saveDuty(duty, plannerId);
+        return saveDuties(duties, plannerId);
     }
 
     public List<Duty> getDuties(LocalDate from, LocalDate to) {
@@ -44,40 +43,42 @@ public class DutyService {
         return dutyRepository.findByEffectiveDateIsNull();
     }
 
-    private static void checkTimeValidation(Duty duty) {
-        if (duty.getStartTime() == null || duty.getEndTime() == null) {
-            throw new InvalidDutyTimeException("StartTime and EndTime must not be null");
-        }
 
-        if (duty.getEndTime().isBefore(duty.getStartTime())) {
-            throw new InvalidDutyTimeException("EndTime must be after StartTime");
-        }
-    }
+    private void checkConflictedDuties(List<Duty> duties, String plannerId) {
+        List<Specification<Duty>> specifications = duties.stream()
+                .map(duty -> Specification.where(
+                        JpaUtils.isDateInRange(duty).and(
+                                (root, query, criteriaBuilder) ->
+                                        criteriaBuilder.equal(root.get("planner").get("id"), plannerId)
+                        )
+                ))
+                .toList();
 
-    private void checkConflictedDuties(Duty duty, String plannerId) {
-        List<Duty> conflictingDuties = dutyRepository.findConflictingDuties(
-                plannerId,
-                duty.getEffectiveDate(),
-                duty.getWeekDay(),
-                duty.getStartTime(),
-                duty.getEndTime()
-        );
+        Specification<Duty> combinedSpecification = specifications.stream()
+                .reduce(Specification.where(null), Specification::or);
+
+        List<Duty> conflictingDuties = dutyRepository.findAll(combinedSpecification);
 
         if (!conflictingDuties.isEmpty()) {
             List<ConflictingDutyDto> conflictingDutyDTOs = conflictingDuties.stream()
                     .map(conflictingDuty -> new ConflictingDutyDto(conflictingDuty.getId(), conflictingDuty.getName()))
                     .collect(Collectors.toList());
 
-            throw new DutyConflictException("Conflict detected with duties: " + conflictingDutyDTOs, conflictingDutyDTOs);
+            throw new DutyConflictException("Conflict detected with the following duties: %s".formatted(conflictingDutyDTOs.stream()
+                    .map(ConflictingDutyDto::getName)
+                    .collect(Collectors.joining(", "))), conflictingDutyDTOs);
         }
     }
 
-    private Duty saveDuty(Duty duty, String plannerId) {
+
+
+    private List<Duty> saveDuties(List<Duty> duties, String plannerId) {
         Planner planner = plannerRepository
                 .findById(plannerId)
                 .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + plannerId + " not found"));
 
-        duty.setPlanner(planner);
-        return dutyRepository.save(duty);
+        duties.forEach(duty -> duty.setPlanner(planner));
+
+        return dutyRepository.saveAll(duties);
     }
 }

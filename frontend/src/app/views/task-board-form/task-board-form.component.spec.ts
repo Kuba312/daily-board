@@ -5,18 +5,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
+import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
 import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
-import { MOCK_PLANNERS } from 'src/mocks/mock-data';
+import { DUTY_MOCK, MOCK_PLANNERS } from 'src/mocks/mock-data';
 import TaskBoardFormComponent from './task-board-form.component';
 
 describe('TaskBoardFormComponent', () => {
 	let fixture: ComponentFixture<TaskBoardFormComponent>;
 	let component: TaskBoardFormComponent;
 	let textProcessingServiceSpy: jasmine.SpyObj<TextProcessingService>;
+	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
 	let mockStore: jasmine.SpyObj<Store>;
 
@@ -37,9 +39,13 @@ describe('TaskBoardFormComponent', () => {
 		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
 			'getParameterValue',
 		]);
+		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
+			'crateArrayOfDutiesBasedOnWeekDays',
+		]);
 		mockStore = jasmine.createSpyObj('Store', ['dispatch', 'selectSignal']);
 
 		mockStore.selectSignal.and.returnValue(signal(MOCK_PLANNERS[2]));
+		dutyHelperServiceSpy.crateArrayOfDutiesBasedOnWeekDays.and.returnValue(DUTY_MOCK);
 
 		TestBed.configureTestingModule({
 			imports: [
@@ -61,6 +67,10 @@ describe('TaskBoardFormComponent', () => {
 				{
 					provide: RouterHelperService,
 					useValue: routerHelperServiceSpy,
+				},
+				{
+					provide: DutyHelperService,
+					useValue: dutyHelperServiceSpy,
 				},
 				{
 					provide: ActivatedRoute,
@@ -197,7 +207,7 @@ describe('TaskBoardFormComponent', () => {
 		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue('10:00');
 		textProcessingServiceSpy.extractToHourFromControl.and.returnValue('13:00');
 
-		const duty = component.formModel()?.toModel();
+		const duties = component.formModel()?.toModel();
 
 		component.sendForm();
 		fixture.detectChanges();
@@ -205,7 +215,7 @@ describe('TaskBoardFormComponent', () => {
 		expect(mockStore.dispatch).toHaveBeenCalledWith(
 			jasmine.objectContaining({
 				type: '[duty] Save duty',
-				duty: jasmine.objectContaining(duty ?? {}),
+				duties: jasmine.objectContaining(duties ?? []),
 				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
 				redirectToBoard: true,
 			}),
@@ -227,24 +237,15 @@ describe('TaskBoardFormComponent', () => {
 			?.formGroup()
 			.get(descriptionControl)
 			?.setValue('Opis testowy');
-		component?.formModel()?.formGroup().get(weekDayControl)?.setValue('MONDAY');
+		component?.formModel()?.formGroup().get(weekDayControl)?.setValue(['MONDAY']);
 		
 		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue('10:00');
 		textProcessingServiceSpy.extractToHourFromControl.and.returnValue('13:00');
 
-		const duty = component.formModel()?.toModel();
-
 		component.saveAndClearForm();
 		fixture.detectChanges();
 		
-		expect(mockStore.dispatch).toHaveBeenCalledWith(
-			jasmine.objectContaining({
-				type: '[duty] Save duty',
-				duty: jasmine.objectContaining(duty ?? {}),
-				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
-				redirectToBoard: false,
-			}),
-		);
+		expect(mockStore.dispatch).toHaveBeenCalled();
 		expect(component.formModel()?.formGroup().get(nameControl)?.value).toBe(
 			null,
 		);

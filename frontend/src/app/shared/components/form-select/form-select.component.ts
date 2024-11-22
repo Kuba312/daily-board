@@ -23,16 +23,18 @@ import FormErrorMessageComponent from '../form-error-message/form-error-message.
 	templateUrl: './form-select.component.html',
 })
 export default class FormSelectComponent<T> {
-	formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
-	controlName: InputSignal<string> = input.required<string>();
-	options: InputSignal<T[]> = input.required<T[]>();
-	valueToSend: InputSignal<Option<keyof T>> = input<Option<keyof T>>();
-	valueToShow: InputSignal<Option<keyof T>> = input<Option<keyof T>>(null);
-	translateKey: InputSignal<Option<string>> = input<Option<string>>(null);
-	label: InputSignal<Option<string>> = input<Option<string>>();
-	placeholder: InputSignal<Option<string>> = input<Option<string>>();
-	width: InputSignal<number> = input<number>(100);
-	matIcon: InputSignal<Option<string>> = input<Option<string>>(null);
-	customErrorMessages: InputSignal<Option<Record<string, string>>> =
+	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
+	public controlName: InputSignal<string> = input.required<string>();
+	public options: InputSignal<T[]> = input.required<T[]>();
+	public valueToSend: InputSignal<Option<keyof T>> = input<Option<keyof T>>();
+	public valueToShow: InputSignal<Option<keyof T>> = input<Option<keyof T>>(null);
+	public translateKey: InputSignal<Option<string>> = input<Option<string>>(null);
+	public label: InputSignal<Option<string>> = input<Option<string>>();
+	public placeholder: InputSignal<Option<string>> = input<Option<string>>();
+	public width: InputSignal<number> = input<number>(100);
+	public matIcon: InputSignal<Option<string>> = input<Option<string>>(null);
+	public customErrorMessages: InputSignal<Option<Record<string, string>>> =
 		input<Option<Record<string, string>>>(null);
+	public isMultiple: InputSignal<Option<boolean>> = input<Option<boolean>>(null);
+	public transformToSmallerCase: InputSignal<Option<boolean>> = input<Option<boolean>>(null);
 }

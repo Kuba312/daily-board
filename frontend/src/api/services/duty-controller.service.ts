@@ -61,7 +61,7 @@ export class DutyControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  saveDuty$Response(params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
+  saveDuty$Response(params: SaveDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
     return saveDuty(this.http, this.rootUrl, params, context);
   }
 
@@ -71,9 +71,9 @@ export class DutyControllerService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  saveDuty(params: SaveDuty$Params, context?: HttpContext): Observable<DutyDto> {
+  saveDuty(params: SaveDuty$Params, context?: HttpContext): Observable<Array<DutyDto>> {
     return this.saveDuty$Response(params, context).pipe(
-      map((r: StrictHttpResponse<DutyDto>): DutyDto => r.body)
+      map((r: StrictHttpResponse<Array<DutyDto>>): Array<DutyDto> => r.body)
     );
   }
 

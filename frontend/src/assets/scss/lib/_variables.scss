@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 // overridden material values
 $mat-error-top-padding: 0.4rem;
 
@@ -6,4 +8,6 @@ $mat-error-top-padding: 0.4rem;
 	--mat-form-field-container-vertical-padding: 1.6rem;
 	--mdc-outlined-text-field-hover-outline-color: var(--color-text-secondary);
 	--mat-snack-bar-button-color: transparent;
+	--mat-full-pseudo-checkbox-selected-icon-color: #1973d2;
+	--mat-full-pseudo-checkbox-selected-checkmark-color: #eee6df;
 }

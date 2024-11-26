@@ -17,6 +17,8 @@
 
 	#{$self}__content {
 		@include flex-space-between;
+		position: relative;
+		z-index: 1;
 
 		border: $normal-border;
 		border-top: none;
@@ -37,12 +39,34 @@
 	}
 
 	#{$self}__timeline-content {
-		padding: 0.5rem;
+		padding: 0.5rem 0;
 		margin-bottom: 1rem;
 		font-weight: $slight-thickening;
+		width: 100%;
 
 		&--item {
 			font-size: $smaller-font-size;
+			width: 100%;
+
+			span {
+				display: inline-block;
+				position: relative;
+				width: 100%;
+				background-color: var(--bg-color);
+				z-index: 11;
+				padding-inline: 0.5rem;
+			}
+		}
+
+		&--item:not(.hidden-partial-hour)::after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 0;
+			left: 0;
+			transform: translateY(0.1rem);
+			z-index: 8;
+			border-top: 1.5px solid var(--color-border);
 		}
 
 		.hidden-partial-hour {

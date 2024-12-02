@@ -11,11 +11,18 @@ import { PlannerDto } from 'src/api/models';
 import PrimaryButtonComponent from '../primary-button/primary-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { Option } from '@core/types/basics.types';
+import { PopoverDirective } from '@shared/directives/popover.directive';
+import { PopoverPosition } from '@shared/enums/popover-positon.enum';
 
 @Component({
 	selector: 'app-planner-card',
 	standalone: true,
-	imports: [TranslateModule, NgClass, PrimaryButtonComponent],
+	imports: [
+		TranslateModule,
+		NgClass,
+		PrimaryButtonComponent,
+		PopoverDirective,
+	],
 	templateUrl: './planner-card.component.html',
 })
 export default class PlannerCardComponent {
@@ -23,13 +30,16 @@ export default class PlannerCardComponent {
 		input.required<PlannerDto>();
 	public emitSelection: InputSignal<boolean> = input<boolean>(false);
 	public isSelectedCard: InputSignal<boolean> = input<boolean>(false);
-	public cardHeightInRem: InputSignal<Option<number>> = input<Option<number>>(null);
+	public cardHeightInRem: InputSignal<Option<number>> =
+		input<Option<number>>(null);
 	public buttons: InputSignal<ButtonConfig[]> = input<ButtonConfig[]>([]);
+
+	public readonly tooltipPosition: PopoverPosition = PopoverPosition.Above;
 
 	public ngClickPlannerCard: OutputEmitterRef<PlannerDto> =
 		output<PlannerDto>();
 
-	onSelectedPlannerCard(): void {
+	public onSelectedPlannerCard(): void {
 		const planner = this.plannerDetails();
 
 		if (!this.emitSelection() || !planner) {

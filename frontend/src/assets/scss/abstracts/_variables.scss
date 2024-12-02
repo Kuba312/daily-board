@@ -36,7 +36,7 @@ $animation-duration: 0.3s;
 // box shadows
 $tiny-shadow: var(--bg-color) 0px 4px 2px;
 $normal-shadow: var(--color-border) 0px 13px 27px -5px,
-	rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+	#0000004d 0px 8px 16px -8px;
 $highlight-effect: 0 0 0 0.2rem var(--bg-color), 0 0 0 0.4rem $bg-button,
 	0 0 0 0.5rem var(--bg-color);
 $convex-shadow: inset 1px 1px 3px var(--color-shadow), 

@@ -28,7 +28,7 @@
 
 	#{$self}__days-headers {
 		display: grid;
-		grid-template-columns: repeat(7, minmax(20rem, 1fr));
+		grid-template-columns: repeat(7, minmax(22rem, 1fr));
 
 		@include media-columns-grid(7, 134.375em, 18rem);
 		@include media-columns-grid(7, 124.375em, 16rem);

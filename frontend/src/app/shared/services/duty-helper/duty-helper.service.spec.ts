@@ -87,4 +87,36 @@ describe('DutyHelperService', () => {
 		expect(result[1]).toEqual({ ...mockDuty, weekDay: WeekDays.TUESDAY });
 		expect(result[2]).toEqual({ ...mockDuty, weekDay: WeekDays.FRIDAY });
 	});
+
+	it('should group duties by colors with unique names ignoring case and spaces', () => {
+		const mockDuties: DutyDto[] = [
+			{ id: '1', name: 'Math', color: '#FFB266' },
+			{ id: '2', name: 'Math ', color: '#FFB266' },
+			{ id: '3', name: 'Math', color: '#E27D60' },
+			{ id: '4', name: 'Science', color: '#FFB266' },
+			{ id: '5', name: ' SCIENCE', color: '#FFB266' },
+			{ id: '6', name: 'History', color: '#E27D60' },
+		];
+
+		const groupedDuties = service.groupDutiesNamesByColors(mockDuties);
+
+		expect(groupedDuties.size).toBe(2);
+
+		const color1 = '#FFB266';
+		const names1 = groupedDuties.get(color1);
+		expect(names1).toBeDefined();
+		expect(names1!.length).toBe(2);
+
+		expect(names1).toContain('Math');
+		expect(names1).toContain('Science');
+
+		const color2 = '#E27D60';
+		const names2 = groupedDuties.get(color2);
+
+		expect(names2).toBeDefined();
+		expect(names2!.length).toBe(2);
+
+		expect(names2).toContain('Math');
+		expect(names2).toContain('History');
+	});
 });

@@ -16,34 +16,24 @@ export const CONSTANT_PLANNER: string = 'constant';
 export const PLANNER_ID: string = 'plannerId';
 
 export const TILE_COLORS: string[] = [
-	'#E27D60', // Soft Coral
-	'#85C1E9', // Light Sky Blue
-	'#B39DDB', // Lavender
-	'#78C091', // Soft Sage
-	'#FFB88C', // Peach
-	'#C39BD3', // Muted Orchid
-	'#F7DC6F', // Soft Yellow
-	'#82CA9D', // Mint Green
-	'#F0A07E', // Light Salmon
-	'#A3CED2', // Soft Aqua
-	'#E3B2A9', // Pale Rose
-	'#F8C471', // Soft Apricot
-	'#B4A7D6', // Pastel Purple
-	'#92A9BD', // Cloudy Blue
-	'#DBA997', // Muted Clay
-	'#A5D8B0', // Light Teal
-	'#F4B6C2', // Baby Pink
-	'#BDC3C7', // Silver Gray
-	'#B9A58D', // Sand Beige
-	'#B39B72', // Soft Taupe
-	'#73A9AD', // Dusty Teal
-	'#D5A6BD', // Dusty Lilac
-	'#9FC29F', // Soft Green
-	'#F19E94', // Pale Coral
-	'#A7C3B4', // Moss Green
-	'#C6B39B', // Light Tan
-	'#F3A683', // Warm Peach
-	'#7E8E98', // Slate Gray
-	'#C68F70', // Burnt Peach
-	'#8AA29E', // Mist Green
+	'#FF6F61', // Intensywny koralowy
+	'#6CB6FF', // Jasny błękit
+	'#FFD66B', // Żółty pastelowy
+	'#4CAF50', // Zielony leśny
+	'#F29C9F', // Blady różowy
+	'#A47EBA', // Fioletowy pastelowy
+	'#5D9CEC', // Jasny niebieski
+	'#FFA177', // Łososiowy (bardziej odróżniający się pomarańczowy)
+	'#91C46C', // Zielony limonkowy
+	'#F4B183', // Brzoskwinia z domieszką różu
+	'#D9776F', // Ceglasty czerwony
+	'#6E9ECF', // Stonowany niebieski
+	'#FA8072', // Łososiowy jasny
+	'#9D89D9', // Jasny fiolet
+	'#FFB347', // Jasna zieleń
+	'#607D8B', // Złoty pastelowy
+	'#82AAD3', // Pastelowy niebieski
+	'#B8DE92', // Miętowa zieleń
+	'#AB947E', // Beżowo-brązowy (unikatowy odcień) 
+	'#FFCC99', // Delikatny brzoskwiniowy (jasny)
   ];

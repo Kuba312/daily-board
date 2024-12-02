@@ -1,4 +1,8 @@
 <div 
+	appPopover
+	[mainContent]="dutiesNames()"
+	[aboveContent]="'task-board-form.color-has-been-added' | translate"
+	[position]="tooltipPosition"
 	class="tile-color" 
 	(click)="ngClickColorTile.emit(tileColor())"
 >

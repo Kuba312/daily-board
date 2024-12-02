@@ -8,7 +8,7 @@
 		"planners": "Planery",
 		"tasks": "Zadania",
 		"settings": "Ustawienia",
-		"new-duty": "Utwórz nowe zadanie",
+		"new-duty": "Utwórz zadanie",
 		"add-planner": "Dodaj planer"
 	},
 	"planner": {
@@ -48,7 +48,8 @@
 		"add": "Dodaj",
 		"add-and-create": "Dodaj i stwórz kolejny",
 		"task-has-been-added": "Zadanie zostało dodane",
-		"duty-conflict": "Nie można dodać zadania: czas jego realizacji koliduje z: {{conflictingDuties}}"
+		"duty-conflict": "Nie można dodać zadania: czas jego realizacji koliduje z: {{conflictingDuties}}",
+		"color-has-been-added": "Ten kolor został dodany do:"
 	},
 	"planner-form": {
 		"title": "Stwórz planer",

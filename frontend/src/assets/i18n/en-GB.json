@@ -8,7 +8,7 @@
 		"planners": "Planners",
 		"tasks": "Tasks",
 		"settings": "Settings",
-		"new-duty": "Create new task",
+		"new-duty": "Create task",
 		"add-planner": "Add planner"
 	},
 	"planner": {
@@ -46,7 +46,8 @@
 		"task-date": "Task date",
 		"pick-color": "Pick color",
 		"range-planner-time": "Task has been added",
-		"duty-conflict": "Cannot add the task: its scheduled time conflicts with the following: {{conflictingDuties}}"
+		"duty-conflict": "Cannot add the task: its scheduled time conflicts with the following: {{conflictingDuties}}",
+		"color-has-been-added": "This color has been added to:"
 	},
 	"planner-form": {
 		"title": "Create planner",

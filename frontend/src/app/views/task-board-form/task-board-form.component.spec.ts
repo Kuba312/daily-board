@@ -40,7 +40,7 @@ describe('TaskBoardFormComponent', () => {
 			'getParameterValue',
 		]);
 		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
-			'crateArrayOfDutiesBasedOnWeekDays',
+			'crateArrayOfDutiesBasedOnWeekDays', 'setAmountOfDuties',
 		]);
 		mockStore = jasmine.createSpyObj('Store', ['dispatch', 'selectSignal']);
 

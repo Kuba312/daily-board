@@ -13,11 +13,10 @@ export const selectAllDuties = createSelector(selectDutiesState, selectAll);
 
 export const selectDutiesByPlannerId = (
 	plannerId: string,
-): MemoizedSelector<object, DutyDto[]> => {
-	return createSelector(selectAllDuties, (duties) =>
+): MemoizedSelector<object, DutyDto[]> =>
+	createSelector(selectAllDuties, (duties) =>
 		duties.filter((duty) => duty.plannerId === plannerId),
 	);
-};
 
 export const isPlannerLoaded = (
 	plannerId: string,

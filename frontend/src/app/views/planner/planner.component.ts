@@ -46,6 +46,7 @@ export default class PlannerComponent {
 		this._store.selectSignal(selectPlannerById(this.plannerId));
 	public readonly isPlannerLoaded: Signal<boolean> = computed(() => {
 		const planner = this.plannerDetails();
+
 		return !!planner;
 	});
 

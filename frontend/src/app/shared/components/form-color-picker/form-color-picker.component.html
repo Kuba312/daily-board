@@ -1,12 +1,14 @@
 <section class="form-color-picker">
 	<app-sub-section
 		[subHeaderTitle]="'task-board-form.pick-color' | translate"
+		[isExpandableSection]="true"
 	>
 		@for (tileColor of TILE_COLORS; track $index) {
 			<app-tile-color
 				[isChosenColor]="selectedIndexColor() === $index"
 				(ngClickColorTile)="selectColor($index)"
 				[tileColor]="tileColor"
+				[dutiesNames]="getDutiesNamesByColor(tileColor)"
 			/>
 		}
 	</app-sub-section>

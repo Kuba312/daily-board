@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
 import { TIME_MASK_FORMAT } from '@shared/constants/shared-consts.const';
-import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.type';
+import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.enum';
 import { CalendarDateDetails } from '@shared/models/calendar-date-details';
 import moment from 'moment';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';

@@ -1,14 +1,14 @@
 import { Component, DestroyRef, inject, Signal } from '@angular/core';
-import InformationDialogComponent from '@shared/components/infromation-dialog/infromation-dialog.component';
-import { DialogService } from '@shared/services/dialog/dialog.service';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { selectAllPlanners } from '@shared-store/planner-store/planner.selectors';
 import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/header-with-buttons.component';
+import InformationDialogComponent from '@shared/components/infromation-dialog/infromation-dialog.component';
 import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
 import { ButtonConfig } from '@shared/models/button-config';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { PlannerDto } from 'src/api/models';
 

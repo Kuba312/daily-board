@@ -20,7 +20,12 @@
 				<span class="planner-card__content--name">
 					{{ plannerDetails().name }}
 				</span>
-				<div class="planner-card__content--note">
+				<div 
+					appPopover
+					[mainContent]="plannerDetails().note"
+					[position]="tooltipPosition"
+					class="planner-card__content--note"
+				>
 					<p>
 						{{ plannerDetails().note }}
 					</p>

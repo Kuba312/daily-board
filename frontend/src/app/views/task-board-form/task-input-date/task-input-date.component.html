@@ -1,0 +1,49 @@
+@if(formGroup()) {
+	<div [formGroup]="formGroup()">
+		@if (isConstantPlanner()) {
+			<app-week-date-picker-input
+				[formControlName]="controlName()"
+				[controlName]="controlName()"
+				[formGroup]="formGroup()"
+				[label]="'task-board-form.task-date' | translate"
+				[customErrorMessages]="customErrorMessages()"
+				[onlyHours]="isConstantPlanner()"
+			/>
+		} @else {
+			<app-sub-section
+				[subHeaderTitle]="'task-board-form.chosen-dates' | translate"
+				[isExpandableSection]="true"
+				[setContentVerticallyFirst]="true"
+				[expandToFullContentWidth]="true"
+				[notScrollableContainer]="true"
+			>	
+				<div class="task-input-date">
+					<app-week-date-picker-input
+						[formControlName]="controlName()"
+						[controlName]="controlName()"
+						[formGroup]="formGroup()"
+						[label]="'task-board-form.task-date' | translate"
+						[customErrorMessages]="customErrorMessages()"
+						[onlyHours]="isConstantPlanner()"
+					/>
+				</div>
+
+				<app-primary-button
+					[label]="'task-board-form.add-date' | translate"
+					[emitOnClick]="true"
+					[width]="20"
+					[disabled]="invalidDateControl"
+					(ngClick)="onAddChipTagDate()"
+				/>
+		
+				<div class="task-dates-chips-container">
+					<app-chip-tags-container
+						[chipTagsDates]="addedChipTagsDates()"
+						(chipRemovedIndex)="onChipTagDateRemoved($event)"
+					/>
+				</div>
+			</app-sub-section>
+		}
+	</div>
+}
+

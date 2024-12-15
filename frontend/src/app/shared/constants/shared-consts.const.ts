@@ -9,11 +9,15 @@ export const TIME_MASK_FORMAT: string = '00:00';
 export const MOMENT_MINUTES_TYPE: DurationInputArg2 = 'minutes';
 export const YEAR_MOTH_DAY_FORMAT: string = 'YYYY-MM-DD';
 export const YEAR_MONTH_FORMAT: string = 'YYYY-MM';
+export const DAY_MONTH_FORMAT: string = 'DD-MM-YYYY';
 
 export const DYNAMIC_PLANNER: string = 'dynamic';
 export const CONSTANT_PLANNER: string = 'constant';
 
 export const PLANNER_ID: string = 'plannerId';
+
+export const TIME_PLACEHOLDER: string = '__:__'
+export const DATE_PLACEHOLDER: string = '__-__-____';
 
 export const TILE_COLORS: string[] = [
 	'#FF6F61', // Intensywny koralowy

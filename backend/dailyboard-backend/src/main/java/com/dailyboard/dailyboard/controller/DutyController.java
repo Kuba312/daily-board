@@ -3,6 +3,7 @@ package com.dailyboard.dailyboard.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,18 +31,22 @@ public class DutyController {
 
     @PostMapping("/{plannerId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<DutyDto> saveDuty(@RequestBody List<DutyDto> dutiesDto, @PathVariable String plannerId) {
+    public List<DutyDto> saveDuty(@RequestBody List<@Valid DutyDto> dutiesDto, @PathVariable String plannerId) {
         return dutyMapper.toDtos(dutyService.save(dutyMapper.toDaos(dutiesDto), plannerId));
     }
 
-    @GetMapping()
-    public List<DutyDto> getDuties(@RequestParam LocalDate from, @RequestParam LocalDate to) {
-        return dutyMapper.toDtos(dutyService.getDuties(from, to));
+    @GetMapping("/dynamic/{plannerId}")
+    public List<DutyDto> getDuties(
+            @PathVariable String plannerId,
+            @RequestParam LocalDate from,
+            @RequestParam LocalDate to
+    ) {
+        return dutyMapper.toDtos(dutyService.getDuties(plannerId, from, to));
     }
 
     @GetMapping("/constant")
     public List<DutyDto> getDutiesWithoutDates() {
-        return  dutyMapper.toDtos(dutyService.getDutiesWithoutDates());
+        return dutyMapper.toDtos(dutyService.getDutiesWithoutDates());
     }
 
     @GetMapping("/{plannerId}")

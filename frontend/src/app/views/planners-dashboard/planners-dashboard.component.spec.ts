@@ -108,7 +108,7 @@ describe('PlannersDashboardComponent', () => {
 			By.css('.planners-dashboard .planner-items-container__cards'),
 		).children;
 		
-		expect(plannerCards.length).toBe(3);
+		expect(plannerCards.length).toBe(4);
 	});
 
 	it('should direct to planner creator view', () => {

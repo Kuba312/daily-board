@@ -3,12 +3,15 @@ import { DutyHelperService } from './duty-helper.service';
 import { signal } from '@angular/core';
 import { DutyDto } from 'src/api/models';
 import { WeekDays } from '@app/enums/week-days.enum';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DutyHelperService', () => {
 	let service: DutyHelperService;
 
 	beforeEach(() => {
-		TestBed.configureTestingModule({});
+		TestBed.configureTestingModule({
+			imports: [TranslateModule.forRoot()],
+		});
 		service = TestBed.inject(DutyHelperService);
 	});
 
@@ -18,10 +21,25 @@ describe('DutyHelperService', () => {
 
 	it('should group duties by days correctly', () => {
 		const mockDuties = signal<DutyDto[]>([
-			{ id: 'asd', weekDay: WeekDays.MONDAY },
-			{ id: '3rd1x', weekDay: WeekDays.MONDAY },
-			{ id: 'asdf1e23', weekDay: WeekDays.TUESDAY },
-			{ id: '212ds12d12d', weekDay: WeekDays.FRIDAY },
+			{ id: 'asd', weekDay: WeekDays.MONDAY, from: '10:00', to: '12:00' },
+			{
+				id: '3rd1x',
+				weekDay: WeekDays.MONDAY,
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: 'asdf1e23',
+				weekDay: WeekDays.TUESDAY,
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '212ds12d12d',
+				weekDay: WeekDays.FRIDAY,
+				from: '10:00',
+				to: '12:00',
+			},
 		]);
 
 		const groupedDuties = service.groupDutiesByDays(mockDuties);
@@ -47,7 +65,12 @@ describe('DutyHelperService', () => {
 	});
 
 	it('should return correct key for a duty based on the weekday', () => {
-		const mockDuty: DutyDto = { id: 'asd', weekDay: WeekDays.MONDAY };
+		const mockDuty: DutyDto = {
+			id: 'asd',
+			weekDay: WeekDays.MONDAY,
+			from: '10:00',
+			to: '12:00',
+		};
 		const key = service['getDutyKey'](mockDuty);
 
 		expect(key).toBe('planner.full-days-names.monday');
@@ -70,6 +93,8 @@ describe('DutyHelperService', () => {
 			id: 'duty-123',
 			weekDay: WeekDays.MONDAY,
 			name: 'Mock Duty',
+			from: '10:00',
+			to: '12:00',
 		};
 		const days: WeekDays[] = [
 			WeekDays.MONDAY,
@@ -90,12 +115,48 @@ describe('DutyHelperService', () => {
 
 	it('should group duties by colors with unique names ignoring case and spaces', () => {
 		const mockDuties: DutyDto[] = [
-			{ id: '1', name: 'Math', color: '#FFB266' },
-			{ id: '2', name: 'Math ', color: '#FFB266' },
-			{ id: '3', name: 'Math', color: '#E27D60' },
-			{ id: '4', name: 'Science', color: '#FFB266' },
-			{ id: '5', name: ' SCIENCE', color: '#FFB266' },
-			{ id: '6', name: 'History', color: '#E27D60' },
+			{
+				id: '1',
+				name: 'Math',
+				color: '#FFB266',
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '2',
+				name: 'Math ',
+				color: '#FFB266',
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '3',
+				name: 'Math',
+				color: '#E27D60',
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '4',
+				name: 'Science',
+				color: '#FFB266',
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '5',
+				name: ' SCIENCE',
+				color: '#FFB266',
+				from: '10:00',
+				to: '12:00',
+			},
+			{
+				id: '6',
+				name: 'History',
+				color: '#E27D60',
+				from: '10:00',
+				to: '12:00',
+			},
 		];
 
 		const groupedDuties = service.groupDutiesNamesByColors(mockDuties);
@@ -118,5 +179,32 @@ describe('DutyHelperService', () => {
 
 		expect(names2).toContain('Math');
 		expect(names2).toContain('History');
+	});
+
+	it('should create duties based on passed times', () => {
+		const duty: DutyDto = {
+			id: '1',
+			name: 'Math',
+			color: '#FFB266',
+			from: '',
+			to: '',
+		};
+
+		const addingDate1 = '12-12-2024, 12:00 - 13:00';
+		const addingDate2 = '13-12-2024, 13:00 - 14:00';
+		const addingDate3 = '14-12-2024, 15:00 - 16:00';
+
+		const dutiesWithTimes = service.createArrayOfDutiesBasedOnTimes(
+			[addingDate1, addingDate2, addingDate3],
+			duty,
+		);
+
+		expect(dutiesWithTimes.length).toBe(3);
+		expect(dutiesWithTimes[0].effectiveDate).toBe('2024-12-12');
+		expect(dutiesWithTimes[1].effectiveDate).toBe('2024-12-13');
+		expect(dutiesWithTimes[2].effectiveDate).toBe('2024-12-14');
+		expect(dutiesWithTimes[2].weekDay).toBe('SATURDAY');
+		expect(dutiesWithTimes[1].weekDay).toBe('FRIDAY');
+		expect(dutiesWithTimes[0].weekDay).toBe('THURSDAY');
 	});
 });

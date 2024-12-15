@@ -14,29 +14,22 @@
 				[formGroup]="formGroupValue"
 			>
 				<div class="task-board-form__form--container">
-					<div
-						class="form-group"
-						[ngClass]="{
-							'doubled-first-flex-input': isConstantPlanner()
-						}"
-					>
-						<app-form-input
-							[controlName]="formModelValue.NAME"
-							[formGroup]="formGroupValue"
-							[label]="'task-board-form.task-name' | translate"
-							[placeholder]="
-								'task-board-form.task-name-placeholder' | translate
-							"
-						/>
-						<app-week-date-picker-input
-							[formControlName]="formModelValue.DATE"
-							[controlName]="formModelValue.DATE"
-							[formGroup]="formGroupValue"
-							[label]="'task-board-form.task-date' | translate"
-							[customErrorMessages]="formModelValue.invalidTimeRangesMessage()"
-							[onlyHours]="isConstantPlanner()"
-						/>
-					</div>
+					<app-form-input
+						[controlName]="formModelValue.NAME"
+						[formGroup]="formGroupValue"
+						[label]="'task-board-form.task-name' | translate"
+						[placeholder]="
+							'task-board-form.task-name-placeholder' | translate
+						"
+					/>
+					<app-task-input-date
+						[controlName]="formModelValue.DATE"
+						[customErrorMessages]="formModelValue.invalidTimeRangesMessage()"
+						[label]="'task-board-form.task-date' | translate"
+						[formGroup]="formGroupValue"
+						[isConstantPlanner]="isConstantPlanner()"
+						[(addedChipTagsDates)]="formModelValue.addedChipTagsDates"
+					/>
 					@if (isConstantPlanner()) {
 						<app-form-select
 							[formGroup]="formGroupValue"

@@ -11,6 +11,7 @@ $fat-thickening: 600;
 // border radius values
 $normal-border-radius: 9px;
 $doubled-normal-border-radius: 16px;
+$chip-tag-border-radius: 24px;
 
 // borders
 $tiny-border: 0.5px solid var(--color-border);
@@ -26,7 +27,7 @@ $color-picker-section-margin: 3rem;
 // button-colors:
 $bg-button: #1973d2;
 $bg-hover-button: darken($bg-button, 10%);
-$bg-secondary-button: #e0a93200; // Suggested secondary button color
+$bg-secondary-button: #e0a93200;
 $bg-hover-secondary-button: darken($bg-secondary-button, 10%);
 
 $bg-disabled-button: #A1C0E2;
@@ -58,6 +59,7 @@ $form-fields-gap: 5rem;
 	--color-border: #cfb5a2;
 	--color-shadow: #cfb5a29c;
 	--color-background-secondary: #e4d9cd;
+	--color-chip-background: #d6c8b9;
 	--color-hover-text: #dacbb8;
 	--bg-snackbar-color-success: #c8e6c9;
 	--border-snack-bar-color-success: #81c784;
@@ -73,6 +75,7 @@ $form-fields-gap: 5rem;
 	--color-border: #304a5d;
 	--color-shadow: #304a5d6c;
 	--color-background-secondary: #1b2632;
+	--color-chip-background: #2a3a4b;
 	--color-hover-text: #2d4658;
 	--bg-snackbar-color-success: #2e7d32;
 	--border-snack-bar-color-success: #66bb6a;

@@ -25,7 +25,7 @@ export class TimeValidators {
 
 	static validateTime(): ValidatorFn {
 		return (control: AbstractControl) => {
-			if (!control.value) {
+			if (!control.value || control.value === '__:__') {
 				return null;
 			}
 
@@ -167,8 +167,8 @@ export class TimeValidators {
 		toTime: string,
 		minTimeDifference: number = this.FIVE_HOURS,
 	): boolean {
-		const from = moment(fromTime, 'HH:mm');
-		const to = moment(toTime, 'HH:mm');
+		const from = moment(fromTime, TIME_FORMAT);
+		const to = moment(toTime, TIME_FORMAT);
 		const differenceInHours = to.diff(from, 'minutes') / 60;
 
 		return differenceInHours >= minTimeDifference;

@@ -1,0 +1,16 @@
+<div class="chip-tags-container">
+	<div class="chip-tags-container__wrapper">
+		@let chipTags = chipTagsDates();
+
+		@if (chipTags && chipTags.length) {
+			@for (chipTag of chipTags; track $index) {
+				<app-chip-tag
+					[chipContent]="chipTag"
+					[index]="$index"
+					(onChipRemoved)="chipRemovedIndex.emit($event)"
+				/>
+			}
+		}
+
+	</div>
+</div>

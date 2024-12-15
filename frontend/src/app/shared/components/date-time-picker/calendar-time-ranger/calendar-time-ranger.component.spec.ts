@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import CalendarTimeRangerComponent from './calendar-time-ranger.component';
+import { TIME_FORMAT } from '@shared/constants/shared-consts.const';
 
 describe('CalendarTimeRangerComponent', () => {
 	let fixture: ComponentFixture<CalendarTimeRangerComponent>;
@@ -133,7 +134,7 @@ describe('CalendarTimeRangerComponent', () => {
 
 		fixture.detectChanges();
 
-		const currentHour = moment().format('HH:mm');
+		const currentHour = moment().format(TIME_FORMAT);
 
 		expect(
 			component.formModel?.formGroup().get(fromHourControl)?.value,
@@ -150,7 +151,7 @@ describe('CalendarTimeRangerComponent', () => {
 
 		fixture.detectChanges();
 
-		const currentHour = moment().format('HH:mm');
+		const currentHour = moment().format(TIME_FORMAT);
 
 		expect(component.formModel?.formGroup().get(toHourControl)?.value).toBe(
 			currentHour,
@@ -167,7 +168,7 @@ describe('CalendarTimeRangerComponent', () => {
 
 		fixture.detectChanges();
 
-		const currentHour = moment().format('HH:mm');
+		const currentHour = moment().format(TIME_FORMAT);
 
 		expect(
 			component.formModel?.formGroup().get(fromHourControl)?.value,
@@ -184,7 +185,7 @@ describe('CalendarTimeRangerComponent', () => {
 
 		fixture.detectChanges();
 
-		const currentHour = moment().format('HH:mm');
+		const currentHour = moment().format(TIME_FORMAT);
 
 		expect(component.formModel?.formGroup().get(toHourControl)?.value).toBe(
 			currentHour,

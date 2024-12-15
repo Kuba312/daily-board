@@ -15,7 +15,15 @@
 		class="sub-section__content"
 		[ngClass]="{ 'shown-content': !isSectionHidden() }"
 	>
-		<div class="sub-section__wrapper">
+		<div 
+			class="sub-section__wrapper" 
+			[ngClass]="{ 
+				'full-content-width-first': expandToFullContentWidth(),
+				'vertical-content': setContentVerticallyFirst(),
+				'not-scrollable': notScrollableContainer(),
+				'hidden-content': isSectionHidden(),
+			}"
+		>
 			<ng-content />
 		</div>
 	</div>

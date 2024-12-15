@@ -1,0 +1,14 @@
+@use '../../../../assets/scss/abstracts' as *;
+
+:host {
+	display: block;
+}
+
+.chip-tags-container {
+	$self: &;
+
+	#{$self}__wrapper {
+		@include flex-center-wrap;;
+		gap: 1.5rem;
+	}
+}

@@ -37,7 +37,8 @@
 	}
 
 	#{$self}__calendar {
-		position: absolute;	
+		position: absolute;
+		min-width: 40rem;
 		z-index: 1;
 		box-shadow: $normal-shadow;
 	}

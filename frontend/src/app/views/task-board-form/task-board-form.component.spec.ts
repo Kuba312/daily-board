@@ -40,12 +40,16 @@ describe('TaskBoardFormComponent', () => {
 			'getParameterValue',
 		]);
 		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
-			'crateArrayOfDutiesBasedOnWeekDays', 'setAmountOfDuties',
+			'crateArrayOfDutiesBasedOnWeekDays',
+			'setAmountOfDuties',
+			'createArrayOfDutiesBasedOnTimes',
 		]);
 		mockStore = jasmine.createSpyObj('Store', ['dispatch', 'selectSignal']);
 
 		mockStore.selectSignal.and.returnValue(signal(MOCK_PLANNERS[2]));
-		dutyHelperServiceSpy.crateArrayOfDutiesBasedOnWeekDays.and.returnValue(DUTY_MOCK);
+		dutyHelperServiceSpy.crateArrayOfDutiesBasedOnWeekDays.and.returnValue(
+			DUTY_MOCK,
+		);
 
 		TestBed.configureTestingModule({
 			imports: [
@@ -102,11 +106,15 @@ describe('TaskBoardFormComponent', () => {
 	});
 
 	it('should form has proper controls', () => {
-		expect(component.formModel()?.formGroup().get(nameControl)).toBeTruthy();
+		expect(
+			component.formModel()?.formGroup().get(nameControl),
+		).toBeTruthy();
 		expect(
 			component.formModel()?.formGroup().get(descriptionControl),
 		).toBeTruthy();
-		expect(component.formModel()?.formGroup().get(dateControl)).toBeTruthy();
+		expect(
+			component.formModel()?.formGroup().get(dateControl),
+		).toBeTruthy();
 	});
 
 	it('should create additional day control if user selected constant planner', () => {
@@ -171,7 +179,7 @@ describe('TaskBoardFormComponent', () => {
 		expect(date?.errors).toBeTruthy();
 	});
 
-	it('should does not have errors if user provide valid date time', () => {		
+	it('should does not have errors if user provide valid date time', () => {
 		const date = component.formModel()?.formGroup().get(dateControl);
 		date?.setValue('null, 12:00 - 13:00');
 		fixture.detectChanges();
@@ -179,7 +187,7 @@ describe('TaskBoardFormComponent', () => {
 		expect(date?.errors).toBeNull();
 	});
 
-	it('should have error if user provide times out of range from configured planner', () => {		
+	it('should have error if user provide times out of range from configured planner', () => {
 		const date = component.formModel()?.formGroup().get(dateControl);
 		date?.setValue('null, 07:00 - 13:00');
 		fixture.detectChanges();
@@ -190,28 +198,39 @@ describe('TaskBoardFormComponent', () => {
 	it('should save duty when user click add button', () => {
 		component.formModel()?.tileColor.set('#B39DDB');
 
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(dateControl)
 			?.setValue('null, 12:00 - 13:00');
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(nameControl)
 			?.setValue('Matematyka');
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(descriptionControl)
 			?.setValue('Opis testowy');
-		component?.formModel()?.formGroup().get(weekDayControl)?.setValue('MONDAY');
-		
-		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue('10:00');
-		textProcessingServiceSpy.extractToHourFromControl.and.returnValue('13:00');
+		component
+			?.formModel()
+			?.formGroup()
+			.get(weekDayControl)
+			?.setValue('MONDAY');
+
+		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue(
+			'10:00',
+		);
+		textProcessingServiceSpy.extractToHourFromControl.and.returnValue(
+			'13:00',
+		);
 
 		const duties = component.formModel()?.toModel();
 
 		component.sendForm();
 		fixture.detectChanges();
-		
+
 		expect(mockStore.dispatch).toHaveBeenCalledWith(
 			jasmine.objectContaining({
 				type: '[duty] Save duty',
@@ -225,26 +244,37 @@ describe('TaskBoardFormComponent', () => {
 	it('should save duty when user click add button and create new', () => {
 		component.formModel()?.tileColor.set('#B39DDB');
 
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(dateControl)
 			?.setValue('null, 12:00 - 13:00');
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(nameControl)
 			?.setValue('Matematyka');
-		component.formModel()
+		component
+			.formModel()
 			?.formGroup()
 			.get(descriptionControl)
 			?.setValue('Opis testowy');
-		component?.formModel()?.formGroup().get(weekDayControl)?.setValue(['MONDAY']);
-		
-		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue('10:00');
-		textProcessingServiceSpy.extractToHourFromControl.and.returnValue('13:00');
+		component
+			?.formModel()
+			?.formGroup()
+			.get(weekDayControl)
+			?.setValue(['MONDAY']);
+
+		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue(
+			'10:00',
+		);
+		textProcessingServiceSpy.extractToHourFromControl.and.returnValue(
+			'13:00',
+		);
 
 		component.saveAndClearForm();
 		fixture.detectChanges();
-		
+
 		expect(mockStore.dispatch).toHaveBeenCalled();
 		expect(component.formModel()?.formGroup().get(nameControl)?.value).toBe(
 			null,
@@ -255,5 +285,91 @@ describe('TaskBoardFormComponent', () => {
 		expect(component.formModel()?.formGroup().get(dateControl)?.value).toBe(
 			null,
 		);
+	});
+
+	it('should call createArrayOfDutiesBasedOnTimes if user provided three different times for dynamic planner', () => {
+		fixture.detectChanges();
+
+		component.plannerId = 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf';
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel()!.isConstantPlanner = false;
+		component.formModel()?.tileColor.set('#B39DDB');
+
+		fixture.detectChanges();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+
+		const addingDate1 = '12-12-2024, 12:00 - 13:00';
+		const addingDate2 = '12-12-2024, 13:00 - 14:00';
+		const addingDate3 = '12-12-2024, 15:00 - 16:00';
+
+		component
+			.formModel()
+			?.addedChipTagsDates.set([addingDate1, addingDate2, addingDate3]);
+		fixture.detectChanges();
+
+		component.formModel()?.toModel();
+
+		component.sendForm();
+
+		fixture.detectChanges();
+
+		expect(
+			dutyHelperServiceSpy.createArrayOfDutiesBasedOnTimes,
+		).toHaveBeenCalled();
+	});
+
+	it('should save 3 duties if user provided three different times for dynamic planner', () => {
+		fixture.detectChanges();
+
+		component.plannerId = 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf';
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel()!.isConstantPlanner = false;
+		component.formModel()?.tileColor.set('#B39DDB');
+
+		fixture.detectChanges();
+		
+		dutyHelperServiceSpy.createArrayOfDutiesBasedOnTimes.and.returnValue([
+			{
+				name: 'Matematyka',
+				effectiveDate: '12-12-2024',
+				from: '12:00',
+				to: '13:00',
+			},
+			{
+				name: 'Matematyka',
+				effectiveDate: '12-12-2024',
+				from: '13:00',
+				to: '14:00',
+			},
+			{
+				name: 'Matematyka',
+				effectiveDate: '12-12-2024',
+				from: '15:00',
+				to: '16:00',
+			},
+		]);
+
+		const addingDate1 = '12-12-2024, 12:00 - 13:00';
+		const addingDate2 = '12-12-2024, 13:00 - 14:00';
+		const addingDate3 = '12-12-2024, 15:00 - 16:00';
+
+		component
+			.formModel()
+			?.addedChipTagsDates.set([addingDate1, addingDate2, addingDate3]);
+
+		component.sendForm();
+
+		const duties = component.formModel()?.toModel();
+
+		fixture.detectChanges();
+
+		expect(duties?.length).toBe(3);
 	});
 });

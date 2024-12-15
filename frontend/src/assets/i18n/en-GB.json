@@ -47,7 +47,10 @@
 		"pick-color": "Pick color",
 		"range-planner-time": "Task has been added",
 		"duty-conflict": "Cannot add the task: its scheduled time conflicts with the following: {{conflictingDuties}}",
-		"color-has-been-added": "This color has been added to:"
+		"color-has-been-added": "This color has been added to:",
+		"chosen-dates": "Chosen dates",
+		"add-date": "Add date",
+		"added-time-is-overrode": "Added task time overlaps."
 	},
 	"planner-form": {
 		"title": "Create planner",

@@ -97,7 +97,7 @@ describe('TaskPlannerChooserComponent', () => {
 			By.css('.task-planner-chooser .planner-items-container__cards'),
 		).children;
 
-		expect(plannerCards.length).toBe(3);
+		expect(plannerCards.length).toBe(4);
 	});
 
 	it('should select planner card', () => {

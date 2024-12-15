@@ -1,0 +1,25 @@
+@use '../abstracts' as *;
+
+.chip-tag {
+	background: var(--color-chip-background);
+	border-radius: $chip-tag-border-radius;
+	$self: &;
+
+	#{$self}__wrapper {
+		@include flex-center;
+		padding: 1rem 1.4rem;
+
+		span {
+			display: inline-block;
+			font-size: $smaller-font-size;
+			color: var(--color-text-secondary);
+		}
+
+		mat-icon {
+			@include flex-justify-end-align-center;
+			font-size: $smaller-font-size;
+			color: var(--color-text-secondary) !important;
+			cursor: pointer;
+		}
+	}
+}

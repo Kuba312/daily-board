@@ -1,8 +1,10 @@
 package com.dailyboard.dailyboard.model.dto;
 
 
+import com.dailyboard.dailyboard.validation.StartEndDateValid;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@StartEndDateValid
 public class DutyDto {
 
     private String id;
@@ -22,8 +25,12 @@ public class DutyDto {
     private String description;
     private DayOfWeek weekDay;
     private LocalDate effectiveDate;
+
+    @NotNull
     private LocalTime from;
+    @NotNull
     private LocalTime to;
+
     private String color;
     private String plannerId;
 }

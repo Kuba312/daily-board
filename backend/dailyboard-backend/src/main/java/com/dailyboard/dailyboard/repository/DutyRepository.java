@@ -11,7 +11,7 @@ import com.dailyboard.dailyboard.model.dao.Duty;
 
 public interface DutyRepository extends JpaRepository<Duty, UUID>, JpaSpecificationExecutor<Duty> {
 
-    List<Duty> findByEffectiveDateBetween(LocalDate from, LocalDate to);
+    List<Duty> findByPlannerIdAndEffectiveDateBetween(String id, LocalDate from, LocalDate to);
 
     List<Duty> findByEffectiveDateIsNull();
 

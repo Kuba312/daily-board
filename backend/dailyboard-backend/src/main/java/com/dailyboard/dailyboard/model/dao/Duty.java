@@ -24,13 +24,10 @@ public class Duty {
     @Enumerated(EnumType.STRING)
     private DayOfWeek weekDay;
 
-    @Column(name = "effective_date")
     private LocalDate effectiveDate;
 
-    @Column(name = "start_time")
     private LocalTime startTime;
 
-    @Column(name = "end_time")
     private LocalTime endTime;
     private String color;
 

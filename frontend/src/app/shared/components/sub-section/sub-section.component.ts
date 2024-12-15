@@ -15,12 +15,15 @@ import { MatIcon } from '@angular/material/icon';
 	templateUrl: './sub-section.component.html',
 })
 export default class SubSectionComponent {
-	subHeaderTitle: InputSignal<string> = input.required<string>();
-	isExpandableSection: InputSignal<boolean> = input<boolean>(false);
+	public subHeaderTitle: InputSignal<string> = input.required<string>();
+	public isExpandableSection: InputSignal<boolean> = input<boolean>(false);
+	public expandToFullContentWidth: InputSignal<boolean> = input<boolean>(false);
+	public setContentVerticallyFirst: InputSignal<boolean> = input<boolean>(false);
+	public notScrollableContainer: InputSignal<boolean> = input<boolean>(false);
 
-	isSectionHidden: WritableSignal<boolean> = signal<boolean>(false);
+	public isSectionHidden: WritableSignal<boolean> = signal<boolean>(false);
 
-	toggleSection(): void {
+	public toggleSection(): void {
 		if(!this.isExpandableSection()) {
 			return;
 		}

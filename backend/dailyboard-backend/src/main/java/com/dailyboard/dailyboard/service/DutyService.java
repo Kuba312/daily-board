@@ -31,8 +31,8 @@ public class DutyService {
         return saveDuties(duties, plannerId);
     }
 
-    public List<Duty> getDuties(LocalDate from, LocalDate to) {
-        return dutyRepository.findByEffectiveDateBetween(from, to);
+    public List<Duty> getDuties(String plannerId, LocalDate from, LocalDate to) {
+        return dutyRepository.findByPlannerIdAndEffectiveDateBetween(plannerId, from, to);
     }
 
     public List<Duty> getDutiesByPlannerId(String plannerId) {
@@ -69,7 +69,6 @@ public class DutyService {
                     .collect(Collectors.joining(", "))), conflictingDutyDTOs);
         }
     }
-
 
 
     private List<Duty> saveDuties(List<Duty> duties, String plannerId) {

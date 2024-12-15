@@ -20,7 +20,11 @@ import { MatInputModule } from '@angular/material/input';
 import { SHORT_NAME_DAYS } from '@core/app.consts';
 import { Option } from '@core/types/basics.types';
 import { TranslateModule } from '@ngx-translate/core';
-import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
+import {
+	DATE_PLACEHOLDER,
+	DAY_MONTH_FORMAT,
+	YEAR_MOTH_DAY_FORMAT,
+} from '@shared/constants/shared-consts.const';
 import { CalendarDateDetails } from '@shared/models/calendar-date-details';
 import { DayDate } from '@shared/models/date-day';
 import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
@@ -28,7 +32,6 @@ import SafeValue from '@shared/pipes/safe-value.pipe';
 import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
 import moment from 'moment';
-import { NgxMaskDirective } from 'ngx-mask';
 import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-ranger.component';
 
 @Component({
@@ -43,7 +46,6 @@ import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-r
 		MatIconModule,
 		LocaleDatePipe,
 		SafeValue,
-		NgxMaskDirective,
 		CalendarTimeRangerComponent,
 		NgClass,
 	],
@@ -161,16 +163,16 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	}
 
 	private _setUserCalendarDate(): void {
-		if (!this.inputDate()) {
+		if (this._isDateEmpty(this.inputDate())) {
 			return;
 		}
 
 		this.currentMonth.set(
-			this._localeDateService.dateToString(this.inputDate(), 'DD-MM-YYYY'),
+			this._localeDateService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
 		);
 
 		this.selectedMonth.set(
-			this._localeDateService.dateToString(this.inputDate(), 'DD-MM-YYYY'),
+			this._localeDateService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
 		);
 	}
 
@@ -180,6 +182,10 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 			this._areDatesMatch(dayObj) &&
 			!this.userSelectedDate()
 		);
+	}
+
+	private _isDateEmpty(date: Option<string>): boolean {
+		return !date || date === DATE_PLACEHOLDER;
 	}
 
 	private isDateSelectedByUser(dayObj: DayDate): boolean {

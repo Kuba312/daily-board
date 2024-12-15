@@ -21,7 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Option } from '@core/types/basics.types';
-import { TIME_MASK_FORMAT } from '@shared/constants/shared-consts.const';
+import { DATE_PLACEHOLDER, DAY_MONTH_FORMAT, TIME_MASK_FORMAT, TIME_PLACEHOLDER } 
+	from '@shared/constants/shared-consts.const';
 import { ControlNameWeekRanger } from '@shared/enums/control-name-week-ranger.enum';
 import { CalendarDateDetails } from '@shared/models/calendar-date-details';
 import moment from 'moment';
@@ -55,14 +56,12 @@ import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-week
 export default class WeekDatePickerInputComponent
 	implements ControlValueAccessor
 {
-	fromInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('fromInput');
-	toInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('toInput');
-	dateInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('dateInput');
+	public fromInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('fromInput');
+	public toInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('toInput');
+	public dateInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('dateInput');
 
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
 
-	private readonly TIME_PLACEHOLDER: string = '__:__'
-	private readonly DATE_PLACEHOLDER: string = '__-__-____';
 	private readonly INVALID_DATE_ERROR: string = 'invalidDate';
 
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
@@ -131,10 +130,6 @@ export default class WeekDatePickerInputComponent
 	}
 
 	toggleCalendarWeek(): void {
-		if(this.dateControlHasError(this.INVALID_DATE_ERROR)) {
-			return;
-		}
-	
 		this.isWeeklyCalendarOpened.update((value) => !value);
 	}
 
@@ -159,6 +154,12 @@ export default class WeekDatePickerInputComponent
 	): void {
 		switch (controlName) {
 			case ControlNameWeekRanger.Date:
+				if(!date) {
+					this.date.set(DATE_PLACEHOLDER);
+
+					return;
+				}
+				
 				this.date.set(date);
 				this._focusOnFromInput();
 
@@ -200,7 +201,7 @@ export default class WeekDatePickerInputComponent
 	}
 
 	private _isEmptyDate(date: string): boolean {
-		return !!date && !!date.includes(this.DATE_PLACEHOLDER);
+		return !!date && !!date.includes(DATE_PLACEHOLDER);
 	}
 
 	private _updateCalendarInputs(
@@ -212,7 +213,7 @@ export default class WeekDatePickerInputComponent
 		const toInput = this.toInput();
 
 		if (date && dateInput) {
-			this.date.set(moment(date).format('DD-MM-YYYY'));
+			this.date.set(moment(date).format(DAY_MONTH_FORMAT));
 			dateInput.nativeElement.value = this.date();
 		}
 
@@ -229,9 +230,9 @@ export default class WeekDatePickerInputComponent
 
 	private _clearTimeValues(date: string): void {
 		if (!date) {
-			this.from.set(this.TIME_PLACEHOLDER);
-			this.to.set(this.TIME_PLACEHOLDER);
-			this.date.set(this.DATE_PLACEHOLDER);
+			this.from.set(TIME_PLACEHOLDER);
+			this.to.set(TIME_PLACEHOLDER);
+			this.date.set(DATE_PLACEHOLDER);
 		}
 	}
 
@@ -239,10 +240,6 @@ export default class WeekDatePickerInputComponent
 		const builtDate = `${this.date()}, ${this.from()} - ${this.to()}`;
 
 		this._triggerFormNotifiers(builtDate);
-	}
-
-	private dateControlHasError(error: string): Option<boolean> {
-		return this.controlDate?.hasError(error)
 	}
 
 	get controlDate(): Option<AbstractControl> {

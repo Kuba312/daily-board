@@ -16,7 +16,11 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import 'moment/locale/pl';
 import { WeekRange } from '../../models/week-range';
-import { YEAR_MONTH_FORMAT, YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
+import {
+	TIME_FORMAT,
+	YEAR_MONTH_FORMAT,
+	YEAR_MOTH_DAY_FORMAT,
+} from '@shared/constants/shared-consts.const';
 
 @Injectable({ providedIn: 'root' })
 export class LocaleDateService {
@@ -59,6 +63,36 @@ export class LocaleDateService {
 		return currentDay;
 	}
 
+	public isDateTimesOverlapped(date: string, dateToCompare: string): boolean {
+		const [currentDate, currentFrom, currentTo] =
+			this.splitDateTimeRange(date);
+		const [compareDate, compareFrom, compareTo] =
+			this.splitDateTimeRange(dateToCompare);
+
+		if (currentDate !== compareDate) {
+			return false;
+		}
+
+		const currentFromMoment = moment(currentFrom, TIME_FORMAT, true);
+		const currentToMoment = moment(currentTo, TIME_FORMAT, true);
+		const compareFromMoment = moment(compareFrom, TIME_FORMAT, true);
+		const compareToMoment = moment(compareTo, TIME_FORMAT, true);
+
+		if (
+			!currentFromMoment.isValid() ||
+			!currentToMoment.isValid() ||
+			!compareFromMoment.isValid() ||
+			!compareToMoment.isValid()
+		) {
+			throw new Error('Invalid time format');
+		}
+
+		return (
+			currentFromMoment.isBefore(compareToMoment) &&
+			currentToMoment.isAfter(compareFromMoment)
+		);
+	}
+
 	public dateToString(date: Option<string>, format: string): string {
 		return moment(date, format).toISOString();
 	}
@@ -73,6 +107,17 @@ export class LocaleDateService {
 			.subscribe((langSettings: LangChangeEvent) => {
 				this._setLocaleDateFormat(langSettings);
 			});
+	}
+
+	public splitDateTimeRange(date: string): [string, string, string] {
+		const extractedDateAndTimes = date.split(',');
+		const extractedDate = extractedDateAndTimes[0];
+
+		const extractedTimes = extractedDateAndTimes[1]
+			.split('-')
+			.map((hour) => hour.trim());
+
+		return [extractedDate, extractedTimes[0], extractedTimes[1]];
 	}
 
 	public getMonthsDaysChunksByDate(date: string): (DayDate | string)[][] {

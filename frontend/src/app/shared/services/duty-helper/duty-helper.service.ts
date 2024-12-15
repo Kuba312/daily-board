@@ -1,5 +1,6 @@
 import {
 	computed,
+	inject,
 	Injectable,
 	signal,
 	Signal,
@@ -7,9 +8,18 @@ import {
 } from '@angular/core';
 import { WeekDays } from '@app/enums/week-days.enum';
 import { DutyDto } from 'src/api/models';
+import { LocaleDateService } from '../locale-date/locale-date.service';
+import {
+	DAY_MONTH_FORMAT,
+	YEAR_MOTH_DAY_FORMAT,
+} from '@shared/constants/shared-consts.const';
+import moment from 'moment';
+import { WEEK_DAYS } from '@core/app.consts';
 
 @Injectable({ providedIn: 'root' })
 export class DutyHelperService {
+	private _localeDateService: LocaleDateService = inject(LocaleDateService);
+
 	public amountOfDuties: Signal<number> = computed(() =>
 		this._amountOfDuties(),
 	);
@@ -78,6 +88,27 @@ export class DutyHelperService {
 			...duty,
 			weekDay: day,
 		}));
+	}
+
+	public createArrayOfDutiesBasedOnTimes(
+		times: string[],
+		duty: DutyDto,
+	): DutyDto[] {
+		return times.map((time) => {
+			const [date, from, to] =
+				this._localeDateService.splitDateTimeRange(time);
+			const formattedDate = moment(date, DAY_MONTH_FORMAT);
+			const effectiveDate = formattedDate.format(YEAR_MOTH_DAY_FORMAT);
+			const weekDay = WEEK_DAYS[formattedDate.isoWeekday() - 1];
+
+			return {
+				...duty,
+				effectiveDate,
+				from,
+				to,
+				weekDay,
+			};
+		});
 	}
 
 	private getDutyKey(duty: DutyDto): string {

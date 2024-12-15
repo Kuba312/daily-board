@@ -161,6 +161,16 @@ export const MOCK_PLANNERS = [
 		startTime: '08:00',
 		isConstant: true,
 	},
+
+	{
+		id: 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf',
+		name: 'Grafik do pracy',
+		// eslint-disable-next-line max-len
+		note: 'To jest grafik pozwalający na planowanie zadań w czasie pracy. Dzięki temu, dzień będzie lepiej zorganizowany i poukładany.\nGodziny pracy są niezmienne.',
+		endTime: '16:00',
+		startTime: '08:00',
+		isConstant: false,
+	},
 ];
 
 export const DUTY_MOCK: DutyDto[] = [
@@ -173,4 +183,4 @@ export const DUTY_MOCK: DutyDto[] = [
 		from: '08:00',
 		to: '10:00',
 	},
-]
+];

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
 	Component,
 	computed,
@@ -14,42 +13,40 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Option } from '@core/types/basics.types';
+import { Store } from '@ngrx/store';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
 import { plannerActions } from '@shared-store/planner-store/planner.actions';
 import { selectPlannerById } from '@shared-store/planner-store/planner.selectors';
-import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
-import { Store } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import WeekDatePickerInputComponent 
-	from '@shared/components/date-time-picker/week-date-picker-input/week-date-picker-input.component';
 import FormColorPickerComponent from '@shared/components/form-color-picker/form-color-picker.component';
 import FormInputComponent from '@shared/components/form-input/form-input.component';
 import FormSelectComponent from '@shared/components/form-select/form-select.component';
 import FormTextareaComponent from '@shared/components/form-textarea/form-textarea.component';
 import HeaderComponent from '@shared/components/header/header.component';
 import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
+import { PLANNER_ID } from '@shared/constants/shared-consts.const';
 import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
+import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
 import { filter, take } from 'rxjs';
 import { PlannerDto } from 'src/api/models';
 import { TaskBoardFormModel } from './task-board-form.form-model';
-import { PLANNER_ID } from '@shared/constants/shared-consts.const';
+import TaskInputDateComponent from './task-input-date/task-input-date.component';
 
 @Component({
 	selector: 'app-task-board-form',
 	standalone: true,
 	imports: [
-		NgClass,
 		TranslateModule,
 		ReactiveFormsModule,
 		HeaderComponent,
 		FormInputComponent,
-		WeekDatePickerInputComponent,
 		FormTextareaComponent,
 		FormColorPickerComponent,
 		PrimaryButtonComponent,
 		FormSelectComponent,
+		TaskInputDateComponent,
 	],
 	templateUrl: './task-board-form.component.html',
 	styleUrl: './task-board-form.component.scss',
@@ -88,7 +85,6 @@ export default class TaskBoardFormComponent {
 
 	ngOnInit(): void {
 		this._getCurrentPlanner();
-
 		this._initializeForm();
 	}
 
@@ -111,10 +107,10 @@ export default class TaskBoardFormComponent {
 		}
 
 		const duties = formModel.toModel();
-		
+
 		this._store.dispatch(
 			dutyActions.saveDuty({
-				duties: duties,
+				duties,
 				plannerId: this.plannerId,
 				redirectToBoard,
 			}),

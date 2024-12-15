@@ -6,10 +6,10 @@ import {
 	Validators,
 } from '@angular/forms';
 import { WeekDays } from '@app/enums/week-days.enum';
-import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { Option } from '@core/types/basics.types';
 import { TranslateService } from '@ngx-translate/core';
+import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
 import { TimeValidators } from '@shared/validators/time.validators';
 import { DutyDto, PlannerDto } from 'src/api/models';
@@ -37,6 +37,8 @@ export class TaskBoardFormModel {
 	public invalidTimeRangesMessage: WritableSignal<
 		Option<Record<string, string>>
 	> = signal(null);
+	public addedChipTagsDates: WritableSignal<Option<string[]>> =
+		signal<Option<string[]>>(null);
 
 	constructor(public isConstantPlanner: boolean, public planner: PlannerDto) {
 		this._buildForm();
@@ -51,23 +53,18 @@ export class TaskBoardFormModel {
 				? this._textProcessingService.extractFromHourFromControl(
 						this.dateControl.value,
 				  )
-				: undefined,
+				: '',
 			to: this.dateControl
 				? this._textProcessingService.extractToHourFromControl(
 						this.dateControl.value,
 				  )
-				: undefined,
+				: '',
 			...(this.tileColor() && {
 				color: this.tileColor() ?? undefined,
 			}),
 		};
 
-		return this.isConstantPlanner
-			? this._dutyHelperService.crateArrayOfDutiesBasedOnWeekDays(
-					dayControl,
-					duty,
-			  )
-			: [duty];
+		return this._divideDutyTimesIntoArray(dayControl, duty);
 	}
 
 	public dayOptions(): string[] {
@@ -90,9 +87,8 @@ export class TaskBoardFormModel {
 				controls: {
 					[this.NAME]: new FormControl('', [Validators.required]),
 					[this.DATE]: new FormControl('', [
-						Validators.required,
 						...(this.isConstantPlanner
-							? []
+							? [Validators.required]
 							: [TimeValidators.validateDate()]),
 						TimeValidators.validateTime(),
 						TimeValidators.validateTimeRanges(startTime, endTime),
@@ -121,6 +117,25 @@ export class TaskBoardFormModel {
 				},
 			),
 		});
+	}
+
+	private _divideDutyTimesIntoArray(
+		dayControl: WeekDays[],
+		duty: DutyDto,
+	): DutyDto[] {
+		const addedDutyTimesChipsTags = this.addedChipTagsDates();
+
+		return this.isConstantPlanner
+			? this._dutyHelperService.crateArrayOfDutiesBasedOnWeekDays(
+					dayControl,
+					duty,
+			  )
+			: addedDutyTimesChipsTags
+			? this._dutyHelperService.createArrayOfDutiesBasedOnTimes(
+					addedDutyTimesChipsTags,
+					duty,
+			  )
+			: [];
 	}
 
 	get dateControl(): Option<AbstractControl> {

@@ -1,3 +1,5 @@
+import { WeekDays } from "./types/week-days.type";
+
 // Languages
 export const DEFAULT_LANGUAGE: string = 'pl-PL';
 export const EN_GB: string = 'en-GB';
@@ -27,6 +29,16 @@ export const SHORT_NAME_DAYS: string[] = [
 	'planner.short-days-names.friday',
 	'planner.short-days-names.saturday',
 	'planner.short-days-names.sunday',
+];
+
+export const WEEK_DAYS: WeekDays[] = [
+	'MONDAY',
+	'TUESDAY',
+	'WEDNESDAY',
+	'THURSDAY',
+	'FRIDAY',
+	'SATURDAY',
+	'SUNDAY',
 ];
 
 export const EMPTY_CUSTOM_MESSAGE: string = '';

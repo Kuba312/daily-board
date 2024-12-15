@@ -18,7 +18,7 @@ module.exports = tseslint.config(
 				'error',
 				{
 					type: ['element', 'attribute'],
-					prefix: ['lib-kzm5', 'app', 'kzm-lib', 'kzm'],
+					prefix: ['app'],
 					style: 'kebab-case',
 				},
 			],
@@ -26,7 +26,7 @@ module.exports = tseslint.config(
 				'error',
 				{
 					type: 'attribute',
-					prefix: ['lib-kzm5', 'app', 'kzm-lib', 'kzm'],
+					prefix: ['app'],
 					style: 'camelCase',
 				},
 			],

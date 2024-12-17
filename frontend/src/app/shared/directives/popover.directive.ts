@@ -158,6 +158,7 @@ export class PopoverDirective {
 		this._renderer.setStyle(tooltip, 'white-space', 'normal');
 		this._renderer.setStyle(tooltip, 'display', 'flex');
 		this._renderer.setStyle(tooltip, 'flex-wrap', 'wrap');
+		this._renderer.setStyle(tooltip, 'pointer-events', 'none');
 		this._renderer.setStyle(
 			tooltip,
 			'box-shadow',

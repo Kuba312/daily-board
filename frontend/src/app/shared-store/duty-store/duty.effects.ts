@@ -146,6 +146,47 @@ export const getDutiesByPlannerIdEffect = createEffect(
 	{ functional: true },
 );
 
+export const getDutiesByPlannerIdAndRangeTime = createEffect(
+	(
+		$actions = inject(Actions),
+		dutyControllerService = inject(DutyControllerService),
+		snackBarService = inject(SnackBarService),
+	) =>
+		$actions.pipe(
+			ofType(dutyActions.getDutiesByRangeTimeAndPlannerId),
+			switchMap(({ plannerId, from, to }) =>
+				dutyControllerService
+					.getDutiesByPlannerIdAndRangeTime({ plannerId, from, to })
+					.pipe(
+						map((dutiesResponse) => {
+							const duties = adjustTimeInDuties(dutiesResponse);
+
+							return dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess(
+								{
+									duties,
+									plannerId,
+									from,
+									to,
+								},
+							);
+						}),
+						catchError((error: HttpErrorResponse) => {
+							showGeneralErrorMessage(snackBarService, error);
+
+							return of(
+								dutyActions.getDutiesByRangeTimeAndPlannerIdFailure(
+									{
+										errorMessage: error?.message ?? '',
+									},
+								),
+							);
+						}),
+					),
+			),
+		),
+	{ functional: true },
+);
+
 function redirectToPlannerBoard(
 	redirectToBoard: boolean,
 	routerHelperService: RouterHelperService,

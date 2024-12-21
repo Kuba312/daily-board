@@ -36,12 +36,12 @@ public class DutyController {
     }
 
     @GetMapping("/dynamic/{plannerId}")
-    public List<DutyDto> getDuties(
+    public List<DutyDto> getDutiesByPlannerIdAndRangeTime(
             @PathVariable String plannerId,
             @RequestParam LocalDate from,
             @RequestParam LocalDate to
     ) {
-        return dutyMapper.toDtos(dutyService.getDuties(plannerId, from, to));
+        return dutyMapper.toDtos(dutyService.getDutiesByPlannerIdAndRangeTime(plannerId, from, to));
     }
 
     @GetMapping("/constant")

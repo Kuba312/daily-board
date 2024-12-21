@@ -7,18 +7,18 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import { WeekDays } from '@app/enums/week-days.enum';
-import { DutyDto } from 'src/api/models';
-import { LocaleDateService } from '../locale-date/locale-date.service';
+import { WEEK_DAYS } from '@core/app.consts';
 import {
 	DAY_MONTH_FORMAT,
 	YEAR_MOTH_DAY_FORMAT,
 } from '@shared/constants/shared-consts.const';
 import moment from 'moment';
-import { WEEK_DAYS } from '@core/app.consts';
+import { DutyDto } from 'src/api/models';
+import { DateHelperService } from '../locale-date/date-helper.service';
 
 @Injectable({ providedIn: 'root' })
 export class DutyHelperService {
-	private _localeDateService: LocaleDateService = inject(LocaleDateService);
+	private _dateHelperService: DateHelperService = inject(DateHelperService);
 
 	public amountOfDuties: Signal<number> = computed(() =>
 		this._amountOfDuties(),
@@ -43,7 +43,7 @@ export class DutyHelperService {
 				continue;
 			}
 
-			groupDuties.get(this.getDutyKey(duty))?.push(duty);
+			groupDuties.get(this._getDutyKey(duty))?.push(duty);
 		}
 
 		return groupDuties;
@@ -96,7 +96,7 @@ export class DutyHelperService {
 	): DutyDto[] {
 		return times.map((time) => {
 			const [date, from, to] =
-				this._localeDateService.splitDateTimeRange(time);
+				this._dateHelperService.splitDateTimeRange(time);
 			const formattedDate = moment(date, DAY_MONTH_FORMAT);
 			const effectiveDate = formattedDate.format(YEAR_MOTH_DAY_FORMAT);
 			const weekDay = WEEK_DAYS[formattedDate.isoWeekday() - 1];
@@ -111,7 +111,18 @@ export class DutyHelperService {
 		});
 	}
 
-	private getDutyKey(duty: DutyDto): string {
+	public adjustCurrentWeekDatesToYearMonthDayFormat(): [string, string] {
+		const weekRange = this._dateHelperService.currentWeekRange();
+		const { startOfWeek, endOfWeek } = weekRange;
+		const startOfWeekFormatted =
+			this._dateHelperService.adjustDateToYearMonthDayFormat(startOfWeek);
+		const endOfWeekFormatted =
+			this._dateHelperService.adjustDateToYearMonthDayFormat(endOfWeek);
+
+		return [startOfWeekFormatted, endOfWeekFormatted];
+	}
+
+	private _getDutyKey(duty: DutyDto): string {
 		return `planner.full-days-names.${duty?.weekDay?.toLowerCase() ?? ''}`;
 	}
 

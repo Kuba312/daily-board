@@ -14,6 +14,7 @@ const initialDutyState: DutyState = dutyAdapter.getInitialState({
 	error: null,
 	allDutiesLoaded: false,
 	loadedPlannerIds: [],
+	loadedPlannersDates: [],
 });
 
 const dutyFeature = createFeature({
@@ -66,16 +67,59 @@ const dutyFeature = createFeature({
 		})),
 		on(
 			dutyActions.getDutiesByPlannerIdSuccess,
-			(state, { duties, plannerId }): DutyState => {
-				return dutyAdapter.addMany(duties, {
+			(state, { duties, plannerId }): DutyState =>
+				dutyAdapter.addMany(duties, {
 					...state,
 					isLoading: false,
 					loadedPlannerIds: [...state.loadedPlannerIds, plannerId],
+				}),
+		),
+		on(
+			dutyActions.getDutiesByPlannerIdFailure,
+			(state, { errorMessage }) => ({
+				...state,
+				isLoading: false,
+				error: errorMessage,
+			}),
+		),
+		on(dutyActions.getDutiesByRangeTimeAndPlannerId, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(
+			dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess,
+			(state, { from, to, plannerId, duties }): DutyState => {
+				const rangeTime = `${from}-${to}`;
+
+				return dutyAdapter.addMany(duties, {
+					...state,
+					isLoading: false,
+					loadedPlannersDates: state.loadedPlannersDates.some(
+						(plannerDate) => plannerId in plannerDate,
+					)
+						? state.loadedPlannersDates.map((plannerDate) =>
+								plannerId in plannerDate
+									? {
+											[plannerId]: [
+												...plannerDate[plannerId],
+												...(plannerDate[
+													plannerId
+												].includes(rangeTime)
+													? []
+													: [rangeTime]),
+											],
+									  }
+									: plannerDate,
+						  )
+						: [
+								...state.loadedPlannersDates,
+								{ [plannerId]: [rangeTime] },
+						  ],
 				});
 			},
 		),
 		on(
-			dutyActions.getDutiesByPlannerIdFailure,
+			dutyActions.getDutiesByRangeTimeAndPlannerIdFailure,
 			(state, { errorMessage }) => ({
 				...state,
 				isLoading: false,

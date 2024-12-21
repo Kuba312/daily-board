@@ -10,14 +10,16 @@ import { RequestBuilder } from '../../request-builder';
 
 import { DutyDto } from '../../models/duty-dto';
 
-export interface GetDuties$Params {
+export interface GetDutiesByPlannerIdAndRangeTime$Params {
+  plannerId: string;
   from: string;
   to: string;
 }
 
-export function getDuties(http: HttpClient, rootUrl: string, params: GetDuties$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
-  const rb = new RequestBuilder(rootUrl, getDuties.PATH, 'get');
+export function getDutiesByPlannerIdAndRangeTime(http: HttpClient, rootUrl: string, params: GetDutiesByPlannerIdAndRangeTime$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
+  const rb = new RequestBuilder(rootUrl, getDutiesByPlannerIdAndRangeTime.PATH, 'get');
   if (params) {
+    rb.path('plannerId', params.plannerId, {});
     rb.query('from', params.from, {});
     rb.query('to', params.to, {});
   }
@@ -32,4 +34,4 @@ export function getDuties(http: HttpClient, rootUrl: string, params: GetDuties$P
   );
 }
 
-getDuties.PATH = '/api/v1/duties';
+getDutiesByPlannerIdAndRangeTime.PATH = '/api/v1/duties/dynamic/{plannerId}';

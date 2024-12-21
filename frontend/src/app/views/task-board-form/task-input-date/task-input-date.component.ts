@@ -11,7 +11,7 @@ import {
 	FormGroup,
 	ReactiveFormsModule,
 } from '@angular/forms';
-import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
+import { DateHelperService } from '@shared/services/locale-date/date-helper.service';
 import { Option } from '@core/types/basics.types';
 import { TranslateModule } from '@ngx-translate/core';
 import WeekDatePickerInputComponent 
@@ -36,8 +36,8 @@ import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.ser
 	styleUrl: './task-input-date.component.scss',
 })
 export default class TaskInputDateComponent {
-	private readonly _localeDateService: LocaleDateService =
-		inject(LocaleDateService);
+	private readonly _dateHelperService: DateHelperService =
+		inject(DateHelperService);
 	private readonly _snackBarService: SnackBarService =
 		inject(SnackBarService);
 
@@ -101,7 +101,7 @@ export default class TaskInputDateComponent {
 	private _isDateTimeOverlapped(dateControlValue: string): boolean {
 		return (
 			this.addedChipTagsDates()?.some((alreadyAddedDate) =>
-				this._localeDateService.isDateTimesOverlapped(
+				this._dateHelperService.isDateTimesOverlapped(
 					dateControlValue,
 					alreadyAddedDate,
 				),

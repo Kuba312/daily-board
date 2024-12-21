@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
 import SafeValue from '@shared/pipes/safe-value.pipe';
-import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
+import { DateHelperService } from '@shared/services/locale-date/date-helper.service';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
 import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ import { MOCK_CHUNKS_DAYS } from 'src/mocks/mock-data';
 describe('CalendarWeeksRangerComponent', () => {
 	let fixture: ComponentFixture<CalendarWeeksRangerComponent>;
 	let component: CalendarWeeksRangerComponent;
-	let localeDateServiceSpy: jasmine.SpyObj<LocaleDateService>;
+	let localeDateServiceSpy: jasmine.SpyObj<DateHelperService>;
 	let timeValueConnectorServiceSpy: jasmine.SpyObj<TimeValueConnectorService>;
 	let el: DebugElement;
 
@@ -57,7 +57,7 @@ describe('CalendarWeeksRangerComponent', () => {
 				NgClass,
 			],
 			providers: [
-				{ provide: LocaleDateService, useValue: localeDateServiceSpy },
+				{ provide: DateHelperService, useValue: localeDateServiceSpy },
 				{
 					provide: TimeValueConnectorService,
 					useValue: timeValueConnectorServiceSpy,

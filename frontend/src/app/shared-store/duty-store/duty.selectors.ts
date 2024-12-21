@@ -20,7 +20,21 @@ export const selectDutiesByPlannerId = (
 
 export const isPlannerLoaded = (
 	plannerId: string,
+	from?: string,
+	to?: string,
 ): MemoizedSelector<object, boolean> =>
-	createSelector(selectDutiesState, (state: DutyState) =>
-		state.loadedPlannerIds.includes(plannerId),
-	);
+	{
+
+		return createSelector(
+			selectDutiesState,
+			(state: DutyState) => state.loadedPlannerIds.includes(plannerId) ||
+			(
+				(from &&
+					to &&
+					state.loadedPlannersDates.find(
+						(rangeTimes) => plannerId in rangeTimes,
+					)?.[plannerId]) ||
+				[]
+			).includes(`${from}-${to}`),
+		);
+	};

@@ -8,22 +8,22 @@ import {
 	signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Option } from '@core/types/basics.types';
-import { DayDate } from '@shared/models/date-day';
 import { DEFAULT_LANGUAGE } from '@core/app.consts';
+import { Option } from '@core/types/basics.types';
 import { LocaleDateFormat } from '@core/types/dates.types';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import moment from 'moment';
-import 'moment/locale/pl';
-import { WeekRange } from '../../models/week-range';
 import {
 	TIME_FORMAT,
 	YEAR_MONTH_FORMAT,
 	YEAR_MOTH_DAY_FORMAT,
 } from '@shared/constants/shared-consts.const';
+import { DayDate } from '@shared/models/date-day';
+import moment from 'moment';
+import 'moment/locale/pl';
+import { WeekRange } from '../../models/week-range';
 
 @Injectable({ providedIn: 'root' })
-export class LocaleDateService {
+export class DateHelperService {
 	private readonly _translateService: TranslateService =
 		inject(TranslateService);
 	private readonly _destroyRef: DestroyRef = inject(DestroyRef);
@@ -40,7 +40,7 @@ export class LocaleDateService {
 	private _localeDateFormat: WritableSignal<LocaleDateFormat> =
 		signal<LocaleDateFormat>(this.PL);
 
-	public weekRange(): WeekRange {
+	public currentWeekRange(): WeekRange {
 		const startOfWeek = moment().startOf(this.WEEK).toISOString();
 		const endOfWeek = moment().endOf(this.WEEK).toISOString();
 
@@ -61,6 +61,10 @@ export class LocaleDateService {
 		const currentDay = moment().toISOString();
 
 		return currentDay;
+	}
+
+	public adjustDateToYearMonthDayFormat(date: string): string {
+		return moment(date).format(YEAR_MOTH_DAY_FORMAT);
 	}
 
 	public isDateTimesOverlapped(date: string, dateToCompare: string): boolean {

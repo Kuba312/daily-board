@@ -12,6 +12,7 @@ export const YEAR_MONTH_FORMAT: string = 'YYYY-MM';
 export const DAY_MONTH_FORMAT: string = 'DD-MM-YYYY';
 
 export const DYNAMIC_PLANNER: string = 'dynamic';
+export const IS_DYNAMIC_PLANNER: string = 'isDynamic';
 export const CONSTANT_PLANNER: string = 'constant';
 
 export const PLANNER_ID: string = 'plannerId';

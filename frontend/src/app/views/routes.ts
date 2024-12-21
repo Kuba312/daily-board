@@ -21,7 +21,7 @@ const routes: Routes = [
 		pathMatch: 'full',
 	},
 	{
-		path: 'planners/:plannerId',
+		path: 'planners/:plannerId/:isDynamic',
 		loadComponent: () => import('./planner/planner.component'),
 		providers: [
 			provideState(plannerFeatureKey, plannerReducer),

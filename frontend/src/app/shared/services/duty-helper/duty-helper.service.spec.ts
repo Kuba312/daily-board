@@ -71,7 +71,7 @@ describe('DutyHelperService', () => {
 			from: '10:00',
 			to: '12:00',
 		};
-		const key = service['getDutyKey'](mockDuty);
+		const key = service['_getDutyKey'](mockDuty);
 
 		expect(key).toBe('planner.full-days-names.monday');
 	});
@@ -206,5 +206,36 @@ describe('DutyHelperService', () => {
 		expect(dutiesWithTimes[2].weekDay).toBe('SATURDAY');
 		expect(dutiesWithTimes[1].weekDay).toBe('FRIDAY');
 		expect(dutiesWithTimes[0].weekDay).toBe('THURSDAY');
+	});
+
+	it('should adjust current week dates to Year-Month-Day format', () => {
+		// Mock the `_dateHelperService` and its methods
+		const mockDateHelperService = {
+			currentWeekRange: jasmine.createSpy().and.returnValue({
+				startOfWeek: '2024-12-18',
+				endOfWeek: '2024-12-24',
+			}),
+			adjustDateToYearMonthDayFormat: jasmine
+				.createSpy()
+				.and.callFake((date: string) => date),
+		};
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(service as any)._dateHelperService = mockDateHelperService;
+
+		// Call the method
+		const [startOfWeekFormatted, endOfWeekFormatted] =
+			service.adjustCurrentWeekDatesToYearMonthDayFormat();
+
+		expect(mockDateHelperService.currentWeekRange).toHaveBeenCalled();
+		expect(
+			mockDateHelperService.adjustDateToYearMonthDayFormat,
+		).toHaveBeenCalledWith('2024-12-18');
+		expect(
+			mockDateHelperService.adjustDateToYearMonthDayFormat,
+		).toHaveBeenCalledWith('2024-12-24');
+
+		expect(startOfWeekFormatted).toBe('2024-12-18');
+		expect(endOfWeekFormatted).toBe('2024-12-24');
 	});
 });

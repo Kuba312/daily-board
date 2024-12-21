@@ -12,7 +12,7 @@ import { Option } from '@core/types/basics.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { DateDisplayMode } from '@shared/enums/date-display-mode.enum';
 import { AdditionalLabelPipe } from '@shared/pipes/additional-label.pipe';
-import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
+import { DateHelperService } from '@shared/services/locale-date/date-helper.service';
 import { DisplayDateMode } from '@shared/types/display-date-mode.type';
 import { DateRangeConfigurerComponent } from '../date-range-configurer/date-range-configurer.component';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
@@ -30,8 +30,8 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
 })
 export default class HeaderComponent implements OnInit {
 	private readonly _routerHelperService: RouterHelperService = inject(RouterHelperService);
-	private readonly _localeDateService: LocaleDateService =
-		inject(LocaleDateService);
+	private readonly _dateHelperService: DateHelperService =
+		inject(DateHelperService);
 
 	public label: InputSignal<string> = input.required<string>();
 	public dateDisplayMode: InputSignal<DateDisplayMode> =
@@ -64,9 +64,9 @@ export default class HeaderComponent implements OnInit {
 
 	private _getProperDateDisplayMode(): DisplayDateMode {
 		return this.weeklyMode
-			? this._localeDateService.weekRange()
+			? this._dateHelperService.currentWeekRange()
 			: this.dailyMode
-				? this._localeDateService.getCurrentDay()
+				? this._dateHelperService.getCurrentDay()
 				: null;
 	}
 

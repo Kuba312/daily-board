@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, effect, inject } from '@angular/core';
 import { LocaleDateFormat } from '@core/types/dates.types';
 import moment from 'moment';
-import { LocaleDateService } from '../services/locale-date/locale-date.service';
+import { DateHelperService } from '../services/locale-date/date-helper.service';
 
 @Pipe({
 	name: 'momentDate',
@@ -9,8 +9,8 @@ import { LocaleDateService } from '../services/locale-date/locale-date.service';
 	pure: false,
 })
 export default class LocaleDatePipe implements PipeTransform {
-	private readonly _localeDateService: LocaleDateService =
-		inject(LocaleDateService);
+	private readonly _dateHelperService: DateHelperService =
+		inject(DateHelperService);
 
 	private _currentLanguage: LocaleDateFormat = 'pl';
 
@@ -30,7 +30,7 @@ export default class LocaleDatePipe implements PipeTransform {
 
 	private _recalculateLocaleDateFormat(): void {
 		effect(() => {
-			const currentFormat = this._localeDateService.localeDateFormat();
+			const currentFormat = this._dateHelperService.localeDateFormat();
 
 			if (!currentFormat) {
 				return;

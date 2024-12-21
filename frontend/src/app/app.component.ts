@@ -14,7 +14,7 @@ import { configEffect } from '@core/helpers/signal-effects.helper';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
 import SideMenuComponent from './shared/components/side-menu/side-menu.component';
-import { LocaleDateService } from './shared/services/locale-date/locale-date.service';
+import { DateHelperService } from './shared/services/locale-date/date-helper.service';
 
 @Component({
 	selector: 'app-root',
@@ -29,15 +29,15 @@ export default class AppComponent implements OnInit {
 	private readonly _darkModeService: DarkModeService =
 		inject(DarkModeService);
 	private readonly ts: TranslateService = inject(TranslateService);
-	private readonly _localeDateService: LocaleDateService =
-		inject(LocaleDateService);
+	private readonly _dateHelperService: DateHelperService =
+		inject(DateHelperService);
 	private readonly _injector: Injector = inject(Injector);
 	private readonly _r2: Renderer2 = inject(Renderer2);
 
 	ngOnInit(): void {
 		this.ts.use(this.ts.defaultLang);
 		this._applyStyleMode();
-		this._localeDateService.changeLocalDateBasedOnLanguageChange();
+		this._dateHelperService.changeLocalDateBasedOnLanguageChange();
 	}
 
 	private _applyStyleMode(): void {

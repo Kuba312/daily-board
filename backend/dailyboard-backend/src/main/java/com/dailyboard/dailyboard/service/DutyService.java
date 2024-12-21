@@ -31,7 +31,7 @@ public class DutyService {
         return saveDuties(duties, plannerId);
     }
 
-    public List<Duty> getDuties(String plannerId, LocalDate from, LocalDate to) {
+    public List<Duty> getDutiesByPlannerIdAndRangeTime(String plannerId, LocalDate from, LocalDate to) {
         return dutyRepository.findByPlannerIdAndEffectiveDateBetween(plannerId, from, to);
     }
 

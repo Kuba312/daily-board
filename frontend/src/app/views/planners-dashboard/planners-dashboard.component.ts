@@ -1,4 +1,8 @@
 import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import {
+	CONSTANT_PLANNER,
+	DYNAMIC_PLANNER,
+} from '@shared/constants/shared-consts.const';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { selectAllPlanners } from '@shared-store/planner-store/planner.selectors';
@@ -86,7 +90,12 @@ export default class PlannersDashboardComponent {
 			return;
 		}
 
-		this._routerHelperService.directToUrl('/planners', [planner.id]);
+		const isDynamicPlanner = this._getPlannerType(planner);
+
+		this._routerHelperService.directToUrl('/planners', [
+			planner.id,
+			isDynamicPlanner,
+		]);
 	}
 
 	private _showInformationDialogWhenThereIsNoPlannerCard(): void {
@@ -99,6 +108,10 @@ export default class PlannersDashboardComponent {
 			InformationDialogComponent,
 			this.COMPONENT_ID,
 		);
+	}
+
+	private _getPlannerType(planner: PlannerDto): string {
+		return planner.isConstant ? CONSTANT_PLANNER : DYNAMIC_PLANNER;
 	}
 
 	private _isPlannerObject(data: unknown): data is PlannerDto {

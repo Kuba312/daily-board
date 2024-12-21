@@ -29,7 +29,7 @@ import { CalendarDateDetails } from '@shared/models/calendar-date-details';
 import { DayDate } from '@shared/models/date-day';
 import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
 import SafeValue from '@shared/pipes/safe-value.pipe';
-import { LocaleDateService } from '@shared/services/locale-date/locale-date.service';
+import { DateHelperService } from '@shared/services/locale-date/date-helper.service';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
 import moment from 'moment';
 import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-ranger.component';
@@ -52,8 +52,8 @@ import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-r
 	templateUrl: './calendar-weeks-ranger.component.html',
 })
 export default class CalendarWeeksRangerComponent implements OnInit {
-	private readonly _localeDateService: LocaleDateService =
-		inject(LocaleDateService);
+	private readonly _dateHelperService: DateHelperService =
+		inject(DateHelperService);
 	private readonly _timeValueConnector: TimeValueConnectorService = inject(
 		TimeValueConnectorService,
 	);
@@ -70,7 +70,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	public readonly DAYS: string[] = SHORT_NAME_DAYS;
 
 	public currentMonth: WritableSignal<string> = signal(
-		this._localeDateService.getCurrentDay(),
+		this._dateHelperService.getCurrentDay(),
 	);
 	public nextMonthValue: WritableSignal<Option<string>> =
 		signal<Option<string>>(null);
@@ -86,7 +86,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 			this._extractDay(this.currentMonth()),
 	);
 	public selectedMonth: WritableSignal<Option<string>> = signal(
-		this._localeDateService.getCurrentDay(),
+		this._dateHelperService.getCurrentDay(),
 	);
 	public userSelectedDate: WritableSignal<string> = signal('');
 
@@ -107,7 +107,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 		const to = this._timeValueConnector.timeValueTo() ?? '';
 		const date =
 			this.userSelectedDate() ||
-			this._localeDateService.stringToDate(
+			this._dateHelperService.stringToDate(
 				this.currentMonth(),
 				YEAR_MOTH_DAY_FORMAT,
 			) ||
@@ -155,7 +155,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 
 	private _setMonthDaysChunks(): void {
 		const mothsDaysChunks =
-			this._localeDateService.getMonthsDaysChunksByDate(
+			this._dateHelperService.getMonthsDaysChunksByDate(
 				this.currentMonth(),
 			);
 
@@ -168,11 +168,11 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 		}
 
 		this.currentMonth.set(
-			this._localeDateService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
+			this._dateHelperService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
 		);
 
 		this.selectedMonth.set(
-			this._localeDateService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
+			this._dateHelperService.dateToString(this.inputDate(), DAY_MONTH_FORMAT),
 		);
 	}
 
@@ -195,7 +195,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	private _areDatesMatch(dayObj: DayDate): boolean {
 		return (
 			dayObj.date ===
-			this._localeDateService.stringToDate(
+			this._dateHelperService.stringToDate(
 				this.selectedMonth(),
 				YEAR_MOTH_DAY_FORMAT,
 			)
@@ -207,7 +207,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 		isChosenDate?: boolean,
 	): Option<string> {
 		return date
-			? this._localeDateService.extractDayFromDate(date, isChosenDate)
+			? this._dateHelperService.extractDayFromDate(date, isChosenDate)
 			: null;
 	}
 }

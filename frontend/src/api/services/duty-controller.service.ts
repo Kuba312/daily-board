@@ -12,10 +12,10 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { DutyDto } from '../models/duty-dto';
-import { getDuties } from '../fn/duty-controller/get-duties';
-import { GetDuties$Params } from '../fn/duty-controller/get-duties';
 import { getDutiesByPlannerId } from '../fn/duty-controller/get-duties-by-planner-id';
 import { GetDutiesByPlannerId$Params } from '../fn/duty-controller/get-duties-by-planner-id';
+import { getDutiesByPlannerIdAndRangeTime } from '../fn/duty-controller/get-duties-by-planner-id-and-range-time';
+import { GetDutiesByPlannerIdAndRangeTime$Params } from '../fn/duty-controller/get-duties-by-planner-id-and-range-time';
 import { getDutiesWithoutDates } from '../fn/duty-controller/get-duties-without-dates';
 import { GetDutiesWithoutDates$Params } from '../fn/duty-controller/get-duties-without-dates';
 import { saveDuty } from '../fn/duty-controller/save-duty';
@@ -77,27 +77,27 @@ export class DutyControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getDuties()` */
-  static readonly GetDutiesPath = '/api/v1/duties';
+  /** Path part for operation `getDutiesByPlannerIdAndRangeTime()` */
+  static readonly GetDutiesByPlannerIdAndRangeTimePath = '/api/v1/duties/dynamic/{plannerId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDuties()` instead.
+   * To access only the response body, use `getDutiesByPlannerIdAndRangeTime()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDuties$Response(params: GetDuties$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
-    return getDuties(this.http, this.rootUrl, params, context);
+  getDutiesByPlannerIdAndRangeTime$Response(params: GetDutiesByPlannerIdAndRangeTime$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DutyDto>>> {
+    return getDutiesByPlannerIdAndRangeTime(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getDuties$Response()` instead.
+   * To access the full response (for headers, for example), `getDutiesByPlannerIdAndRangeTime$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDuties(params: GetDuties$Params, context?: HttpContext): Observable<Array<DutyDto>> {
-    return this.getDuties$Response(params, context).pipe(
+  getDutiesByPlannerIdAndRangeTime(params: GetDutiesByPlannerIdAndRangeTime$Params, context?: HttpContext): Observable<Array<DutyDto>> {
+    return this.getDutiesByPlannerIdAndRangeTime$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<DutyDto>>): Array<DutyDto> => r.body)
     );
   }

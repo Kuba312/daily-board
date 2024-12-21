@@ -1,21 +1,21 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
-import { LocaleDateService } from './locale-date.service';
+import { DateHelperService } from './date-helper.service';
 import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 
 describe('LocaleDateService', () => {
-	let localeDateService: LocaleDateService;
+	let localeDateService: DateHelperService;
 
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
 			imports: [TranslateModule.forRoot()],
-			providers: [LocaleDateService],
+			providers: [DateHelperService],
 		})
 			.compileComponents()
 			.then(() => {
 				TestBed.runInInjectionContext(() => {
-					localeDateService = TestBed.inject(LocaleDateService);
+					localeDateService = TestBed.inject(DateHelperService);
 				});
 			});
 	}));
@@ -43,7 +43,7 @@ describe('LocaleDateService', () => {
 	});
 
 	it('should return week range', () => {
-		const weekRange = localeDateService.weekRange();
+		const weekRange = localeDateService.currentWeekRange();
 		const startOfWeek = moment().startOf('week').toISOString();
 		const endOfWeek = moment().endOf('week').toISOString();
 

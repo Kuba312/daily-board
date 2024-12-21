@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import AppComponent from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocaleDateService } from './shared/services/locale-date/locale-date.service';
+import { DateHelperService } from './shared/services/locale-date/date-helper.service';
 import { DARK_MODE_CLASS } from './core/app.consts';
 import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,8 +10,8 @@ import { ACTIVATED_ROUTE_PROVIDER } from './core/helpers/tests-functions.helper'
 describe('AppComponent', () => {
 	let component: AppComponent;
 	let fixture: ComponentFixture<AppComponent>;
-	let localeDateService: LocaleDateService;
-	let localeDateServiceSpy: jasmine.SpyObj<LocaleDateService>;
+	let localeDateService: DateHelperService;
+	let localeDateServiceSpy: jasmine.SpyObj<DateHelperService>;
 	let darkModeServiceSpy: jasmine.SpyObj<DarkModeService>;
 
 	beforeEach(waitForAsync(() => {
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
 			imports: [AppComponent, TranslateModule.forRoot()],
 			providers: [
 				{ provide: DarkModeService, useValue: darkModeServiceSpy },
-				{ provide: LocaleDateService, useValue: localeDateServiceSpy },
+				{ provide: DateHelperService, useValue: localeDateServiceSpy },
 				{
 					provide: ActivatedRoute,
 					useValue: ACTIVATED_ROUTE_PROVIDER,
@@ -38,7 +38,7 @@ describe('AppComponent', () => {
 			.then(() => {
 				TestBed.runInInjectionContext(() => {
 					fixture = TestBed.createComponent(AppComponent);
-					localeDateService = TestBed.inject(LocaleDateService);
+					localeDateService = TestBed.inject(DateHelperService);
 					component = fixture.componentInstance;
 				});
 			});

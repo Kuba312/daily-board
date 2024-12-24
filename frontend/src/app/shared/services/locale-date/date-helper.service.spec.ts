@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
 import { DateHelperService } from './date-helper.service';
 import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
+import { signal } from '@angular/core';
 
 describe('LocaleDateService', () => {
 	let localeDateService: DateHelperService;
@@ -167,5 +168,51 @@ describe('LocaleDateService', () => {
 		expect(() =>
 			localeDateService.isDateTimesOverlapped(date1, date2),
 		).toThrowError();
+	});
+
+	it('should reset the updated week period to null', () => {
+		localeDateService['_updatedWeekPeriod'] = signal({
+			startOfWeek: '2024-12-12',
+			endOfWeek: '2024-12-18',
+		});
+
+		localeDateService.resetUpdatedWeekPeriod();
+
+		expect(localeDateService['_updatedWeekPeriod']()).toBeNull();
+	});
+
+	it('should calculate and propagate the new week period', () => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		spyOn(localeDateService as any, '_calculateNewWeek').and.callFake(
+			(date: string) => {
+				if (date === '2024-12-12') {
+					return '2024-12-19';
+				}
+
+				if (date === '2024-12-18') {
+					return '2024-12-25';
+				}
+
+				return date;
+			},
+		);
+
+		spyOn(
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			localeDateService as any,
+			'_propagateIsoWeekPeriod',
+		).and.callThrough();
+
+		spyOn(localeDateService, 'currentWeekRange').and.returnValue({
+			startOfWeek: '2024-12-12',
+			endOfWeek: '2024-12-18',
+		});
+
+		const result = localeDateService.changeWeekPeriod(1);
+
+		expect(result).toEqual(['2024-12-19', '2024-12-25']);
+		expect(
+			localeDateService['_propagateIsoWeekPeriod'],
+		).toHaveBeenCalledWith('2024-12-19', '2024-12-25');
 	});
 });

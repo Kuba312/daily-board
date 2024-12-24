@@ -5,20 +5,11 @@
 
 	$self: &;
 
-	#{$self}__header {
-		@include flex-space-between-center;
-		@include sticky-top;
-
-		border: $normal-border;
-		border-radius: $normal-border-radius $normal-border-radius 0 0;
-		background-color: var(--color-background-secondary);
-		box-shadow: $tiny-shadow;
-	}
-
 	#{$self}__content {
 		@include flex-space-between;
 		position: relative;
 		z-index: 1;
+		overflow: hidden;
 
 		border: $normal-border;
 		border-top: none;

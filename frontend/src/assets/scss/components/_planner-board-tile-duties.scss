@@ -3,17 +3,19 @@
 .planner-board-tile-duty {
 	display: grid;
 	grid-template-columns: repeat(7, minmax(22.5rem, 1fr));
+	position: relative;
+	overflow: hidden;
 
 	@include full-screen;
 	@include media-columns-grid(7, 139.375em, 20rem);
-	@include media-columns-grid(7,134.375em, 18rem);
-	@include media-columns-grid(7,124.375em, 17rem);
-	@include media-columns-grid(7,112.8125em, 17.2rem);
-	@include media-columns-grid(7,96.25em, 15rem);
-	@include media-columns-grid(7,83.0625em, 13rem);
-	@include media-columns-grid(7,70em, 12rem);
-	@include media-columns-grid(7,63.5625em, 11rem);
-	@include media-columns-grid(7,61.875em, 10rem);
+	@include media-columns-grid(7, 134.375em, 18rem);
+	@include media-columns-grid(7, 124.375em, 17rem);
+	@include media-columns-grid(7, 112.8125em, 17.2rem);
+	@include media-columns-grid(7, 96.25em, 15rem);
+	@include media-columns-grid(7, 83.0625em, 13rem);
+	@include media-columns-grid(7, 70em, 12rem);
+	@include media-columns-grid(7, 63.5625em, 11rem);
+	@include media-columns-grid(7, 61.875em, 10rem);
 
 	$self: &;
 
@@ -26,7 +28,7 @@
 	#{$self}__wrapper:not(:last-child) {
 		border-right: $tiny-border;
 	}
-	
+
 	#{$self}__wrapper:first-child {
 		border-left: $tiny-border;
 	}
@@ -40,10 +42,10 @@
 		opacity: 1;
 		transition: opacity 0.5s;
 		user-select: none;
-	
+
 		&::before {
 			position: absolute;
-			content: "";
+			content: '';
 			top: 0;
 			left: 50%;
 			width: 94%;
@@ -80,4 +82,10 @@
 	}
 }
 
+.planner-board-tile-duty.animate-slide-in-right {
+	animation: slideInRight 0.5s ease-in-out;
+}
 
+.planner-board-tile-duty.animate-slide-in-left {
+	animation: slideInLeft 0.5s ease-in-out;
+}

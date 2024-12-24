@@ -1,3 +1,4 @@
+import { PlannerType } from '@shared/enums/planner-type.enum';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { DutyDto } from 'src/api/models';
 
@@ -23,6 +24,7 @@ export const dutyActions = createActionGroup({
 			duties: DutyDto[];
 			plannerId: string;
 			redirectToBoard: boolean;
+			plannerType: PlannerType;
 		}>(),
 		[DutyActions.SaveDutySuccess]: props<{
 			duties: DutyDto[];

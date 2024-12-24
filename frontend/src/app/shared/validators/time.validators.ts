@@ -1,6 +1,7 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import moment from 'moment';
 import { DATE_REGEX, TIME_FORMAT } from '../constants/shared-consts.const';
+import { Pair } from '../types/pair.type';
 
 export class TimeValidators {
 	private static TIME_SEPARATOR: string = ':';
@@ -197,7 +198,7 @@ export class TimeValidators {
 		return timeFormat.test(time);
 	}
 
-	private static _splitSingleTimeValue(value: string): [string, string] {
+	private static _splitSingleTimeValue(value: string): Pair<string> {
 		if (value.includes(TimeValidators.TIME_SEPARATOR)) {
 			return TimeValidators._splitTimeByColon(value);
 		}
@@ -223,7 +224,7 @@ export class TimeValidators {
 		return control.value.split(',');
 	}
 
-	private static _splitTimeByColon(value: string): [string, string] {
+	private static _splitTimeByColon(value: string): Pair<string> {
 		const [hour, minutes] = value
 			.split(TimeValidators.TIME_SEPARATOR)
 			.map((part) => part.trim());

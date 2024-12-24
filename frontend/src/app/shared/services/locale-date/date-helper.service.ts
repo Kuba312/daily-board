@@ -21,6 +21,7 @@ import { DayDate } from '@shared/models/date-day';
 import moment from 'moment';
 import 'moment/locale/pl';
 import { WeekRange } from '../../models/week-range';
+import { WeekBoundary } from '@shared/types/week-range.type';
 
 @Injectable({ providedIn: 'root' })
 export class DateHelperService {
@@ -33,12 +34,17 @@ export class DateHelperService {
 	public localeDateFormat: Signal<LocaleDateFormat> = computed(() =>
 		this._localeDateFormat(),
 	);
+	public updatedWeekPeriod: Signal<Option<WeekRange>> = computed(() =>
+		this._updatedWeekPeriod(),
+	);
 
 	private readonly PL: LocaleDateFormat = 'pl';
 	private readonly EN: LocaleDateFormat = 'en';
 
 	private _localeDateFormat: WritableSignal<LocaleDateFormat> =
 		signal<LocaleDateFormat>(this.PL);
+	private _updatedWeekPeriod: WritableSignal<Option<WeekRange>> =
+		signal<Option<WeekRange>>(null);
 
 	public currentWeekRange(): WeekRange {
 		const startOfWeek = moment().startOf(this.WEEK).toISOString();
@@ -140,6 +146,26 @@ export class DateHelperService {
 		return this._splitDaysIntoDaysChunks(days);
 	}
 
+	public resetUpdatedWeekPeriod(): void { 
+		this._updatedWeekPeriod.set(null);
+	}
+
+	public changeWeekPeriod(currentWeekIndex: number): WeekBoundary {
+		const { startOfWeek, endOfWeek } = this.currentWeekRange();		
+		const adjustedStartOfWeek = this._calculateNewWeek(
+			startOfWeek,
+			currentWeekIndex,
+		);
+		const adjustedEndOfWeek = this._calculateNewWeek(
+			endOfWeek,
+			currentWeekIndex,
+		);
+
+		this._propagateIsoWeekPeriod(adjustedStartOfWeek, adjustedEndOfWeek);
+	
+		return [adjustedStartOfWeek, adjustedEndOfWeek];
+	}
+
 	private _setLocaleDateFormat(langSettings: LangChangeEvent): void {
 		const { lang } = langSettings;
 		const langForDate = lang === DEFAULT_LANGUAGE ? this.PL : this.EN;
@@ -152,6 +178,19 @@ export class DateHelperService {
 		moment.locale(langForDate);
 
 		this._localeDateFormat.set(langForDate);
+	}
+
+	private _propagateIsoWeekPeriod(
+		startOfWeek: string,
+		endOfWeek: string,
+	): void {
+		const startOfWeekIsoFormat = moment(startOfWeek).toISOString();
+		const endOfWeekIsoFormat = moment(endOfWeek).toISOString();
+
+		this._updatedWeekPeriod.set({
+			startOfWeek: startOfWeekIsoFormat,
+			endOfWeek: endOfWeekIsoFormat,
+		});
 	}
 
 	private _createRangeDaysMonth(
@@ -205,5 +244,14 @@ export class DateHelperService {
 
 			return result;
 		}, []);
+	}
+
+	private _calculateNewWeek(
+		endOfWeek: string,
+		currentWeekIndex: number,
+	): string {
+		return moment(endOfWeek)
+			.add(currentWeekIndex * 7, 'days')
+			.format(YEAR_MOTH_DAY_FORMAT);
 	}
 }

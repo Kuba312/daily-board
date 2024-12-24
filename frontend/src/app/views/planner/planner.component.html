@@ -7,8 +7,12 @@
 	/>
 	<div class="planner-board">
 		<app-planner-board 
-			[dailyBoardDuties]="duties"
+			[slidePlannerDirection]="slidePlannerDirection()"
+			[dailyBoardDuties]="duties()"
 			[plannerDetails]="plannerDetails()"
+			[isDynamic]="isDynamic"
+			(changedWeekPeriod)="onWeekPeriodChanged($event)"
+			(onPlannerAnimationEnd)="onPlannerAnimationEnd()"
 		/>
 	</div>
 </section>

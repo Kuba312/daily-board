@@ -1,8 +1,11 @@
 import {
 	Component,
 	InputSignal,
+	OnDestroy,
 	OnInit,
+	Signal,
 	WritableSignal,
+	computed,
 	inject,
 	input,
 	signal,
@@ -28,7 +31,7 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
 	],
 	templateUrl: './header.component.html',
 })
-export default class HeaderComponent implements OnInit {
+export default class HeaderComponent implements OnInit, OnDestroy {
 	private readonly _routerHelperService: RouterHelperService = inject(RouterHelperService);
 	private readonly _dateHelperService: DateHelperService =
 		inject(DateHelperService);
@@ -44,8 +47,16 @@ export default class HeaderComponent implements OnInit {
 	public properDateDisplayMode: WritableSignal<DisplayDateMode> =
 		signal<DisplayDateMode>(null);
 
+	public weekPeriodRange: Signal<DisplayDateMode> = computed(() =>
+		this._dateHelperService.updatedWeekPeriod() ?? this.properDateDisplayMode(),
+	)
+
 	ngOnInit(): void {
 		this._setProperDateDisplayMode();
+	}
+
+	ngOnDestroy(): void {
+		this._dateHelperService.resetUpdatedWeekPeriod();
 	}
 
 	public directToPreviousPage(): void {

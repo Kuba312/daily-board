@@ -6,11 +6,13 @@ import {
 	inject,
 	input,
 	InputSignal,
+	output,
+	OutputEmitterRef,
 	Signal,
 	viewChildren,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Option } from '@core/types/basics.types';
+import { Nullable, Option } from '@core/types/basics.types';
 import { PLANNER_ID } from '@shared/constants/shared-consts.const';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,6 +21,8 @@ import { DutyDto, PlannerDto } from 'src/api/models';
 import { HiddenPartialHourClassPipe } from './pipes/hidden-partial-hour-class.pipe';
 import PlannerBoardDaysHeadersComponent from './planner-board-days-headers/planner-board-days-headers.component';
 import PlannerBoardTileDutiesComponent from './planner-board-tile-duties/planner-board-tile-duties.component';
+import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
+import { PeriodWeek } from '@shared/models/period-week';
 
 @Component({
 	selector: 'app-planner-board',
@@ -47,6 +51,13 @@ export default class PlannerBoardComponent {
 		input.required<Map<string, DutyDto[]>>();
 	public plannerDetails: InputSignal<Option<PlannerDto>> =
 		input.required<Option<PlannerDto>>();
+	public isDynamic: InputSignal<boolean> = input.required<boolean>();
+	public slidePlannerDirection: InputSignal<Nullable<AnimationPlannerDirection>> =
+		input<Nullable<AnimationPlannerDirection>>(null);
+
+	public changedWeekPeriod: OutputEmitterRef<PeriodWeek> =
+		output<PeriodWeek>();
+	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
 
 	public readonly HIDDEN_PARTIAL_HOUR: string = 'hidden-partial-hour';
 

@@ -4,9 +4,12 @@ import {
 	ElementRef,
 	input,
 	InputSignal,
+	output,
+	OutputEmitterRef,
 	Signal,
 } from '@angular/core';
-import { Option } from '@core/types/basics.types';
+import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
+import { Nullable, Option } from '@core/types/basics.types';
 import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-heights';
 import { DutyTile } from '@shared/models/duty-tile';
 import SafeValue from '@shared/pipes/safe-value.pipe';
@@ -27,18 +30,23 @@ export default class PlannerBoardTileDutiesComponent {
 	> = input.required<readonly ElementRef<HTMLElement>[]>();
 	public dutiesBoard: InputSignal<DutyDto[][]> =
 		input.required<DutyDto[][]>();
+	public slidePlannerDirection: InputSignal<
+		Nullable<AnimationPlannerDirection>
+	> = input<Nullable<AnimationPlannerDirection>>(null);
+
+	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
 
 	private _heightOfTimelineParentContainer: Option<number> = null;
 
 	public dutyTiles: Signal<DutyTile[][]> = computed(() => {
 		const timelinesValues = this.timelineValuesElements();
 
-		if(!timelinesValues.length) {
+		if (!timelinesValues.length) {
 			return [];
 		}
 
 		return this._adjustDutyToBoard();
-	})
+	});
 
 	private _adjustDutyToBoard(): {
 		tile: DutyDto;
@@ -146,5 +154,13 @@ export default class PlannerBoardTileDutiesComponent {
 		hour: string,
 	): boolean {
 		return timelineValue.nativeElement.id === hour;
+	}
+
+	get isSlidePlannerDirectionRight(): boolean {
+		return this.slidePlannerDirection() === AnimationPlannerDirection.Right;
+	}
+
+	get isSlidePlannerDirectionLeft(): boolean {
+		return this.slidePlannerDirection() === AnimationPlannerDirection.Left;
 	}
 }

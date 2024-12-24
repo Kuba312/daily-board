@@ -1,6 +1,27 @@
 <div class="planner-board-days-headers">
-	@for (day of keysTileBoard(); track $index) {
+	<div class="planner-board-days-headers__timeline-margin"></div>
+	<div class="planner-board-days-headers__content">
+		@for (day of keysTileBoard(); track $index) {
+			@let isIndexZero = $index === 0;
+			@let isIndexLast = $index === keysTileBoard().length - 1;
+			
 		<div class="planner-board-days-headers__day-container">
+			@if ((isIndexZero || isIndexLast) && isDynamic()) {
+				<mat-icon
+					class="planner-board-days-headers__change-week"
+					[ngClass]="{
+						'left-arrow': isIndexZero,
+						'right-arrow': isIndexLast
+					}"
+					(click)="onWeekPeriodChanged(isIndexZero)"
+				>
+					@if (isIndexZero) { 
+						chevron_left 
+					} @else { 
+						chevron_right 
+					}
+				</mat-icon>
+			}
 			<span
 				[innerText]="
 					day
@@ -9,5 +30,6 @@
 				"
 			></span>
 		</div>
-	}
+		}
+	</div>
 </div>

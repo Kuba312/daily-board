@@ -21,6 +21,7 @@ import {
 	showGeneralErrorMessage,
 } from '../helpers/show-error-message.helper';
 import { dutyActions } from './duty.actions';
+import { PlannerType } from '@shared/enums/planner-type.enum';
 
 export const saveDutyEffect = createEffect(
 	(
@@ -31,7 +32,7 @@ export const saveDutyEffect = createEffect(
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.saveDuty),
-			switchMap(({ duties, plannerId, redirectToBoard }) =>
+			switchMap(({ duties, plannerId, redirectToBoard, plannerType }) =>
 				dutyControllerService
 					.saveDuty({ body: duties, plannerId })
 					.pipe(
@@ -47,6 +48,7 @@ export const saveDutyEffect = createEffect(
 								redirectToBoard,
 								routerHelperService,
 								plannerId,
+								plannerType,
 							);
 
 							return dutyActions.saveDutySuccess({
@@ -191,12 +193,13 @@ function redirectToPlannerBoard(
 	redirectToBoard: boolean,
 	routerHelperService: RouterHelperService,
 	plannerId: string,
+	plannerType: PlannerType,
 ): void {
 	if (!redirectToBoard) {
 		return;
 	}
 
-	routerHelperService.directToUrl('/planners', [plannerId]);
+	routerHelperService.directToUrl('/planners', [plannerId, plannerType]);
 }
 
 function isConflictingDuties(

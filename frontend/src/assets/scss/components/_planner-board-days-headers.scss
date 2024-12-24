@@ -1,22 +1,61 @@
 @use '../abstracts' as *;
 
 .planner-board-days-headers {
-	display: grid;
-	grid-template-columns: repeat(7, minmax(22.5rem, 1fr));
-
-	@include media-columns-grid(7, 139.375em, 20rem);
-	@include media-columns-grid(7, 134.375em, 18rem);
-	@include media-columns-grid(7, 124.375em, 17rem);
-	@include media-columns-grid(7, 112.8125em, 17.2rem);
-	@include media-columns-grid(7,96.25em, 15rem);
-	@include media-columns-grid(7,83.0625em, 13rem);
-	@include media-columns-grid(7, 70em, 12rem);
-	@include media-columns-grid(7,63.5625em, 11rem);
-	@include media-columns-grid(7, 61.875em, 10rem);
-
 	$self: &;
 
+	@include flex-space-between-center;
+	@include sticky-top;
+
+	border: $normal-border;
+	border-radius: $normal-border-radius $normal-border-radius 0 0;
+	background-color: var(--color-background-secondary);
+	box-shadow: $tiny-shadow;
+
+	#{$self}__change-week {
+		position: absolute;
+		color: var(--color-text) !important;
+		font-size: $bigger-font-size;
+		font-weight: $fat-thickening;
+		cursor: pointer;
+		@include flex-justify-align-center;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		margin-inline: 0.5rem;
+	}
+
+	.left-arrow {
+		left: 0;
+	}
+
+	.right-arrow {
+		right: 0;
+
+		@media (width <= 1540px) {
+			right: -0.5rem;
+		}
+
+		@media (width <= 1011px) {
+			right: -1rem;
+		}
+	}
+
+	#{$self}__content {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(22.5rem, 1fr));
+	
+		@include media-columns-grid(7, 139.375em, 20rem);
+		@include media-columns-grid(7, 134.375em, 18rem);
+		@include media-columns-grid(7, 124.375em, 17rem);
+		@include media-columns-grid(7, 112.8125em, 17.2rem);
+		@include media-columns-grid(7,96.25em, 15rem);
+		@include media-columns-grid(7,83.0625em, 13rem);
+		@include media-columns-grid(7, 70em, 12rem);
+		@include media-columns-grid(7,63.5625em, 11rem);
+		@include media-columns-grid(7, 61.875em, 10rem);
+	}
+
 	#{$self}__day-container {
+		position: relative;
 		font-weight: $slight-thickening;
 		text-align: center;
 		display: inline-block;

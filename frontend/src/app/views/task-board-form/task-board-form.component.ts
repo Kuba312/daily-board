@@ -12,7 +12,8 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Option } from '@core/types/basics.types';
+import { notEmpty } from '@core/helpers/not-empty-operator.helper';
+import { Option, Optional } from '@core/types/basics.types';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
@@ -29,10 +30,11 @@ import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.c
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
-import { filter, take } from 'rxjs';
+import { take } from 'rxjs';
 import { PlannerDto } from 'src/api/models';
 import { TaskBoardFormModel } from './task-board-form.form-model';
 import TaskInputDateComponent from './task-input-date/task-input-date.component';
+import { PlannerType } from '@shared/enums/planner-type.enum';
 
 @Component({
 	selector: 'app-task-board-form',
@@ -69,7 +71,7 @@ export default class TaskBoardFormComponent {
 		this._activatedRoute,
 		PLANNER_ID,
 	);
-	public currentPlanner: Signal<PlannerDto | undefined> =
+	public currentPlanner: Signal<Optional<PlannerDto>> =
 		this._store.selectSignal(selectPlannerById(this.plannerId));
 
 	public currentPlannerLabel: Signal<string> = computed(() =>
@@ -107,12 +109,16 @@ export default class TaskBoardFormComponent {
 		}
 
 		const duties = formModel.toModel();
+		const plannerType = this.isConstantPlanner()
+			? PlannerType.Constant
+			: PlannerType.Dynamic;
 
 		this._store.dispatch(
 			dutyActions.saveDuty({
 				duties,
 				plannerId: this.plannerId,
 				redirectToBoard,
+				plannerType,
 			}),
 		);
 	}
@@ -130,8 +136,8 @@ export default class TaskBoardFormComponent {
 	private _initializeForm(): void {
 		toObservable(this.currentPlanner, { injector: this._injector })
 			.pipe(
-				filter((currentPlanner) => !!currentPlanner),
-				take(1),
+				notEmpty(),
+				take(1), 
 				takeUntilDestroyed(this._destroyRef),
 			)
 			.subscribe((currentPlanner) => {

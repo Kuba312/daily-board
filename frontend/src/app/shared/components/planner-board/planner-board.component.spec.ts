@@ -59,6 +59,7 @@ describe('PlannerBoardComponent', () => {
 				component = fixture.componentInstance;
 				fixture.componentRef.setInput('dailyBoardDuties', DUTIES_MOCK);
 				fixture.componentRef.setInput('plannerDetails', MOCK_PLANNERS[2]);
+				fixture.componentRef.setInput('isDynamic', false);
 				fixture.detectChanges();
 			});
 	}));

@@ -237,6 +237,7 @@ describe('TaskBoardFormComponent', () => {
 				duties: jasmine.objectContaining(duties ?? []),
 				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
 				redirectToBoard: true,
+				plannerType: 'constant',
 			}),
 		);
 	});

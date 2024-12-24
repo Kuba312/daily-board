@@ -1,4 +1,9 @@
-<div class="planner-board-tile-duty">
+<div 
+	class="planner-board-tile-duty" 
+	[class.animate-slide-in-right]="isSlidePlannerDirectionRight"
+	[class.animate-slide-in-left]="isSlidePlannerDirectionLeft"
+	(animationend)="onPlannerAnimationEnd.emit()"
+>
 	@for (tiles of dutyTiles(); track $index) {
 		<div class="planner-board-tile-duty__wrapper">
 			@for (tile of tiles; track $index) {

@@ -1,34 +1,33 @@
 <div class="date-range-configurer">
-	@switch (true) {
+	@switch (true) { 
 		@case (isWeekRange(properDateDisplayMode())) {
 			<div class="week-range">
-				<span
-					[innerText]="
+				<span>
+					{{
 						getWeekRange?.startOfWeek
 							| safeValue
 							| momentDate : DAY_MONTH_FORMAT
-					"
-				></span>
+					}}
+				</span>
 				-
-				<span
-					[innerText]="
+				<span>
+					{{
 						getWeekRange?.endOfWeek
 							| safeValue
 							| momentDate : DAY_MONTH_YEAR_FORMAT
-					"
-				></span>
+					}}
+				</span>
 			</div>
 		} 
 		@case (isDayRange(properDateDisplayMode())) {
 			<div class="day-range">
-				<span
-					[innerText]="
-						getCurrentDay
-							| safeValue
-							| momentDate : DAY_MONTH_YEAR_FORMAT
-					"
-				></span>
+				<span>
+					{{ getCurrentDay 
+							| safeValue 
+							| momentDate : DAY_MONTH_YEAR_FORMAT 
+					}}
+				</span>
 			</div>
-		}
+		} 
 	}
 </div>

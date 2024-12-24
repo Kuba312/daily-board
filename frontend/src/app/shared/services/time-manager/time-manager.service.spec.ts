@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import moment from 'moment';
 import { TimeManagerService } from './time-manager.service';
-import { TIME_FORMAT } from '@app/shared/constants/shared-consts.const';
+import { TIME_FORMAT } from '@shared/constants/shared-consts.const';
 
 describe('TimeManagerService', () => {
 	let service: TimeManagerService;

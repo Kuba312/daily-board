@@ -15,6 +15,7 @@ import {
 import moment from 'moment';
 import { DutyDto } from 'src/api/models';
 import { DateHelperService } from '../locale-date/date-helper.service';
+import { WeekBoundary } from '@shared/types/week-range.type';
 
 @Injectable({ providedIn: 'root' })
 export class DutyHelperService {
@@ -111,7 +112,7 @@ export class DutyHelperService {
 		});
 	}
 
-	public adjustCurrentWeekDatesToYearMonthDayFormat(): [string, string] {
+	public adjustCurrentWeekDatesToYearMonthDayFormat(): WeekBoundary {
 		const weekRange = this._dateHelperService.currentWeekRange();
 		const { startOfWeek, endOfWeek } = weekRange;
 		const startOfWeekFormatted =

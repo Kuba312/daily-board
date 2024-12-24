@@ -7,7 +7,7 @@ import {
 import { WeekDays } from '@app/enums/week-days.enum';
 import { WeekRange } from '@shared/models/week-range';
 import { delay, Observable, of } from 'rxjs';
-import { DutyDto } from 'src/api/models';
+import { DutyDto, PlannerDto } from 'src/api/models';
 
 export const WEEK_RANGE_MOCK: WeekRange = {
 	startOfWeek: '2024-07-21T22:00:00.000Z',
@@ -46,6 +46,15 @@ export const TILE_BOARD_DUTIES_MOCK: DutyDto[][] = [
 		},
 	],
 ];
+
+export const PLANNER_DETAILS_MOCK: PlannerDto = {
+	id: '5cd3ddd5-2121-4e40-ab65-1b3145dc2fff',
+	name: 'Grafik dynamiczny',
+	note: 'To jest grafik dynamiczny do testowania dodawania wielu dat. ',
+	endTime: '20:00',
+	startTime: '08:00',
+	isConstant: false,
+};
 
 const parentElement = document.createElement('div');
 Object.defineProperty(parentElement, 'offsetTop', { value: 170 });

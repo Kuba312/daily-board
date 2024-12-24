@@ -1,8 +1,9 @@
 <div class="planner-board">
-	<div class="planner-board__header">
-		<div class="planner-board__timeline"></div>
-		<app-planner-board-days-headers [keysTileBoard]="keysTileBoard()" />
-	</div>
+	<app-planner-board-days-headers
+		[keysTileBoard]="keysTileBoard()"
+		[isDynamic]="isDynamic()"
+		(changedWeekPeriod)="changedWeekPeriod.emit($event)"
+	/>
 	<div class="planner-board__content">
 		<div class="planner-board__timeline-content">
 			@for (time of timeline(); track $index) {
@@ -17,8 +18,10 @@
 			}
 		</div>
 		<app-planner-board-tile-duties
+			[slidePlannerDirection]="slidePlannerDirection()"
 			[timelineValuesElements]="timelineValues()"
 			[dutiesBoard]="duties()"
+			(onPlannerAnimationEnd)="onPlannerAnimationEnd.emit()"
 		/>
 	</div>
 </div>

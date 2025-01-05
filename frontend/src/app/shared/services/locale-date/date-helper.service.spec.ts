@@ -2,7 +2,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
 import { DateHelperService } from './date-helper.service';
-import { YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
+import { TIME_FORMAT, YEAR_MOTH_DAY_FORMAT } from '@shared/constants/shared-consts.const';
 import { signal } from '@angular/core';
 
 describe('LocaleDateService', () => {
@@ -215,4 +215,18 @@ describe('LocaleDateService', () => {
 			localeDateService['_propagateIsoWeekPeriod'],
 		).toHaveBeenCalledWith('2024-12-19', '2024-12-25');
 	});
+
+	it('should return the current hour in the correct format', () => {
+		// Mock current time
+		const mockTime = new Date(2024, 11, 12, 14, 30); // Dec 12, 2024, 14:30
+		jasmine.clock().install(); // Install clock mocking
+		jasmine.clock().mockDate(mockTime);
+	  
+		const expectedHour = moment(mockTime).format(TIME_FORMAT);
+		const currentHour = localeDateService.getCurrentHour();
+	  
+		expect(currentHour).toEqual(expectedHour);
+	  
+		jasmine.clock().uninstall(); // Cleanup clock mocking
+	  });
 });

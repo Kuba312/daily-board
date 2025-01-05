@@ -1,0 +1,11 @@
+<div class="timeline-board-slider">
+	@if (timelineSliderDetails()?.currentTime &&
+		timelineSliderDetails()?.timeTopPosition) {
+		<div
+			class="timeline-board-slider__indicator"
+			[style.top.rem]="timelineSliderDetails()?.timeTopPosition"
+		>
+			{{ timelineSliderDetails()?.currentTime }}
+		</div>
+	}
+</div>

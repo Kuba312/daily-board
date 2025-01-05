@@ -1,19 +1,23 @@
 import { Signal, signal } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+	ComponentFixture,
+	fakeAsync,
+	TestBed,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { isTimeRangePlannerLoaded } from '@shared-store/duty-store/duty.selectors';
 import HeaderComponent from '@shared/components/header/header.component';
+import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
+import { PeriodWeek } from '@shared/models/period-week';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { MockComponent } from 'ng-mocks';
 import { DUTIES_MOCK, PLANNER_DETAILS_MOCK } from 'src/mocks/mock-data';
 import PlannerComponent from './planner.component';
-import { isTimeRangePlannerLoaded } from '@shared-store/duty-store/duty.selectors';
-import { PeriodWeek } from '@shared/models/period-week';
-import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
 
 describe('PlannerComponent', () => {
 	let component: PlannerComponent;
@@ -24,53 +28,60 @@ describe('PlannerComponent', () => {
 
 	const plannerId: string = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf' as const;
 
-	beforeEach(waitForAsync(() => {
-		mockStore = jasmine.createSpyObj('Store', ['selectSignal', 'dispatch']);
-		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
-			'getParameterValue',
-		]);
-		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
-			'groupDutiesByDays',
-		]);
+	beforeEach(fakeAsync(
+		() => {
+			mockStore = jasmine.createSpyObj('Store', [
+				'selectSignal',
+				'dispatch',
+			]);
+			routerHelperServiceSpy = jasmine.createSpyObj(
+				'RouterHelperService',
+				['getParameterValue'],
+			);
+			dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
+				'groupDutiesByDays',
+			]);
 
-		routerHelperServiceSpy.getParameterValue.and.returnValue(plannerId);
-		dutyHelperServiceSpy.groupDutiesByDays.and.returnValue(new Map());
-		mockStore.selectSignal.and.returnValue(signal([...DUTIES_MOCK]));
+			routerHelperServiceSpy.getParameterValue.and.returnValue(plannerId);
+			dutyHelperServiceSpy.groupDutiesByDays.and.returnValue(new Map());
+			mockStore.selectSignal.and.returnValue(signal([...DUTIES_MOCK]));
 
-		TestBed.configureTestingModule({
-			imports: [
-				PlannerComponent,
-				SafeValue,
-				TranslateModule.forRoot(),
-				MockComponent(HeaderComponent),
-			],
-			providers: [
-				{ provide: Store, useValue: mockStore },
-				{
-					provide: RouterHelperService,
-					useValue: routerHelperServiceSpy,
-				},
-				{
-					provide: ActivatedRoute,
-					useValue: {
-						snapshot: {
-							paramMap: {
-								get(): string {
-									return plannerId;
+			TestBed.configureTestingModule({
+				imports: [
+					PlannerComponent,
+					SafeValue,
+					TranslateModule.forRoot(),
+					MockComponent(HeaderComponent),
+				],
+				providers: [
+					{ provide: Store, useValue: mockStore },
+					{
+						provide: RouterHelperService,
+						useValue: routerHelperServiceSpy,
+					},
+					{
+						provide: ActivatedRoute,
+						useValue: {
+							snapshot: {
+								paramMap: {
+									get(): string {
+										return plannerId;
+									},
 								},
 							},
 						},
 					},
-				},
-			],
-		})
-			.compileComponents()
-			.then(() => {
-				fixture = TestBed.createComponent(PlannerComponent);
-				component = fixture.componentInstance;
-				fixture.detectChanges();
-			});
-	}));
+				],
+			})
+				.compileComponents()
+				.then(() => {
+					fixture = TestBed.createComponent(PlannerComponent);
+					component = fixture.componentInstance;
+					fixture.detectChanges();
+				});
+		},
+		{ flush: true },
+	));
 
 	it('should create', () => {
 		expect(component).toBeTruthy();
@@ -193,9 +204,10 @@ describe('PlannerComponent', () => {
 		};
 
 		component.onWeekPeriodChanged(mockPeriodWeek);
-		
-		expect(component.slidePlannerDirection()).toEqual(AnimationPlannerDirection.Right)
 
+		expect(component.slidePlannerDirection()).toEqual(
+			AnimationPlannerDirection.Right,
+		);
 	});
 
 	it('should apply left slide planner animation', () => {
@@ -205,8 +217,10 @@ describe('PlannerComponent', () => {
 		};
 
 		component.onWeekPeriodChanged(mockPeriodWeek);
-		
-		expect(component.slidePlannerDirection()).toEqual(AnimationPlannerDirection.Left)
+
+		expect(component.slidePlannerDirection()).toEqual(
+			AnimationPlannerDirection.Left,
+		);
 	});
 
 	it('should reset state of planner animation', () => {
@@ -214,5 +228,4 @@ describe('PlannerComponent', () => {
 
 		expect(component.slidePlannerDirection()).toBeNull();
 	});
-	
 });

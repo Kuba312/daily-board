@@ -1,6 +1,7 @@
 import {
 	Injectable,
 } from '@angular/core';
+import { TIME_FORMAT } from '@shared/constants/shared-consts.const';
 import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
@@ -14,12 +15,12 @@ export class TimeManagerService {
 		minutes: number,
 	): string[] {
 		const timelineEveryNumOfMinutes: string[] = [];
-		const endTimeVal = moment(endTime, 'HH:mm').add(1, 'minutes');
+		const endTimeVal = moment(endTime, TIME_FORMAT).add(1, 'minutes');
 
-		let startTimeVal = moment(startTime, 'HH:mm');
+		let startTimeVal = moment(startTime, TIME_FORMAT);
 
 		while (startTimeVal.isBefore(endTimeVal)) {
-			timelineEveryNumOfMinutes.push(startTimeVal.format('HH:mm'));
+			timelineEveryNumOfMinutes.push(startTimeVal.format(TIME_FORMAT));
 			startTimeVal = startTimeVal.add(minutes, 'minutes');
 		}
 

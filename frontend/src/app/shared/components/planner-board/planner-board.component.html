@@ -5,6 +5,11 @@
 		(changedWeekPeriod)="changedWeekPeriod.emit($event)"
 	/>
 	<div class="planner-board__content">
+		<div class="planner-board__timeline-slider">
+			<app-timeline-board-slider
+				[timelineSliderDetails]="timelineSliderDetails()"
+			/>
+		</div>
 		<div class="planner-board__timeline-content">
 			@for (time of timeline(); track $index) {
 				<div

@@ -69,6 +69,10 @@ export class DateHelperService {
 		return currentDay;
 	}
 
+	public getCurrentHour(): string { 
+		return moment().format(TIME_FORMAT);
+	}
+
 	public adjustDateToYearMonthDayFormat(date: string): string {
 		return moment(date).format(YEAR_MOTH_DAY_FORMAT);
 	}

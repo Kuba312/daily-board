@@ -60,10 +60,15 @@ const parentElement = document.createElement('div');
 Object.defineProperty(parentElement, 'offsetTop', { value: 170 });
 
 const mockElement1 = document.createElement('div');
+
+mockElement1.textContent = '10:00'; 
 Object.defineProperty(mockElement1, 'id', { value: '08:00' });
 Object.defineProperty(mockElement1, 'offsetTop', { value: 301 });
 
 const mockElement2: HTMLElement = document.createElement('div');
+
+mockElement2.textContent = '10:00'; 
+
 Object.defineProperty(mockElement2, 'id', { value: '10:00' });
 Object.defineProperty(mockElement2, 'offsetTop', { value: 422 });
 

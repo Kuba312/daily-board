@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     template: `
 	<mat-error>
 		{{ errorMessage | translate }}
-	</mat-error>`
+	</mat-error>`,
 })
 export default class FormErrorMessageComponent {
 	formGroup: InputSignal<Option<FormGroup>> = input<Option<FormGroup>>(null);

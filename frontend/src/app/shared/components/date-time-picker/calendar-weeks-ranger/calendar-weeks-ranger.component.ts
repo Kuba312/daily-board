@@ -48,7 +48,7 @@ import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-r
         CalendarTimeRangerComponent,
         NgClass,
     ],
-    templateUrl: './calendar-weeks-ranger.component.html'
+    templateUrl: './calendar-weeks-ranger.component.html',
 })
 export default class CalendarWeeksRangerComponent implements OnInit {
 	private readonly _dateHelperService: DateHelperService =
@@ -95,8 +95,8 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	}
 
 	@HostListener('document:keydown.enter', ['$event'])
-	onEnterPress(event: KeyboardEvent): void {
-		if (event.key === 'Enter') {
+	onEnterPress(event: Event | null): void {
+		if (event instanceof KeyboardEvent && event.key === 'Enter') {
 			this.closeCalendar();
 		}
 	}

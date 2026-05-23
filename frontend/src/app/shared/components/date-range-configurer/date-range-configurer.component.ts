@@ -6,11 +6,10 @@ import LocaleDatePipe from '@shared/pipes/locale-date.pipe';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 
 @Component({
-	selector: 'app-date-range-configurer',
-	standalone: true,
-	imports: [LocaleDatePipe, SafeValue],
-	styles: ':host { display: block }',
-	templateUrl: './date-range-configurer.component.html',
+    selector: 'app-date-range-configurer',
+    imports: [LocaleDatePipe, SafeValue],
+    styles: ':host { display: block }',
+    templateUrl: './date-range-configurer.component.html'
 })
 export class DateRangeConfigurerComponent {
 	public properDateDisplayMode: InputSignal<DisplayDateMode> =

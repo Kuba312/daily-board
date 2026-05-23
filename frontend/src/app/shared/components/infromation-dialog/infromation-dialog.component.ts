@@ -8,13 +8,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import PrimaryButtonComponent from '../primary-button/primary-button.component';
 
 @Component({
-	selector: 'app-information-dialog',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		PrimaryButtonComponent,
-	],
-	templateUrl: './information-dialog.component.html',
+    selector: 'app-information-dialog',
+    imports: [
+        TranslateModule,
+        PrimaryButtonComponent,
+    ],
+    templateUrl: './information-dialog.component.html'
 })
 export default class InformationDialogComponent {
 	private readonly _dialogRef: MatDialogRef<InformationDialogComponent> =

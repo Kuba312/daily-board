@@ -35,21 +35,20 @@ import moment from 'moment';
 import CalendarTimeRangerComponent from '../calendar-time-ranger/calendar-time-ranger.component';
 
 @Component({
-	selector: 'app-calendar-weeks-ranger',
-	standalone: true,
-	imports: [
-		FormsModule,
-		MatInputModule,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		TranslateModule,
-		MatIconModule,
-		LocaleDatePipe,
-		SafeValue,
-		CalendarTimeRangerComponent,
-		NgClass,
-	],
-	templateUrl: './calendar-weeks-ranger.component.html',
+    selector: 'app-calendar-weeks-ranger',
+    imports: [
+        FormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        MatIconModule,
+        LocaleDatePipe,
+        SafeValue,
+        CalendarTimeRangerComponent,
+        NgClass,
+    ],
+    templateUrl: './calendar-weeks-ranger.component.html'
 })
 export default class CalendarWeeksRangerComponent implements OnInit {
 	private readonly _dateHelperService: DateHelperService =

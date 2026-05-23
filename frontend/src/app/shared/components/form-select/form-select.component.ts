@@ -9,18 +9,17 @@ import { TranslatePath } from '@shared/pipes/translate-path.pipe';
 import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 
 @Component({
-	selector: 'app-form-select',
-	standalone: true,
-	imports: [
-		ReactiveFormsModule,
-		MatInputModule,
-		MatFormFieldModule,
-		MatSelectModule,
-		TranslateModule,
-		FormErrorMessageComponent,
-		TranslatePath,
-	],
-	templateUrl: './form-select.component.html',
+    selector: 'app-form-select',
+    imports: [
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        TranslateModule,
+        FormErrorMessageComponent,
+        TranslatePath,
+    ],
+    templateUrl: './form-select.component.html'
 })
 export default class FormSelectComponent<T> {
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();

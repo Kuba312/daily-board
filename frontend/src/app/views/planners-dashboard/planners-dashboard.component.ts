@@ -17,16 +17,15 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
 import { PlannerDto } from 'src/api/models';
 
 @Component({
-	selector: 'app-planners-dashboard',
-	standalone: true,
-	imports: [
-		HeaderWithButtonsComponent,
-		PlannerCardComponent,
-		PlannerItemsContainerComponent,
-		TranslateModule,
-	],
-	templateUrl: './planners-dashboard.component.html',
-	styleUrl: './planners-dashboard.component.scss',
+    selector: 'app-planners-dashboard',
+    imports: [
+        HeaderWithButtonsComponent,
+        PlannerCardComponent,
+        PlannerItemsContainerComponent,
+        TranslateModule,
+    ],
+    templateUrl: './planners-dashboard.component.html',
+    styleUrl: './planners-dashboard.component.scss'
 })
 export default class PlannersDashboardComponent {
 	private readonly _store: Store = inject(Store);

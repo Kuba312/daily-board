@@ -2,10 +2,9 @@ import { Component, input, InputSignal, output, OutputEmitterRef } from '@angula
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-	selector: 'app-chip-tag',
-	standalone: true,
-	imports: [MatIcon],
-	templateUrl: './chip-tag.component.html',
+    selector: 'app-chip-tag',
+    imports: [MatIcon],
+    templateUrl: './chip-tag.component.html'
 })
 export default class ChipTagComponent {
 	public chipContent: InputSignal<string> = input.required<string>();

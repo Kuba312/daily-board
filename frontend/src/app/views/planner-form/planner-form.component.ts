@@ -25,20 +25,19 @@ import { Store } from '@ngrx/store';
 import { plannerActions } from '@shared-store/planner-store/planner.actions';
 
 @Component({
-	selector: 'app-planner-form',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		ReactiveFormsModule,
-		HeaderComponent,
-		FormInputComponent,
-		FormTextareaComponent,
-		FormSelectComponent,
-		PrimaryButtonComponent,
-		WeekDatePickerInputComponent,
-	],
-	templateUrl: './planner-form.component.html',
-	styleUrl: './planner-form.component.scss',
+    selector: 'app-planner-form',
+    imports: [
+        TranslateModule,
+        ReactiveFormsModule,
+        HeaderComponent,
+        FormInputComponent,
+        FormTextareaComponent,
+        FormSelectComponent,
+        PrimaryButtonComponent,
+        WeekDatePickerInputComponent,
+    ],
+    templateUrl: './planner-form.component.html',
+    styleUrl: './planner-form.component.scss'
 })
 export default class PlannerFormComponent implements OnInit {
 	private readonly _injector: Injector = inject(Injector);

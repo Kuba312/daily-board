@@ -8,17 +8,16 @@ import { MatInputModule } from '@angular/material/input';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 
 @Component({
-	selector: 'app-form-textarea',
-	standalone: true,
-	imports: [
-		MatFormField,
-		TextFieldModule,
-		MatInputModule,
-		ReactiveFormsModule,
-		SafeValue,
-		FormErrorMessageComponent,
-	],
-	templateUrl: './form-textarea.component.html',
+    selector: 'app-form-textarea',
+    imports: [
+        MatFormField,
+        TextFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        SafeValue,
+        FormErrorMessageComponent,
+    ],
+    templateUrl: './form-textarea.component.html'
 })
 export default class FormTextareaComponent {
 	formGroup: InputSignal<FormGroup> = input.required<FormGroup>();

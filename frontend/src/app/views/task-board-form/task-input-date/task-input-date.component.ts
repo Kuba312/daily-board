@@ -22,18 +22,17 @@ import ChipTagsContainerComponent from '../chip-tags-container/chip-tags-contain
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 
 @Component({
-	selector: 'app-task-input-date',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		SubSectionComponent,
-		WeekDatePickerInputComponent,
-		ReactiveFormsModule,
-		PrimaryButtonComponent,
-		ChipTagsContainerComponent,
-	],
-	templateUrl: './task-input-date.component.html',
-	styleUrl: './task-input-date.component.scss',
+    selector: 'app-task-input-date',
+    imports: [
+        TranslateModule,
+        SubSectionComponent,
+        WeekDatePickerInputComponent,
+        ReactiveFormsModule,
+        PrimaryButtonComponent,
+        ChipTagsContainerComponent,
+    ],
+    templateUrl: './task-input-date.component.html',
+    styleUrl: './task-input-date.component.scss'
 })
 export default class TaskInputDateComponent {
 	private readonly _dateHelperService: DateHelperService =

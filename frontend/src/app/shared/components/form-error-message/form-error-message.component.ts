@@ -10,13 +10,12 @@ import { Option } from '@core/types/basics.types';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-	selector: 'app-form-error-message',
-	standalone: true,
-	imports: [MatError, TranslateModule],
-	template: `
+    selector: 'app-form-error-message',
+    imports: [MatError, TranslateModule],
+    template: `
 	<mat-error>
 		{{ errorMessage | translate }}
-	</mat-error>`,
+	</mat-error>`
 })
 export default class FormErrorMessageComponent {
 	formGroup: InputSignal<Option<FormGroup>> = input<Option<FormGroup>>(null);

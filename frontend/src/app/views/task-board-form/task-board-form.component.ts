@@ -37,21 +37,20 @@ import TaskInputDateComponent from './task-input-date/task-input-date.component'
 import { PlannerType } from '@shared/enums/planner-type.enum';
 
 @Component({
-	selector: 'app-task-board-form',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		ReactiveFormsModule,
-		HeaderComponent,
-		FormInputComponent,
-		FormTextareaComponent,
-		FormColorPickerComponent,
-		PrimaryButtonComponent,
-		FormSelectComponent,
-		TaskInputDateComponent,
-	],
-	templateUrl: './task-board-form.component.html',
-	styleUrl: './task-board-form.component.scss',
+    selector: 'app-task-board-form',
+    imports: [
+        TranslateModule,
+        ReactiveFormsModule,
+        HeaderComponent,
+        FormInputComponent,
+        FormTextareaComponent,
+        FormColorPickerComponent,
+        PrimaryButtonComponent,
+        FormSelectComponent,
+        TaskInputDateComponent,
+    ],
+    templateUrl: './task-board-form.component.html',
+    styleUrl: './task-board-form.component.scss'
 })
 export default class TaskBoardFormComponent {
 	private readonly _store: Store = inject(Store);

@@ -21,15 +21,14 @@ import { DateRangeConfigurerComponent } from '../date-range-configurer/date-rang
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 
 @Component({
-	selector: 'app-header',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		MatIconModule,
-		DateRangeConfigurerComponent,
-		AdditionalLabelPipe,
-	],
-	templateUrl: './header.component.html',
+    selector: 'app-header',
+    imports: [
+        TranslateModule,
+        MatIconModule,
+        DateRangeConfigurerComponent,
+        AdditionalLabelPipe,
+    ],
+    templateUrl: './header.component.html'
 })
 export default class HeaderComponent implements OnInit, OnDestroy {
 	private readonly _routerHelperService: RouterHelperService = inject(RouterHelperService);

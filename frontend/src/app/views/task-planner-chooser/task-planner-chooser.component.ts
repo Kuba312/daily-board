@@ -22,16 +22,15 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
 import { PlannerDto } from 'src/api/models';
 
 @Component({
-	selector: 'app-task-planner-chooser',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		HeaderWithButtonsComponent,
-		PlannerCardComponent,
-		PlannerItemsContainerComponent,
-	],
-	templateUrl: './task-planner-chooser.component.html',
-	styleUrl: './task-planner-chooser.component.scss',
+    selector: 'app-task-planner-chooser',
+    imports: [
+        TranslateModule,
+        HeaderWithButtonsComponent,
+        PlannerCardComponent,
+        PlannerItemsContainerComponent,
+    ],
+    templateUrl: './task-planner-chooser.component.html',
+    styleUrl: './task-planner-chooser.component.scss'
 })
 export default class TaskPlannerChooserComponent implements OnInit {
 	private readonly _store: Store = inject(Store);

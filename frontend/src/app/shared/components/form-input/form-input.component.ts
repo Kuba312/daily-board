@@ -20,17 +20,16 @@ import { debounceTime, filter } from 'rxjs';
 import FormErrorMessageComponent from '../form-error-message/form-error-message.component';
 
 @Component({
-	standalone: true,
-	imports: [
-		ReactiveFormsModule,
-		SafeValue,
-		MatIconModule,
-		MatInputModule,
-		MatFormFieldModule,
-		FormErrorMessageComponent,
-	],
-	selector: 'app-form-input',
-	templateUrl: 'form-input.component.html',
+    imports: [
+        ReactiveFormsModule,
+        SafeValue,
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule,
+        FormErrorMessageComponent,
+    ],
+    selector: 'app-form-input',
+    templateUrl: 'form-input.component.html'
 })
 export default class FormInputComponent {
 	private _injector: Injector = inject(Injector);

@@ -16,10 +16,9 @@ import SafeValue from '@shared/pipes/safe-value.pipe';
 import { DutyDto } from 'src/api/models';
 
 @Component({
-	selector: 'app-planner-board-tile-duties',
-	standalone: true,
-	imports: [SafeValue],
-	templateUrl: './planner-board-tile-duties.component.html',
+    selector: 'app-planner-board-tile-duties',
+    imports: [SafeValue],
+    templateUrl: './planner-board-tile-duties.component.html'
 })
 export default class PlannerBoardTileDutiesComponent {
 	private readonly HEIGHT_OF_TIME_VALUE: number = 0;

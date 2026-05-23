@@ -31,27 +31,26 @@ import FormErrorMessageComponent from '../../form-error-message/form-error-messa
 import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-weeks-ranger.component';
 
 @Component({
-	selector: 'app-week-date-picker-input',
-	standalone: true,
-	imports: [
-		FormsModule,
-		ReactiveFormsModule,
-		MatInputModule,
-		MatFormFieldModule,
-		NgxMaskDirective,
-		MatIconModule,
-		CalendarWeeksRangerComponent,
-		FormErrorMessageComponent,
-	],
-	providers: [
-		{
-			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => WeekDatePickerInputComponent),
-			multi: true,
-		},
-		provideNgxMask(),
-	],
-	templateUrl: './week-date-picker-input.component.html',
+    selector: 'app-week-date-picker-input',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        NgxMaskDirective,
+        MatIconModule,
+        CalendarWeeksRangerComponent,
+        FormErrorMessageComponent,
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => WeekDatePickerInputComponent),
+            multi: true,
+        },
+        provideNgxMask(),
+    ],
+    templateUrl: './week-date-picker-input.component.html'
 })
 export default class WeekDatePickerInputComponent
 	implements ControlValueAccessor

@@ -33,11 +33,10 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
 import { DutyDto, PlannerDto } from 'src/api/models';
 
 @Component({
-	selector: 'app-planner',
-	standalone: true,
-	imports: [HeaderComponent, PlannerBoardComponent, SafeValue],
-	templateUrl: './planner.component.html',
-	styleUrl: './planner.component.scss',
+    selector: 'app-planner',
+    imports: [HeaderComponent, PlannerBoardComponent, SafeValue],
+    templateUrl: './planner.component.html',
+    styleUrl: './planner.component.scss'
 })
 export default class PlannerComponent {
 	private readonly _store: Store = inject(Store);

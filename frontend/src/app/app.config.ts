@@ -2,7 +2,7 @@ import {
 	ApplicationConfig,
 	importProvidersFrom,
 	isDevMode,
-	provideExperimentalZonelessChangeDetection,
+	provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
 
@@ -17,7 +17,7 @@ import { SnackBarService } from './shared/services/snackbar-service/snack-bar.se
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideExperimentalZonelessChangeDetection(),
+		provideZonelessChangeDetection(),
 		provideRouter(routes, withViewTransitions()),
 		provideHttpClient(withFetch()),
 		provideStore(),

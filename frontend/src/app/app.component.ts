@@ -17,11 +17,10 @@ import SideMenuComponent from './shared/components/side-menu/side-menu.component
 import { DateHelperService } from './shared/services/locale-date/date-helper.service';
 
 @Component({
-	selector: 'app-root',
-	standalone: true,
-	imports: [RouterOutlet, TranslateModule, SideMenuComponent],
-	templateUrl: './app.component.html',
-	styleUrl: './app.component.scss',
+    selector: 'app-root',
+    imports: [RouterOutlet, TranslateModule, SideMenuComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export default class AppComponent implements OnInit {
 	private readonly _ngZone: NgZone = inject(NgZone);

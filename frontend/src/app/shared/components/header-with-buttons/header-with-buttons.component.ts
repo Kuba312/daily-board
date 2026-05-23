@@ -6,10 +6,9 @@ import PrimaryButtonComponent from '../primary-button/primary-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-	selector: 'app-header-with-buttons',
-	standalone: true,
-	imports: [TranslateModule, HeaderComponent, PrimaryButtonComponent],
-	templateUrl: './header-with-buttons.component.html',
+    selector: 'app-header-with-buttons',
+    imports: [TranslateModule, HeaderComponent, PrimaryButtonComponent],
+    templateUrl: './header-with-buttons.component.html'
 })
 export default class HeaderWithButtonsComponent {
 	public label: InputSignal<string> = input.required<string>();

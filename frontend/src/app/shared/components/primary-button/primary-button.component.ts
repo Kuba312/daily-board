@@ -3,10 +3,9 @@ import { Component, InputSignal, OutputEmitterRef, input, output } from '@angula
 import { Option } from '@core/types/basics.types';
 
 @Component({
-	selector: 'app-primary-button',
-	standalone: true,
-	imports: [NgClass],
-	templateUrl: './primary-button.component.html',
+    selector: 'app-primary-button',
+    imports: [NgClass],
+    templateUrl: './primary-button.component.html'
 })
 export default class PrimaryButtonComponent {
 	label: InputSignal<Option<string>> = input<Option<string>>();

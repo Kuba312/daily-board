@@ -15,15 +15,14 @@ import { PopoverDirective } from '@shared/directives/popover.directive';
 import { PopoverPosition } from '@shared/enums/popover-positon.enum';
 
 @Component({
-	selector: 'app-planner-card',
-	standalone: true,
-	imports: [
-		TranslateModule,
-		NgClass,
-		PrimaryButtonComponent,
-		PopoverDirective,
-	],
-	templateUrl: './planner-card.component.html',
+    selector: 'app-planner-card',
+    imports: [
+        TranslateModule,
+        NgClass,
+        PrimaryButtonComponent,
+        PopoverDirective,
+    ],
+    templateUrl: './planner-card.component.html'
 })
 export default class PlannerCardComponent {
 	public plannerDetails: InputSignal<PlannerDto> =

@@ -23,10 +23,9 @@ import SubSectionComponent from '../sub-section/sub-section.component';
 import TileColorComponent from './tile-color/tile-color.component';
 
 @Component({
-	selector: 'app-form-color-picker',
-	standalone: true,
-	imports: [TranslateModule, SubSectionComponent, TileColorComponent],
-	templateUrl: './form-color-picker.component.html',
+    selector: 'app-form-color-picker',
+    imports: [TranslateModule, SubSectionComponent, TileColorComponent],
+    templateUrl: './form-color-picker.component.html'
 })
 export default class FormColorPickerComponent implements OnInit {
 	private readonly _store: Store = inject(Store);

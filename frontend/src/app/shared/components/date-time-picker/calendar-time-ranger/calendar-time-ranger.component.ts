@@ -22,16 +22,15 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { CalendarTimeRangerFormModel } from './calendar-time-ranger.form-model.component';
 
 @Component({
-	selector: 'app-calendar-time-ranger',
-	standalone: true,
-	imports: [
-		MatInputModule,
-		MatFormFieldModule,
-		ReactiveFormsModule,
-		NgxMaskDirective,
-		MatIconModule,
-	],
-	templateUrl: './calendar-time-ranger.component.html',
+    selector: 'app-calendar-time-ranger',
+    imports: [
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        NgxMaskDirective,
+        MatIconModule,
+    ],
+    templateUrl: './calendar-time-ranger.component.html'
 })
 export default class CalendarTimeRangerComponent implements OnInit {
 	private readonly _keyboardEventService: KeyboardEventService =

@@ -39,18 +39,17 @@ import PlannerBoardTileDutiesComponent from './planner-board-tile-duties/planner
 import TimelineBoardSliderComponent from './timeline-board-slider/timeline-board-slider.component';
 
 @Component({
-	selector: 'app-planner-board',
-	standalone: true,
-	imports: [
-		NgClass,
-		TranslateModule,
-		PlannerBoardTileDutiesComponent,
-		PlannerBoardDaysHeadersComponent,
-		HiddenPartialHourClassPipe,
-		TimelineBoardSliderComponent,
-	],
-	templateUrl: './planner-board.component.html',
-	styles: ':host { display: block; width: 100% }',
+    selector: 'app-planner-board',
+    imports: [
+        NgClass,
+        TranslateModule,
+        PlannerBoardTileDutiesComponent,
+        PlannerBoardDaysHeadersComponent,
+        HiddenPartialHourClassPipe,
+        TimelineBoardSliderComponent,
+    ],
+    templateUrl: './planner-board.component.html',
+    styles: ':host { display: block; width: 100% }'
 })
 export default class PlannerBoardComponent {
 	private readonly _timeManagerService: TimeManagerService =

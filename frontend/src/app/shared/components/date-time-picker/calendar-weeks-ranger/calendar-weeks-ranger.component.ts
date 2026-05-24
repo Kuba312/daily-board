@@ -62,6 +62,7 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	public fromTime: InputSignal<Option<string>> = input<Option<string>>(null);
 	public toTime: InputSignal<Option<string>> = input<Option<string>>(null);
 
+	// eslint-disable-next-line @angular-eslint/no-output-on-prefix
 	public onCloseCalendar: OutputEmitterRef<CalendarDateDetails> =
 		output<CalendarDateDetails>();
 

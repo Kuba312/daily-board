@@ -491,65 +491,65 @@ Existing planner rows are development/test data and do not need to be preserved 
 
 #### Automated
 
-- [x] 1.1 Backend compiles
+- [x] 1.1 Backend compiles — 9a45db5
 - [ ] 1.2 Auth endpoints are present in generated OpenAPI docs when backend is running
-- [x] 1.3 Backend tests cover successful registration, duplicate registration, successful login, invalid login, and protected planner endpoint rejection without a token
+- [x] 1.3 Backend tests cover successful registration, duplicate registration, successful login, invalid login, and protected planner endpoint rejection without a token — 9a45db5
 
 #### Manual
 
-- [x] 1.4 Registering a new email returns a token and user email
-- [x] 1.5 Logging in with the same email/password returns a token
+- [x] 1.4 Registering a new email returns a token and user email — 9a45db5
+- [x] 1.5 Logging in with the same email/password returns a token — 9a45db5
 - [ ] 1.6 Calling a protected planner endpoint without Authorization is rejected
 
 ### Phase 2: Planner Ownership Enforcement
 
 #### Automated
 
-- [x] 2.1 Backend ownership tests pass
-- [x] 2.2 Planner create stores an owner for newly created planners
-- [x] 2.3 Planner list never uses an unscoped findAll path for authenticated API requests
-- [x] 2.4 Direct planner lookup is scoped by planner id and owner
+- [x] 2.1 Backend ownership tests pass — 9a45db5
+- [x] 2.2 Planner create stores an owner for newly created planners — 9a45db5
+- [x] 2.3 Planner list never uses an unscoped findAll path for authenticated API requests — 9a45db5
+- [x] 2.4 Direct planner lookup is scoped by planner id and owner — 9a45db5
 
 #### Manual
 
-- [x] 2.5 With User A token, create a planner and confirm it appears in User A planner list
-- [x] 2.6 With User B token, confirm User A's planner does not appear in User B planner list
+- [x] 2.5 With User A token, create a planner and confirm it appears in User A planner list — 9a45db5
+- [x] 2.6 With User B token, confirm User A's planner does not appear in User B planner list — 9a45db5
 - [ ] 2.7 With User B token, direct planner detail access does not return User A planner data
 
 ### Phase 3: Frontend Auth Shell
 
 #### Automated
 
-- [x] 3.1 Frontend tests pass
+- [x] 3.1 Frontend tests pass — 9a45db5
 - [ ] 3.2 Frontend lint passes
-- [x] 3.3 Auth service tests cover token persistence, logout clearing, and restored auth state
-- [x] 3.4 Auth guard tests cover unauthenticated redirect and authenticated access
-- [x] 3.5 Auth interceptor tests cover attaching bearer token to API calls and skipping asset calls
+- [x] 3.3 Auth service tests cover token persistence, logout clearing, and restored auth state — 9a45db5
+- [x] 3.4 Auth guard tests cover unauthenticated redirect and authenticated access — 9a45db5
+- [x] 3.5 Auth interceptor tests cover attaching bearer token to API calls and skipping asset calls — 9a45db5
 
 #### Manual
 
-- [x] 3.6 Visiting /planners while logged out redirects to /auth
-- [x] 3.7 Registering from the auth page lands on /planners
-- [x] 3.8 Logging out removes local auth state and prevents access to /planners
+- [x] 3.6 Visiting /planners while logged out redirects to /auth — 9a45db5
+- [x] 3.7 Registering from the auth page lands on /planners — 9a45db5
+- [x] 3.8 Logging out removes local auth state and prevents access to /planners — 9a45db5
 - [ ] 3.9 Refreshing the browser after login keeps the user authenticated for the MVP token lifetime
 
 ### Phase 4: End-to-End Planner Vertical Slice
 
 #### Automated
 
-- [x] 4.1 Backend tests pass
-- [x] 4.2 Frontend tests pass
+- [x] 4.1 Backend tests pass — 9a45db5
+- [x] 4.2 Frontend tests pass — 9a45db5
 - [ ] 4.3 Frontend lint passes — waived/blocked by pre-existing repo-wide lint debt: `npm run lint` still reports 57 generated `src/api` and unrelated existing app lint/style problems; the Phase 4 side-menu lint issue was fixed.
-- [x] 4.4 Frontend build passes
-- [x] 4.5 Store reset tests prove logout removes cached planner/duty data
+- [x] 4.4 Frontend build passes — 9a45db5
+- [x] 4.5 Store reset tests prove logout removes cached planner/duty data — 9a45db5
 
 #### Manual
 
-- [x] 4.6 Register User A in the browser
-- [x] 4.7 Create a planner as User A
-- [x] 4.8 Logout User A
-- [x] 4.9 Register or login User B in the same browser
-- [x] 4.10 Confirm User B does not see User A's planner
-- [x] 4.11 Logout User B and login User A again
-- [x] 4.12 Confirm User A sees the planner created earlier
-- [x] 4.13 Confirm the existing dynamic planner route still renders and week switching is not regressed
+- [x] 4.6 Register User A in the browser — 9a45db5
+- [x] 4.7 Create a planner as User A — 9a45db5
+- [x] 4.8 Logout User A — 9a45db5
+- [x] 4.9 Register or login User B in the same browser — 9a45db5
+- [x] 4.10 Confirm User B does not see User A's planner — 9a45db5
+- [x] 4.11 Logout User B and login User A again — 9a45db5
+- [x] 4.12 Confirm User A sees the planner created earlier — 9a45db5
+- [x] 4.13 Confirm the existing dynamic planner route still renders and week switching is not regressed — 9a45db5

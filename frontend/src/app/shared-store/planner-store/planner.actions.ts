@@ -11,6 +11,7 @@ export const enum PlannerActions {
 	GetPlanner = 'Get planner',
 	GetPlannerSuccess = 'Get planner success',
 	GetPlannerFailure = 'Get planner failure',
+	ResetPlanners = 'Reset planners',
 }
 
 export const plannerActions = createActionGroup({
@@ -32,5 +33,6 @@ export const plannerActions = createActionGroup({
 		[PlannerActions.GetPlanner]: props<{id: string}>(),
 		[PlannerActions.GetPlannerSuccess]: props<{planner: PlannerDto}>(),
 		[PlannerActions.GetPlannerFailure]: props<{errorMessage: string}>(),
+		[PlannerActions.ResetPlanners]: emptyProps(),
 	},
 });

@@ -7,6 +7,7 @@ import { of, Subject } from 'rxjs';
 import { DIALOGS_TO_NOT_SHOW } from '@core/app.consts';
 
 class MockDestroyRef implements DestroyRef {
+	readonly destroyed: boolean = false;
 	private destroy$: Subject<void> = new Subject<void>();
 	onDestroy(callback: () => void): () => void {
 	  const subscription = this.destroy$.subscribe({ complete: callback });

@@ -126,6 +126,7 @@ const dutyFeature = createFeature({
 				error: errorMessage,
 			}),
 		),
+		on(dutyActions.resetDuties, () => initialDutyState),
 	),
 });
 

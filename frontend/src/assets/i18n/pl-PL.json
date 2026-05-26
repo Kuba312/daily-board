@@ -9,7 +9,8 @@
 		"tasks": "Zadania",
 		"settings": "Ustawienia",
 		"new-duty": "Utwórz zadanie",
-		"add-planner": "Dodaj planer"
+		"add-planner": "Dodaj planer",
+		"logout": "Wyloguj"
 	},
 	"planner": {
 		"weekly-planner": "Planer Tygodniowy",
@@ -64,10 +65,13 @@
 		"range-planner-time": "Zakres godzin planera",
 		"planner-has-been-added": "Planer został dodany"
 	},
-	"planners-dashboard": {
-		"title": "Twoje planery"
-	},
-	"information-dialog": {
+		"planners-dashboard": {
+			"title": "Twoje planery"
+		},
+		"auth": {
+			"error": "Logowanie nie powiodło się"
+		},
+		"information-dialog": {
 		"no-planner-to-chose": "Wygląda na to, że nie masz dodanych planerów. Stwórz swój pierwszy planer, aby móc dodać swoje pierwsze zadania! :)"
 	},
 	"form-validators": {

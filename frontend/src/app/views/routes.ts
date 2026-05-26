@@ -13,6 +13,7 @@ import {
 import * as dutyEffects from '../shared-store/duty-store/duty.effects';
 import * as plannerEffects from '../shared-store/planner-store/planner.effects';
 import { dutiesResolver } from './planner/duties.resolver';
+import { authGuard } from '@core/auth/auth.guard';
 
 const routes: Routes = [
 	{
@@ -20,10 +21,15 @@ const routes: Routes = [
 		redirectTo: 'planners',
 		pathMatch: 'full',
 	},
-	{
-		path: 'planners/:plannerId/:isDynamic',
-		loadComponent: () => import('./planner/planner.component'),
-		providers: [
+		{
+			path: 'auth',
+			loadComponent: () => import('./auth/auth.component'),
+		},
+		{
+			path: 'planners/:plannerId/:isDynamic',
+			loadComponent: () => import('./planner/planner.component'),
+			canActivate: [authGuard],
+			providers: [
 			provideState(plannerFeatureKey, plannerReducer),
 			provideState(dutyFeatureKey, dutyReducer),
 			provideEffects(dutyEffects),
@@ -33,10 +39,11 @@ const routes: Routes = [
 			duties: dutiesResolver,
 		},
 	},
-	{
-		path: 'planners',
-		loadComponent: () => import('./planners-dashboard/planners-dashboard.component'),
-		providers: [
+		{
+			path: 'planners',
+			loadComponent: () => import('./planners-dashboard/planners-dashboard.component'),
+			canActivate: [authGuard],
+			providers: [
 			provideState(plannerFeatureKey, plannerReducer),
 			provideEffects(plannerEffects),
 		],
@@ -44,11 +51,12 @@ const routes: Routes = [
 			planners: plannersResolver,
 		},
 	},
-	{
-		path: 'choose-planner',
-		loadComponent: () =>
-			import('./task-planner-chooser/task-planner-chooser.component'),
-		providers: [
+		{
+			path: 'choose-planner',
+			loadComponent: () =>
+				import('./task-planner-chooser/task-planner-chooser.component'),
+			canActivate: [authGuard],
+			providers: [
 			provideState(plannerFeatureKey, plannerReducer),
 			provideEffects(plannerEffects),
 		],
@@ -56,21 +64,23 @@ const routes: Routes = [
 			planners: plannersResolver,
 		},
 	},
-	{
-		path: 'task-board-add/:plannerId',
-		loadComponent: () =>
-			import('./task-board-form/task-board-form.component'),
-		providers: [
+		{
+			path: 'task-board-add/:plannerId',
+			loadComponent: () =>
+				import('./task-board-form/task-board-form.component'),
+			canActivate: [authGuard],
+			providers: [
 			provideState(dutyFeatureKey, dutyReducer),
 			provideState(plannerFeatureKey, plannerReducer),
 			provideEffects(dutyEffects),
 			provideEffects(plannerEffects),
 		],
 	},
-	{
-		path: 'planner-add',
-		loadComponent: () => import('./planner-form/planner-form.component'),
-		providers: [
+		{
+			path: 'planner-add',
+			loadComponent: () => import('./planner-form/planner-form.component'),
+			canActivate: [authGuard],
+			providers: [
 			provideState(plannerFeatureKey, plannerReducer),
 			provideEffects(plannerEffects),
 		],

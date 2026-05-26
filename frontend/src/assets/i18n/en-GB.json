@@ -9,7 +9,8 @@
 		"tasks": "Tasks",
 		"settings": "Settings",
 		"new-duty": "Create task",
-		"add-planner": "Add planner"
+		"add-planner": "Add planner",
+		"logout": "Logout"
 	},
 	"planner": {
 		"weekly-planner": "Weekly Planner",
@@ -63,10 +64,13 @@
 		"range-planner-time": "Planner hours range",
 		"planner-has-been-added": "Planner has been added"
 	},
-	"planners-dashboard": {
-		"title": "Your planners"
-	},
-	"information-dialog": {
+		"planners-dashboard": {
+			"title": "Your planners"
+		},
+		"auth": {
+			"error": "Authentication failed"
+		},
+		"information-dialog": {
 		"no-planner-to-chose": "It seems that you don’t have any planners added yet. Create your first planner to start adding your tasks! :)"
 	},
 	"form-validators": {

@@ -8,7 +8,7 @@ import {
 import { provideRouter, withViewTransitions } from '@angular/router';
 
 import routes from './app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -17,12 +17,13 @@ import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { SnackBarService } from './shared/services/snackbar-service/snack-bar.service';
 import { ApiConfiguration } from 'src/api/api-configuration';
 import { AppRuntimeConfigService } from './shared/services/runtime-config/app-runtime-config.service';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZonelessChangeDetection(),
 		provideRouter(routes, withViewTransitions()),
-		provideHttpClient(withFetch()),
+			provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
 		{
 			provide: APP_INITIALIZER,
 			multi: true,

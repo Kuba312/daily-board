@@ -15,19 +15,22 @@ import lombok.RequiredArgsConstructor;
 public class PlannerService {
 
     private final PlannerRepository plannerRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public Planner savePlanner(Planner planner) {
+        planner.setOwner(authenticatedUserService.getCurrentUser());
+
         return plannerRepository.save(planner);
     }
 
     public List<Planner> getPlanners() {
-        return plannerRepository.findAll();
+        return plannerRepository.findAllByOwnerId(authenticatedUserService.getCurrentUser().getId());
     }
 
     public Planner getPlanner(String id) {
         return plannerRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + id + "not found"));
+                .findByIdAndOwnerId(id, authenticatedUserService.getCurrentUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + id + " not found"));
     }
 
 }

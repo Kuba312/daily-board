@@ -471,6 +471,12 @@ P-01 assumes small local/dev data volume from the roadmap. Owner-scoped planner 
 
 Existing planner rows are development/test data and do not need to be preserved for a real user. The migration may leave existing rows without an owner if MySQL constraints require a safe transition, but authenticated planner list/detail routes must not expose unowned rows. If a local developer wants to keep old rows, they can associate them manually outside this MVP plan.
 
+## Known Limitations
+
+- When a persisted token is expired, API calls return `401`, but the frontend does not automatically clear auth state or redirect to `/auth`.
+- This is out of scope for P-01 because the refresh check verifies browser refresh behavior while the token is still valid.
+- Suggested future fix: handle `401` responses from API requests in the auth interceptor by clearing auth/session state and redirecting to `/auth`, without reintroducing the `AuthService` circular dependency.
+
 ## References
 
 - Roadmap P-01: `context/foundation/roadmap.md`
@@ -531,7 +537,7 @@ Existing planner rows are development/test data and do not need to be preserved 
 - [x] 3.6 Visiting /planners while logged out redirects to /auth — 9a45db5
 - [x] 3.7 Registering from the auth page lands on /planners — 9a45db5
 - [x] 3.8 Logging out removes local auth state and prevents access to /planners — 9a45db5
-- [ ] 3.9 Refreshing the browser after login keeps the user authenticated for the MVP token lifetime
+- [x] 3.9 Refreshing the browser after login keeps the user authenticated for the MVP token lifetime
 
 ### Phase 4: End-to-End Planner Vertical Slice
 

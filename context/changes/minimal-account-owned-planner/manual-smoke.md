@@ -36,4 +36,11 @@ Completed on 2026-05-26.
 - After logging back in as User A, User A sees the created planner.
 - Existing planner route renders.
 - Week switching was checked and is not visibly regressed.
+- Browser refresh after login keeps the user authenticated while the MVP token is still valid.
 - UI roughness is accepted as out of scope for this change.
+
+## Follow-Up
+
+- Expired persisted tokens currently result in `401` API responses, but the frontend does not automatically clear auth state or redirect to `/auth`.
+- This is out of scope for P-01 because the refresh check covers a still-valid token.
+- A future change should handle `401` API responses in the auth interceptor by clearing auth/session state and redirecting to `/auth`, while avoiding the previous `AuthService` interceptor dependency cycle.

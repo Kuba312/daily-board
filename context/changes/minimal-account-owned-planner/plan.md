@@ -477,6 +477,10 @@ Existing planner rows are development/test data and do not need to be preserved 
 - This is out of scope for P-01 because the refresh check verifies browser refresh behavior while the token is still valid.
 - Suggested future fix: handle `401` responses from API requests in the auth interceptor by clearing auth/session state and redirecting to `/auth`, without reintroducing the `AuthService` circular dependency.
 
+## Implementation Notes
+
+- `AuthApiService` was handwritten outside `src/api` because OpenAPI client regeneration was skipped locally; generated client files were not hand-edited.
+
 ## References
 
 - Roadmap P-01: `context/foundation/roadmap.md`
@@ -543,7 +547,7 @@ Existing planner rows are development/test data and do not need to be preserved 
 
 #### Automated
 
-- [x] 4.1 Backend tests pass — 9a45db5
+- [x] 4.1 Backend tests pass — 9a45db5; review fix verified 2026-05-27 with Java 22 using `./mvnw clean test`
 - [x] 4.2 Frontend tests pass — 9a45db5
 - [ ] 4.3 Frontend lint passes — waived/blocked by pre-existing repo-wide lint debt: `npm run lint` still reports 57 generated `src/api` and unrelated existing app lint/style problems; the Phase 4 side-menu lint issue was fixed.
 - [x] 4.4 Frontend build passes — 9a45db5

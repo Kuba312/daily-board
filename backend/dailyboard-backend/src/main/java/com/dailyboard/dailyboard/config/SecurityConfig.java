@@ -40,7 +40,10 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/api/v1/planners/**").authenticated()
+                        .requestMatchers(
+                                "/api/v1/planners/**",
+                                "/api/v1/duties/**"
+                        ).authenticated()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

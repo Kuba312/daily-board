@@ -537,7 +537,7 @@ Existing planner rows are development/test data and do not need to be preserved 
 - [x] 3.6 Visiting /planners while logged out redirects to /auth — 9a45db5
 - [x] 3.7 Registering from the auth page lands on /planners — 9a45db5
 - [x] 3.8 Logging out removes local auth state and prevents access to /planners — 9a45db5
-- [x] 3.9 Refreshing the browser after login keeps the user authenticated for the MVP token lifetime
+- [x] 3.9 Refreshing the browser after login keeps the user authenticated for the MVP token lifetime — manual refresh check completed successfully
 
 ### Phase 4: End-to-End Planner Vertical Slice
 

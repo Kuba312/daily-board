@@ -524,7 +524,7 @@ Existing planner rows are development/test data and do not need to be preserved 
 
 - [x] 2.5 With User A token, create a planner and confirm it appears in User A planner list — 9a45db5
 - [x] 2.6 With User B token, confirm User A's planner does not appear in User B planner list — 9a45db5
-- [ ] 2.7 With User B token, direct planner detail access does not return User A planner data
+- [x] 2.7 With User B token, direct planner detail access does not return User A planner data
 
 ### Phase 3: Frontend Auth Shell
 

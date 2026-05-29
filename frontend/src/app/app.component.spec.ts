@@ -6,6 +6,8 @@ import { DARK_MODE_CLASS } from './core/app.consts';
 import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
 import { ActivatedRoute } from '@angular/router';
 import { ACTIVATED_ROUTE_PROVIDER } from './core/helpers/tests-functions.helper';
+import { AuthService } from './core/auth/auth.service';
+import { Store } from '@ngrx/store';
 
 describe('AppComponent', () => {
 	let component: AppComponent;
@@ -13,6 +15,8 @@ describe('AppComponent', () => {
 	let localeDateService: DateHelperService;
 	let localeDateServiceSpy: jasmine.SpyObj<DateHelperService>;
 	let darkModeServiceSpy: jasmine.SpyObj<DarkModeService>;
+	let authServiceSpy: jasmine.SpyObj<AuthService>;
+	let storeSpy: jasmine.SpyObj<Store>;
 
 	beforeEach(waitForAsync(() => {
 		localeDateServiceSpy = jasmine.createSpyObj('LocaleDateService', [
@@ -22,12 +26,16 @@ describe('AppComponent', () => {
 			'toggleDarkMode',
 			'darkMode',
 		]);
+		authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
+		storeSpy = jasmine.createSpyObj('Store', ['dispatch']);
 
 		TestBed.configureTestingModule({
 			imports: [AppComponent, TranslateModule.forRoot()],
 			providers: [
 				{ provide: DarkModeService, useValue: darkModeServiceSpy },
 				{ provide: DateHelperService, useValue: localeDateServiceSpy },
+				{ provide: AuthService, useValue: authServiceSpy },
+				{ provide: Store, useValue: storeSpy },
 				{
 					provide: ActivatedRoute,
 					useValue: ACTIVATED_ROUTE_PROVIDER,

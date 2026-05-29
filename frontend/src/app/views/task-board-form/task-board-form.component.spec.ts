@@ -217,7 +217,7 @@ describe('TaskBoardFormComponent', () => {
 			?.formModel()
 			?.formGroup()
 			.get(weekDayControl)
-			?.setValue('MONDAY');
+			?.setValue(['MONDAY']);
 
 		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue(
 			'10:00',

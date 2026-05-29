@@ -66,6 +66,7 @@ const plannerFeature = createFeature({
 			error: errorMessage,
 			isLoading: false,
 		})),
+		on(plannerActions.resetPlanners, () => initialPlannerState),
 	),
 });
 

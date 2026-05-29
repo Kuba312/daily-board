@@ -23,6 +23,14 @@ export class PersistenceService {
 		}
 	}
 
+	public remove(key: string): void {
+		try {
+			localStorage.removeItem(key);
+		} catch (e) {
+			console.error('Error removing from local storage', e);
+		}
+	}
+
 	public addToStructure<T extends unknown[]>(key: string, data: T): void {
 		const alreadyProvidedData = this.get(key);
 

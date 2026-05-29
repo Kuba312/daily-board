@@ -18,7 +18,7 @@ import PlannerBoardDaysHeadersComponent from './planner-board-days-headers/plann
 import PlannerBoardTileDutiesComponent from './planner-board-tile-duties/planner-board-tile-duties.component';
 import PlannerBoardComponent from './planner-board.component';
 
-fdescribe('PlannerBoardComponent', () => {
+describe('PlannerBoardComponent', () => {
 	let component: PlannerBoardComponent;
 	let fixture: ComponentFixture<PlannerBoardComponent>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
@@ -149,19 +149,32 @@ fdescribe('PlannerBoardComponent', () => {
 	}));
 
 	it('should trigger recalculations of slider details if window is resized', fakeAsync(() =>{
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).innerWidth = 1024;
+		const initialWidth = window.innerWidth;
+
+		Object.defineProperty(window, 'innerWidth', {
+			configurable: true,
+			value: 1024,
+		});
 
 		window.dispatchEvent(new Event('resize'));
 
 		tick(500);
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(window as any).innerWidth = 800;
+
+		Object.defineProperty(window, 'innerWidth', {
+			configurable: true,
+			value: 800,
+		});
+
 		window.dispatchEvent(new Event('resize'));
 
 		tick(200);
 		fixture.detectChanges();
 	
 		expect(component.timelineSliderDetails()).toBeDefined();
+
+		Object.defineProperty(window, 'innerWidth', {
+			configurable: true,
+			value: initialWidth,
+		});
 	}))
 });

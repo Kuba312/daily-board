@@ -23,6 +23,10 @@ public class Planner {
     private LocalTime endTime;
     private Boolean isConstant;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @OneToMany(mappedBy = "planner", orphanRemoval = true)
     private List<Duty> duties;
 }

@@ -14,7 +14,8 @@ export const enum DutyActions {
 	GetDutiesByPlannerIdFailure = 'Get duties by planner id failure',
 	GetDutiesByRangeTimeAndPlannerId = 'Get duties by range time and planner id',
 	GetDutiesByRangeTimeAndPlannerIdSuccess = 'Get duties by range time and planner id success',
-	GetDutiesByRangeTimeAndPlannerIdFailure = 'Get duties by range time and planner id failure'
+	GetDutiesByRangeTimeAndPlannerIdFailure = 'Get duties by range time and planner id failure',
+	ResetDuties = 'Reset duties',
 }
 
 export const dutyActions = createActionGroup({
@@ -62,5 +63,6 @@ export const dutyActions = createActionGroup({
 		[DutyActions.GetDutiesByRangeTimeAndPlannerIdFailure]: props<{
 			errorMessage: string;
 		}>(),
+		[DutyActions.ResetDuties]: emptyProps(),
 	},
 });

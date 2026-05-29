@@ -88,11 +88,19 @@ describe('PlannerBoardDaysHeadersComponent', () => {
 
 		const updatedWidth = initialWidth - 300;
 
-		spyOnProperty(window, 'innerWidth').and.returnValue(updatedWidth);
+		Object.defineProperty(window, 'innerWidth', {
+			configurable: true,
+			value: updatedWidth,
+		});
 
 		window.dispatchEvent(new Event('resize'));
 
 		expect(component.currentInnerWidth()).toBe(updatedWidth);
+
+		Object.defineProperty(window, 'innerWidth', {
+			configurable: true,
+			value: initialWidth,
+		});
 	});
 
 	it('should emit changed week period', () => {

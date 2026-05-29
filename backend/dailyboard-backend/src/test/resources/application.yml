@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:dailyboard-test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+
+app:
+  auth:
+    jwt:
+      secret: daily-board-test-secret-key-with-enough-length
+      expiration-ms: 3600000

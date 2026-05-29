@@ -24,23 +24,32 @@ public class DutyService {
 
     private final DutyRepository dutyRepository;
     private final PlannerRepository plannerRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public List<Duty> save(List<Duty> duties, String plannerId) {
+        Planner planner = getCurrentUserPlanner(plannerId);
+
         checkConflictedDuties(duties, plannerId);
 
-        return saveDuties(duties, plannerId);
+        return saveDuties(duties, planner);
     }
 
     public List<Duty> getDutiesByPlannerIdAndRangeTime(String plannerId, LocalDate from, LocalDate to) {
+        getCurrentUserPlanner(plannerId);
+
         return dutyRepository.findByPlannerIdAndEffectiveDateBetween(plannerId, from, to);
     }
 
     public List<Duty> getDutiesByPlannerId(String plannerId) {
+        getCurrentUserPlanner(plannerId);
+
         return dutyRepository.findByPlannerId(plannerId);
     }
 
     public List<Duty> getDutiesWithoutDates() {
-        return dutyRepository.findByEffectiveDateIsNull();
+        return dutyRepository.findByEffectiveDateIsNullAndPlannerOwnerId(
+                authenticatedUserService.getCurrentUser().getId()
+        );
     }
 
 
@@ -71,13 +80,18 @@ public class DutyService {
     }
 
 
-    private List<Duty> saveDuties(List<Duty> duties, String plannerId) {
-        Planner planner = plannerRepository
-                .findById(plannerId)
-                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + plannerId + " not found"));
-
+    private List<Duty> saveDuties(List<Duty> duties, Planner planner) {
         duties.forEach(duty -> duty.setPlanner(planner));
 
         return dutyRepository.saveAll(duties);
+    }
+
+    private Planner getCurrentUserPlanner(String plannerId) {
+        return plannerRepository
+                .findByIdAndOwnerId(
+                        plannerId,
+                        authenticatedUserService.getCurrentUser().getId()
+                )
+                .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + plannerId + " not found"));
     }
 }

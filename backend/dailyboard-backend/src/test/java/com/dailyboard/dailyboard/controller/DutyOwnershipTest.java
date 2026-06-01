@@ -15,9 +15,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,12 +87,113 @@ class DutyOwnershipTest {
 
         mockMvc.perform(get("/api/v1/duties/{plannerId}", userAPlannerId)
                         .header(HttpHeaders.AUTHORIZATION, bearer(userBToken)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(not(containsString("User A Duty"))));
+    }
+
+    @Test
+    void shouldBlockCrossUserDynamicDutyReadByPlannerId() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String userBToken = registerAndGetToken("user-b@example.com");
+        String userAPlannerId = createPlanner(userAToken, "User A Planner");
+        createDuty(userAToken, userAPlannerId, "User A Dynamic Duty", "2026-06-01")
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/api/v1/duties/dynamic/{plannerId}", userAPlannerId)
+                        .queryParam("from", "2026-06-01")
+                        .queryParam("to", "2026-06-07")
+                        .header(HttpHeaders.AUTHORIZATION, bearer(userBToken)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(not(containsString("User A Dynamic Duty"))));
+    }
+
+    @Test
+    void shouldListOnlyCurrentUserConstantDuties() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String userBToken = registerAndGetToken("user-b@example.com");
+        String userAPlannerId = createPlanner(userAToken, "User A Planner");
+        String userBPlannerId = createPlanner(userBToken, "User B Planner");
+        createDuty(userAToken, userAPlannerId, "User A Constant Duty")
+                .andExpect(status().isCreated());
+        createDuty(userBToken, userBPlannerId, "User B Constant Duty")
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/api/v1/duties/constant")
+                        .header(HttpHeaders.AUTHORIZATION, bearer(userAToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("User A Constant Duty"))
+                .andExpect(content().string(not(containsString("User B Constant Duty"))));
+
+        mockMvc.perform(get("/api/v1/duties/constant")
+                        .header(HttpHeaders.AUTHORIZATION, bearer(userBToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("User B Constant Duty"))
+                .andExpect(content().string(not(containsString("User A Constant Duty"))));
+    }
+
+    @Test
+    void shouldAttachCreatedDutyToOwnedPathPlannerWhenBodyPlannerIdDiffers() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String userBToken = registerAndGetToken("user-b@example.com");
+        String userAPlannerId = createPlanner(userAToken, "User A Planner");
+        String userBPlannerId = createPlanner(userBToken, "User B Planner");
+
+        createDuty(userAToken, userAPlannerId, "Path Planner Duty", null, "09:00:00", "10:00:00", userBPlannerId)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("Path Planner Duty"))
+                .andExpect(jsonPath("$[0].plannerId").value(userAPlannerId));
+
+        mockMvc.perform(get("/api/v1/duties/{plannerId}", userBPlannerId)
+                        .header(HttpHeaders.AUTHORIZATION, bearer(userBToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)))
+                .andExpect(content().string(not(containsString("Path Planner Duty"))));
+    }
+
+    @Test
+    void shouldNotConflictWithOverlappingDutiesInAnotherUsersPlanner() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String userBToken = registerAndGetToken("user-b@example.com");
+        String userAPlannerId = createPlanner(userAToken, "User A Planner");
+        String userBPlannerId = createPlanner(userBToken, "User B Planner");
+        createDuty(userAToken, userAPlannerId, "User A Overlap Duty", null, "09:00:00", "10:00:00", null)
+                .andExpect(status().isCreated());
+
+        createDuty(userBToken, userBPlannerId, "User B Overlap Duty", null, "09:30:00", "10:30:00", null)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("User B Overlap Duty"));
     }
 
     @Test
     void shouldRejectDutyEndpointWithoutToken() throws Exception {
         mockMvc.perform(get("/api/v1/duties/not-owned-planner"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void shouldRejectNewlyCoveredDutyEndpointsWithoutToken() throws Exception {
+        mockMvc.perform(get("/api/v1/duties/dynamic/not-owned-planner")
+                        .queryParam("from", "2026-06-01")
+                        .queryParam("to", "2026-06-07"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/v1/duties/constant"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/v1/duties/not-owned-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dutyPayload("Unauthorized Duty", null, "09:00:00", "10:00:00", null)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void shouldRejectDutyEndpointWithInvalidToken() throws Exception {
+        mockMvc.perform(get("/api/v1/duties/constant")
+                        .header(HttpHeaders.AUTHORIZATION, bearer("invalid-token")))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -133,21 +237,59 @@ class DutyOwnershipTest {
             String plannerId,
             String name
     ) throws Exception {
+        return createDuty(token, plannerId, name, null);
+    }
+
+    private org.springframework.test.web.servlet.ResultActions createDuty(
+            String token,
+            String plannerId,
+            String name,
+            String effectiveDate
+    ) throws Exception {
+        return createDuty(token, plannerId, name, effectiveDate, "09:00:00", "10:00:00", null);
+    }
+
+    private org.springframework.test.web.servlet.ResultActions createDuty(
+            String token,
+            String plannerId,
+            String name,
+            String effectiveDate,
+            String from,
+            String to,
+            String bodyPlannerId
+    ) throws Exception {
         return mockMvc.perform(post("/api/v1/duties/{plannerId}", plannerId)
                 .header(HttpHeaders.AUTHORIZATION, bearer(token))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        [
-                          {
-                            "name": "%s",
-                            "description": "Owned duty",
-                            "weekDay": "MONDAY",
-                            "from": "09:00:00",
-                            "to": "10:00:00",
-                            "color": "#123456"
-                          }
-                        ]
-                        """.formatted(name)));
+                .content(dutyPayload(name, effectiveDate, from, to, bodyPlannerId)));
+    }
+
+    private String dutyPayload(
+            String name,
+            String effectiveDate,
+            String from,
+            String to,
+            String bodyPlannerId
+    ) {
+        String effectiveDateProperty = effectiveDate == null ? "" : """
+                                    "effectiveDate": "%s",
+                        """.formatted(effectiveDate);
+        String plannerIdProperty = bodyPlannerId == null ? "" : """
+                                    "plannerId": "%s",
+                        """.formatted(bodyPlannerId);
+
+        return """
+                [
+                  {
+                    "name": "%s",
+                    "description": "Owned duty",
+                    "weekDay": "MONDAY",
+                %s%s    "from": "%s",
+                    "to": "%s",
+                    "color": "#123456"
+                  }
+                ]
+                """.formatted(name, effectiveDateProperty, plannerIdProperty, from, to);
     }
 
     private String bearer(String token) {

@@ -192,17 +192,17 @@ No database migrations, schema changes, or data migrations are part of this plan
 
 #### Automated
 
-- [x] 1.1 `DutyOwnershipTest` covers cross-user dynamic duty access denial with no User A duty-name leakage
-- [x] 1.2 `DutyOwnershipTest` covers constant-duty isolation across two users
-- [x] 1.3 `DutyOwnershipTest` covers body `plannerId` smuggling during duty create
-- [x] 1.4 `DutyOwnershipTest` covers cross-user duty conflict isolation
-- [x] 1.5 Protected endpoint auth rejection has missing-token coverage for the newly tested duty paths and one cheap invalid-token smoke
-- [x] 1.6 Backend tests pass with Java 22
+- [x] 1.1 `DutyOwnershipTest` covers cross-user dynamic duty access denial with no User A duty-name leakage — ddb5cce
+- [x] 1.2 `DutyOwnershipTest` covers constant-duty isolation across two users — ddb5cce
+- [x] 1.3 `DutyOwnershipTest` covers body `plannerId` smuggling during duty create — ddb5cce
+- [x] 1.4 `DutyOwnershipTest` covers cross-user duty conflict isolation — ddb5cce
+- [x] 1.5 Protected endpoint auth rejection has missing-token coverage for the newly tested duty paths and one cheap invalid-token smoke — ddb5cce
+- [x] 1.6 Backend tests pass with Java 22 — ddb5cce
 
 #### Manual
 
-- [x] 1.7 Review the new tests and confirm they assert product behavior rather than mirroring repository/query implementation
-- [x] 1.8 Confirm no production code, frontend code, API contract, schema, or runtime configuration changed
+- [x] 1.7 Review the new tests and confirm they assert product behavior rather than mirroring repository/query implementation — ddb5cce
+- [x] 1.8 Confirm no production code, frontend code, API contract, schema, or runtime configuration changed — ddb5cce
 
 ### Phase 2: Update Backend Ownership Testing Cookbook
 

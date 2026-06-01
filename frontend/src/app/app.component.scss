@@ -3,4 +3,8 @@
 .app {
 	@include a.apply-double-grid(0, 20fr, 80fr);
 	height: 100%;
+
+	&--full-width {
+		display: block;
+	}
 }

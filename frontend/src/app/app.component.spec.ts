@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DateHelperService } from './shared/services/locale-date/date-helper.service';
 import { DARK_MODE_CLASS } from './core/app.consts';
 import { DarkModeService } from './core/services/dark-mode/dark-mode.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ACTIVATED_ROUTE_PROVIDER } from './core/helpers/tests-functions.helper';
 import { AuthService } from './core/auth/auth.service';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ describe('AppComponent', () => {
 	let darkModeServiceSpy: jasmine.SpyObj<DarkModeService>;
 	let authServiceSpy: jasmine.SpyObj<AuthService>;
 	let storeSpy: jasmine.SpyObj<Store>;
+	let routerStub: { url: string; isActive: jasmine.Spy };
 
 	beforeEach(waitForAsync(() => {
 		localeDateServiceSpy = jasmine.createSpyObj('LocaleDateService', [
@@ -26,8 +27,16 @@ describe('AppComponent', () => {
 			'toggleDarkMode',
 			'darkMode',
 		]);
-		authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
+		authServiceSpy = jasmine.createSpyObj('AuthService', [
+			'logout',
+			'isAuthenticated',
+		]);
 		storeSpy = jasmine.createSpyObj('Store', ['dispatch']);
+		routerStub = {
+			url: '/planners',
+			isActive: jasmine.createSpy('isActive').and.returnValue(false),
+		};
+		authServiceSpy.isAuthenticated.and.returnValue(true);
 
 		TestBed.configureTestingModule({
 			imports: [AppComponent, TranslateModule.forRoot()],
@@ -36,6 +45,7 @@ describe('AppComponent', () => {
 				{ provide: DateHelperService, useValue: localeDateServiceSpy },
 				{ provide: AuthService, useValue: authServiceSpy },
 				{ provide: Store, useValue: storeSpy },
+				{ provide: Router, useValue: routerStub },
 				{
 					provide: ActivatedRoute,
 					useValue: ACTIVATED_ROUTE_PROVIDER,
@@ -93,5 +103,31 @@ describe('AppComponent', () => {
 		expect(documentElement?.classList.contains(DARK_MODE_CLASS)).toBe(
 			false,
 		);
+	});
+
+	it('should hide the side menu for unauthenticated users', () => {
+		authServiceSpy.isAuthenticated.and.returnValue(false);
+		fixture.detectChanges();
+
+		expect(
+			fixture.nativeElement.querySelector('app-side-menu'),
+		).toBeNull();
+	});
+
+	it('should hide the side menu on the auth route', () => {
+		routerStub.url = '/auth';
+		fixture.detectChanges();
+
+		expect(
+			fixture.nativeElement.querySelector('app-side-menu'),
+		).toBeNull();
+	});
+
+	it('should show the side menu for authenticated app routes', () => {
+		fixture.detectChanges();
+
+		expect(
+			fixture.nativeElement.querySelector('app-side-menu'),
+		).not.toBeNull();
 	});
 });

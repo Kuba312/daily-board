@@ -69,7 +69,17 @@
 			"title": "Twoje planery"
 		},
 		"auth": {
-			"error": "Logowanie nie powiodło się"
+			"form-title": "Dostęp do konta",
+			"form-lead": "Zaloguj się lub utwórz konto, aby przejść do swoich planerów.",
+			"login": "Zaloguj",
+			"register": "Zarejestruj",
+			"login-loading": "Logowanie...",
+			"register-loading": "Tworzenie konta...",
+			"email": "Email",
+			"email-placeholder": "ty@example.com",
+			"password": "Hasło",
+			"password-placeholder": "Wpisz hasło",
+			"error": "Uwierzytelnianie nie powiodło się. Sprawdź email i hasło, a następnie spróbuj ponownie."
 		},
 		"information-dialog": {
 		"no-planner-to-chose": "Wygląda na to, że nie masz dodanych planerów. Stwórz swój pierwszy planer, aby móc dodać swoje pierwsze zadania! :)"

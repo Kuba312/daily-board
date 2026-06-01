@@ -68,7 +68,17 @@
 			"title": "Your planners"
 		},
 		"auth": {
-			"error": "Authentication failed"
+			"form-title": "Account access",
+			"form-lead": "Sign in or create an account to continue to your planners.",
+			"login": "Login",
+			"register": "Register",
+			"login-loading": "Logging in...",
+			"register-loading": "Creating account...",
+			"email": "Email",
+			"email-placeholder": "you@example.com",
+			"password": "Password",
+			"password-placeholder": "Enter password",
+			"error": "Authentication failed. Check your email and password, then try again."
 		},
 		"information-dialog": {
 		"no-planner-to-chose": "It seems that you don’t have any planners added yet. Create your first planner to start adding your tasks! :)"

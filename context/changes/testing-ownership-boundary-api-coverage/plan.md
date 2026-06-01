@@ -208,11 +208,11 @@ No database migrations, schema changes, or data migrations are part of this plan
 
 #### Automated
 
-- [ ] 2.1 `context/foundation/test-plan.md` §6.1 no longer says `TBD`
-- [ ] 2.2 `context/foundation/test-plan.md` §6.1 names the backend ownership/API test location, reference tests, assertion pattern, and run command
-- [ ] 2.3 `context/foundation/test-plan.md` §6.6 includes a concise Phase 1 note
-- [ ] 2.4 Backend tests still pass with Java 22 after the documentation update
+- [x] 2.1 `context/foundation/test-plan.md` §6.1 no longer says `TBD`
+- [x] 2.2 `context/foundation/test-plan.md` §6.1 names the backend ownership/API test location, reference tests, assertion pattern, and run command
+- [x] 2.3 `context/foundation/test-plan.md` §6.6 includes a concise Phase 1 note
+- [x] 2.4 Backend tests still pass with Java 22 after the documentation update
 
 #### Manual
 
-- [ ] 2.5 Review §6.1 and confirm it reads like a reusable project cookbook entry, not a one-off implementation log
+- [x] 2.5 Review §6.1 and confirm it reads like a reusable project cookbook entry, not a one-off implementation log

@@ -137,8 +137,48 @@ relevant rollout phase ships; before that, the sub-section reads "TBD - see
 
 ### 6.1 Adding backend ownership/API coverage
 
-TBD - see §3 Phase 1 for cross-user planner/duty access and dependent-data
-ownership patterns.
+Backend ownership/API tests live under
+`backend/dailyboard-backend/src/test/java/com/dailyboard/dailyboard/controller/`.
+Prefer extending the narrow ownership test class that owns the behavior
+(`PlannerOwnershipTest`, `DutyOwnershipTest`) instead of creating a broad
+"all ownership" class. Extract shared helpers only when repeated setup becomes
+hard to read.
+
+Use full Spring Boot + MockMvc integration tests with the real auth flow:
+register users through `/api/v1/auth/register`, parse the returned JWT, and
+send `Authorization: Bearer <token>` on protected planner/duty requests. The
+test database is H2 in MySQL mode with Flyway migrations, so setup should use
+public API calls where practical and repository access only for narrow
+ownership facts that the API cannot expose directly.
+
+Assertion pattern:
+
+- Prove both allowed and denied behavior through API responses, not production
+  repository/query internals.
+- For cross-user denial, assert the expected non-leaking status (`404` for
+  owned-resource lookup misses, `401` for missing/invalid auth) and assert the
+  response body does not contain sensitive planner/duty names when a body is
+  present.
+- For dependent duty paths, challenge the assumption that planner ownership
+  automatically protects child data. Cover direct planner-duty reads, dynamic
+  range reads, constant-duty filtering, body `plannerId` smuggling on create,
+  and cross-user conflict isolation.
+- Do not add update/delete ownership tests until those endpoints exist.
+
+Reference tests:
+
+- `DutyOwnershipTest.shouldBlockCrossUserDynamicDutyReadByPlannerId`
+- `DutyOwnershipTest.shouldListOnlyCurrentUserConstantDuties`
+- `DutyOwnershipTest.shouldAttachCreatedDutyToOwnedPathPlannerWhenBodyPlannerIdDiffers`
+- `DutyOwnershipTest.shouldNotConflictWithOverlappingDutiesInAnotherUsersPlanner`
+- `DutyOwnershipTest.shouldRejectNewlyCoveredDutyEndpointsWithoutToken`
+- `DutyOwnershipTest.shouldRejectDutyEndpointWithInvalidToken`
+
+Run command:
+
+```bash
+cd backend/dailyboard-backend && JAVA_HOME=$(/usr/libexec/java_home -v 22) ./mvnw test
+```
 
 ### 6.2 Adding frontend auth/session coverage
 
@@ -162,7 +202,11 @@ critical flows that cheaper backend/frontend tests cannot prove.
 
 ### 6.6 Per-rollout-phase notes
 
-TBD - each rollout phase appends a short note here when it ships.
+- Phase 1 (`context/changes/testing-ownership-boundary-api-coverage/`) added
+  backend ownership/API coverage for dynamic duties, constant duties, body
+  `plannerId` smuggling, cross-user duty conflict isolation, and minimal auth
+  rejection consistency. Verification command: `cd backend/dailyboard-backend
+  && JAVA_HOME=$(/usr/libexec/java_home -v 22) ./mvnw test`.
 
 ## 7. What We Deliberately Don't Test
 

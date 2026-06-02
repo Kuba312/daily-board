@@ -28,6 +28,7 @@ pnpm-debug.log*
 **/.cache/
 **/.eslintcache
 **/coverage/
+**/playwright/.auth/
 
 # Java / Maven / Gradle
 **/target/

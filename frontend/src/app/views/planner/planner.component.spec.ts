@@ -1,4 +1,4 @@
-import { Signal, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import {
 	ComponentFixture,
 	fakeAsync,
@@ -8,7 +8,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { isTimeRangePlannerLoaded } from '@shared-store/duty-store/duty.selectors';
 import HeaderComponent from '@shared/components/header/header.component';
 import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
 import { PeriodWeek } from '@shared/models/period-week';
@@ -140,48 +139,14 @@ describe('PlannerComponent', () => {
 		expect(plannerBoard).toBeTruthy();
 	});
 
-	it('should not dispatch duties if range time planner is already loaded', () => {
+	it('should dispatch duties and update visible range if dynamic week is not loaded', () => {
 		const mockPeriodWeek: PeriodWeek = {
 			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
 			currentWeekIndex: 1,
 		};
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		mockStore.selectSignal.and.callFake((selector: any): any => {
-			if (
-				selector ===
-				isTimeRangePlannerLoaded(plannerId, '2024-12-18', '2024-12-24')
-			) {
-				return signal(false) as Signal<boolean>;
-			}
-
-			return signal([]) as Signal<never[]>;
-		});
-
-		component.onWeekPeriodChanged(mockPeriodWeek);
-
-		expect(mockStore.dispatch).not.toHaveBeenCalled();
-		expect(component.fromDate()).toEqual('2024-12-18');
-		expect(component.toDate()).toEqual('2024-12-24');
-	});
-
-	it('should dispatch duties if range time planner is not loaded', () => {
-		const mockPeriodWeek: PeriodWeek = {
-			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
-			currentWeekIndex: 1,
-		};
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		mockStore.selectSignal.and.callFake((selector: any): any => {
-			if (
-				selector ===
-				isTimeRangePlannerLoaded(plannerId, '2024-12-18', '2024-12-24')
-			) {
-				return signal(true) as Signal<boolean>;
-			}
-
-			return signal(false) as Signal<boolean>;
-		});
+		mockStore.dispatch.calls.reset();
+		mockStore.selectSignal.and.returnValue(signal(false));
 
 		component.onWeekPeriodChanged(mockPeriodWeek);
 
@@ -193,6 +158,22 @@ describe('PlannerComponent', () => {
 				to: '2024-12-24',
 			}),
 		);
+		expect(component.fromDate()).toEqual('2024-12-18');
+		expect(component.toDate()).toEqual('2024-12-24');
+	});
+
+	it('should update visible range without duplicate dispatch if dynamic week is already loaded', () => {
+		const mockPeriodWeek: PeriodWeek = {
+			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
+			currentWeekIndex: 1,
+		};
+
+		mockStore.dispatch.calls.reset();
+		mockStore.selectSignal.and.returnValue(signal(true));
+
+		component.onWeekPeriodChanged(mockPeriodWeek);
+
+		expect(mockStore.dispatch).not.toHaveBeenCalled();
 		expect(component.fromDate()).toEqual('2024-12-18');
 		expect(component.toDate()).toEqual('2024-12-24');
 	});

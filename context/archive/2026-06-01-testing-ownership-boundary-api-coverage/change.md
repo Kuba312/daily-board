@@ -1,10 +1,10 @@
 ---
 change_id: testing-ownership-boundary-api-coverage
 title: Ownership boundary API coverage
-status: impl_reviewed
+status: archived
 created: 2026-06-01
 updated: 2026-06-08
-archived_at: null
+archived_at: 2026-06-08T16:41:38Z
 ---
 
 ## Notes

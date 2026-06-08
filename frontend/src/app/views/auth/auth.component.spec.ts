@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/auth/auth.service';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { plannerActions } from '@shared-store/planner-store/planner.actions';
 import { Subject, of, throwError } from 'rxjs';
 import AuthComponent from './auth.component';
 
@@ -12,6 +15,7 @@ describe('AuthComponent', () => {
 	let authServiceSpy: jasmine.SpyObj<AuthService>;
 	let routerSpy: jasmine.SpyObj<Router>;
 	let snackBarServiceSpy: jasmine.SpyObj<SnackBarService>;
+	let storeSpy: jasmine.SpyObj<Store>;
 
 	beforeEach(async () => {
 		authServiceSpy = jasmine.createSpyObj('AuthService', [
@@ -22,6 +26,7 @@ describe('AuthComponent', () => {
 		snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
 			'onShowSnackBarError',
 		]);
+		storeSpy = jasmine.createSpyObj('Store', ['dispatch']);
 
 		await TestBed.configureTestingModule({
 			imports: [AuthComponent, TranslateModule.forRoot()],
@@ -29,6 +34,7 @@ describe('AuthComponent', () => {
 				{ provide: AuthService, useValue: authServiceSpy },
 				{ provide: Router, useValue: routerSpy },
 				{ provide: SnackBarService, useValue: snackBarServiceSpy },
+				{ provide: Store, useValue: storeSpy },
 			],
 		}).compileComponents();
 
@@ -59,7 +65,12 @@ describe('AuthComponent', () => {
 			email: 'user@example.com',
 			password: 'secret',
 		});
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(
+			plannerActions.resetPlanners(),
+		);
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(dutyActions.resetDuties());
 		expect(routerSpy.navigate).toHaveBeenCalledWith(['/planners']);
+		expect(storeSpy.dispatch).toHaveBeenCalledBefore(routerSpy.navigate);
 	});
 
 	it('should register when register mode is selected', () => {
@@ -81,6 +92,12 @@ describe('AuthComponent', () => {
 			email: 'user@example.com',
 			password: 'secret',
 		});
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(
+			plannerActions.resetPlanners(),
+		);
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(dutyActions.resetDuties());
+		expect(routerSpy.navigate).toHaveBeenCalledWith(['/planners']);
+		expect(storeSpy.dispatch).toHaveBeenCalledBefore(routerSpy.navigate);
 	});
 
 	it('should show validation error when form is invalid', () => {

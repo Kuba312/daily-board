@@ -313,8 +313,8 @@ No database migration, API migration, or generated-client regeneration is planne
 
 #### Automated
 
-- [x] 1.1 Auth component tests pass
-- [x] 1.2 Frontend build passes
+- [x] 1.1 Auth component tests pass — fae2493
+- [x] 1.2 Frontend build passes — fae2493
 
 #### Manual
 
@@ -325,16 +325,16 @@ No database migration, API migration, or generated-client regeneration is planne
 
 #### Automated
 
-- [x] 2.1 Planner effects tests pass
-- [x] 2.2 Duty effects tests pass
-- [x] 2.3 Frontend build passes
+- [x] 2.1 Planner effects tests pass — 9920e50
+- [x] 2.2 Duty effects tests pass — 9920e50
+- [x] 2.3 Frontend build passes — 9920e50
 
 #### Manual
 
-- [x] 2.4 Expired/invalid token access clears auth state, resets planner/duty stores, and redirects to `/auth`
-- [x] 2.5 User B opening a User A planner board URL redirects to `/planners`
-- [x] 2.6 Rejected route does not show User A planner title or duty data
-- [x] 2.7 Normal owned planner board access still works for constant and dynamic planners
+- [x] 2.4 Expired/invalid token access clears auth state, resets planner/duty stores, and redirects to `/auth` — 9920e50
+- [x] 2.5 User B opening a User A planner board URL redirects to `/planners` — 9920e50
+- [x] 2.6 Rejected route does not show User A planner title or duty data — 9920e50
+- [x] 2.7 Normal owned planner board access still works for constant and dynamic planners — 9920e50
 
 ### Phase 3: Manual Duty And Week-Switching Regression Coverage
 

@@ -340,9 +340,9 @@ No database migration, API migration, or generated-client regeneration is planne
 
 #### Automated
 
-- [ ] 3.1 Planner component tests pass
-- [ ] 3.2 Duty reducer tests pass
-- [ ] 3.3 Task board form tests pass
+- [x] 3.1 Planner component tests pass — 76aec3f
+- [x] 3.2 Duty reducer tests pass — 50db99c
+- [x] 3.3 Task board form tests pass — 45c9505
 - [ ] 3.4 Frontend test suite passes if practical
 - [ ] 3.5 Frontend build passes
 

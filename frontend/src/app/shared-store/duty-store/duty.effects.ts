@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '@core/auth/auth.service';
 import {
 	TIME_FORMAT,
 	TIME_FORMAT_WITH_SECONDS,
@@ -9,6 +10,7 @@ import {
 	DUTIES_CONFLICT_MESSAGE_TIME,
 } from '@core/app.consts';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { ConflictingDuty } from '@shared/models/conflicting-duty';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
@@ -20,6 +22,7 @@ import {
 	showCustomErrorMessage,
 	showGeneralErrorMessage,
 } from '../helpers/show-error-message.helper';
+import { recoverFromProtectedApiRejection } from '../helpers/protected-api-recovery.helper';
 import { dutyActions } from './duty.actions';
 import { PlannerType } from '@shared/enums/planner-type.enum';
 
@@ -29,6 +32,8 @@ export const saveDutyEffect = createEffect(
 		dutyControllerService = inject(DutyControllerService),
 		snackBarService = inject(SnackBarService),
 		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.saveDuty),
@@ -70,6 +75,11 @@ export const saveDutyEffect = createEffect(
 							}
 
 							showGeneralErrorMessage(snackBarService, error);
+							recoverFromProtectedApiRejection(error, {
+								authService,
+								routerHelperService,
+								store,
+							});
 
 							return of(
 								dutyActions.saveDutyFailure({
@@ -88,6 +98,9 @@ export const getDutiesWithoutDatesEffect = createEffect(
 		$actions = inject(Actions),
 		dutyControllerService = inject(DutyControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.getDutiesWithoutDates),
@@ -102,6 +115,11 @@ export const getDutiesWithoutDatesEffect = createEffect(
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
 
 						return of(
 							dutyActions.getDutiesWithoutDatesFailure({
@@ -120,6 +138,9 @@ export const getDutiesByPlannerIdEffect = createEffect(
 		$actions = inject(Actions),
 		dutyControllerService = inject(DutyControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.getDutiesByPlannerId),
@@ -135,9 +156,14 @@ export const getDutiesByPlannerIdEffect = createEffect(
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
 
 						return of(
-							dutyActions.getDutiesWithoutDatesFailure({
+							dutyActions.getDutiesByPlannerIdFailure({
 								errorMessage: error?.message ?? '',
 							}),
 						);
@@ -153,6 +179,9 @@ export const getDutiesByPlannerIdAndRangeTime = createEffect(
 		$actions = inject(Actions),
 		dutyControllerService = inject(DutyControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(dutyActions.getDutiesByRangeTimeAndPlannerId),
@@ -174,6 +203,11 @@ export const getDutiesByPlannerIdAndRangeTime = createEffect(
 						}),
 						catchError((error: HttpErrorResponse) => {
 							showGeneralErrorMessage(snackBarService, error);
+							recoverFromProtectedApiRejection(error, {
+								authService,
+								routerHelperService,
+								store,
+							});
 
 							return of(
 								dutyActions.getDutiesByRangeTimeAndPlannerIdFailure(

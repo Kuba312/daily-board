@@ -1,4 +1,4 @@
-import { Signal, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import {
 	ComponentFixture,
 	fakeAsync,
@@ -8,7 +8,6 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { isTimeRangePlannerLoaded } from '@shared-store/duty-store/duty.selectors';
 import HeaderComponent from '@shared/components/header/header.component';
 import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
 import { PeriodWeek } from '@shared/models/period-week';
@@ -25,6 +24,10 @@ describe('PlannerComponent', () => {
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
 	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
+	let activatedRouteSnapshot: {
+		params: Record<string, string>;
+		queryParams: Record<string, string>;
+	};
 
 	const plannerId: string = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf' as const;
 
@@ -40,10 +43,23 @@ describe('PlannerComponent', () => {
 			);
 			dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
 				'groupDutiesByDays',
+				'adjustCurrentWeekDatesToYearMonthDayFormat',
 			]);
 
-			routerHelperServiceSpy.getParameterValue.and.returnValue(plannerId);
+			activatedRouteSnapshot = {
+				params: {
+					plannerId,
+					isDynamic: 'dynamic',
+				},
+				queryParams: {},
+			};
+			routerHelperServiceSpy.getParameterValue.and.callFake(
+				(_route, param) => activatedRouteSnapshot.params[param],
+			);
 			dutyHelperServiceSpy.groupDutiesByDays.and.returnValue(new Map());
+			dutyHelperServiceSpy.adjustCurrentWeekDatesToYearMonthDayFormat.and.returnValue(
+				['2026-06-08', '2026-06-14'],
+			);
 			mockStore.selectSignal.and.returnValue(signal([...DUTIES_MOCK]));
 
 			TestBed.configureTestingModule({
@@ -62,14 +78,12 @@ describe('PlannerComponent', () => {
 					{
 						provide: ActivatedRoute,
 						useValue: {
-							snapshot: {
-								paramMap: {
-									get(): string {
-										return plannerId;
-									},
-								},
-							},
+							snapshot: activatedRouteSnapshot,
 						},
+					},
+					{
+						provide: DutyHelperService,
+						useValue: dutyHelperServiceSpy,
 					},
 				],
 			})
@@ -132,6 +146,21 @@ describe('PlannerComponent', () => {
 		expect(plannerBoard).toBeTruthy();
 	});
 
+	it('should initialize dynamic board from requested week query params', () => {
+		activatedRouteSnapshot.queryParams = {
+			from: '2026-06-22',
+			to: '2026-06-28',
+		};
+
+		fixture = TestBed.createComponent(PlannerComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+
+		expect(component.fromDate()).toEqual('2026-06-22');
+		expect(component.toDate()).toEqual('2026-06-28');
+		expect(component.initialWeekIndex).toBe(2);
+	});
+
 	it('should show planner board days properly', () => {
 		const plannerBoard = fixture.debugElement.query(
 			By.css('app-planner-board'),
@@ -140,48 +169,14 @@ describe('PlannerComponent', () => {
 		expect(plannerBoard).toBeTruthy();
 	});
 
-	it('should not dispatch duties if range time planner is already loaded', () => {
+	it('should dispatch duties and update visible range if dynamic week is not loaded', () => {
 		const mockPeriodWeek: PeriodWeek = {
 			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
 			currentWeekIndex: 1,
 		};
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		mockStore.selectSignal.and.callFake((selector: any): any => {
-			if (
-				selector ===
-				isTimeRangePlannerLoaded(plannerId, '2024-12-18', '2024-12-24')
-			) {
-				return signal(false) as Signal<boolean>;
-			}
-
-			return signal([]) as Signal<never[]>;
-		});
-
-		component.onWeekPeriodChanged(mockPeriodWeek);
-
-		expect(mockStore.dispatch).not.toHaveBeenCalled();
-		expect(component.fromDate()).toEqual('2024-12-18');
-		expect(component.toDate()).toEqual('2024-12-24');
-	});
-
-	it('should dispatch duties if range time planner is not loaded', () => {
-		const mockPeriodWeek: PeriodWeek = {
-			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
-			currentWeekIndex: 1,
-		};
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		mockStore.selectSignal.and.callFake((selector: any): any => {
-			if (
-				selector ===
-				isTimeRangePlannerLoaded(plannerId, '2024-12-18', '2024-12-24')
-			) {
-				return signal(true) as Signal<boolean>;
-			}
-
-			return signal(false) as Signal<boolean>;
-		});
+		mockStore.dispatch.calls.reset();
+		mockStore.selectSignal.and.returnValue(signal(false));
 
 		component.onWeekPeriodChanged(mockPeriodWeek);
 
@@ -193,6 +188,22 @@ describe('PlannerComponent', () => {
 				to: '2024-12-24',
 			}),
 		);
+		expect(component.fromDate()).toEqual('2024-12-18');
+		expect(component.toDate()).toEqual('2024-12-24');
+	});
+
+	it('should update visible range without duplicate dispatch if dynamic week is already loaded', () => {
+		const mockPeriodWeek: PeriodWeek = {
+			weekPeriod: ['2024-12-18', '2024-12-24'], // WeekBoundary type
+			currentWeekIndex: 1,
+		};
+
+		mockStore.dispatch.calls.reset();
+		mockStore.selectSignal.and.returnValue(signal(true));
+
+		component.onWeekPeriodChanged(mockPeriodWeek);
+
+		expect(mockStore.dispatch).not.toHaveBeenCalled();
 		expect(component.fromDate()).toEqual('2024-12-18');
 		expect(component.toDate()).toEqual('2024-12-24');
 	});

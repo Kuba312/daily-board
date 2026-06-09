@@ -1,11 +1,16 @@
 package com.dailyboard.dailyboard.controller;
 
+import com.dailyboard.dailyboard.model.dao.Duty;
+import com.dailyboard.dailyboard.model.dao.Planner;
 import com.dailyboard.dailyboard.model.dto.AuthRequestDto;
 import com.dailyboard.dailyboard.repository.DutyRepository;
 import com.dailyboard.dailyboard.repository.PlannerRepository;
 import com.dailyboard.dailyboard.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +174,46 @@ class DutyOwnershipTest {
     }
 
     @Test
+    void shouldRejectOverlappingDutyInSamePlanner() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String userAPlannerId = createPlanner(userAToken, "User A Planner");
+        createDuty(userAToken, userAPlannerId, "Existing Same Planner Duty", "2026-06-01", "09:00:00", "10:00:00", null)
+                .andExpect(status().isCreated());
+
+        createDuty(userAToken, userAPlannerId, "Overlapping Same Planner Duty", "2026-06-01", "09:30:00", "10:30:00", null)
+                .andExpect(status().isConflict())
+                .andExpect(content().string(containsString("Existing Same Planner Duty")));
+    }
+
+    @Test
+    void shouldNotConflictWithOverlappingDutiesInDifferentPlannerOwnedBySameUser() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String firstPlannerId = createPlanner(userAToken, "User A First Planner");
+        String secondPlannerId = createPlanner(userAToken, "User A Second Planner");
+        createDuty(userAToken, firstPlannerId, "First Planner Overlap Duty", "2026-06-01", "09:00:00", "10:00:00", null)
+                .andExpect(status().isCreated());
+
+        createDuty(userAToken, secondPlannerId, "Second Planner Overlap Duty", "2026-06-01", "09:30:00", "10:30:00", null)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("Second Planner Overlap Duty"))
+                .andExpect(content().string(not(containsString("First Planner Overlap Duty"))));
+    }
+
+    @Test
+    void shouldNotConflictWithOverlappingLegacyUnownedPlannerDuty() throws Exception {
+        String userAToken = registerAndGetToken("user-a@example.com");
+        String ownedPlannerId = createPlanner(userAToken, "User A Owned Planner");
+        createLegacyUnownedPlannerDuty("Legacy Pre Auth Overlap Duty");
+
+        createDuty(userAToken, ownedPlannerId, "Owned Planner Overlap Duty", "2026-06-01", "09:30:00", "10:30:00", null)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name").value("Owned Planner Overlap Duty"))
+                .andExpect(content().string(not(containsString("Legacy Pre Auth Overlap Duty"))));
+    }
+
+    @Test
     void shouldRejectDutyEndpointWithoutToken() throws Exception {
         mockMvc.perform(get("/api/v1/duties/not-owned-planner"))
                 .andExpect(status().isUnauthorized());
@@ -290,6 +335,29 @@ class DutyOwnershipTest {
                   }
                 ]
                 """.formatted(name, effectiveDateProperty, plannerIdProperty, from, to);
+    }
+
+    private void createLegacyUnownedPlannerDuty(String name) {
+        Planner legacyPlanner = new Planner();
+        legacyPlanner.setName("Legacy Planner");
+        legacyPlanner.setNote("Pre-auth planner");
+        legacyPlanner.setStartTime(LocalTime.parse("08:00:00"));
+        legacyPlanner.setEndTime(LocalTime.parse("16:00:00"));
+        legacyPlanner.setIsConstant(false);
+
+        Planner savedLegacyPlanner = plannerRepository.save(legacyPlanner);
+
+        Duty legacyDuty = new Duty();
+        legacyDuty.setName(name);
+        legacyDuty.setDescription("Pre-auth duty");
+        legacyDuty.setWeekDay(DayOfWeek.MONDAY);
+        legacyDuty.setEffectiveDate(LocalDate.parse("2026-06-01"));
+        legacyDuty.setStartTime(LocalTime.parse("09:00:00"));
+        legacyDuty.setEndTime(LocalTime.parse("10:00:00"));
+        legacyDuty.setColor("#654321");
+        legacyDuty.setPlanner(savedLegacyPlanner);
+
+        dutyRepository.save(legacyDuty);
     }
 
     private String bearer(String token) {

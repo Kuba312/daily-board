@@ -1,5 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRoute, IsActiveMatchOptions, Router } from '@angular/router';
+import {
+	ActivatedRoute,
+	IsActiveMatchOptions,
+	Params,
+	Router,
+} from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class RouterHelperService {
@@ -21,12 +26,18 @@ export class RouterHelperService {
 		url: string,
 		params?: string[],
 		relativeToCurrentPath?: boolean,
+		queryParams?: Params,
 	): void {
 		const pathSegments = [url, ...(params ? [...params] : [])];
 
 		this._router.navigate(
 			pathSegments,
-			relativeToCurrentPath ? { relativeTo: this._activatedRoute } : {},
+			{
+				...(relativeToCurrentPath
+					? { relativeTo: this._activatedRoute }
+					: {}),
+				...(queryParams ? { queryParams } : {}),
+			},
 		);
 	}
 

@@ -3,7 +3,7 @@ project: "Daily Board"
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-05-29
+updated: 2026-06-09
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -30,7 +30,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 | ID | Change ID | Outcome | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
 | P-01 | minimal-account-owned-planner | User can register/login/logout, create own planner, and prove another user cannot see it | — | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-011, FR-017 | ready |
-| P-02 | owned-manual-planning-board | User can add task/event/duty to own planner; board/calendar shows only scoped data with week switching preserved | P-01 | US-01, FR-008, FR-011, FR-012, FR-013, FR-017 | proposed |
+| P-02 | owned-manual-planning-board | User can add task/event/duty to own planner; board/calendar shows only scoped data with week switching preserved | P-01 | US-01, FR-008, FR-011, FR-012, FR-013, FR-017 | done |
 | P-03 | ai-weekly-proposal-preview | User can enter weekly intent, see an AI proposal, and no database write happens before accept | P-02 | US-01, FR-014, FR-016 | proposed |
 | P-04 | accept-ai-proposal-to-board | User can accept an AI proposal and see accepted items saved to their owned planner on board/calendar | P-03 | US-01, FR-015, FR-011, FR-012, FR-013, FR-017 | proposed |
 | P-05 | edit-delete-owned-planning-data | User can edit/delete own planners and duties, with planner-delete confirmation | P-02, P-04 | US-01, FR-006, FR-007, FR-009, FR-010 | proposed |
@@ -67,7 +67,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 - **Prerequisites:** P-01
 - **PRD refs:** US-01, FR-008, FR-011, FR-012, FR-013, FR-017
 - **Notes:** Scope data before it reaches the board; avoid board auth logic and preserve existing week switching behavior.
-- **Status:** proposed
+- **Status:** done
 
 ### P-03: AI Weekly Proposal Preview
 
@@ -145,3 +145,5 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 - **Full project-management workflow** — Why parked: Daily Board remains a planning app.
 
 ## Done
+
+- **P-02: user can add task/event/duty to their own planner; board/calendar shows only scoped data; dynamic week switching remains preserved.** — Archived 2026-06-09 → `context/archive/2026-06-08-owned-manual-planning-board/`. Lesson: —.

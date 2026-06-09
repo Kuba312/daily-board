@@ -182,13 +182,74 @@ cd backend/dailyboard-backend && JAVA_HOME=$(/usr/libexec/java_home -v 22) ./mvn
 
 ### 6.2 Adding frontend auth/session coverage
 
-TBD - see §3 Phase 2 for local token, guard, interceptor, API rejection, and
-UI state consistency patterns.
+Frontend auth/session tests live near the behavior boundary they protect:
+
+- `frontend/src/app/views/auth/auth.component.spec.ts` for login/register
+  success and account-owned store reset.
+- `frontend/src/app/shared-store/planner-store/planner.effects.spec.ts` for
+  planner detail API rejection recovery.
+- `frontend/src/app/shared-store/duty-store/duty.effects.spec.ts` for duty
+  load/save API rejection recovery and dynamic save navigation behavior.
+
+Prefer behavior-level tests that prove account-owned state cannot leak across
+sessions. On auth success, assert planner and duty stores reset before protected
+navigation. On `401`, assert auth is cleared, planner/duty stores reset, and the
+user is routed to `/auth`. On `403` or `404`, assert auth remains intact, stale
+protected board data is not displayed, and the user is routed back to
+`/planners`.
+
+Do not test Angular guard/interceptor mechanics in isolation unless the app
+contract changes. The signal is whether Daily Board recovers from stale tokens,
+account switches, and inaccessible planner URLs without showing another user's
+data.
+
+Reference tests:
+
+- `AuthComponent` successful login/register store-reset tests.
+- `planner.effects` `401`, `403`, and `404` planner detail rejection tests.
+- `duty.effects` static and dynamic duty rejection tests.
+- `duty.effects` dynamic save redirect-to-saved-week test.
+
+Run commands:
+
+```bash
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/views/auth/auth.component.spec.ts'
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/shared-store/planner-store/planner.effects.spec.ts'
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/shared-store/duty-store/duty.effects.spec.ts'
+```
 
 ### 6.3 Adding board/week-switching regression coverage
 
-TBD - see §3 Phase 2 for scoped data loading plus dynamic week switching
-patterns.
+Board/week-switching tests should stay at the store, resolver/effect, and
+planner-shell boundary. Board rendering components should remain presentational;
+they should not learn auth or ownership rules.
+
+Use `frontend/src/app/views/planner/planner.component.spec.ts` for dynamic week
+switching behavior: an unloaded week dispatches
+`getDutiesByRangeTimeAndPlannerId` and updates the visible range; an already
+loaded week updates the visible range without a duplicate fetch. When a dynamic
+duty is created for a future or past week, preserve the saved duty's week in
+navigation and initialize the board from that range instead of silently opening
+the current week.
+
+Use `frontend/src/app/shared-store/duty-store/duty.reducer.spec.ts` for cache
+state behavior: static planner loads, dynamic range loads, duplicate range
+prevention, and reset behavior. Keep the cache keyed by planner/range unless a
+future product change requires user-keyed state; account resets currently own
+the user boundary.
+
+Use `frontend/src/app/views/task-board-form/task-board-form.component.spec.ts`
+for manual duty creation contracts. Assert saves use the route `plannerId`, set
+the correct planner type, and for dynamic planners require at least one added
+date chip before dispatching a save.
+
+Run commands:
+
+```bash
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/views/planner/planner.component.spec.ts'
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/shared-store/duty-store/duty.reducer.spec.ts'
+cd frontend && npm test -- --watch=false --browsers=ChromeHeadless --include='src/app/views/task-board-form/task-board-form.component.spec.ts'
+```
 
 ### 6.4 Adding AI preview-before-accept coverage
 

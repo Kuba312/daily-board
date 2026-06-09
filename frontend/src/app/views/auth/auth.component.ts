@@ -8,10 +8,13 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '@core/auth/auth.service';
 import { AuthMode, AuthRequest } from '@core/auth/auth.models';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { INVALID_FORM_TRANSLATE_KEY } from '@shared/constants/translation-keys.const';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { validateForm } from '@shared/utils/form.utils';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { plannerActions } from '@shared-store/planner-store/planner.actions';
 
 interface AuthForm {
 	email: FormControl<string>;
@@ -28,6 +31,7 @@ export default class AuthComponent {
 	private readonly _authService: AuthService = inject(AuthService);
 	private readonly _router: Router = inject(Router);
 	private readonly _snackBarService: SnackBarService = inject(SnackBarService);
+	private readonly _store: Store = inject(Store);
 
 	public readonly mode: WritableSignal<AuthMode> = signal('login');
 	public readonly isSubmitting: WritableSignal<boolean> = signal(false);
@@ -71,6 +75,8 @@ export default class AuthComponent {
 		authRequest$.subscribe({
 			next: () => {
 				this.isSubmitting.set(false);
+				this._store.dispatch(plannerActions.resetPlanners());
+				this._store.dispatch(dutyActions.resetDuties());
 				this._router.navigate(['/planners']);
 			},
 			error: () => {

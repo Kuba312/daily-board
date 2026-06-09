@@ -9,9 +9,13 @@ import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.serv
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
+import { PlannerType } from '@shared/enums/planner-type.enum';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
 import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
 import { DUTY_MOCK, MOCK_PLANNERS } from 'src/mocks/mock-data';
+import { TaskBoardFormModel } from './task-board-form.form-model';
 import TaskBoardFormComponent from './task-board-form.component';
 
 describe('TaskBoardFormComponent', () => {
@@ -20,12 +24,15 @@ describe('TaskBoardFormComponent', () => {
 	let textProcessingServiceSpy: jasmine.SpyObj<TextProcessingService>;
 	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
+	let snackBarServiceSpy: jasmine.SpyObj<SnackBarService>;
 	let mockStore: jasmine.SpyObj<Store>;
 
 	const nameControl = 'name';
 	const dateControl = 'date';
 	const descriptionControl = 'description';
 	const weekDayControl = 'weekDay';
+	const routePlannerId = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf';
+	const dynamicRoutePlannerId = 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf';
 
 	const maskConfig: Partial<IConfig> = {
 		validation: false,
@@ -39,6 +46,10 @@ describe('TaskBoardFormComponent', () => {
 		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
 			'getParameterValue',
 		]);
+		snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
+			'onShowSnackBarError',
+		]);
+		routerHelperServiceSpy.getParameterValue.and.returnValue(routePlannerId);
 		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
 			'crateArrayOfDutiesBasedOnWeekDays',
 			'setAmountOfDuties',
@@ -73,6 +84,10 @@ describe('TaskBoardFormComponent', () => {
 					useValue: routerHelperServiceSpy,
 				},
 				{
+					provide: SnackBarService,
+					useValue: snackBarServiceSpy,
+				},
+				{
 					provide: DutyHelperService,
 					useValue: dutyHelperServiceSpy,
 				},
@@ -94,7 +109,6 @@ describe('TaskBoardFormComponent', () => {
 			.then(() => {
 				fixture = TestBed.createComponent(TaskBoardFormComponent);
 				component = fixture.componentInstance;
-				component.plannerId = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf';
 				component.currentPlanner = signal(MOCK_PLANNERS[2]);
 				component.isConstantPlanner.set(true);
 				fixture.detectChanges();
@@ -195,7 +209,7 @@ describe('TaskBoardFormComponent', () => {
 		expect(date?.errors).not.toBeNull();
 	});
 
-	it('should save duty when user click add button', () => {
+	it('should dispatch constant planner duty payload using route planner id', () => {
 		component.formModel()?.tileColor.set('#B39DDB');
 
 		component
@@ -226,18 +240,16 @@ describe('TaskBoardFormComponent', () => {
 			'13:00',
 		);
 
-		const duties = component.formModel()?.toModel();
-
 		component.sendForm();
 		fixture.detectChanges();
 
+		expect(component.plannerId).toBe(routePlannerId);
 		expect(mockStore.dispatch).toHaveBeenCalledWith(
-			jasmine.objectContaining({
-				type: '[duty] Save duty',
-				duties: jasmine.objectContaining(duties ?? []),
-				plannerId: 'f9fdeba5-4111-4744-89f6-5c33da51b8bf',
+			dutyActions.saveDuty({
+				duties: DUTY_MOCK,
+				plannerId: routePlannerId,
 				redirectToBoard: true,
-				plannerType: 'constant',
+				plannerType: PlannerType.Constant,
 			}),
 		);
 	});
@@ -325,18 +337,29 @@ describe('TaskBoardFormComponent', () => {
 		).toHaveBeenCalled();
 	});
 
-	it('should save 3 duties if user provided three different times for dynamic planner', () => {
+	it('should dispatch dynamic planner duty payload using dynamic planner type', () => {
 		fixture.detectChanges();
 
-		component.plannerId = 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf';
+		component.plannerId = dynamicRoutePlannerId;
 		component.currentPlanner = signal(MOCK_PLANNERS[3]);
 		component.isConstantPlanner.set(false);
-		component.formModel()!.isConstantPlanner = false;
+		component.formModel.set(
+			TestBed.runInInjectionContext(
+				() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+			),
+		);
 		component.formModel()?.tileColor.set('#B39DDB');
 
 		fixture.detectChanges();
+		mockStore.dispatch.calls.reset();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
 		
-		dutyHelperServiceSpy.createArrayOfDutiesBasedOnTimes.and.returnValue([
+		const dynamicDuties = [
 			{
 				name: 'Matematyka',
 				effectiveDate: '12-12-2024',
@@ -355,7 +378,10 @@ describe('TaskBoardFormComponent', () => {
 				from: '15:00',
 				to: '16:00',
 			},
-		]);
+		];
+		dutyHelperServiceSpy.createArrayOfDutiesBasedOnTimes.and.returnValue(
+			dynamicDuties,
+		);
 
 		const addingDate1 = '12-12-2024, 12:00 - 13:00';
 		const addingDate2 = '12-12-2024, 13:00 - 14:00';
@@ -363,14 +389,100 @@ describe('TaskBoardFormComponent', () => {
 
 		component
 			.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue(addingDate1);
+		component
+			.formModel()
 			?.addedChipTagsDates.set([addingDate1, addingDate2, addingDate3]);
 
 		component.sendForm();
 
-		const duties = component.formModel()?.toModel();
-
 		fixture.detectChanges();
 
-		expect(duties?.length).toBe(3);
+		expect(mockStore.dispatch).toHaveBeenCalledWith(
+			dutyActions.saveDuty({
+				duties: dynamicDuties,
+				plannerId: dynamicRoutePlannerId,
+				redirectToBoard: true,
+				plannerType: PlannerType.Dynamic,
+			}),
+		);
+	});
+
+	it('should block dynamic planner save if date was typed but not added as a chip', () => {
+		fixture.detectChanges();
+
+		component.plannerId = dynamicRoutePlannerId;
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel.set(
+			TestBed.runInInjectionContext(
+				() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+			),
+		);
+
+		fixture.detectChanges();
+		mockStore.dispatch.calls.reset();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+		component
+			.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue('12-12-2024, 12:00 - 13:00');
+
+		component.sendForm();
+
+		expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[duty] Save duty',
+			}),
+		);
+		expect(snackBarServiceSpy.onShowSnackBarError).toHaveBeenCalled();
+	});
+
+	it('should not clear dynamic planner form when missing added date chips blocks save and create', () => {
+		fixture.detectChanges();
+
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel.set(
+			TestBed.runInInjectionContext(
+				() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+			),
+		);
+
+		fixture.detectChanges();
+		mockStore.dispatch.calls.reset();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+		component
+			.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue('12-12-2024, 12:00 - 13:00');
+
+		component.saveAndClearForm();
+
+		expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[duty] Save duty',
+			}),
+		);
+		expect(component.formModel()?.formGroup().get(nameControl)?.value).toBe(
+			'Matematyka',
+		);
+		expect(component.formModel()?.formGroup().get(dateControl)?.value).toBe(
+			'12-12-2024, 12:00 - 13:00',
+		);
 	});
 });

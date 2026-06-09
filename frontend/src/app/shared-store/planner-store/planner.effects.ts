@@ -1,9 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '@core/auth/auth.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { PlannerControllerService } from 'src/api/services';
+import { recoverFromProtectedApiRejection } from '../helpers/protected-api-recovery.helper';
 import { showGeneralErrorMessage } from '../helpers/show-error-message.helper';
 import { plannerActions } from './planner.actions';
 import moment from 'moment';
@@ -21,6 +24,8 @@ export const savePlannerEffect = createEffect(
 		plannerControllerService = inject(PlannerControllerService),
 		snackBarService = inject(SnackBarService),
 		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(plannerActions.savePlanner),
@@ -45,6 +50,11 @@ export const savePlannerEffect = createEffect(
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
 
 						return of(
 							plannerActions.savePlannerFailure({
@@ -63,6 +73,9 @@ export const getPlannersEffect = createEffect(
 		$actions = inject(Actions),
 		plannerControllerService = inject(PlannerControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(plannerActions.getPlanners),
@@ -77,6 +90,11 @@ export const getPlannersEffect = createEffect(
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
 
 						return of(
 							plannerActions.getPlannersFailure({
@@ -95,6 +113,9 @@ export const getPlannerEffect = createEffect(
 		$actions = inject(Actions),
 		plannerControllerService = inject(PlannerControllerService),
 		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
 	) =>
 		$actions.pipe(
 			ofType(plannerActions.getPlanner),
@@ -109,6 +130,11 @@ export const getPlannerEffect = createEffect(
 					}),
 					catchError((error: HttpErrorResponse) => {
 						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
 
 						return of(
 							plannerActions.getPlannerFailure({

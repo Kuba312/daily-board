@@ -26,8 +26,10 @@ export const dutiesResolver: ResolveFn<boolean> = (
 ): Observable<boolean> => {
 	const plannerId = _route.params[PLANNER_ID];
 	const isDynamic = isDynamicPlanner(_route);
-	const [from, to] =
+	const [currentFrom, currentTo] =
 		dutyHelperService.adjustCurrentWeekDatesToYearMonthDayFormat();
+	const from = _route.queryParams['from'] ?? currentFrom;
+	const to = _route.queryParams['to'] ?? currentTo;
 	const [fromDate, toDate] = getRangeDatesForPlanner(isDynamic, from, to);
 
 	return store.select(isPlannerLoaded(plannerId, fromDate, toDate)).pipe(

@@ -34,6 +34,7 @@ export default class PlannerBoardDaysHeadersComponent implements OnInit {
 
 	public keysTileBoard: InputSignal<string[]> = input.required<string[]>();
 	public isDynamic: InputSignal<boolean> = input.required<boolean>();
+	public initialWeekIndex: InputSignal<number> = input<number>(0);
 
 	public changedWeekPeriod: OutputEmitterRef<PeriodWeek> =
 		output<PeriodWeek>();
@@ -44,6 +45,7 @@ export default class PlannerBoardDaysHeadersComponent implements OnInit {
 	);
 
 	public ngOnInit(): void {
+		this.currentWeekIndex.set(this.initialWeekIndex());
 		this._listenToScreenResize();
 	}
 

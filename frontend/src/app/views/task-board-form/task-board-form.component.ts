@@ -50,7 +50,7 @@ import { PlannerType } from '@shared/enums/planner-type.enum';
         TaskInputDateComponent,
     ],
     templateUrl: './task-board-form.component.html',
-    styleUrl: './task-board-form.component.scss'
+    styleUrl: './task-board-form.component.scss',
 })
 export default class TaskBoardFormComponent {
 	private readonly _store: Store = inject(Store);
@@ -89,22 +89,22 @@ export default class TaskBoardFormComponent {
 		this._initializeForm();
 	}
 
-	public sendForm(redirectToBoard: boolean = true): void {
+	public sendForm(redirectToBoard: boolean = true): boolean {
 		const formModel = this.formModel();
 		const formGroup = this.formModel()?.formGroup();
 
 		if (!formGroup || !formModel) {
-			return;
+			return false;
 		}
 
 		validateForm(formGroup);
 
-		if (formGroup.invalid) {
+		if (formGroup.invalid || this._isDynamicPlannerMissingAddedDates(formModel)) {
 			this._snackbarService.onShowSnackBarError({
 				message: INVALID_FORM_TRANSLATE_KEY,
 			});
 
-			return;
+			return false;
 		}
 
 		const duties = formModel.toModel();
@@ -120,12 +120,16 @@ export default class TaskBoardFormComponent {
 				plannerType,
 			}),
 		);
+
+		return true;
 	}
 
 	public saveAndClearForm(): void {
-		this.sendForm(false);
+		const wasSubmitted = this.sendForm(false);
 
-		this.formModel()?.clearForm();
+		if (wasSubmitted) {
+			this.formModel()?.clearForm();
+		}
 	}
 
 	private _getCurrentPlanner(): void {
@@ -158,6 +162,15 @@ export default class TaskBoardFormComponent {
 	private _setFormModel(currentPlanner: PlannerDto): void {
 		this.formModel.set(
 			new TaskBoardFormModel(this.isConstantPlanner(), currentPlanner),
+		);
+	}
+
+	private _isDynamicPlannerMissingAddedDates(
+		formModel: TaskBoardFormModel,
+	): boolean {
+		return (
+			!this.isConstantPlanner() &&
+			(formModel.addedChipTagsDates()?.length ?? 0) === 0
 		);
 	}
 }

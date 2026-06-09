@@ -4,6 +4,7 @@ import { AuthService } from '@core/auth/auth.service';
 import {
 	TIME_FORMAT,
 	TIME_FORMAT_WITH_SECONDS,
+	YEAR_MOTH_DAY_FORMAT,
 } from '@shared/constants/shared-consts.const';
 import {
 	CONFLICT_ERROR_STATUS,
@@ -54,6 +55,7 @@ export const saveDutyEffect = createEffect(
 								routerHelperService,
 								plannerId,
 								plannerType,
+								adjustedTimeDuties,
 							);
 
 							return dutyActions.saveDutySuccess({
@@ -228,12 +230,41 @@ function redirectToPlannerBoard(
 	routerHelperService: RouterHelperService,
 	plannerId: string,
 	plannerType: PlannerType,
+	duties?: DutyDto[],
 ): void {
 	if (!redirectToBoard) {
 		return;
 	}
 
-	routerHelperService.directToUrl('/planners', [plannerId, plannerType]);
+	routerHelperService.directToUrl(
+		'/planners',
+		[plannerId, plannerType],
+		false,
+		getDynamicPlannerWeekQueryParams(plannerType, duties),
+	);
+}
+
+function getDynamicPlannerWeekQueryParams(
+	plannerType: PlannerType,
+	duties?: DutyDto[],
+): Record<string, string> | undefined {
+	if (plannerType !== PlannerType.Dynamic) {
+		return undefined;
+	}
+
+	const effectiveDate = duties?.find((duty) => duty.effectiveDate)
+		?.effectiveDate;
+
+	if (!effectiveDate) {
+		return undefined;
+	}
+
+	const weekDate = moment(effectiveDate, YEAR_MOTH_DAY_FORMAT);
+
+	return {
+		from: weekDate.clone().startOf('isoWeek').format(YEAR_MOTH_DAY_FORMAT),
+		to: weekDate.clone().endOf('isoWeek').format(YEAR_MOTH_DAY_FORMAT),
+	};
 }
 
 function isConflictingDuties(

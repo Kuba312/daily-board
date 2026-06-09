@@ -9,6 +9,7 @@ import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.serv
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { TextProcessingService } from '@shared/services/text-processing/text-processing.service';
 import { PlannerType } from '@shared/enums/planner-type.enum';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
@@ -23,6 +24,7 @@ describe('TaskBoardFormComponent', () => {
 	let textProcessingServiceSpy: jasmine.SpyObj<TextProcessingService>;
 	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
+	let snackBarServiceSpy: jasmine.SpyObj<SnackBarService>;
 	let mockStore: jasmine.SpyObj<Store>;
 
 	const nameControl = 'name';
@@ -43,6 +45,9 @@ describe('TaskBoardFormComponent', () => {
 		);
 		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
 			'getParameterValue',
+		]);
+		snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
+			'onShowSnackBarError',
 		]);
 		routerHelperServiceSpy.getParameterValue.and.returnValue(routePlannerId);
 		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
@@ -77,6 +82,10 @@ describe('TaskBoardFormComponent', () => {
 				{
 					provide: RouterHelperService,
 					useValue: routerHelperServiceSpy,
+				},
+				{
+					provide: SnackBarService,
+					useValue: snackBarServiceSpy,
 				},
 				{
 					provide: DutyHelperService,
@@ -398,6 +407,82 @@ describe('TaskBoardFormComponent', () => {
 				redirectToBoard: true,
 				plannerType: PlannerType.Dynamic,
 			}),
+		);
+	});
+
+	it('should block dynamic planner save if date was typed but not added as a chip', () => {
+		fixture.detectChanges();
+
+		component.plannerId = dynamicRoutePlannerId;
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel.set(
+			TestBed.runInInjectionContext(
+				() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+			),
+		);
+
+		fixture.detectChanges();
+		mockStore.dispatch.calls.reset();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+		component
+			.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue('12-12-2024, 12:00 - 13:00');
+
+		component.sendForm();
+
+		expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[duty] Save duty',
+			}),
+		);
+		expect(snackBarServiceSpy.onShowSnackBarError).toHaveBeenCalled();
+	});
+
+	it('should not clear dynamic planner form when missing added date chips blocks save and create', () => {
+		fixture.detectChanges();
+
+		component.currentPlanner = signal(MOCK_PLANNERS[3]);
+		component.isConstantPlanner.set(false);
+		component.formModel.set(
+			TestBed.runInInjectionContext(
+				() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+			),
+		);
+
+		fixture.detectChanges();
+		mockStore.dispatch.calls.reset();
+
+		component
+			.formModel()
+			?.formGroup()
+			.get(nameControl)
+			?.setValue('Matematyka');
+		component
+			.formModel()
+			?.formGroup()
+			.get(dateControl)
+			?.setValue('12-12-2024, 12:00 - 13:00');
+
+		component.saveAndClearForm();
+
+		expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[duty] Save duty',
+			}),
+		);
+		expect(component.formModel()?.formGroup().get(nameControl)?.value).toBe(
+			'Matematyka',
+		);
+		expect(component.formModel()?.formGroup().get(dateControl)?.value).toBe(
+			'12-12-2024, 12:00 - 13:00',
 		);
 	});
 });

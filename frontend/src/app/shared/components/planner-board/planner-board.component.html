@@ -2,6 +2,7 @@
 	<app-planner-board-days-headers
 		[keysTileBoard]="keysTileBoard()"
 		[isDynamic]="isDynamic()"
+		[initialWeekIndex]="initialWeekIndex()"
 		(changedWeekPeriod)="changedWeekPeriod.emit($event)"
 	/>
 	<div class="planner-board__content">

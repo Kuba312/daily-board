@@ -6,13 +6,15 @@ import { ERROR_CODE_TRANSLATE_KEY } from '@shared/constants/translation-keys.con
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { plannerActions } from '@shared-store/planner-store/planner.actions';
-import { ReplaySubject, firstValueFrom, throwError } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of, throwError } from 'rxjs';
 import { DutyControllerService } from 'src/api/services';
 import { dutyActions } from './duty.actions';
 import {
 	getDutiesByPlannerIdAndRangeTime,
 	getDutiesByPlannerIdEffect,
+	saveDutyEffect,
 } from './duty.effects';
+import { PlannerType } from '@shared/enums/planner-type.enum';
 
 describe('duty effects', () => {
 	let actions$: ReplaySubject<Action>;
@@ -27,11 +29,15 @@ describe('duty effects', () => {
 		dutyControllerServiceSpy =
 			jasmine.createSpyObj<DutyControllerService>(
 				'DutyControllerService',
-				['getDutiesByPlannerId', 'getDutiesByPlannerIdAndRangeTime'],
+				[
+					'getDutiesByPlannerId',
+					'getDutiesByPlannerIdAndRangeTime',
+					'saveDuty',
+				],
 			);
 		snackBarServiceSpy = jasmine.createSpyObj<SnackBarService>(
 			'SnackBarService',
-			['onShowSnackBarError'],
+			['onShowSnackBarError', 'onShowSnackBarSuccess'],
 		);
 		routerHelperServiceSpy = jasmine.createSpyObj<RouterHelperService>(
 			'RouterHelperService',
@@ -133,6 +139,67 @@ describe('duty effects', () => {
 		});
 	});
 
+	it('should redirect dynamic planner save to the saved duty week', async () => {
+		dutyControllerServiceSpy.saveDuty.and.returnValue(
+			of([
+				{
+					id: 'duty-a',
+					plannerId: 'planner-a',
+					name: 'Saved Dynamic Duty',
+					effectiveDate: '2026-06-24',
+					weekDay: 'WEDNESDAY',
+					from: '09:00:00',
+					to: '10:00:00',
+				},
+			]),
+		);
+
+		const resultPromise = firstValueFrom(createSaveDutyEffect());
+		actions$.next(
+			dutyActions.saveDuty({
+				duties: [
+					{
+						name: 'Saved Dynamic Duty',
+						effectiveDate: '2026-06-24',
+						weekDay: 'WEDNESDAY',
+						from: '09:00',
+						to: '10:00',
+					},
+				],
+				plannerId: 'planner-a',
+				redirectToBoard: true,
+				plannerType: PlannerType.Dynamic,
+			}),
+		);
+		const result = await resultPromise;
+
+		expect(result).toEqual(
+			dutyActions.saveDutySuccess({
+				duties: [
+					{
+						id: 'duty-a',
+						plannerId: 'planner-a',
+						name: 'Saved Dynamic Duty',
+						effectiveDate: '2026-06-24',
+						weekDay: 'WEDNESDAY',
+						from: '09:00',
+						to: '10:00',
+					},
+				],
+				plannerId: 'planner-a',
+			}),
+		);
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/planners',
+			['planner-a', PlannerType.Dynamic],
+			false,
+			{
+				from: '2026-06-22',
+				to: '2026-06-28',
+			},
+		);
+	});
+
 	function createStaticDutiesEffect() {
 		return getDutiesByPlannerIdEffect(
 			new Actions(actions$),
@@ -146,6 +213,17 @@ describe('duty effects', () => {
 
 	function createDynamicDutiesEffect() {
 		return getDutiesByPlannerIdAndRangeTime(
+			new Actions(actions$),
+			dutyControllerServiceSpy,
+			snackBarServiceSpy,
+			routerHelperServiceSpy,
+			authServiceSpy,
+			storeSpy,
+		);
+	}
+
+	function createSaveDutyEffect() {
+		return saveDutyEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
 			snackBarServiceSpy,

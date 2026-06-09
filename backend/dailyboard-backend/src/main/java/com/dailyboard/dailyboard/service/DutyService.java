@@ -54,19 +54,22 @@ public class DutyService {
 
 
     private void checkConflictedDuties(List<Duty> duties, String plannerId) {
-        List<Specification<Duty>> specifications = duties.stream()
-                .map(duty -> Specification.where(
-                        JpaUtils.isDateInRange(duty).and(
-                                (root, query, criteriaBuilder) ->
-                                        criteriaBuilder.equal(root.get("planner").get("id"), plannerId)
-                        )
-                ))
+        if (duties.isEmpty()) {
+            return;
+        }
+
+        List<Specification<Duty>> overlapSpecifications = duties.stream()
+                .map(duty -> Specification.where(JpaUtils.isDateInRange(duty)))
                 .toList();
 
-        Specification<Duty> combinedSpecification = specifications.stream()
+        Specification<Duty> plannerSpecification = (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("planner").get("id"), plannerId);
+        Specification<Duty> overlapSpecification = overlapSpecifications.stream()
                 .reduce(Specification.where(null), Specification::or);
 
-        List<Duty> conflictingDuties = dutyRepository.findAll(combinedSpecification);
+        List<Duty> conflictingDuties = dutyRepository.findAll(
+                Specification.where(plannerSpecification).and(overlapSpecification)
+        );
 
         if (!conflictingDuties.isEmpty()) {
             List<ConflictingDutyDto> conflictingDutyDTOs = conflictingDuties.stream()

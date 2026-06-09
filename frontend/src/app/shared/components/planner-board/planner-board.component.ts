@@ -68,6 +68,7 @@ export default class PlannerBoardComponent {
 	public plannerDetails: InputSignal<Option<PlannerDto>> =
 		input.required<Option<PlannerDto>>();
 	public isDynamic: InputSignal<boolean> = input.required<boolean>();
+	public initialWeekIndex: InputSignal<number> = input<number>(0);
 	public slidePlannerDirection: InputSignal<
 		Nullable<AnimationPlannerDirection>
 	> = input<Nullable<AnimationPlannerDirection>>(null);

@@ -10,7 +10,11 @@ archived_at: null
 ## Notes
 
 <!-- Free-form notes for this change: links, ad-hoc context, decisions that don't belong in research/frame/plan. -->
-- Phase 3 manual verification blocker: adding a duty to a newly created dynamic planner failed because backend conflict detection reported conflicts with many legacy pre-auth/pre-ownership duties from older planners/data.
-- Hypothesis: duty conflict detection is too broad and may not be scoped to the current owned path planner. It likely checks legacy, unowned, or other-planner duties.
-- Impact: Phase 3 manual verification for dynamic planner duty creation is blocked; `3.7` and `3.8` remain pending.
-- Next session: investigate `DutyService` conflict detection and the query/specification used for conflicts. Minimal expected fix is to scope conflict detection to duties from the current owned planner only, not all user/global/legacy duties.
+- Active Phase 3 blocker: adding a dated duty to a newly created dynamic planner can be rejected with conflicts against old legacy/pre-auth duties from other planners/data.
+- Phase 3 manual rows `3.7` and `3.8` must remain pending until the conflict detection bug is fixed and retested.
+- Do not mark P-02 complete until this blocker is resolved.
+- Expected behavior: conflict detection for adding a duty to planner X compares only with duties belonging to planner X. Duties from other planners, other users, or legacy/unowned planner data must not block the current owned planner.
+- Backend fix implemented on 2026-06-09; `3.7` and `3.8` remain pending until manual retest confirms the legacy-data scenario no longer reproduces.
+- Follow-up board display fix implemented on 2026-06-09: after saving a dynamic dated duty, the frontend redirects to the board with the saved duty's week range so the board loads and displays the correct week instead of defaulting to the current week. `3.7` and `3.8` still require manual retest.
+- Follow-up dynamic task form validation fix implemented on 2026-06-09: dynamic planner save now requires at least one added date chip, so typing a date without clicking "Add date" no longer submits an empty duty payload.
+- Phase 3 manual retest passed on 2026-06-09: dynamic dated duty creation displays on the correct week, week switching still works, and a user sees their own dynamic planners with duties.

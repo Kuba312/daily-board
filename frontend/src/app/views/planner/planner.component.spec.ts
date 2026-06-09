@@ -24,6 +24,10 @@ describe('PlannerComponent', () => {
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
 	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
+	let activatedRouteSnapshot: {
+		params: Record<string, string>;
+		queryParams: Record<string, string>;
+	};
 
 	const plannerId: string = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf' as const;
 
@@ -39,10 +43,23 @@ describe('PlannerComponent', () => {
 			);
 			dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
 				'groupDutiesByDays',
+				'adjustCurrentWeekDatesToYearMonthDayFormat',
 			]);
 
-			routerHelperServiceSpy.getParameterValue.and.returnValue(plannerId);
+			activatedRouteSnapshot = {
+				params: {
+					plannerId,
+					isDynamic: 'dynamic',
+				},
+				queryParams: {},
+			};
+			routerHelperServiceSpy.getParameterValue.and.callFake(
+				(_route, param) => activatedRouteSnapshot.params[param],
+			);
 			dutyHelperServiceSpy.groupDutiesByDays.and.returnValue(new Map());
+			dutyHelperServiceSpy.adjustCurrentWeekDatesToYearMonthDayFormat.and.returnValue(
+				['2026-06-08', '2026-06-14'],
+			);
 			mockStore.selectSignal.and.returnValue(signal([...DUTIES_MOCK]));
 
 			TestBed.configureTestingModule({
@@ -61,14 +78,12 @@ describe('PlannerComponent', () => {
 					{
 						provide: ActivatedRoute,
 						useValue: {
-							snapshot: {
-								paramMap: {
-									get(): string {
-										return plannerId;
-									},
-								},
-							},
+							snapshot: activatedRouteSnapshot,
 						},
+					},
+					{
+						provide: DutyHelperService,
+						useValue: dutyHelperServiceSpy,
 					},
 				],
 			})
@@ -129,6 +144,21 @@ describe('PlannerComponent', () => {
 		);
 
 		expect(plannerBoard).toBeTruthy();
+	});
+
+	it('should initialize dynamic board from requested week query params', () => {
+		activatedRouteSnapshot.queryParams = {
+			from: '2026-06-22',
+			to: '2026-06-28',
+		};
+
+		fixture = TestBed.createComponent(PlannerComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+
+		expect(component.fromDate()).toEqual('2026-06-22');
+		expect(component.toDate()).toEqual('2026-06-28');
+		expect(component.initialWeekIndex).toBe(2);
 	});
 
 	it('should show planner board days properly', () => {

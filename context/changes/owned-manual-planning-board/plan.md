@@ -318,8 +318,8 @@ No database migration, API migration, or generated-client regeneration is planne
 
 #### Manual
 
-- [ ] 1.3 Login/register as User B after User A state does not show User A planner data
-- [ ] 1.4 Existing auth error/loading UX still behaves as before
+- [x] 1.3 Login/register as User B after User A state does not show User A planner data
+- [x] 1.4 Existing auth error/loading UX still behaves as before
 
 ### Phase 2: Rejected Planner Access Recovery
 
@@ -343,29 +343,29 @@ No database migration, API migration, or generated-client regeneration is planne
 - [x] 3.1 Planner component tests pass — 76aec3f
 - [x] 3.2 Duty reducer tests pass — 50db99c
 - [x] 3.3 Task board form tests pass — 45c9505
-- [ ] 3.4 Frontend test suite passes if practical
-- [ ] 3.5 Frontend build passes
+- [x] 3.4 Frontend test suite passes if practical
+- [x] 3.5 Frontend build passes
 
 #### Manual
 
-- [ ] 3.6 User can create a duty for an owned constant planner and see it on that planner board
-- [ ] 3.7 User can create dated duties for an owned dynamic planner and see them on the correct week
-- [ ] 3.8 Dynamic week switching fetches unloaded ranges and avoids duplicate requests for already-loaded ranges
+- [x] 3.6 User can create a duty for an owned constant planner and see it on that planner board
+- [x] 3.7 User can create dated duties for an owned dynamic planner and see them on the correct week
+- [x] 3.8 Dynamic week switching fetches unloaded ranges and avoids duplicate requests for already-loaded ranges
 
 ### Phase 4: Verification Notes And Test Cookbook Update
 
 #### Automated
 
-- [ ] 4.1 Auth component tests pass
-- [ ] 4.2 Planner effects tests pass
-- [ ] 4.3 Duty effects tests pass
-- [ ] 4.4 Planner component tests pass
-- [ ] 4.5 Task board form tests pass
-- [ ] 4.6 Frontend test suite passes if practical
-- [ ] 4.7 Frontend build passes
+- [x] 4.1 Auth component tests pass
+- [x] 4.2 Planner effects tests pass
+- [x] 4.3 Duty effects tests pass
+- [x] 4.4 Planner component tests pass
+- [x] 4.5 Task board form tests pass
+- [x] 4.6 Frontend test suite passes if practical
+- [x] 4.7 Frontend build passes
 
 #### Manual
 
-- [ ] 4.8 Manual smoke checklist exists and covers P-02 acceptance path
-- [ ] 4.9 Test plan §6.2 and §6.3 no longer say only `TBD`
-- [ ] 4.10 Cookbook entries read as reusable testing guidance
+- [x] 4.8 Manual smoke checklist exists and covers P-02 acceptance path
+- [x] 4.9 Test plan §6.2 and §6.3 no longer say only `TBD`
+- [x] 4.10 Cookbook entries read as reusable testing guidance

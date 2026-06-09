@@ -31,6 +31,7 @@ import SafeValue from '@shared/pipes/safe-value.pipe';
 import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { DutyDto, PlannerDto } from 'src/api/models';
+import moment from 'moment';
 
 @Component({
     selector: 'app-planner',
@@ -71,11 +72,12 @@ export default class PlannerComponent {
 	);
 
 	public fromDate: WritableSignal<string> = signal(
-		this._dutyHelperService.adjustCurrentWeekDatesToYearMonthDayFormat()[0],
+		this._initialWeekRange()[0],
 	);
 	public toDate: WritableSignal<string> = signal(
-		this._dutyHelperService.adjustCurrentWeekDatesToYearMonthDayFormat()[1],
+		this._initialWeekRange()[1],
 	);
+	public initialWeekIndex: number = this._getInitialWeekIndex();
 	public slidePlannerDirection: WritableSignal<
 		Nullable<AnimationPlannerDirection>
 	> = signal<Nullable<AnimationPlannerDirection>>(null);
@@ -158,5 +160,22 @@ export default class PlannerComponent {
 						selectDutiesByPlannerId(this.plannerId),
 					),
 			  );
+	}
+
+	private _initialWeekRange(): [string, string] {
+		const currentWeekRange =
+			this._dutyHelperService.adjustCurrentWeekDatesToYearMonthDayFormat();
+		const from = this._activateRoute.snapshot.queryParams['from'];
+		const to = this._activateRoute.snapshot.queryParams['to'];
+
+		return from && to ? [from, to] : currentWeekRange;
+	}
+
+	private _getInitialWeekIndex(): number {
+		const [currentFrom] =
+			this._dutyHelperService.adjustCurrentWeekDatesToYearMonthDayFormat();
+		const [initialFrom] = this._initialWeekRange();
+
+		return moment(initialFrom).diff(moment(currentFrom), 'weeks');
 	}
 }

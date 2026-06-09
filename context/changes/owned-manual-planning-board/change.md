@@ -1,9 +1,9 @@
 ---
 change_id: owned-manual-planning-board
 title: Owned manual planning board
-status: implementing
+status: implemented
 created: 2026-06-08
-updated: 2026-06-08
+updated: 2026-06-09
 archived_at: null
 ---
 

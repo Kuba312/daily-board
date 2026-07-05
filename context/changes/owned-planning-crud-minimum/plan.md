@@ -454,9 +454,9 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Automated
 
-- [x] 1.1 Backend tests pass
-- [x] 1.2 Planner update OpenAPI docs expose PUT route
-- [x] 1.3 Planner delete OpenAPI docs expose DELETE route
+- [x] 1.1 Backend tests pass — b0b7871
+- [x] 1.2 Planner update OpenAPI docs expose PUT route — b0b7871
+- [x] 1.3 Planner delete OpenAPI docs expose DELETE route — b0b7871
 
 #### Manual
 

@@ -5,14 +5,22 @@
 	<div class="information-dialog__actions">
 		<app-primary-button
 			[emitOnClick]="true"
-			[label]="'global.close' | translate"
+			[label]="(data.cancelButtonLabel || 'global.close') | translate"
 			[secondary]="true"
 			(ngClick)="onDialogClose()"
 		/>
-		<app-primary-button
-			[emitOnClick]="true"
-			[label]="'global.not-show-once-again' | translate"
-			(ngClick)="onNeverShowDialogClick(data.componentId)"
-		/>
+		@if (data.showNeverAgainButton && data.componentId) {
+			<app-primary-button
+				[emitOnClick]="true"
+				[label]="'global.not-show-once-again' | translate"
+				(ngClick)="onNeverShowDialogClick(data.componentId)"
+			/>
+		} @else {
+			<app-primary-button
+				[emitOnClick]="true"
+				[label]="(data.confirmButtonLabel || 'global.confirm') | translate"
+				(ngClick)="onConfirmDialogClick()"
+			/>
+		}
 	</div>
 </div>

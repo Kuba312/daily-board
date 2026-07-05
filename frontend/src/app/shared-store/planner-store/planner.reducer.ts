@@ -35,6 +35,36 @@ const plannerFeature = createFeature({
 			isLoading: false,
 			error: errorMessage,
 		})),
+		on(plannerActions.updatePlanner, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(plannerActions.updatePlannerSuccess, (state, { planner }) =>
+			plannerAdapter.upsertOne(planner, {
+				...state,
+				isLoading: false,
+			}),
+		),
+		on(plannerActions.updatePlannerFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
+		on(plannerActions.deletePlanner, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(plannerActions.deletePlannerSuccess, (state, { id }) =>
+			plannerAdapter.removeOne(id, {
+				...state,
+				isLoading: false,
+			}),
+		),
+		on(plannerActions.deletePlannerFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
 		on(plannerActions.getPlanners, (state) => ({
 			...state,
 			isLoading: false,

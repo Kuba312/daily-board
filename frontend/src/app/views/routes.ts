@@ -85,6 +85,16 @@ const routes: Routes = [
 			provideEffects(plannerEffects),
 		],
 	},
+		{
+			path: 'planner-edit/:plannerId',
+			loadComponent: () => import('./planner-form/planner-form.component'),
+			canActivate: [authGuard],
+			providers: [
+			provideState(plannerFeatureKey, plannerReducer),
+			provideState(dutyFeatureKey, dutyReducer),
+			provideEffects(plannerEffects),
+		],
+	},
 ];
 
 export default routes;

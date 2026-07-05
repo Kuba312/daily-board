@@ -1,6 +1,7 @@
 import {
 	Component,
 	ElementRef,
+	effect,
 	forwardRef,
 	input,
 	InputSignal,
@@ -12,6 +13,7 @@ import {
 import {
 	AbstractControl,
 	ControlValueAccessor,
+	FormControl,
 	FormGroup,
 	FormsModule,
 	NG_VALUE_ACCESSOR,
@@ -78,6 +80,12 @@ export default class WeekDatePickerInputComponent
 	public date: WritableSignal<Option<string>> = signal<Option<string>>(null);
 	public from: WritableSignal<Option<string>> = signal<Option<string>>(null);
 	public to: WritableSignal<Option<string>> = signal<Option<string>>(null);
+	public datePickerControl: FormControl<Option<string>> =
+		new FormControl<Option<string>>(null);
+	public fromTimeControl: FormControl<Option<string>> =
+		new FormControl<Option<string>>(null);
+	public toTimeControl: FormControl<Option<string>> =
+		new FormControl<Option<string>>(null);
 
 	public controlDateName: typeof ControlNameWeekRanger =
 		ControlNameWeekRanger;
@@ -89,8 +97,14 @@ export default class WeekDatePickerInputComponent
 		return;
 	});
 
+	constructor() {
+		effect(() => {
+			this._syncNativeInputValues();
+		});
+	}
+
 	writeValue(date: string): void {
-		this._clearTimeValues(date);
+		this._setInputValues(date);
 
 		this.selectedDate.set(date);
 	}
@@ -207,38 +221,82 @@ export default class WeekDatePickerInputComponent
 		calendarDatesDetails: CalendarDateDetails,
 	): void {
 		const { date, from, to } = calendarDatesDetails;
-		const dateInput = this.dateInput();
-		const fromInput = this.fromInput();
-		const toInput = this.toInput();
 
-		if (date && dateInput) {
+		if (date) {
 			this.date.set(moment(date).format(DAY_MONTH_FORMAT));
-			dateInput.nativeElement.value = this.date();
+			this.datePickerControl.setValue(this.date(), { emitEvent: false });
 		}
 
-		if (from && fromInput) {
+		if (from) {
 			this.from.set(from);
-			fromInput.nativeElement.value = this.from();
+			this.fromTimeControl.setValue(this.from(), { emitEvent: false });
 		}
 
-		if (to && toInput) {
+		if (to) {
 			this.to.set(to);
-			toInput.nativeElement.value = this.to();
+			this.toTimeControl.setValue(this.to(), { emitEvent: false });
 		}
 	}
 
-	private _clearTimeValues(date: string): void {
+	private _setInputValues(date: string): void {
 		if (!date) {
 			this.from.set(TIME_PLACEHOLDER);
 			this.to.set(TIME_PLACEHOLDER);
 			this.date.set(DATE_PLACEHOLDER);
+			this._syncInputControls();
+
+			return;
 		}
+
+		const [dateValue, timeRange] = date.split(',').map((value) => value.trim());
+		const [from, to] = (timeRange ?? date).split('-').map((value) => value.trim());
+
+		if (!this.onlyHours()) {
+			this.date.set(dateValue || DATE_PLACEHOLDER);
+		}
+
+		this.from.set(from || TIME_PLACEHOLDER);
+		this.to.set(to || TIME_PLACEHOLDER);
+
+		this._syncInputControls();
 	}
 
 	private _generateNotifierDate(): void {
 		const builtDate = `${this.date()}, ${this.from()} - ${this.to()}`;
 
 		this._triggerFormNotifiers(builtDate);
+	}
+
+	private _syncNativeInputValues(): void {
+		const fromInput = this.fromInput();
+		const toInput = this.toInput();
+		const dateInput = this.dateInput();
+		const from = this.from();
+		const to = this.to();
+		const date = this.date();
+
+		if (fromInput && from !== null) {
+			fromInput.nativeElement.value = from;
+		}
+
+		if (toInput && to !== null) {
+			toInput.nativeElement.value = to;
+		}
+
+		if (!this.onlyHours() && dateInput && date !== null) {
+			dateInput.nativeElement.value = date;
+		}
+	}
+
+	private _syncInputControls(): void {
+		this.fromTimeControl.setValue(this.from(), { emitEvent: false });
+		this.toTimeControl.setValue(this.to(), { emitEvent: false });
+
+		if (!this.onlyHours()) {
+			this.datePickerControl.setValue(this.date(), { emitEvent: false });
+		}
+
+		this._syncNativeInputValues();
 	}
 
 	get controlDate(): Option<AbstractControl> {

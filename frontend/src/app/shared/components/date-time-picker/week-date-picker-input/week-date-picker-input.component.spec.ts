@@ -148,5 +148,24 @@ describe('WeekDatePickerInputComponent', () => {
 
 		expect(component.isWeeklyCalendarOpened()).toBeFalse();
 	});
+
+	it('should render time values written before inputs are available', () => {
+		const lateFixture = TestBed.createComponent(WeekDatePickerInputComponent);
+		const lateComponent = lateFixture.componentInstance;
+
+		lateFixture.componentRef.setInput('formGroup', formGroupMock);
+		lateFixture.componentRef.setInput('controlName', controlName);
+		lateFixture.componentRef.setInput('onlyHours', true);
+
+		lateComponent.writeValue('null, 08:00 - 16:00');
+		lateFixture.detectChanges();
+
+		const inputElements = lateFixture.debugElement.queryAll(
+			By.css('.date-range-container--times-range input'),
+		);
+
+		expect(inputElements[0].nativeElement.value).toBe('08:00');
+		expect(inputElements[1].nativeElement.value).toBe('16:00');
+	});
 	
 });

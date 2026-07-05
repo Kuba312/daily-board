@@ -126,6 +126,22 @@ const dutyFeature = createFeature({
 				error: errorMessage,
 			}),
 		),
+		on(dutyActions.clearDutiesByPlannerId, (state, { plannerId }) => {
+			const dutiesToRemove = selectAll(state)
+				.filter((duty) => duty.plannerId === plannerId)
+				.map((duty) => duty.id)
+				.filter((id): id is string => !!id);
+
+			return dutyAdapter.removeMany(dutiesToRemove, {
+				...state,
+				loadedPlannerIds: state.loadedPlannerIds.filter(
+					(loadedPlannerId) => loadedPlannerId !== plannerId,
+				),
+				loadedPlannersDates: state.loadedPlannersDates.filter(
+					(plannerDate) => !(plannerId in plannerDate),
+				),
+			});
+		}),
 		on(dutyActions.resetDuties, () => initialDutyState),
 	),
 });

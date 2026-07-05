@@ -55,6 +55,7 @@
 	},
 	"planner-form": {
 		"title": "Create planner",
+		"edit-title": "Edit planner",
 		"planner-name": "Planner's name",
 		"planner-note": "Planner's note",
 		"planner-mode": "Planner Mode",
@@ -62,10 +63,14 @@
 		"constant-planner": "Constant (same schedule)",
 		"end-planner-hour": "Planner start and end time",
 		"range-planner-time": "Planner hours range",
-		"planner-has-been-added": "Planner has been added"
+		"planner-has-been-added": "Planner has been added",
+		"planner-has-been-updated": "Planner has been updated",
+		"planner-has-been-deleted": "Planner has been deleted",
+		"confirm-shape-change": "Changing planner hours or mode can delete existing duties. Continue?"
 	},
 		"planners-dashboard": {
-			"title": "Your planners"
+			"title": "Your planners",
+			"confirm-delete": "Delete this planner and all its duties?"
 		},
 		"auth": {
 			"form-title": "Account access",
@@ -107,6 +112,9 @@
 		"for": "for",
 		"edit": "edit",
 		"delete": "delete",
+		"save": "Save",
+		"cancel": "Cancel",
+		"confirm": "Confirm",
 		"close": "Close",
 		"not-show-once-again": "Don't show again"
 	}

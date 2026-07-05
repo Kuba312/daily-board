@@ -17,4 +17,8 @@ public interface DutyRepository extends JpaRepository<Duty, UUID>, JpaSpecificat
 
     List<Duty> findByPlannerId(String id);
 
+    boolean existsByPlannerId(String plannerId);
+
+    void deleteByPlannerId(String plannerId);
+
 }

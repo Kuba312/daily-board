@@ -483,11 +483,11 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Automated
 
-- [x] 3.1 Planner store tests pass
-- [x] 3.2 Planner effects tests pass
-- [x] 3.3 Planner form tests pass
-- [x] 3.4 Planner dashboard tests pass
-- [x] 3.5 Frontend build passes
+- [x] 3.1 Planner store tests pass — 9dd8717
+- [x] 3.2 Planner effects tests pass — 9dd8717
+- [x] 3.3 Planner form tests pass — 9dd8717
+- [x] 3.4 Planner dashboard tests pass — 9dd8717
+- [x] 3.5 Frontend build passes — 9dd8717
 
 #### Manual
 

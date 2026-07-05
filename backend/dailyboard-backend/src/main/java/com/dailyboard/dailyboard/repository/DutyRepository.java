@@ -2,6 +2,7 @@ package com.dailyboard.dailyboard.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface DutyRepository extends JpaRepository<Duty, UUID>, JpaSpecificat
     List<Duty> findByEffectiveDateIsNullAndPlannerOwnerId(String ownerId);
 
     List<Duty> findByPlannerId(String id);
+
+    Optional<Duty> findByIdAndPlannerId(String id, String plannerId);
 
     boolean existsByPlannerId(String plannerId);
 

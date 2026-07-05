@@ -11,6 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { deletePlanner } from '../fn/planner-controller/delete-planner';
+import { DeletePlanner$Params } from '../fn/planner-controller/delete-planner';
 import { getPlannerById } from '../fn/planner-controller/get-planner-by-id';
 import { GetPlannerById$Params } from '../fn/planner-controller/get-planner-by-id';
 import { getPlanners } from '../fn/planner-controller/get-planners';
@@ -18,36 +20,13 @@ import { GetPlanners$Params } from '../fn/planner-controller/get-planners';
 import { PlannerDto } from '../models/planner-dto';
 import { savePlanner } from '../fn/planner-controller/save-planner';
 import { SavePlanner$Params } from '../fn/planner-controller/save-planner';
+import { updatePlanner } from '../fn/planner-controller/update-planner';
+import { UpdatePlanner$Params } from '../fn/planner-controller/update-planner';
 
 @Injectable({ providedIn: 'root' })
 export class PlannerControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
-  }
-
-  /** Path part for operation `savePlanner()` */
-  static readonly SavePlannerPath = '/api/v1/planners';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `savePlanner()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  savePlanner$Response(params: SavePlanner$Params, context?: HttpContext): Observable<StrictHttpResponse<PlannerDto>> {
-    return savePlanner(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `savePlanner$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  savePlanner(params: SavePlanner$Params, context?: HttpContext): Observable<PlannerDto> {
-    return this.savePlanner$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PlannerDto>): PlannerDto => r.body)
-    );
   }
 
   /** Path part for operation `getPlannerById()` */
@@ -71,6 +50,81 @@ export class PlannerControllerService extends BaseService {
    */
   getPlannerById(params: GetPlannerById$Params, context?: HttpContext): Observable<PlannerDto> {
     return this.getPlannerById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PlannerDto>): PlannerDto => r.body)
+    );
+  }
+
+  /** Path part for operation `updatePlanner()` */
+  static readonly UpdatePlannerPath = '/api/v1/planners/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updatePlanner()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updatePlanner$Response(params: UpdatePlanner$Params, context?: HttpContext): Observable<StrictHttpResponse<PlannerDto>> {
+    return updatePlanner(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updatePlanner$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updatePlanner(params: UpdatePlanner$Params, context?: HttpContext): Observable<PlannerDto> {
+    return this.updatePlanner$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PlannerDto>): PlannerDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deletePlanner()` */
+  static readonly DeletePlannerPath = '/api/v1/planners/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deletePlanner()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deletePlanner$Response(params: DeletePlanner$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deletePlanner(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deletePlanner$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deletePlanner(params: DeletePlanner$Params, context?: HttpContext): Observable<void> {
+    return this.deletePlanner$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `savePlanner()` */
+  static readonly SavePlannerPath = '/api/v1/planners';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `savePlanner()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  savePlanner$Response(params: SavePlanner$Params, context?: HttpContext): Observable<StrictHttpResponse<PlannerDto>> {
+    return savePlanner(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `savePlanner$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  savePlanner(params: SavePlanner$Params, context?: HttpContext): Observable<PlannerDto> {
+    return this.savePlanner$Response(params, context).pipe(
       map((r: StrictHttpResponse<PlannerDto>): PlannerDto => r.body)
     );
   }

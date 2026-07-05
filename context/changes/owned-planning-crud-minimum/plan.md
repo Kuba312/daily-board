@@ -469,9 +469,9 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Automated
 
-- [ ] 2.1 Backend tests pass
-- [ ] 2.2 Generated frontend API compiles after regeneration
-- [ ] 2.3 Generated planner and duty controller services include the new update/delete operations
+- [x] 2.1 Backend tests pass
+- [x] 2.2 Generated frontend API compiles after regeneration
+- [x] 2.3 Generated planner and duty controller services include the new update/delete operations
 
 #### Manual
 

@@ -29,7 +29,7 @@ public class DutyService {
     public List<Duty> save(List<Duty> duties, String plannerId) {
         Planner planner = getCurrentUserPlanner(plannerId);
 
-        checkConflictedDuties(duties, plannerId);
+        checkConflictedDuties(duties, plannerId, null);
 
         return saveDuties(duties, planner);
     }
@@ -52,8 +52,34 @@ public class DutyService {
         );
     }
 
+    public Duty update(String plannerId, String dutyId, Duty duty) {
+        Planner planner = getCurrentUserPlanner(plannerId);
+        Duty existingDuty = getPlannerDuty(plannerId, dutyId);
 
-    private void checkConflictedDuties(List<Duty> duties, String plannerId) {
+        duty.setId(dutyId);
+        duty.setPlanner(planner);
+        checkConflictedDuties(List.of(duty), plannerId, dutyId);
+
+        existingDuty.setName(duty.getName());
+        existingDuty.setDescription(duty.getDescription());
+        existingDuty.setWeekDay(duty.getWeekDay());
+        existingDuty.setEffectiveDate(duty.getEffectiveDate());
+        existingDuty.setStartTime(duty.getStartTime());
+        existingDuty.setEndTime(duty.getEndTime());
+        existingDuty.setColor(duty.getColor());
+        existingDuty.setPlanner(planner);
+
+        return dutyRepository.save(existingDuty);
+    }
+
+    public void delete(String plannerId, String dutyId) {
+        getCurrentUserPlanner(plannerId);
+        Duty duty = getPlannerDuty(plannerId, dutyId);
+
+        dutyRepository.delete(duty);
+    }
+
+    private void checkConflictedDuties(List<Duty> duties, String plannerId, String excludedDutyId) {
         if (duties.isEmpty()) {
             return;
         }
@@ -64,11 +90,14 @@ public class DutyService {
 
         Specification<Duty> plannerSpecification = (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("planner").get("id"), plannerId);
+        Specification<Duty> excludedDutySpecification = excludedDutyId == null
+                ? Specification.where(null)
+                : (root, query, criteriaBuilder) -> criteriaBuilder.notEqual(root.get("id"), excludedDutyId);
         Specification<Duty> overlapSpecification = overlapSpecifications.stream()
                 .reduce(Specification.where(null), Specification::or);
 
         List<Duty> conflictingDuties = dutyRepository.findAll(
-                Specification.where(plannerSpecification).and(overlapSpecification)
+                Specification.where(plannerSpecification).and(excludedDutySpecification).and(overlapSpecification)
         );
 
         if (!conflictingDuties.isEmpty()) {
@@ -96,5 +125,11 @@ public class DutyService {
                         authenticatedUserService.getCurrentUser().getId()
                 )
                 .orElseThrow(() -> new EntityNotFoundException("Planner with ID: " + plannerId + " not found"));
+    }
+
+    private Duty getPlannerDuty(String plannerId, String dutyId) {
+        return dutyRepository
+                .findByIdAndPlannerId(dutyId, plannerId)
+                .orElseThrow(() -> new EntityNotFoundException("Duty with ID: " + dutyId + " not found"));
     }
 }

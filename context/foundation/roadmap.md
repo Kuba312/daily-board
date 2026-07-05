@@ -3,7 +3,7 @@ project: "Daily Board"
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-06-09
+updated: 2026-07-05
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -29,7 +29,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 
 | ID | Change ID | Outcome | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
-| P-01 | minimal-account-owned-planner | User can register/login/logout, create own planner, and prove another user cannot see it | — | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-011, FR-017 | ready |
+| P-01 | minimal-account-owned-planner | User can register/login/logout, create own planner, and prove another user cannot see it | — | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-011, FR-017 | done |
 | P-02 | owned-manual-planning-board | User can add task/event/duty to own planner; board/calendar shows only scoped data with week switching preserved | P-01 | US-01, FR-008, FR-011, FR-012, FR-013, FR-017 | done |
 | P-03 | owned-planning-crud-minimum | User can update/delete owned planners and duties, with planner-delete confirmation and ownership isolation | P-02 | US-01, FR-006, FR-007, FR-009, FR-010, FR-011, FR-017 | proposed |
 | P-04 | frontend-ux-ui-polish | User sees clearer auth, navigation, loading/error, and empty states without changing business behavior | P-01, P-02, P-03 | US-01, NFR-01 | proposed |
@@ -58,7 +58,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 - **Scope:** minimal UI, frontend minimal auth state, backend `User` entity, password hashing, token/session issuing, planner owner relation, protected planner endpoints.
 - **Out of scope:** polished auth UX, roles, advanced permissions, refresh-token flow unless required, production deploy, AI, board rewrite, edit/delete.
 - **Verification:** create User A; create planner as User A; logout; create/login User B; verify User B cannot see User A planner; login User A again; verify User A sees own planner.
-- **Status:** ready
+- **Status:** done
 
 ### P-02: Owned Manual Planning Board
 
@@ -149,4 +149,5 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 
 ## Done
 
+- **P-01: user can register, login, logout, create their own planner, and another user cannot see that planner.** — Archived 2026-07-05 → `context/archive/2026-05-26-minimal-account-owned-planner/`. Lesson: —.
 - **P-02: user can add task/event/duty to their own planner; board/calendar shows only scoped data; dynamic week switching remains preserved.** — Archived 2026-06-09 → `context/archive/2026-06-08-owned-manual-planning-board/`. Lesson: —.

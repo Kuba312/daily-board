@@ -9,24 +9,32 @@ import PlannerCardComponent from '@shared/components/planner-card/planner-card.c
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { MockComponent } from 'ng-mocks';
 import { PlannerDto } from 'src/api/models';
 import { MOCK_PLANNERS } from 'src/mocks/mock-data';
 import PlannersDashboardComponent from './planners-dashboard.component';
+import { of } from 'rxjs';
 
 describe('PlannersDashboardComponent', () => {
 	let fixture: ComponentFixture<PlannersDashboardComponent>;
 	let component: PlannersDashboardComponent;
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
+	let dialogServiceSpy: jasmine.SpyObj<DialogService>;
 	let el: DebugElement;
 	let planners: PlannerDto[];
 
 	beforeEach(waitForAsync(() => {
-		mockStore = jasmine.createSpyObj('Store', ['selectSignal']);
+		mockStore = jasmine.createSpyObj('Store', ['selectSignal', 'dispatch']);
 		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
 			'directToUrl',
 		]);
+		dialogServiceSpy = jasmine.createSpyObj<DialogService>(
+			'DialogService',
+			['openSimpleDialog', 'openConfirmationDialog'],
+		);
+		dialogServiceSpy.openConfirmationDialog.and.returnValue(of(true));
 
 		planners = MOCK_PLANNERS;
 
@@ -48,6 +56,7 @@ describe('PlannersDashboardComponent', () => {
 					provide: RouterHelperService,
 					useValue: routerHelperServiceSpy,
 				},
+				{ provide: DialogService, useValue: dialogServiceSpy },
 				{ provide: Store, useValue: mockStore },
 			],
 		})
@@ -126,6 +135,31 @@ describe('PlannersDashboardComponent', () => {
 
 		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalled();
 	})
+
+	it('should direct to planner editor view', () => {
+		component.directToPlannerEditor(MOCK_PLANNERS[0]);
+
+		fixture.detectChanges();
+
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/planner-edit',
+			[MOCK_PLANNERS[0].id as string],
+		);
+	});
+
+	it('should confirm and dispatch planner delete', () => {
+		component.deletePlanner(MOCK_PLANNERS[0]);
+
+		fixture.detectChanges();
+
+		expect(dialogServiceSpy.openConfirmationDialog).toHaveBeenCalled();
+		expect(mockStore.dispatch).toHaveBeenCalledWith(
+			jasmine.objectContaining({
+				type: '[planner] Delete planner',
+				id: MOCK_PLANNERS[0].id,
+			}),
+		);
+	});
 
 	it('should show info dialog if user has no added planners', () => {
 		planners = [];

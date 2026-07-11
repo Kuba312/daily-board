@@ -17,6 +17,7 @@ import {
 	TIME_FORMAT,
 } from '@shared/constants/shared-consts.const';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
 
 export const savePlannerEffect = createEffect(
 	(
@@ -98,6 +99,104 @@ export const getPlannersEffect = createEffect(
 
 						return of(
 							plannerActions.getPlannersFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
+export const updatePlannerEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		plannerControllerService = inject(PlannerControllerService),
+		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
+	) =>
+		$actions.pipe(
+			ofType(plannerActions.updatePlanner),
+			switchMap(({ id, planner, shapeChangeConfirmed }) =>
+				plannerControllerService.updatePlanner({ id, body: planner }).pipe(
+					map((plannerResponse) => {
+						snackBarService.onShowSnackBarSuccess({
+							message: 'planner-form.planner-has-been-updated',
+						});
+
+						const adjustedTimePlanner =
+							adjustTimeInPlanner(plannerResponse);
+
+						if (shapeChangeConfirmed) {
+							store.dispatch(
+								dutyActions.clearDutiesByPlannerId({ plannerId: id }),
+							);
+						}
+
+						routerHelperService.directToUrl('/planners');
+
+						return plannerActions.updatePlannerSuccess({
+							planner: adjustedTimePlanner,
+							shapeChangeConfirmed,
+						});
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
+
+						return of(
+							plannerActions.updatePlannerFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
+export const deletePlannerEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		plannerControllerService = inject(PlannerControllerService),
+		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
+	) =>
+		$actions.pipe(
+			ofType(plannerActions.deletePlanner),
+			switchMap(({ id }) =>
+				plannerControllerService.deletePlanner({ id }).pipe(
+					map(() => {
+						snackBarService.onShowSnackBarSuccess({
+							message: 'planner-form.planner-has-been-deleted',
+						});
+						store.dispatch(
+							dutyActions.clearDutiesByPlannerId({ plannerId: id }),
+						);
+						routerHelperService.directToUrl('/planners');
+
+						return plannerActions.deletePlannerSuccess({ id });
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
+
+						return of(
+							plannerActions.deletePlannerFailure({
 								errorMessage: error?.message ?? '',
 							}),
 						);

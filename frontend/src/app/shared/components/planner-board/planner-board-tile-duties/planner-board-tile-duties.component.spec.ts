@@ -100,4 +100,30 @@ describe('PlannerBoardTileDutiesComponent', () => {
 			),
 		).toBe(true);
 	});
+
+	it('should emit edit duty when edit action is clicked', () => {
+		spyOn(component.editDuty, 'emit');
+
+		const editButton = el.query(
+			By.css('.planner-board-tile-duty__action:first-child'),
+		);
+		editButton.triggerEventHandler('click', new MouseEvent('click'));
+
+		expect(component.editDuty.emit).toHaveBeenCalledWith(
+			TILE_BOARD_DUTIES_MOCK[0][0],
+		);
+	});
+
+	it('should emit delete duty when delete action is clicked', () => {
+		spyOn(component.deleteDuty, 'emit');
+
+		const deleteButton = el.query(
+			By.css('.planner-board-tile-duty__action:last-child'),
+		);
+		deleteButton.triggerEventHandler('click', new MouseEvent('click'));
+
+		expect(component.deleteDuty.emit).toHaveBeenCalledWith(
+			TILE_BOARD_DUTIES_MOCK[0][0],
+		);
+	});
 });

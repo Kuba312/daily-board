@@ -5,6 +5,8 @@ import { DIALOGS_TO_NOT_SHOW as DIALOGS_TO_NOT_SHOW } from '@core/app.consts';
 import { PersistenceService } from '@core/services/persistance/persistance.service';
 import { notEmpty } from '@core/helpers/not-empty-operator.helper';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
+import { map, Observable, take } from 'rxjs';
+import { DialogInformationConfig } from '@shared/models/dialog-information-config';
 
 @Injectable({ providedIn: 'root' })
 export class DialogService {
@@ -35,6 +37,7 @@ export class DialogService {
 			data: {
 				message: 'information-dialog.no-planner-to-chose',
 				componentId,
+				showNeverAgainButton: true,
 			},
 			disableClose: true,
 			animation: {
@@ -57,6 +60,27 @@ export class DialogService {
 					result,
 				]);
 			});
+	}
+
+	public openConfirmationDialog(
+		component: ComponentType<unknown> | TemplateRef<unknown>,
+		data: DialogInformationConfig,
+	): Observable<boolean> {
+		const dialogRef = this._dialog.open(component, {
+			data,
+			disableClose: true,
+			animation: {
+				to: 'bottom',
+			},
+			width: '50rem',
+			height: '20rem',
+			position: { top: '10rem' },
+		});
+
+		return dialogRef.afterClosed().pipe(
+			take(1),
+			map((result) => result === true),
+		);
 	}
 
 	private _dialogIsMarkedAsNotShownAgain(

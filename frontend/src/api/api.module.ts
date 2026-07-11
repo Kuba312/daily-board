@@ -8,6 +8,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { PlannerControllerService } from './services/planner-controller.service';
 import { DutyControllerService } from './services/duty-controller.service';
+import { AuthControllerService } from './services/auth-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -19,6 +20,7 @@ import { DutyControllerService } from './services/duty-controller.service';
   providers: [
     PlannerControllerService,
     DutyControllerService,
+    AuthControllerService,
     ApiConfiguration
   ],
 })

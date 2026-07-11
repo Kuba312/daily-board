@@ -34,8 +34,12 @@ export class PlannerFormModel {
 
 	public formGroup: WritableSignal<FormGroup> = signal(new FormGroup({}));
 
-	constructor() {
+	constructor(planner?: PlannerDto) {
 		this._buildForm();
+
+		if (planner) {
+			this.patchPlanner(planner);
+		}
 	}
 
 	public toModel(): PlannerDto {
@@ -58,6 +62,18 @@ export class PlannerFormModel {
 
 	public clearForm(): void { 
 		this.formGroup().reset();
+	}
+
+	public patchPlanner(planner: PlannerDto): void {
+		this.formGroup().patchValue({
+			[this.NAME]: planner.name ?? '',
+			[this.NOTE]: planner.note ?? '',
+			[this.RANGE_TIME]:
+				planner.startTime && planner.endTime
+					? `null, ${planner.startTime} - ${planner.endTime}`
+					: '',
+			[this.IS_CONSTANT]: planner.isConstant ?? null,
+		});
 	}
 
 	public getPlannerModes(): SelectPair<string, boolean>[] {

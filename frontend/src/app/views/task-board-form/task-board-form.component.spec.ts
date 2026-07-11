@@ -15,6 +15,7 @@ import { PlannerType } from '@shared/enums/planner-type.enum';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
 import { IConfig, NGX_MASK_CONFIG, NgxMaskDirective } from 'ngx-mask';
 import { DUTY_MOCK, MOCK_PLANNERS } from 'src/mocks/mock-data';
+import { DutyDto } from 'src/api/models';
 import { TaskBoardFormModel } from './task-board-form.form-model';
 import TaskBoardFormComponent from './task-board-form.component';
 
@@ -33,6 +34,7 @@ describe('TaskBoardFormComponent', () => {
 	const weekDayControl = 'weekDay';
 	const routePlannerId = 'f9fdeba5-4111-4744-89f6-5c33da51b8bf';
 	const dynamicRoutePlannerId = 'f9fdeba5-4111-4744-89f6-5c3a3dabdf8bf';
+	let routeDutyId: string | null;
 
 	const maskConfig: Partial<IConfig> = {
 		validation: false,
@@ -49,6 +51,7 @@ describe('TaskBoardFormComponent', () => {
 		snackBarServiceSpy = jasmine.createSpyObj('SnackBarService', [
 			'onShowSnackBarError',
 		]);
+		routeDutyId = null;
 		routerHelperServiceSpy.getParameterValue.and.returnValue(routePlannerId);
 		dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
 			'crateArrayOfDutiesBasedOnWeekDays',
@@ -96,8 +99,13 @@ describe('TaskBoardFormComponent', () => {
 					useValue: {
 						snapshot: {
 							paramMap: {
-								get(): string {
-									return 'f9fdeba5-4111-4744-89f6-5c33da51b8bf';
+								has(param: string): boolean {
+									return param === 'dutyId' && !!routeDutyId;
+								},
+								get(param: string): string | null {
+									return param === 'dutyId'
+										? routeDutyId
+										: routePlannerId;
 								},
 							},
 						},
@@ -406,6 +414,81 @@ describe('TaskBoardFormComponent', () => {
 				plannerId: dynamicRoutePlannerId,
 				redirectToBoard: true,
 				plannerType: PlannerType.Dynamic,
+			}),
+		);
+	});
+
+	it('should dispatch single duty update in edit mode', () => {
+		const editedDuty = {
+			id: 'duty-a',
+			plannerId: routePlannerId,
+			name: 'Original duty',
+			description: 'Original description',
+			weekDay: 'MONDAY' as const,
+			from: '08:00',
+			to: '09:00',
+			color: '#B39DDB',
+		};
+		routeDutyId = 'duty-a';
+
+		let selectSignalCallIndex = 0;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		mockStore.selectSignal.and.callFake((): any => {
+			selectSignalCallIndex++;
+
+			if (selectSignalCallIndex === 1) {
+				return signal(MOCK_PLANNERS[2]);
+			}
+
+			if (selectSignalCallIndex === 2) {
+				return signal(editedDuty);
+			}
+
+			return signal([]);
+		});
+		mockStore.dispatch.calls.reset();
+
+		fixture = TestBed.createComponent(TaskBoardFormComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+
+		component.formModel()?.formGroup().patchValue({
+			[nameControl]: 'Updated duty',
+			[descriptionControl]: 'Updated description',
+			[dateControl]: 'null, 10:00 - 11:00',
+			[weekDayControl]: 'TUESDAY',
+		});
+		component.formModel()?.tileColor.set('#FFCC99');
+		textProcessingServiceSpy.extractFromHourFromControl.and.returnValue(
+			'10:00',
+		);
+		textProcessingServiceSpy.extractToHourFromControl.and.returnValue(
+			'11:00',
+		);
+		dutyHelperServiceSpy.crateArrayOfDutiesBasedOnWeekDays.calls.reset();
+
+		component.sendForm();
+
+		expect(
+			dutyHelperServiceSpy.crateArrayOfDutiesBasedOnWeekDays,
+		).not.toHaveBeenCalled();
+
+		expect(mockStore.dispatch).toHaveBeenCalledWith(
+			dutyActions.updateDuty({
+				duty: jasmine.objectContaining({
+					id: 'duty-a',
+					plannerId: routePlannerId,
+					name: 'Updated duty',
+					description: 'Updated description',
+					from: '10:00',
+					to: '11:00',
+					weekDay: 'TUESDAY',
+					color: '#FFCC99',
+				}) as unknown as DutyDto,
+				dutyId: 'duty-a',
+				plannerId: routePlannerId,
+				plannerType: PlannerType.Constant,
+				redirectToBoard: true,
 			}),
 		);
 	});

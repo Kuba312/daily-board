@@ -4,3 +4,4 @@
 
 export { PlannerControllerService } from './services/planner-controller.service';
 export { DutyControllerService } from './services/duty-controller.service';
+export { AuthControllerService } from './services/auth-controller.service';

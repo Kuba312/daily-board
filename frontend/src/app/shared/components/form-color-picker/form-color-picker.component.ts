@@ -1,6 +1,7 @@
 import {
 	Component,
 	computed,
+	effect,
 	inject,
 	input,
 	InputSignal,
@@ -25,7 +26,7 @@ import TileColorComponent from './tile-color/tile-color.component';
 @Component({
     selector: 'app-form-color-picker',
     imports: [TranslateModule, SubSectionComponent, TileColorComponent],
-    templateUrl: './form-color-picker.component.html'
+    templateUrl: './form-color-picker.component.html',
 })
 export default class FormColorPickerComponent implements OnInit {
 	private readonly _store: Store = inject(Store);
@@ -35,6 +36,8 @@ export default class FormColorPickerComponent implements OnInit {
 	public readonly TILE_COLORS: string[] = TILE_COLORS;
 
 	public readonly plannerId: InputSignal<Option<string>> =
+		input<Option<string>>(null);
+	public readonly currentColor: InputSignal<Option<string>> =
 		input<Option<string>>(null);
 
 	public selectedColor: OutputEmitterRef<string> = output<string>();
@@ -71,8 +74,17 @@ export default class FormColorPickerComponent implements OnInit {
 		);
 	});
 
+	constructor() {
+		effect(() => {
+			this._selectCurrentColorIndex();
+		});
+	}
+
 	public ngOnInit(): void {
-		this.selectColor(0);
+		if (!this._selectCurrentColorIndex()) {
+			this.selectColor(0);
+		}
+
 		this._loadDuties();
 	}
 
@@ -95,5 +107,23 @@ export default class FormColorPickerComponent implements OnInit {
 		this._dutyHelperService.setAmountOfDuties(this.duties()?.length ?? 0);
 
 		this._store.dispatch(dutyActions.getDutiesByPlannerId({ plannerId }));
+	}
+
+	private _selectCurrentColorIndex(): boolean {
+		const currentColor = this.currentColor();
+
+		if (!currentColor) {
+			return false;
+		}
+
+		const colorIndex = TILE_COLORS.indexOf(currentColor);
+
+		if (colorIndex < 0) {
+			return false;
+		}
+
+		this.selectedIndexColor.set(colorIndex);
+
+		return true;
 	}
 }

@@ -23,6 +23,14 @@ public class GlobalExceptionHandler {
         return new ErrorDto(ex.getMessage(), null);
     }
 
+    @ExceptionHandler(PlannerShapeChangeRequiresConfirmationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorDto handlePlannerShapeChangeRequiresConfirmationException(
+            PlannerShapeChangeRequiresConfirmationException ex
+    ) {
+        return new ErrorDto(ex.getMessage(), null);
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorDto handleInvalidCredentialsException(InvalidCredentialsException ex) {

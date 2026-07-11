@@ -77,11 +77,33 @@ const routes: Routes = [
 		],
 	},
 		{
+			path: 'task-board-edit/:plannerId/:dutyId',
+			loadComponent: () =>
+				import('./task-board-form/task-board-form.component'),
+			canActivate: [authGuard],
+			providers: [
+			provideState(dutyFeatureKey, dutyReducer),
+			provideState(plannerFeatureKey, plannerReducer),
+			provideEffects(dutyEffects),
+			provideEffects(plannerEffects),
+		],
+	},
+		{
 			path: 'planner-add',
 			loadComponent: () => import('./planner-form/planner-form.component'),
 			canActivate: [authGuard],
 			providers: [
 			provideState(plannerFeatureKey, plannerReducer),
+			provideEffects(plannerEffects),
+		],
+	},
+		{
+			path: 'planner-edit/:plannerId',
+			loadComponent: () => import('./planner-form/planner-form.component'),
+			canActivate: [authGuard],
+			providers: [
+			provideState(plannerFeatureKey, plannerReducer),
+			provideState(dutyFeatureKey, dutyReducer),
 			provideEffects(plannerEffects),
 		],
 	},

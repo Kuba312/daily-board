@@ -11,6 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { deleteDuty } from '../fn/duty-controller/delete-duty';
+import { DeleteDuty$Params } from '../fn/duty-controller/delete-duty';
 import { DutyDto } from '../models/duty-dto';
 import { getDutiesByPlannerId } from '../fn/duty-controller/get-duties-by-planner-id';
 import { GetDutiesByPlannerId$Params } from '../fn/duty-controller/get-duties-by-planner-id';
@@ -20,11 +22,63 @@ import { getDutiesWithoutDates } from '../fn/duty-controller/get-duties-without-
 import { GetDutiesWithoutDates$Params } from '../fn/duty-controller/get-duties-without-dates';
 import { saveDuty } from '../fn/duty-controller/save-duty';
 import { SaveDuty$Params } from '../fn/duty-controller/save-duty';
+import { updateDuty } from '../fn/duty-controller/update-duty';
+import { UpdateDuty$Params } from '../fn/duty-controller/update-duty';
 
 @Injectable({ providedIn: 'root' })
 export class DutyControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `updateDuty()` */
+  static readonly UpdateDutyPath = '/api/v1/duties/{plannerId}/{dutyId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateDuty()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateDuty$Response(params: UpdateDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<DutyDto>> {
+    return updateDuty(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateDuty$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateDuty(params: UpdateDuty$Params, context?: HttpContext): Observable<DutyDto> {
+    return this.updateDuty$Response(params, context).pipe(
+      map((r: StrictHttpResponse<DutyDto>): DutyDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteDuty()` */
+  static readonly DeleteDutyPath = '/api/v1/duties/{plannerId}/{dutyId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteDuty()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteDuty$Response(params: DeleteDuty$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteDuty(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteDuty$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteDuty(params: DeleteDuty$Params, context?: HttpContext): Observable<void> {
+    return this.deleteDuty$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
   }
 
   /** Path part for operation `getDutiesByPlannerId()` */

@@ -51,6 +51,7 @@ export default class TaskInputDateComponent {
 		input<Option<Record<string, string>>>(null);
 	public onlyHours: InputSignal<boolean> = input<boolean>(false);
 	public isConstantPlanner: InputSignal<boolean> = input<boolean>(false);
+	public showDateChips: InputSignal<boolean> = input<boolean>(true);
 
 	public addedChipTagsDates: ModelSignal<Option<string[]>> =
 		model<Option<string[]>>(null);

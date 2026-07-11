@@ -6,9 +6,9 @@ import { ERROR_CODE_TRANSLATE_KEY } from '@shared/constants/translation-keys.con
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.service';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
-import { ReplaySubject, firstValueFrom, throwError } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of, throwError } from 'rxjs';
 import { PlannerControllerService } from 'src/api/services';
-import { getPlannerEffect } from './planner.effects';
+import { deletePlannerEffect, getPlannerEffect, updatePlannerEffect } from './planner.effects';
 import { plannerActions } from './planner.actions';
 
 describe('planner effects', () => {
@@ -24,11 +24,11 @@ describe('planner effects', () => {
 		plannerControllerServiceSpy =
 			jasmine.createSpyObj<PlannerControllerService>(
 				'PlannerControllerService',
-				['getPlannerById'],
+				['getPlannerById', 'updatePlanner', 'deletePlanner'],
 			);
 		snackBarServiceSpy = jasmine.createSpyObj<SnackBarService>(
 			'SnackBarService',
-			['onShowSnackBarError'],
+			['onShowSnackBarError', 'onShowSnackBarSuccess'],
 		);
 		routerHelperServiceSpy = jasmine.createSpyObj<RouterHelperService>(
 			'RouterHelperService',
@@ -99,8 +99,108 @@ describe('planner effects', () => {
 		});
 	});
 
+	it('should update planner through generated API and clear duties when shape change is confirmed', async () => {
+		plannerControllerServiceSpy.updatePlanner.and.returnValue(
+			of({
+				id: 'planner-a',
+				name: 'Updated planner',
+				startTime: '08:00:00',
+				endTime: '16:00:00',
+				isConstant: false,
+			}),
+		);
+
+		const resultPromise = firstValueFrom(createUpdatePlannerEffect());
+		actions$.next(
+			plannerActions.updatePlanner({
+				id: 'planner-a',
+				planner: {
+					name: 'Updated planner',
+					startTime: '08:00',
+					endTime: '16:00',
+					isConstant: false,
+					confirmDutyDeletionOnShapeChange: true,
+				},
+				shapeChangeConfirmed: true,
+			}),
+		);
+		const result = await resultPromise;
+
+		expect(plannerControllerServiceSpy.updatePlanner).toHaveBeenCalledWith({
+			id: 'planner-a',
+			body: {
+				name: 'Updated planner',
+				startTime: '08:00',
+				endTime: '16:00',
+				isConstant: false,
+				confirmDutyDeletionOnShapeChange: true,
+			},
+		});
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(
+			dutyActions.clearDutiesByPlannerId({ plannerId: 'planner-a' }),
+		);
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/planners',
+		);
+		expect(result).toEqual(
+			plannerActions.updatePlannerSuccess({
+				planner: {
+					id: 'planner-a',
+					name: 'Updated planner',
+					startTime: '08:00',
+					endTime: '16:00',
+					isConstant: false,
+				},
+				shapeChangeConfirmed: true,
+			}),
+		);
+	});
+
+	it('should delete planner through generated API and route to dashboard', async () => {
+		plannerControllerServiceSpy.deletePlanner.and.returnValue(of(undefined));
+
+		const resultPromise = firstValueFrom(createDeletePlannerEffect());
+		actions$.next(plannerActions.deletePlanner({ id: 'planner-a' }));
+		const result = await resultPromise;
+
+		expect(plannerControllerServiceSpy.deletePlanner).toHaveBeenCalledWith({
+			id: 'planner-a',
+		});
+		expect(storeSpy.dispatch).toHaveBeenCalledWith(
+			dutyActions.clearDutiesByPlannerId({ plannerId: 'planner-a' }),
+		);
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/planners',
+		);
+		expect(result).toEqual(
+			plannerActions.deletePlannerSuccess({ id: 'planner-a' }),
+		);
+	});
+
 	function createGetPlannerEffect() {
 		return getPlannerEffect(
+			new Actions(actions$),
+			plannerControllerServiceSpy,
+			snackBarServiceSpy,
+			routerHelperServiceSpy,
+			authServiceSpy,
+			storeSpy,
+		);
+	}
+
+	function createUpdatePlannerEffect() {
+		return updatePlannerEffect(
+			new Actions(actions$),
+			plannerControllerServiceSpy,
+			snackBarServiceSpy,
+			routerHelperServiceSpy,
+			authServiceSpy,
+			storeSpy,
+		);
+	}
+
+	function createDeletePlannerEffect() {
+		return deletePlannerEffect(
 			new Actions(actions$),
 			plannerControllerServiceSpy,
 			snackBarServiceSpy,

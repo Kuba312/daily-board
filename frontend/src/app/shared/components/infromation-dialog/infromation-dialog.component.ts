@@ -22,7 +22,11 @@ export default class InformationDialogComponent {
 		inject<DialogInformationConfig>(MAT_DIALOG_DATA);
 
 	public onDialogClose(): void {
-		this._dialogRef.close();
+		this._dialogRef.close(false);
+	}
+
+	public onConfirmDialogClick(): void {
+		this._dialogRef.close(true);
 	}
 
 	public onNeverShowDialogClick(componentId: string): void {

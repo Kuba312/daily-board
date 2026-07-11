@@ -42,6 +42,36 @@ const dutyFeature = createFeature({
 			isLoading: false,
 			error: errorMessage,
 		})),
+		on(dutyActions.updateDuty, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(dutyActions.updateDutySuccess, (state, { duty }) =>
+			dutyAdapter.upsertOne(duty, {
+				...state,
+				isLoading: false,
+			}),
+		),
+		on(dutyActions.updateDutyFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
+		on(dutyActions.deleteDuty, (state) => ({
+			...state,
+			isLoading: true,
+		})),
+		on(dutyActions.deleteDutySuccess, (state, { dutyId }) =>
+			dutyAdapter.removeOne(dutyId, {
+				...state,
+				isLoading: false,
+			}),
+		),
+		on(dutyActions.deleteDutyFailure, (state, { errorMessage }) => ({
+			...state,
+			isLoading: false,
+			error: errorMessage,
+		})),
 		on(dutyActions.getDutiesWithoutDates, (state) => ({
 			...state,
 			isLoading: true,
@@ -126,6 +156,22 @@ const dutyFeature = createFeature({
 				error: errorMessage,
 			}),
 		),
+		on(dutyActions.clearDutiesByPlannerId, (state, { plannerId }) => {
+			const dutiesToRemove = selectAll(state)
+				.filter((duty) => duty.plannerId === plannerId)
+				.map((duty) => duty.id)
+				.filter((id): id is string => !!id);
+
+			return dutyAdapter.removeMany(dutiesToRemove, {
+				...state,
+				loadedPlannerIds: state.loadedPlannerIds.filter(
+					(loadedPlannerId) => loadedPlannerId !== plannerId,
+				),
+				loadedPlannersDates: state.loadedPlannersDates.filter(
+					(plannerDate) => !(plannerId in plannerDate),
+				),
+			});
+		}),
 		on(dutyActions.resetDuties, () => initialDutyState),
 	),
 });

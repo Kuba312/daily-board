@@ -6,9 +6,11 @@ import java.util.List;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +35,21 @@ public class DutyController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<DutyDto> saveDuty(@RequestBody List<@Valid DutyDto> dutiesDto, @PathVariable String plannerId) {
         return dutyMapper.toDtos(dutyService.save(dutyMapper.toDaos(dutiesDto), plannerId));
+    }
+
+    @PutMapping("/{plannerId}/{dutyId}")
+    public DutyDto updateDuty(
+            @PathVariable String plannerId,
+            @PathVariable String dutyId,
+            @RequestBody @Valid DutyDto dutyDto
+    ) {
+        return dutyMapper.toDto(dutyService.update(plannerId, dutyId, dutyMapper.toDao(dutyDto)));
+    }
+
+    @DeleteMapping("/{plannerId}/{dutyId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDuty(@PathVariable String plannerId, @PathVariable String dutyId) {
+        dutyService.delete(plannerId, dutyId);
     }
 
     @GetMapping("/dynamic/{plannerId}")

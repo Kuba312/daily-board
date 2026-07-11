@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, Signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
 	CONSTANT_PLANNER,
 	DYNAMIC_PLANNER,
@@ -15,6 +16,7 @@ import { ButtonConfig } from '@shared/models/button-config';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { PlannerDto } from 'src/api/models';
+import { plannerActions } from '@shared-store/planner-store/planner.actions';
 
 @Component({
     selector: 'app-planners-dashboard',
@@ -54,24 +56,24 @@ export default class PlannersDashboardComponent {
 			buttonLabel: 'global.edit',
 			emitOnClick: true,
 			width: 10,
-			// TODO: add editing planner
-			disabled: () => true,
 			callback: (data) => {
 				if (!this._isPlannerObject(data)) {
 					return;
 				}
+
+				this.directToPlannerEditor(data);
 			},
 		},
 		{
 			buttonLabel: 'global.delete',
 			emitOnClick: true,
 			width: 10,
-			// TODO: add removing planner
-			disabled: () => true,
 			callback: (data) => {
 				if (!this._isPlannerObject(data)) {
 					return;
 				}
+
+				this.deletePlanner(data);
 			},
 		},
 	];
@@ -82,6 +84,37 @@ export default class PlannersDashboardComponent {
 
 	public directToPlannerCreator(): void {
 		this._routerHelperService.directToUrl('/planner-add');
+	}
+
+	public directToPlannerEditor(planner: PlannerDto): void {
+		if (!planner.id) {
+			return;
+		}
+
+		this._routerHelperService.directToUrl('/planner-edit', [planner.id]);
+	}
+
+	public deletePlanner(planner: PlannerDto): void {
+		if (!planner.id) {
+			return;
+		}
+
+		this._dialogService
+			.openConfirmationDialog(InformationDialogComponent, {
+				message: 'planners-dashboard.confirm-delete',
+				cancelButtonLabel: 'global.cancel',
+				confirmButtonLabel: 'global.delete',
+			})
+			.pipe(takeUntilDestroyed(this._destroyRef))
+			.subscribe((confirmed) => {
+				if (!confirmed || !planner.id) {
+					return;
+				}
+
+				this._store.dispatch(
+					plannerActions.deletePlanner({ id: planner.id }),
+				);
+			});
 	}
 
 	public directToPlannerDetailsView(planner: PlannerDto): void {

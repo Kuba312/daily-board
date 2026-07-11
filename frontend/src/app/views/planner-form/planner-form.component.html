@@ -1,5 +1,8 @@
 <section class="planner-form">
-	<app-header label="planner-form.title"/>
+	<app-header
+		[label]="isEditMode ? 'planner-form.edit-title' : 'planner-form.title'"
+		[backToUrl]="isEditMode ? BACK_URL : null"
+	/>
 
 	<div class="planner-form__wrapper">
 		@let formModelValue = formModel();
@@ -46,15 +49,17 @@
 			</div>
 
 			<div class="form-actions">
+				@if (!isEditMode) {
+					<app-primary-button
+						[label]="'task-board-form.add-and-create' | translate"
+						[emitOnClick]="true"
+						[width]="30"
+						[secondary]="true"
+						(ngClick)="saveAndClearForm()"
+					/>
+				}
 				<app-primary-button
-					[label]="'task-board-form.add-and-create' | translate"
-					[emitOnClick]="true"
-					[width]="30"
-					[secondary]="true"
-					(ngClick)="saveAndClearForm()"
-				/>
-				<app-primary-button
-					[label]="'task-board-form.add' | translate"
+					[label]="(isEditMode ? 'global.save' : 'task-board-form.add') | translate"
 					[emitOnClick]="true"
 					[width]="30"
 					(ngClick)="sendForm()"

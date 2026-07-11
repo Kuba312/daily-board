@@ -8,6 +8,7 @@ import { MockComponent } from 'ng-mocks';
 import FormColorPickerComponent from './form-color-picker.component';
 import TileColorComponent from './tile-color/tile-color.component';
 import { dutyActions } from '@shared-store/duty-store/duty.actions';
+import { TILE_COLORS } from '@shared/constants/shared-consts.const';
 
 describe('FormColorPickerComponent', () => {
 	let fixture: ComponentFixture<FormColorPickerComponent>;
@@ -62,6 +63,26 @@ describe('FormColorPickerComponent', () => {
 		component.selectColor(1);
 
 		expect(component.selectedIndexColor()).toEqual(1);
+	});
+
+	it('should select current color when input changes', () => {
+		fixture.componentRef.setInput('currentColor', TILE_COLORS[2]);
+		fixture.detectChanges();
+
+		expect(component.selectedIndexColor()).toEqual(2);
+	});
+
+	it('should not emit default color when current color is available on init', () => {
+		const selectedColorSpy = jasmine.createSpy('selectedColor');
+		fixture = TestBed.createComponent(FormColorPickerComponent);
+		component = fixture.componentInstance;
+		fixture.componentRef.setInput('currentColor', TILE_COLORS[3]);
+		component.selectedColor.subscribe(selectedColorSpy);
+
+		fixture.detectChanges();
+
+		expect(component.selectedIndexColor()).toEqual(3);
+		expect(selectedColorSpy).not.toHaveBeenCalled();
 	});
 
 	it('should dispatch getDutiesByPlannerId if duties are not loaded', () => {

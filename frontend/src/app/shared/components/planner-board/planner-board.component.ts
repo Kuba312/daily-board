@@ -76,6 +76,8 @@ export default class PlannerBoardComponent {
 	public changedWeekPeriod: OutputEmitterRef<PeriodWeek> =
 		output<PeriodWeek>();
 	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
+	public editDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
+	public deleteDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 
 	public readonly HIDDEN_PARTIAL_HOUR: string = 'hidden-partial-hour';
 

@@ -1,6 +1,7 @@
 import { DutyDto } from 'src/api/models';
 import { dutyActions } from './duty.actions';
 import { dutyReducer, selectAll } from './duty.reducer';
+import { PlannerType } from '@shared/enums/planner-type.enum';
 
 describe('dutyReducer', () => {
 	it('should mark static planner duties as loaded by planner id', () => {
@@ -78,6 +79,76 @@ describe('dutyReducer', () => {
 		expect(loadedTwiceState.loadedPlannersDates).toEqual([
 			{ 'planner-a': ['2026-06-08-2026-06-14'] },
 		]);
+	});
+
+	it('should upsert updated duty and preserve loaded planner caches', () => {
+		const originalDuty = createDuty({
+			id: 'duty-a',
+			name: 'Original Duty',
+		});
+		const updatedDuty = createDuty({
+			id: 'duty-a',
+			name: 'Updated Duty',
+		});
+		const loadedState = dutyReducer(
+			undefined,
+			dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess({
+				duties: [originalDuty],
+				plannerId: 'planner-a',
+				from: '2026-06-08',
+				to: '2026-06-14',
+			}),
+		);
+
+		const updatingState = dutyReducer(
+			loadedState,
+			dutyActions.updateDuty({
+				duty: updatedDuty,
+				dutyId: 'duty-a',
+				plannerId: 'planner-a',
+				plannerType: PlannerType.Dynamic,
+				redirectToBoard: true,
+			}),
+		);
+		const updatedState = dutyReducer(
+			updatingState,
+			dutyActions.updateDutySuccess({ duty: updatedDuty }),
+		);
+
+		expect(updatingState.isLoading).toBeTrue();
+		expect(selectAll(updatedState)).toEqual([updatedDuty]);
+		expect(updatedState.loadedPlannersDates).toEqual([
+			{ 'planner-a': ['2026-06-08-2026-06-14'] },
+		]);
+		expect(updatedState.isLoading).toBeFalse();
+	});
+
+	it('should remove deleted duty and preserve loaded planner caches', () => {
+		const duty = createDuty({ id: 'duty-a' });
+		const loadedState = dutyReducer(
+			undefined,
+			dutyActions.getDutiesByPlannerIdSuccess({
+				duties: [duty],
+				plannerId: 'planner-a',
+			}),
+		);
+
+		const deletingState = dutyReducer(
+			loadedState,
+			dutyActions.deleteDuty({
+				dutyId: 'duty-a',
+				plannerId: 'planner-a',
+			}),
+		);
+		const deletedState = dutyReducer(
+			deletingState,
+			dutyActions.deleteDutySuccess({ dutyId: 'duty-a' }),
+		);
+
+		expect(deletingState.isLoading).toBeTrue();
+		expect(selectAll(deletedState)).toEqual([]);
+		expect(deletedState.loadedPlannerIds).toEqual(['planner-a']);
+		expect(deletedState.isLoading).toBeFalse();
 	});
 
 	it('should reset duty state', () => {

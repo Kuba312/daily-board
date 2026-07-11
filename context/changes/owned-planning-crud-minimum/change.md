@@ -1,9 +1,9 @@
 ---
 change_id: owned-planning-crud-minimum
 title: Owned planning crud minimum
-status: implementing
+status: impl_reviewed
 created: 2026-07-05
-updated: 2026-07-05
+updated: 2026-07-11
 archived_at: null
 ---
 

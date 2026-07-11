@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // font sizes
 $default-font-size: 1.6rem;
 $smaller-font-size: 1.4rem;
@@ -26,9 +28,9 @@ $color-picker-section-margin: 3rem;
 
 // button-colors:
 $bg-button: #1973d2;
-$bg-hover-button: darken($bg-button, 10%);
+$bg-hover-button: color.adjust($bg-button, $lightness: -10%);
 $bg-secondary-button: #e0a93200;
-$bg-hover-secondary-button: darken($bg-secondary-button, 10%);
+$bg-hover-secondary-button: color.adjust($bg-secondary-button, $lightness: -10%);
 
 $bg-disabled-button: #A1C0E2;
 
@@ -83,4 +85,3 @@ $form-fields-gap: 5rem;
 	--border-snack-bar-color-error: #e57373;
 	--bg-hover-secondary-button: #0b1015;;
 }
-

@@ -14,9 +14,12 @@ import { PeriodWeek } from '@shared/models/period-week';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { MockComponent } from 'ng-mocks';
 import { DUTIES_MOCK, PLANNER_DETAILS_MOCK } from 'src/mocks/mock-data';
 import PlannerComponent from './planner.component';
+import { of } from 'rxjs';
+import { dutyActions } from '@shared-store/duty-store/duty.actions';
 
 describe('PlannerComponent', () => {
 	let component: PlannerComponent;
@@ -24,6 +27,7 @@ describe('PlannerComponent', () => {
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
 	let dutyHelperServiceSpy: jasmine.SpyObj<DutyHelperService>;
+	let dialogServiceSpy: jasmine.SpyObj<DialogService>;
 	let activatedRouteSnapshot: {
 		params: Record<string, string>;
 		queryParams: Record<string, string>;
@@ -39,7 +43,11 @@ describe('PlannerComponent', () => {
 			]);
 			routerHelperServiceSpy = jasmine.createSpyObj(
 				'RouterHelperService',
-				['getParameterValue'],
+				['getParameterValue', 'directToUrl'],
+			);
+			dialogServiceSpy = jasmine.createSpyObj<DialogService>(
+				'DialogService',
+				['openConfirmationDialog'],
 			);
 			dutyHelperServiceSpy = jasmine.createSpyObj('DutyHelperService', [
 				'groupDutiesByDays',
@@ -84,6 +92,10 @@ describe('PlannerComponent', () => {
 					{
 						provide: DutyHelperService,
 						useValue: dutyHelperServiceSpy,
+					},
+					{
+						provide: DialogService,
+						useValue: dialogServiceSpy,
 					},
 				],
 			})
@@ -238,5 +250,40 @@ describe('PlannerComponent', () => {
 		component.onPlannerAnimationEnd();
 
 		expect(component.slidePlannerDirection()).toBeNull();
+	});
+
+	it('should navigate to duty edit route', () => {
+		component.onEditDuty({
+			id: 'duty-a',
+			plannerId,
+			name: 'Duty A',
+			from: '08:00',
+			to: '09:00',
+		});
+
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/task-board-edit',
+			[plannerId, 'duty-a'],
+		);
+	});
+
+	it('should delete duty after confirmation', () => {
+		dialogServiceSpy.openConfirmationDialog.and.returnValue(of(true));
+		mockStore.dispatch.calls.reset();
+
+		component.onDeleteDuty({
+			id: 'duty-a',
+			plannerId,
+			name: 'Duty A',
+			from: '08:00',
+			to: '09:00',
+		});
+
+		expect(mockStore.dispatch).toHaveBeenCalledWith(
+			dutyActions.deleteDuty({
+				dutyId: 'duty-a',
+				plannerId,
+			}),
+		);
 	});
 });

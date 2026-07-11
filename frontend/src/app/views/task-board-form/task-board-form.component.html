@@ -1,8 +1,8 @@
 <section class="task-board-form">
 	<app-header 
-		label="task-board-form.title" 
+		[label]="isEditMode ? 'task-board-form.edit-title' : 'task-board-form.title'"
 		[additionalTextLabel]="currentPlannerLabel()"
-		[backToUrl]="BACK_URL"
+		[backToUrl]="backUrl"
 	/>
 	<div class="task-board-form__wrapper">
 		@let formGroupValue = formModel()?.formGroup();
@@ -28,6 +28,7 @@
 						[label]="'task-board-form.task-date' | translate"
 						[formGroup]="formGroupValue"
 						[isConstantPlanner]="isConstantPlanner()"
+						[showDateChips]="!isEditMode"
 						[(addedChipTagsDates)]="formModelValue.addedChipTagsDates"
 					/>
 					@if (isConstantPlanner()) {
@@ -36,7 +37,7 @@
 							[controlName]="formModelValue.DAY"
 							[label]="'task-board-form.chose-day' | translate"
 							[options]="formModelValue.dayOptions()"
-							[isMultiple]="true"
+							[isMultiple]="!isEditMode"
 							[transformToSmallerCase]="true"
 							translateKey="planner.full-days-names"
 						/>
@@ -52,19 +53,22 @@
 					/>
 					<app-form-color-picker
 						(selectedColor)="formModelValue.tileColor.set($event)"
+						[currentColor]="formModelValue.tileColor()"
 						[plannerId]="plannerId"
 					/>
 				</div>
 				<div class="form-actions">
+					@if (!isEditMode) {
+						<app-primary-button
+							[secondary]="true"
+							[label]="'task-board-form.add-and-create' | translate"
+							[emitOnClick]="true"
+							[width]="30"
+							(ngClick)="saveAndClearForm()"
+						/>
+					}
 					<app-primary-button
-						[secondary]="true"
-						[label]="'task-board-form.add-and-create' | translate"
-						[emitOnClick]="true"
-						[width]="30"
-						(ngClick)="saveAndClearForm()"
-					/>
-					<app-primary-button
-						[label]="'task-board-form.add' | translate"
+						[label]="(isEditMode ? 'global.save' : 'task-board-form.add') | translate"
 						[emitOnClick]="true"
 						[width]="30"
 						(ngClick)="sendForm()"

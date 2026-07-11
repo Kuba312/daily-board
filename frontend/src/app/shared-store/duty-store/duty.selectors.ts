@@ -17,6 +17,13 @@ export const selectDutiesByPlannerId = (
 		duties.filter((duty) => duty.plannerId === plannerId),
 	);
 
+export const selectDutyById = (
+	dutyId: string,
+): MemoizedSelector<object, DutyDto | undefined> =>
+	createSelector(selectAllDuties, (duties) =>
+		duties.find((duty) => duty.id === dutyId),
+	);
+
 export const selectDutiesByPlannerIdAndRangeTime = (
 	plannerId: string,
 	from: string,

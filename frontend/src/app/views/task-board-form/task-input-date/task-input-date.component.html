@@ -28,22 +28,23 @@
 					/>
 				</div>
 
-				<app-primary-button
-					[label]="'task-board-form.add-date' | translate"
-					[emitOnClick]="true"
-					[width]="20"
-					[disabled]="invalidDateControl"
-					(ngClick)="onAddChipTagDate()"
-				/>
-		
-				<div class="task-dates-chips-container">
-					<app-chip-tags-container
-						[chipTagsDates]="addedChipTagsDates()"
-						(chipRemovedIndex)="onChipTagDateRemoved($event)"
+				@if (showDateChips()) {
+					<app-primary-button
+						[label]="'task-board-form.add-date' | translate"
+						[emitOnClick]="true"
+						[width]="20"
+						[disabled]="invalidDateControl"
+						(ngClick)="onAddChipTagDate()"
 					/>
-				</div>
+			
+					<div class="task-dates-chips-container">
+						<app-chip-tags-container
+							[chipTagsDates]="addedChipTagsDates()"
+							(chipRemovedIndex)="onChipTagDateRemoved($event)"
+						/>
+					</div>
+				}
 			</app-sub-section>
 		}
 	</div>
 }
-

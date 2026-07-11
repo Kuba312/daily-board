@@ -1,6 +1,7 @@
 import {
 	Component,
 	computed,
+	DestroyRef,
 	inject,
 	signal,
 	Signal,
@@ -20,6 +21,7 @@ import {
 import { plannerActions } from '@shared-store/planner-store/planner.actions';
 import { selectPlannerById } from '@shared-store/planner-store/planner.selectors';
 import HeaderComponent from '@shared/components/header/header.component';
+import InformationDialogComponent from '@shared/components/infromation-dialog/infromation-dialog.component';
 import PlannerBoardComponent from '@shared/components/planner-board/planner-board.component';
 import {
 	DYNAMIC_PLANNER,
@@ -29,9 +31,11 @@ import {
 import { DateDisplayMode } from '@shared/enums/date-display-mode.enum';
 import SafeValue from '@shared/pipes/safe-value.pipe';
 import { DutyHelperService } from '@shared/services/duty-helper/duty-helper.service';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { DutyDto, PlannerDto } from 'src/api/models';
 import moment from 'moment';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-planner',
@@ -46,6 +50,8 @@ export default class PlannerComponent {
 		inject(RouterHelperService);
 	private readonly _dutyHelperService: DutyHelperService =
 		inject(DutyHelperService);
+	private readonly _dialogService: DialogService = inject(DialogService);
+	private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
 	public readonly DISPLAY_MODE: DateDisplayMode = DateDisplayMode.Weekly;
 	public readonly BACK_URL: string = '/planners';
@@ -116,6 +122,43 @@ export default class PlannerComponent {
 
 	public onPlannerAnimationEnd(): void { 
 		this.slidePlannerDirection.set(null);
+	}
+
+	public onEditDuty(duty: DutyDto): void {
+		if (!duty.id) {
+			return;
+		}
+
+		this._routerHelperService.directToUrl('/task-board-edit', [
+			this.plannerId,
+			duty.id,
+		]);
+	}
+
+	public onDeleteDuty(duty: DutyDto): void {
+		if (!duty.id) {
+			return;
+		}
+
+		this._dialogService
+			.openConfirmationDialog(InformationDialogComponent, {
+				message: 'task-board-form.confirm-delete',
+				cancelButtonLabel: 'global.cancel',
+				confirmButtonLabel: 'global.delete',
+			})
+			.pipe(takeUntilDestroyed(this._destroyRef))
+			.subscribe((confirmed) => {
+				if (!confirmed || !duty.id) {
+					return;
+				}
+
+				this._store.dispatch(
+					dutyActions.deleteDuty({
+						dutyId: duty.id,
+						plannerId: this.plannerId,
+					}),
+				);
+			});
 	}
 
 	private _setPlannerAnimationDirection(currentWeekIndex: number): void {

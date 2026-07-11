@@ -135,6 +135,124 @@ export const getDutiesWithoutDatesEffect = createEffect(
 	{ functional: true },
 );
 
+export const updateDutyEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		dutyControllerService = inject(DutyControllerService),
+		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
+	) =>
+		$actions.pipe(
+			ofType(dutyActions.updateDuty),
+			switchMap(
+				({
+					duty,
+					dutyId,
+					plannerId,
+					plannerType,
+					redirectToBoard,
+				}) =>
+					dutyControllerService
+						.updateDuty({ plannerId, dutyId, body: duty })
+						.pipe(
+							map((updatedDutyResponse) => {
+								snackBarService.onShowSnackBarSuccess({
+									message: 'task-board-form.task-has-been-updated',
+								});
+
+								const updatedDuty =
+									adjustTimeInDuty(updatedDutyResponse);
+
+								redirectToPlannerBoard(
+									redirectToBoard,
+									routerHelperService,
+									plannerId,
+									plannerType,
+									[updatedDuty],
+								);
+
+								return dutyActions.updateDutySuccess({
+									duty: updatedDuty,
+								});
+							}),
+							catchError((error: HttpErrorResponse) => {
+								const { status } = error;
+
+								if (status === CONFLICT_ERROR_STATUS) {
+									showConflictingDutiesErrorMessage(
+										error,
+										snackBarService,
+										DUTIES_CONFLICT_MESSAGE_TIME,
+									);
+
+									return of(
+										dutyActions.updateDutyFailure({
+											errorMessage: error?.message ?? '',
+										}),
+									);
+								}
+
+								showGeneralErrorMessage(snackBarService, error);
+								recoverFromProtectedApiRejection(error, {
+									authService,
+									routerHelperService,
+									store,
+								});
+
+								return of(
+									dutyActions.updateDutyFailure({
+										errorMessage: error?.message ?? '',
+									}),
+								);
+							}),
+						),
+			),
+		),
+	{ functional: true },
+);
+
+export const deleteDutyEffect = createEffect(
+	(
+		$actions = inject(Actions),
+		dutyControllerService = inject(DutyControllerService),
+		snackBarService = inject(SnackBarService),
+		routerHelperService = inject(RouterHelperService),
+		authService = inject(AuthService),
+		store = inject(Store),
+	) =>
+		$actions.pipe(
+			ofType(dutyActions.deleteDuty),
+			switchMap(({ dutyId, plannerId }) =>
+				dutyControllerService.deleteDuty({ plannerId, dutyId }).pipe(
+					map(() => {
+						snackBarService.onShowSnackBarSuccess({
+							message: 'task-board-form.task-has-been-deleted',
+						});
+
+						return dutyActions.deleteDutySuccess({ dutyId });
+					}),
+					catchError((error: HttpErrorResponse) => {
+						showGeneralErrorMessage(snackBarService, error);
+						recoverFromProtectedApiRejection(error, {
+							authService,
+							routerHelperService,
+							store,
+						});
+
+						return of(
+							dutyActions.deleteDutyFailure({
+								errorMessage: error?.message ?? '',
+							}),
+						);
+					}),
+				),
+			),
+		),
+	{ functional: true },
+);
+
 export const getDutiesByPlannerIdEffect = createEffect(
 	(
 		$actions = inject(Actions),

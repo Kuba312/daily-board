@@ -28,6 +28,8 @@
 			[timelineValuesElements]="timelineValues()"
 			[dutiesBoard]="duties()"
 			(onPlannerAnimationEnd)="onPlannerAnimationEnd.emit()"
+			(editDuty)="editDuty.emit($event)"
+			(deleteDuty)="deleteDuty.emit($event)"
 		/>
 	</div>
 </div>

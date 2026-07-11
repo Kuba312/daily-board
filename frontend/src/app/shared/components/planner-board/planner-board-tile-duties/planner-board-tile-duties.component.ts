@@ -8,6 +8,7 @@ import {
 	OutputEmitterRef,
 	Signal,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { AnimationPlannerDirection } from '@shared/enums/animation-planner-direction.enum';
 import { Nullable, Option } from '@core/types/basics.types';
 import { BoardTimelineHourHeights } from '@shared/models/board-timeline-hour-heights';
@@ -17,7 +18,7 @@ import { DutyDto } from 'src/api/models';
 
 @Component({
     selector: 'app-planner-board-tile-duties',
-    imports: [SafeValue],
+    imports: [MatIconModule, SafeValue],
     templateUrl: './planner-board-tile-duties.component.html'
 })
 export default class PlannerBoardTileDutiesComponent {
@@ -34,6 +35,8 @@ export default class PlannerBoardTileDutiesComponent {
 	> = input<Nullable<AnimationPlannerDirection>>(null);
 
 	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
+	public editDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
+	public deleteDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 
 	private _heightOfTimelineParentContainer: Option<number> = null;
 
@@ -153,6 +156,16 @@ export default class PlannerBoardTileDutiesComponent {
 		hour: string,
 	): boolean {
 		return timelineValue.nativeElement.id === hour;
+	}
+
+	public onEditDuty(event: Event, duty: DutyDto): void {
+		event.stopPropagation();
+		this.editDuty.emit(duty);
+	}
+
+	public onDeleteDuty(event: Event, duty: DutyDto): void {
+		event.stopPropagation();
+		this.deleteDuty.emit(duty);
 	}
 
 	get isSlidePlannerDirectionRight(): boolean {

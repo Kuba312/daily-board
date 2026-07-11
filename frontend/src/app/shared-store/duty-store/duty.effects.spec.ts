@@ -10,9 +10,11 @@ import { ReplaySubject, firstValueFrom, of, throwError } from 'rxjs';
 import { DutyControllerService } from 'src/api/services';
 import { dutyActions } from './duty.actions';
 import {
+	deleteDutyEffect,
 	getDutiesByPlannerIdAndRangeTime,
 	getDutiesByPlannerIdEffect,
 	saveDutyEffect,
+	updateDutyEffect,
 } from './duty.effects';
 import { PlannerType } from '@shared/enums/planner-type.enum';
 
@@ -33,6 +35,8 @@ describe('duty effects', () => {
 					'getDutiesByPlannerId',
 					'getDutiesByPlannerIdAndRangeTime',
 					'saveDuty',
+					'updateDuty',
+					'deleteDuty',
 				],
 			);
 		snackBarServiceSpy = jasmine.createSpyObj<SnackBarService>(
@@ -200,6 +204,119 @@ describe('duty effects', () => {
 		);
 	});
 
+	it('should update duty through generated API and redirect dynamic planner to updated duty week', async () => {
+		dutyControllerServiceSpy.updateDuty.and.returnValue(
+			of({
+				id: 'duty-a',
+				plannerId: 'planner-a',
+				name: 'Updated Dynamic Duty',
+				effectiveDate: '2026-06-24',
+				weekDay: 'WEDNESDAY',
+				from: '09:00:00',
+				to: '10:00:00',
+			}),
+		);
+
+		const duty = {
+			id: 'duty-a',
+			plannerId: 'planner-a',
+			name: 'Updated Dynamic Duty',
+			effectiveDate: '2026-06-24',
+			weekDay: 'WEDNESDAY' as const,
+			from: '09:00',
+			to: '10:00',
+		};
+		const resultPromise = firstValueFrom(createUpdateDutyEffect());
+		actions$.next(
+			dutyActions.updateDuty({
+				duty,
+				dutyId: 'duty-a',
+				plannerId: 'planner-a',
+				plannerType: PlannerType.Dynamic,
+				redirectToBoard: true,
+			}),
+		);
+		const result = await resultPromise;
+
+		expect(dutyControllerServiceSpy.updateDuty).toHaveBeenCalledWith({
+			plannerId: 'planner-a',
+			dutyId: 'duty-a',
+			body: duty,
+		});
+		expect(result).toEqual(
+			dutyActions.updateDutySuccess({
+				duty: {
+					...duty,
+					from: '09:00',
+					to: '10:00',
+				},
+			}),
+		);
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/planners',
+			['planner-a', PlannerType.Dynamic],
+			false,
+			{
+				from: '2026-06-22',
+				to: '2026-06-28',
+			},
+		);
+	});
+
+	it('should clear update loading state when duty update conflicts', async () => {
+		const error = createHttpError(409);
+		dutyControllerServiceSpy.updateDuty.and.returnValue(
+			throwError(() => error),
+		);
+
+		const resultPromise = firstValueFrom(createUpdateDutyEffect());
+		actions$.next(
+			dutyActions.updateDuty({
+				duty: {
+					id: 'duty-a',
+					plannerId: 'planner-a',
+					name: 'Updated Dynamic Duty',
+					effectiveDate: '2026-06-24',
+					weekDay: 'WEDNESDAY',
+					from: '09:00',
+					to: '10:00',
+				},
+				dutyId: 'duty-a',
+				plannerId: 'planner-a',
+				plannerType: PlannerType.Dynamic,
+				redirectToBoard: true,
+			}),
+		);
+		const result = await resultPromise;
+
+		expect(result).toEqual(
+			dutyActions.updateDutyFailure({
+				errorMessage: error.message,
+			}),
+		);
+	});
+
+	it('should delete duty through generated API', async () => {
+		dutyControllerServiceSpy.deleteDuty.and.returnValue(of(undefined));
+
+		const resultPromise = firstValueFrom(createDeleteDutyEffect());
+		actions$.next(
+			dutyActions.deleteDuty({
+				dutyId: 'duty-a',
+				plannerId: 'planner-a',
+			}),
+		);
+		const result = await resultPromise;
+
+		expect(dutyControllerServiceSpy.deleteDuty).toHaveBeenCalledWith({
+			plannerId: 'planner-a',
+			dutyId: 'duty-a',
+		});
+		expect(result).toEqual(
+			dutyActions.deleteDutySuccess({ dutyId: 'duty-a' }),
+		);
+	});
+
 	function createStaticDutiesEffect() {
 		return getDutiesByPlannerIdEffect(
 			new Actions(actions$),
@@ -224,6 +341,28 @@ describe('duty effects', () => {
 
 	function createSaveDutyEffect() {
 		return saveDutyEffect(
+			new Actions(actions$),
+			dutyControllerServiceSpy,
+			snackBarServiceSpy,
+			routerHelperServiceSpy,
+			authServiceSpy,
+			storeSpy,
+		);
+	}
+
+	function createUpdateDutyEffect() {
+		return updateDutyEffect(
+			new Actions(actions$),
+			dutyControllerServiceSpy,
+			snackBarServiceSpy,
+			routerHelperServiceSpy,
+			authServiceSpy,
+			storeSpy,
+		);
+	}
+
+	function createDeleteDutyEffect() {
+		return deleteDutyEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
 			snackBarServiceSpy,

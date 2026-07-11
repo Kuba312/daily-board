@@ -460,10 +460,10 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Manual
 
-- [ ] 1.4 User A can update planner name/note and existing duties remain
-- [ ] 1.5 User A cannot change planner shape with existing duties until confirmation is sent
-- [ ] 1.6 User A can confirm shape change and sees dependent duties removed
-- [ ] 1.7 User B cannot update or delete User A planner by direct API call
+- [x] 1.4 User A can update planner name/note and existing duties remain
+- [x] 1.5 User A cannot change planner shape with existing duties until confirmation is sent
+- [x] 1.6 User A can confirm shape change and sees dependent duties removed
+- [x] 1.7 User B cannot update or delete User A planner by direct API call
 
 ### Phase 2: Backend Duty Mutation Contracts And Generated API
 
@@ -475,9 +475,9 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Manual
 
-- [ ] 2.4 User A can update and delete an owned duty via API
-- [ ] 2.5 User B cannot update or delete User A duty by direct API call
-- [ ] 2.6 A mismatched body plannerId does not move a duty
+- [x] 2.4 User A can update and delete an owned duty via API
+- [x] 2.5 User B cannot update or delete User A duty by direct API call
+- [x] 2.6 A mismatched body plannerId does not move a duty
 
 ### Phase 3: Frontend Planner Edit/Delete Flow
 
@@ -491,25 +491,25 @@ No database migration is planned unless implementation discovers the existing ca
 
 #### Manual
 
-- [ ] 3.6 User can edit planner name/note and duties remain visible
-- [ ] 3.7 User is explicitly warned before scheduling-shape update that deletes duties
-- [ ] 3.8 Confirmed planner shape update removes duties from the board immediately
-- [ ] 3.9 User can delete a planner after confirmation and lands on the dashboard/empty state
+- [x] 3.6 User can edit planner name/note and duties remain visible
+- [x] 3.7 User is explicitly warned before scheduling-shape update that deletes duties
+- [x] 3.8 Confirmed planner shape update removes duties from the board immediately
+- [x] 3.9 User can delete a planner after confirmation and lands on the dashboard/empty state
 
 ### Phase 4: Frontend Duty Edit/Delete Flow And Regression Checks
 
 #### Automated
 
-- [ ] 4.1 Duty store tests pass
-- [ ] 4.2 Duty effects tests pass
-- [ ] 4.3 Task board form tests pass
-- [ ] 4.4 Planner component tests pass
-- [ ] 4.5 Board tile tests pass
-- [ ] 4.6 Frontend build passes
+- [x] 4.1 Duty store tests pass
+- [x] 4.2 Duty effects tests pass
+- [x] 4.3 Task board form tests pass
+- [x] 4.4 Planner component tests pass
+- [x] 4.5 Board tile tests pass
+- [x] 4.6 Frontend build passes
 
 #### Manual
 
-- [ ] 4.7 User can edit one duty instance from the board and see the changed duty on the correct board/week
-- [ ] 4.8 User can delete one duty from the board after confirmation and it disappears immediately
-- [ ] 4.9 Dynamic planner week switching still fetches unloaded ranges and does not duplicate fetch already-loaded ranges
-- [ ] 4.10 User B cannot update/delete User A duty through UI or direct URL/API path
+- [x] 4.7 User can edit one duty instance from the board and see the changed duty on the correct board/week
+- [x] 4.8 User can delete one duty from the board after confirmation and it disappears immediately
+- [x] 4.9 Dynamic planner week switching still fetches unloaded ranges and does not duplicate fetch already-loaded ranges
+- [x] 4.10 User B cannot update/delete User A duty through UI or direct URL/API path

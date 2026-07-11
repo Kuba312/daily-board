@@ -16,6 +16,24 @@
 					<div class="planner-board-tile-duty__name-wrapper">
 						<span>{{ tile.tile.name | safeValue }}</span>
 					</div>
+					<div class="planner-board-tile-duty__actions">
+						<button
+							type="button"
+							class="planner-board-tile-duty__action"
+							[attr.aria-label]="'edit'"
+							(click)="onEditDuty($event, tile.tile)"
+						>
+							<mat-icon>edit</mat-icon>
+						</button>
+						<button
+							type="button"
+							class="planner-board-tile-duty__action"
+							[attr.aria-label]="'delete'"
+							(click)="onDeleteDuty($event, tile.tile)"
+						>
+							<mat-icon>delete</mat-icon>
+						</button>
+					</div>
 				</div>
 			}
 		</div>

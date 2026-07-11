@@ -39,6 +39,7 @@
 	},
 	"task-board-form": {
 		"title": "Create board task",
+		"edit-title": "Edit board task",
 		"task-name": "Task name",
 		"task-name-placeholder": "Enter task name",
 		"task-description": "Task description",
@@ -47,11 +48,17 @@
 		"task-date": "Task date",
 		"pick-color": "Pick color",
 		"range-planner-time": "Task has been added",
+		"task-has-been-added": "Task has been added",
+		"task-has-been-updated": "Task has been updated",
+		"task-has-been-deleted": "Task has been deleted",
+		"add": "Add",
+		"add-and-create": "Add and create another",
 		"duty-conflict": "Cannot add the task: its scheduled time conflicts with the following: {{conflictingDuties}}",
 		"color-has-been-added": "This color has been added to:",
 		"chosen-dates": "Chosen dates",
 		"add-date": "Add date",
-		"added-time-is-overrode": "Added task time overlaps."
+		"added-time-is-overrode": "Added task time overlaps.",
+		"confirm-delete": "Delete this task?"
 	},
 	"planner-form": {
 		"title": "Create planner",

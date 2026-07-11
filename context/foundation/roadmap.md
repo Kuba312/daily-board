@@ -3,7 +3,7 @@ project: "Daily Board"
 version: 1
 status: draft
 created: 2026-05-25
-updated: 2026-07-05
+updated: 2026-07-11
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -31,7 +31,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 |---|---|---|---|---|---|
 | P-01 | minimal-account-owned-planner | User can register/login/logout, create own planner, and prove another user cannot see it | — | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-011, FR-017 | done |
 | P-02 | owned-manual-planning-board | User can add task/event/duty to own planner; board/calendar shows only scoped data with week switching preserved | P-01 | US-01, FR-008, FR-011, FR-012, FR-013, FR-017 | done |
-| P-03 | owned-planning-crud-minimum | User can update/delete owned planners and duties, with planner-delete confirmation and ownership isolation | P-02 | US-01, FR-006, FR-007, FR-009, FR-010, FR-011, FR-017 | proposed |
+| P-03 | owned-planning-crud-minimum | User can update/delete owned planners and duties, with planner-delete confirmation and ownership isolation | P-02 | US-01, FR-006, FR-007, FR-009, FR-010, FR-011, FR-017 | done |
 | P-04 | frontend-ux-ui-polish | User sees clearer auth, navigation, loading/error, and empty states without changing business behavior | P-01, P-02, P-03 | US-01, NFR-01 | proposed |
 | P-05 | local-dev-config-baseline | Local/dev config is tidy enough for local smoke checks; not blocking the product flow | — | NFR-04 | optional/later |
 | P-06 | ai-weekly-proposal-preview | Future enhancement: user can enter weekly intent, see an AI proposal, and no database write happens before accept | P-03 | US-01, FR-014, FR-016 | optional/later |
@@ -78,7 +78,7 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 - **Scope:** edit planner basics, delete planner with confirmation, edit duty/task/event, delete duty/task/event, backend ownership checks on update/delete, frontend state refresh after mutation.
 - **Out of scope:** AI proposal flow, shared planners, advanced bulk edit, recurring rules, visual polish beyond required controls.
 - **Notes:** Required for graduation/project completeness and should be the next required slice after P-02.
-- **Status:** proposed
+- **Status:** done
 
 ### P-04: Frontend UX/UI Polish
 
@@ -151,3 +151,4 @@ Daily Board already has planners, duties, board/calendar views, and dynamic week
 
 - **P-01: user can register, login, logout, create their own planner, and another user cannot see that planner.** — Archived 2026-07-05 → `context/archive/2026-05-26-minimal-account-owned-planner/`. Lesson: —.
 - **P-02: user can add task/event/duty to their own planner; board/calendar shows only scoped data; dynamic week switching remains preserved.** — Archived 2026-06-09 → `context/archive/2026-06-08-owned-manual-planning-board/`. Lesson: —.
+- **P-03: user can update and delete their own planners and duties; planner delete has confirmation; another user cannot update/delete that data.** — Archived 2026-07-11 → `context/archive/2026-07-05-owned-planning-crud-minimum/`. Lesson: —.

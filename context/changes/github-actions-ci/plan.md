@@ -201,15 +201,15 @@ There is no data or application migration. Removing the nested workflow is safe 
 
 #### Automated
 
-- [x] 2.1 Workflow YAML parses without syntax errors — 029dd84
-- [x] 2.2 Git diff validation passes — 029dd84
-- [x] 2.3 Frontend unit tests pass in ChromeHeadless — 029dd84
-- [x] 2.4 Frontend production build passes — 029dd84
-- [x] 2.5 Backend tests pass with 37 tests — 029dd84
-- [x] 2.6 Only the repository-root project workflow remains — 029dd84
+- [x] 2.1 Workflow YAML parses without syntax errors — b84c248
+- [x] 2.2 Git diff validation passes — b84c248
+- [x] 2.3 Frontend unit tests pass in ChromeHeadless — b84c248
+- [x] 2.4 Frontend production build passes — b84c248
+- [x] 2.5 Backend tests pass with 37 tests — b84c248
+- [x] 2.6 Only the repository-root project workflow remains — b84c248
 
 #### Manual
 
-- [ ] 2.7 Pull request run exposes separate frontend and backend jobs
-- [ ] 2.8 Both hosted-runner jobs pass without secrets or MySQL
+- [x] 2.7 Pull request run exposes separate frontend and backend jobs
+- [x] 2.8 Both hosted-runner jobs pass without secrets or MySQL
 - [ ] 2.9 Push to main starts the CI workflow after merge

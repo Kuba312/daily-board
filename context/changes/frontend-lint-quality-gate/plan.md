@@ -463,13 +463,13 @@ revert only one template level.
 
 #### Automated
 
-- [x] 4.1 Frontend CI runs lint after install and before tests and build
-- [x] 4.2 Repository guidance accurately describes the root frontend and backend CI
-- [x] 4.3 Final frontend lint passes with zero errors and zero warnings
-- [x] 4.4 Final frontend tests pass
-- [x] 4.5 Final frontend production build passes
-- [x] 4.6 Final diff validation passes and generated API remains untouched
+- [x] 4.1 Frontend CI runs lint after install and before tests and build — ea5f3f7
+- [x] 4.2 Repository guidance accurately describes the root frontend and backend CI — ea5f3f7
+- [x] 4.3 Final frontend lint passes with zero errors and zero warnings — ea5f3f7
+- [x] 4.4 Final frontend tests pass — ea5f3f7
+- [x] 4.5 Final frontend production build passes — ea5f3f7
+- [x] 4.6 Final diff validation passes and generated API remains untouched — ea5f3f7
 
 #### Manual
 
-- [ ] 4.7 Hosted frontend CI runs the lint step in the required order and passes
+- [x] 4.7 Hosted frontend CI runs the lint step in the required order and passes — ea5f3f7

@@ -349,11 +349,11 @@ No database, API, generated-client, backend, or data migration work is required.
 
 #### Manual
 
-- [x] 1.4 Login page looks visibly cleaner while remaining a light styling pass
-- [x] 1.5 Invalid login/register shows persistent inline feedback and snackbar feedback
-- [x] 1.6 Submitting disables controls, changes the submit label, and prevents duplicate submit
-- [x] 1.7 Switching between login/register clears stale inline auth errors
-- [x] 1.8 Successful login/register still navigates to `/planners`
+- [x] 1.4 Login page looks visibly cleaner while remaining a light styling pass — ce90060
+- [x] 1.5 Invalid login/register shows persistent inline feedback and snackbar feedback — ce90060
+- [x] 1.6 Submitting disables controls, changes the submit label, and prevents duplicate submit — ce90060
+- [x] 1.7 Switching between login/register clears stale inline auth errors — ce90060
+- [x] 1.8 Successful login/register still navigates to `/planners` — ce90060
 
 ### Phase 2: Authenticated Action Visibility
 

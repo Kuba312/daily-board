@@ -35,6 +35,10 @@ export default class SideMenuComponent {
 		return this._routerHelperService.isActive(link);
 	}
 
+	public isAuthenticated(): boolean {
+		return this._authService.isAuthenticated();
+	}
+
 	public directToTaskPlannerChooser(): void {
 		this._routerHelperService.directToUrl('/choose-planner');
 	}

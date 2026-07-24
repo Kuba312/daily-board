@@ -25,7 +25,11 @@ describe('SideMenuComponent', () => {
 			'isActive',
 			'directToUrl',
 		]);
-		authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
+		authServiceSpy = jasmine.createSpyObj('AuthService', [
+			'logout',
+			'isAuthenticated',
+		]);
+		authServiceSpy.isAuthenticated.and.returnValue(false);
 		storeSpy = jasmine.createSpyObj('Store', ['dispatch']);
 
 		TestBed.configureTestingModule({
@@ -83,6 +87,31 @@ describe('SideMenuComponent', () => {
 		const plannerActiveLink = el.query(By.css('.active-link span'));
 		
 		expect(plannerActiveLink.nativeElement.textContent).toBe('side-menu.planners')
+	});
+
+	it('should hide authenticated actions when user is not authenticated', () => {
+		authServiceSpy.isAuthenticated.and.returnValue(false);
+		fixture.detectChanges();
+
+		const actionButtons = el.queryAll(By.css('.side-menu__actions app-primary-button'));
+
+		expect(actionButtons.length).toBe(0);
+	});
+
+	it('should show authenticated actions when user is authenticated', () => {
+		authServiceSpy.isAuthenticated.and.returnValue(true);
+		fixture.detectChanges();
+
+		const actionButtons = el.queryAll(By.css('.side-menu__actions app-primary-button'));
+		const actionLabels = actionButtons.map((button) =>
+			button.nativeElement.textContent.trim(),
+		);
+
+		expect(actionLabels).toEqual([
+			'side-menu.new-duty',
+			'side-menu.add-planner',
+			'side-menu.logout',
+		]);
 	});
 
 	it('should clear stores and route to auth on logout', () => {

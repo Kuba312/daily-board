@@ -12,6 +12,7 @@ import InformationDialogComponent from '@shared/components/infromation-dialog/in
 import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
+import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
 import { ButtonConfig } from '@shared/models/button-config';
 import { DialogService } from '@shared/services/dialog/dialog.service';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
@@ -24,6 +25,7 @@ import { plannerActions } from '@shared-store/planner-store/planner.actions';
         HeaderWithButtonsComponent,
         PlannerCardComponent,
         PlannerItemsContainerComponent,
+        PrimaryButtonComponent,
         TranslateModule,
     ],
     templateUrl: './planners-dashboard.component.html',

@@ -26,22 +26,24 @@
 				<span translate="side-menu.settings"></span>
 			</a>
 		</nav>
-		<div class="side-menu__actions">
-			<app-primary-button 
-				[label]="'side-menu.new-duty' | translate"
-				[emitOnClick]="true"
-				(ngClick)="directToTaskPlannerChooser()"
-			/>
-			<app-primary-button 
-				[label]="'side-menu.add-planner' | translate"
-				[emitOnClick]="true"
-				(ngClick)="directToPlannerCreator()"
-			/>
-			<app-primary-button
-				[label]="'side-menu.logout' | translate"
-				[emitOnClick]="true"
-				(ngClick)="logout()"
-			/>
-		</div>
+		@if (isAuthenticated()) {
+			<div class="side-menu__actions">
+				<app-primary-button
+					[label]="'side-menu.new-duty' | translate"
+					[emitOnClick]="true"
+					(ngClick)="directToTaskPlannerChooser()"
+				/>
+				<app-primary-button
+					[label]="'side-menu.add-planner' | translate"
+					[emitOnClick]="true"
+					(ngClick)="directToPlannerCreator()"
+				/>
+				<app-primary-button
+					[label]="'side-menu.logout' | translate"
+					[emitOnClick]="true"
+					(ngClick)="logout()"
+				/>
+			</div>
+		}
 	</div>
 </div>

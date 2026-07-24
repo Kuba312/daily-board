@@ -349,57 +349,57 @@ No database, API, generated-client, backend, or data migration work is required.
 
 #### Manual
 
-- [ ] 1.4 Login page looks visibly cleaner while remaining a light styling pass
-- [ ] 1.5 Invalid login/register shows persistent inline feedback and snackbar feedback
-- [ ] 1.6 Submitting disables controls, changes the submit label, and prevents duplicate submit
-- [ ] 1.7 Switching between login/register clears stale inline auth errors
-- [ ] 1.8 Successful login/register still navigates to `/planners`
+- [x] 1.4 Login page looks visibly cleaner while remaining a light styling pass — ce90060
+- [x] 1.5 Invalid login/register shows persistent inline feedback and snackbar feedback — ce90060
+- [x] 1.6 Submitting disables controls, changes the submit label, and prevents duplicate submit — ce90060
+- [x] 1.7 Switching between login/register clears stale inline auth errors — ce90060
+- [x] 1.8 Successful login/register still navigates to `/planners` — ce90060
 
 ### Phase 2: Authenticated Action Visibility
 
 #### Automated
 
-- [ ] 2.1 Side menu component tests pass
-- [ ] 2.2 Frontend tests pass if practical
-- [ ] 2.3 Frontend build passes
+- [x] 2.1 Side menu component tests pass — 87625fa
+- [x] 2.2 Frontend tests pass if practical — 87625fa
+- [x] 2.3 Frontend build passes — 87625fa
 
 #### Manual
 
-- [ ] 2.4 Logged-out `/auth` view hides create task, add planner, and logout actions
-- [ ] 2.5 Logged-in view shows create task, add planner, and logout actions
-- [ ] 2.6 Logout still clears planner/duty state and routes to `/auth`
-- [ ] 2.7 No unrelated side-menu layout redesign is introduced
+- [x] 2.4 Logged-out `/auth` view hides create task, add planner, and logout actions — 87625fa
+- [x] 2.5 Logged-in view shows create task, add planner, and logout actions — 87625fa
+- [x] 2.6 Logout still clears planner/duty state and routes to `/auth` — 87625fa
+- [x] 2.7 No unrelated side-menu layout redesign is introduced — 87625fa
 
 ### Phase 3: Planner Empty States
 
 #### Automated
 
-- [ ] 3.1 Planners dashboard tests pass
-- [ ] 3.2 Task planner chooser tests pass
-- [ ] 3.3 Frontend tests pass if practical
-- [ ] 3.4 Frontend build passes
+- [x] 3.1 Planners dashboard tests pass — 27bdf43
+- [x] 3.2 Task planner chooser tests pass — 27bdf43
+- [x] 3.3 Frontend tests pass if practical — 27bdf43
+- [x] 3.4 Frontend build passes — 27bdf43
 
 #### Manual
 
-- [ ] 3.5 `/planners` with no planners shows clear copy and next action
-- [ ] 3.6 `/choose-planner` with no planners explains that a planner is required before adding a task
-- [ ] 3.7 Planner cards still render correctly when planners exist
-- [ ] 3.8 Planner selection in `/choose-planner` still works when planners exist
-- [ ] 3.9 No planner board or week-switching behavior is changed
+- [x] 3.5 `/planners` with no planners shows clear copy and next action — 27bdf43
+- [x] 3.6 `/choose-planner` with no planners explains that a planner is required before adding a task — 27bdf43
+- [x] 3.7 Planner cards still render correctly when planners exist — 27bdf43
+- [x] 3.8 Planner selection in `/choose-planner` still works when planners exist — 27bdf43
+- [x] 3.9 No planner board or week-switching behavior is changed — 27bdf43
 
 ### Phase 4: Verification and Smoke Documentation
 
 #### Automated
 
-- [ ] 4.1 Auth component tests pass
-- [ ] 4.2 Side menu component tests pass
-- [ ] 4.3 Planners dashboard tests pass
-- [ ] 4.4 Task planner chooser tests pass
-- [ ] 4.5 Frontend tests pass if practical
-- [ ] 4.6 Frontend build passes
+- [x] 4.1 Auth component tests pass — 2e7b0b9
+- [x] 4.2 Side menu component tests pass — 2e7b0b9
+- [x] 4.3 Planners dashboard tests pass — 2e7b0b9
+- [x] 4.4 Task planner chooser tests pass — 2e7b0b9
+- [x] 4.5 Frontend tests pass if practical — 2e7b0b9
+- [x] 4.6 Frontend build passes — 2e7b0b9
 
 #### Manual
 
-- [ ] 4.7 Manual smoke checklist exists
-- [ ] 4.8 Smoke checklist confirms auth loading/error UX, logged-out action visibility, logged-in action visibility, and planner empty states
-- [ ] 4.9 Smoke checklist explicitly confirms no intended backend, business logic, AI, board, or week-switching changes
+- [x] 4.7 Manual smoke checklist exists — 2e7b0b9
+- [x] 4.8 Smoke checklist confirms auth loading/error UX, logged-out action visibility, logged-in action visibility, and planner empty states — 2e7b0b9
+- [x] 4.9 Smoke checklist explicitly confirms no intended backend, business logic, AI, board, or week-switching changes — 2e7b0b9

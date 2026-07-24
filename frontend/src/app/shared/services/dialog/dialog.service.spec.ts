@@ -82,6 +82,7 @@ describe('DialogService', () => {
         data: {
           message: 'information-dialog.no-planner-to-chose',
           componentId: 'testComponentId',
+          showNeverAgainButton: true,
         },
         disableClose: true,
         animation: {

@@ -35,7 +35,10 @@
 	},
 	"task-planner-chooser": {
 		"title": "Wybierz planer",
-		"assign-task": "Dodaj zadanie do planera"
+		"assign-task": "Dodaj zadanie do planera",
+		"empty-title": "Najpierw utwórz planer",
+		"empty-body": "Zadanie musi mieć planer, zanim trafi na tablicę. Dodaj planer, a potem wróć, aby wybrać miejsce dla zadania.",
+		"empty-action": "Utwórz planer"
 	},
 	"task-board-form": {
 		"title": "Stwórz zadanie",
@@ -75,7 +78,10 @@
 	},
 		"planners-dashboard": {
 			"title": "Twoje planery",
-			"confirm-delete": "Usunąć ten planer razem ze wszystkimi zadaniami?"
+			"confirm-delete": "Usunąć ten planer razem ze wszystkimi zadaniami?",
+			"empty-title": "Nie masz jeszcze planerów",
+			"empty-body": "Utwórz pierwszy planer, aby zacząć organizować zadania na tablicy.",
+			"empty-action": "Utwórz planer"
 		},
 		"auth": {
 			"form-title": "Dostęp do konta",

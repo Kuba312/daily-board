@@ -16,9 +16,13 @@
 	</app-planner-items-container>
 	@if (areNoPlanners) {
 		<div class="planners-dashboard__no-planners">
-			<p>
-				{{ 'global-messages.no-planners' | translate }}
-			</p>
+			<h2>{{ 'planners-dashboard.empty-title' | translate }}</h2>
+			<p>{{ 'planners-dashboard.empty-body' | translate }}</p>
+			<app-primary-button
+				[label]="'planners-dashboard.empty-action' | translate"
+				[emitOnClick]="true"
+				(ngClick)="directToPlannerCreator()"
+			/>
 		</div>
 	}
 </section>

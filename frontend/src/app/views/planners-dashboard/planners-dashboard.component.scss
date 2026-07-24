@@ -8,10 +8,29 @@
 	$self: &;
 
 	#{$self}__no-planners {
-		margin: 5rem 0;
+		max-width: 44rem;
+		margin: 5rem auto;
+		padding: 3rem;
+		border: $normal-border;
+		border-radius: 8px;
+		background-color: var(--color-background-secondary);
 		@include flex-justify-align-center;
+		flex-direction: column;
+		gap: 1.6rem;
 		color: var(--color-text-secondary);
-		font-size: $bigger-font-size;
+		text-align: center;
+
+		h2 {
+			margin: 0;
+			color: var(--color-text);
+			font-size: $bigger-font-size;
+		}
+
+		p {
+			margin: 0;
+			font-size: $default-font-size;
+			line-height: 1.5;
+		}
 	}
 
 }

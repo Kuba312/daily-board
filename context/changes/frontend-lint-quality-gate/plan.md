@@ -448,27 +448,27 @@ revert only one template level.
 
 #### Automated
 
-- [x] 3.1 Old output names are absent from declarations, emissions, and bindings
-- [x] 3.2 Frontend lint passes with zero errors and zero warnings
-- [x] 3.3 Frontend tests pass after output renames
-- [x] 3.4 Frontend production build passes after output renames
-- [x] 3.5 Generated API diff is empty and whitespace validation passes
+- [x] 3.1 Old output names are absent from declarations, emissions, and bindings — 7846e69
+- [x] 3.2 Frontend lint passes with zero errors and zero warnings — 7846e69
+- [x] 3.3 Frontend tests pass after output renames — 7846e69
+- [x] 3.4 Frontend production build passes after output renames — 7846e69
+- [x] 3.5 Generated API diff is empty and whitespace validation passes — 7846e69
 
 #### Manual
 
-- [x] 3.6 Date-chip removal still propagates the correct index
-- [x] 3.7 Dynamic week animation completes and subsequent switching remains available
+- [x] 3.6 Date-chip removal still propagates the correct index — 7846e69
+- [x] 3.7 Dynamic week animation completes and subsequent switching remains available — 7846e69
 
 ### Phase 4: Enable the CI Gate and Synchronize Repository Guidance
 
 #### Automated
 
-- [ ] 4.1 Frontend CI runs lint after install and before tests and build
-- [ ] 4.2 Repository guidance accurately describes the root frontend and backend CI
-- [ ] 4.3 Final frontend lint passes with zero errors and zero warnings
-- [ ] 4.4 Final frontend tests pass
-- [ ] 4.5 Final frontend production build passes
-- [ ] 4.6 Final diff validation passes and generated API remains untouched
+- [x] 4.1 Frontend CI runs lint after install and before tests and build
+- [x] 4.2 Repository guidance accurately describes the root frontend and backend CI
+- [x] 4.3 Final frontend lint passes with zero errors and zero warnings
+- [x] 4.4 Final frontend tests pass
+- [x] 4.5 Final frontend production build passes
+- [x] 4.6 Final diff validation passes and generated API remains untouched
 
 #### Manual
 

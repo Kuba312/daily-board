@@ -26,7 +26,7 @@ Type safety is enforced in the frontend via strict TS + strict templates (`@fron
 
 ## CI/CD
 
-GitHub Actions workflow exists for the frontend only: `@frontend/.github/workflows/ci-cd-pipeline.yml` (runs frontend tests + build). There is no repo-root/backend CI workflow yet.
+The root GitHub Actions workflow at `@.github/workflows/ci.yml` runs frontend lint, tests, and build in the frontend job, plus Maven tests in the backend job.
 
 ## Commits
 

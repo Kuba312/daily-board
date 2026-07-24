@@ -28,7 +28,7 @@ import { RouterHelperService } from '@shared/services/router-helper/router-helpe
         DateRangeConfigurerComponent,
         AdditionalLabelPipe,
     ],
-    templateUrl: './header.component.html'
+    templateUrl: './header.component.html',
 })
 export default class HeaderComponent implements OnInit, OnDestroy {
 	private readonly _routerHelperService: RouterHelperService = inject(RouterHelperService);

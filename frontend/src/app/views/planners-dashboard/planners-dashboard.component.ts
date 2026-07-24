@@ -29,7 +29,7 @@ import { plannerActions } from '@shared-store/planner-store/planner.actions';
         TranslateModule,
     ],
     templateUrl: './planners-dashboard.component.html',
-    styleUrl: './planners-dashboard.component.scss'
+    styleUrl: './planners-dashboard.component.scss',
 })
 export default class PlannersDashboardComponent {
 	private readonly _store: Store = inject(Store);

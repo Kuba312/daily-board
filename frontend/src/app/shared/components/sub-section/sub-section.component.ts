@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
     selector: 'app-sub-section',
     imports: [NgClass, MatIcon],
-    templateUrl: './sub-section.component.html'
+    templateUrl: './sub-section.component.html',
 })
 export default class SubSectionComponent {
 	public subHeaderTitle: InputSignal<string> = input.required<string>();

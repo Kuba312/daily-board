@@ -27,7 +27,7 @@
 			[slidePlannerDirection]="slidePlannerDirection()"
 			[timelineValuesElements]="timelineValues()"
 			[dutiesBoard]="duties()"
-			(onPlannerAnimationEnd)="onPlannerAnimationEnd.emit()"
+			(plannerAnimationEnd)="plannerAnimationEnd.emit()"
 			(editDuty)="editDuty.emit($event)"
 			(deleteDuty)="deleteDuty.emit($event)"
 		/>

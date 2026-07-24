@@ -30,7 +30,7 @@ import { CalendarTimeRangerFormModel } from './calendar-time-ranger.form-model.c
         NgxMaskDirective,
         MatIconModule,
     ],
-    templateUrl: './calendar-time-ranger.component.html'
+    templateUrl: './calendar-time-ranger.component.html',
 })
 export default class CalendarTimeRangerComponent implements OnInit {
 	private readonly _keyboardEventService: KeyboardEventService =

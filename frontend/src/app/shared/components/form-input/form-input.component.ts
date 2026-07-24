@@ -29,7 +29,7 @@ import FormErrorMessageComponent from '../form-error-message/form-error-message.
         FormErrorMessageComponent,
     ],
     selector: 'app-form-input',
-    templateUrl: 'form-input.component.html'
+    templateUrl: 'form-input.component.html',
 })
 export default class FormInputComponent {
 	private _injector: Injector = inject(Injector);

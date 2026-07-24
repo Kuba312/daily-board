@@ -4,28 +4,30 @@ import { dutyReducer, selectAll } from './duty.reducer';
 import { PlannerType } from '@shared/enums/planner-type.enum';
 
 describe('dutyReducer', () => {
+	const plannerId = 'planner-a';
+
 	it('should mark static planner duties as loaded by planner id', () => {
 		const duty = createDuty({
 			id: 'static-duty-a',
 			name: 'Static Duty A',
-			plannerId: 'planner-a',
+			plannerId,
 		});
 
 		const loadingState = dutyReducer(
 			undefined,
-			dutyActions.getDutiesByPlannerId({ plannerId: 'planner-a' }),
+			dutyActions.getDutiesByPlannerId({ plannerId }),
 		);
 		const loadedState = dutyReducer(
 			loadingState,
 			dutyActions.getDutiesByPlannerIdSuccess({
 				duties: [duty],
-				plannerId: 'planner-a',
+				plannerId,
 			}),
 		);
 
 		expect(loadingState.isLoading).toBeTrue();
 		expect(selectAll(loadedState)).toEqual([duty]);
-		expect(loadedState.loadedPlannerIds).toEqual(['planner-a']);
+		expect(loadedState.loadedPlannerIds).toEqual([plannerId]);
 		expect(loadedState.loadedPlannersDates).toEqual([]);
 		expect(loadedState.isLoading).toBeFalse();
 	});
@@ -35,13 +37,13 @@ describe('dutyReducer', () => {
 			effectiveDate: '2026-06-09',
 			id: 'dynamic-duty-a',
 			name: 'Dynamic Duty A',
-			plannerId: 'planner-a',
+			plannerId,
 		});
 
 		const loadingState = dutyReducer(
 			undefined,
 			dutyActions.getDutiesByRangeTimeAndPlannerId({
-				plannerId: 'planner-a',
+				plannerId,
 				from: '2026-06-08',
 				to: '2026-06-14',
 			}),
@@ -50,7 +52,7 @@ describe('dutyReducer', () => {
 			loadingState,
 			dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess({
 				duties: [duty],
-				plannerId: 'planner-a',
+				plannerId,
 				from: '2026-06-08',
 				to: '2026-06-14',
 			}),
@@ -60,7 +62,7 @@ describe('dutyReducer', () => {
 		expect(selectAll(loadedState)).toEqual([duty]);
 		expect(loadedState.loadedPlannerIds).toEqual([]);
 		expect(loadedState.loadedPlannersDates).toEqual([
-			{ 'planner-a': ['2026-06-08-2026-06-14'] },
+			{ [plannerId]: ['2026-06-08-2026-06-14'] },
 		]);
 		expect(loadedState.isLoading).toBeFalse();
 	});
@@ -68,7 +70,7 @@ describe('dutyReducer', () => {
 	it('should not duplicate an already loaded dynamic planner date range', () => {
 		const action = dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess({
 			duties: [],
-			plannerId: 'planner-a',
+			plannerId,
 			from: '2026-06-08',
 			to: '2026-06-14',
 		});
@@ -77,7 +79,7 @@ describe('dutyReducer', () => {
 		const loadedTwiceState = dutyReducer(loadedOnceState, action);
 
 		expect(loadedTwiceState.loadedPlannersDates).toEqual([
-			{ 'planner-a': ['2026-06-08-2026-06-14'] },
+			{ [plannerId]: ['2026-06-08-2026-06-14'] },
 		]);
 	});
 
@@ -94,7 +96,7 @@ describe('dutyReducer', () => {
 			undefined,
 			dutyActions.getDutiesByRangeTimeAndPlannerIdSuccess({
 				duties: [originalDuty],
-				plannerId: 'planner-a',
+				plannerId,
 				from: '2026-06-08',
 				to: '2026-06-14',
 			}),
@@ -105,7 +107,7 @@ describe('dutyReducer', () => {
 			dutyActions.updateDuty({
 				duty: updatedDuty,
 				dutyId: 'duty-a',
-				plannerId: 'planner-a',
+				plannerId,
 				plannerType: PlannerType.Dynamic,
 				redirectToBoard: true,
 			}),
@@ -118,7 +120,7 @@ describe('dutyReducer', () => {
 		expect(updatingState.isLoading).toBeTrue();
 		expect(selectAll(updatedState)).toEqual([updatedDuty]);
 		expect(updatedState.loadedPlannersDates).toEqual([
-			{ 'planner-a': ['2026-06-08-2026-06-14'] },
+			{ [plannerId]: ['2026-06-08-2026-06-14'] },
 		]);
 		expect(updatedState.isLoading).toBeFalse();
 	});
@@ -129,7 +131,7 @@ describe('dutyReducer', () => {
 			undefined,
 			dutyActions.getDutiesByPlannerIdSuccess({
 				duties: [duty],
-				plannerId: 'planner-a',
+				plannerId,
 			}),
 		);
 
@@ -137,7 +139,7 @@ describe('dutyReducer', () => {
 			loadedState,
 			dutyActions.deleteDuty({
 				dutyId: 'duty-a',
-				plannerId: 'planner-a',
+				plannerId,
 			}),
 		);
 		const deletedState = dutyReducer(
@@ -147,7 +149,7 @@ describe('dutyReducer', () => {
 
 		expect(deletingState.isLoading).toBeTrue();
 		expect(selectAll(deletedState)).toEqual([]);
-		expect(deletedState.loadedPlannerIds).toEqual(['planner-a']);
+		expect(deletedState.loadedPlannerIds).toEqual([plannerId]);
 		expect(deletedState.isLoading).toBeFalse();
 	});
 
@@ -163,7 +165,7 @@ describe('dutyReducer', () => {
 			undefined,
 			dutyActions.getDutiesByPlannerIdSuccess({
 				duties: [duty],
-				plannerId: 'planner-a',
+				plannerId,
 			}),
 		);
 

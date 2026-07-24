@@ -49,7 +49,7 @@ import TimelineBoardSliderComponent from './timeline-board-slider/timeline-board
         TimelineBoardSliderComponent,
     ],
     templateUrl: './planner-board.component.html',
-    styles: ':host { display: block; width: 100% }'
+    styles: ':host { display: block; width: 100% }',
 })
 export default class PlannerBoardComponent {
 	private readonly _timeManagerService: TimeManagerService =
@@ -75,7 +75,7 @@ export default class PlannerBoardComponent {
 
 	public changedWeekPeriod: OutputEmitterRef<PeriodWeek> =
 		output<PeriodWeek>();
-	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
+	public plannerAnimationEnd: OutputEmitterRef<void> = output<void>();
 	public editDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 	public deleteDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 

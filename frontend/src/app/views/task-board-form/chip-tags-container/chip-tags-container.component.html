@@ -7,7 +7,7 @@
 				<app-chip-tag
 					[chipContent]="chipTag"
 					[index]="$index"
-					(onChipRemoved)="chipRemovedIndex.emit($event)"
+					(chipRemoved)="chipRemovedIndex.emit($event)"
 				/>
 			}
 		}

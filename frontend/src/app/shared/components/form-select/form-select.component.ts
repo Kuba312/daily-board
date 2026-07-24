@@ -19,7 +19,7 @@ import FormErrorMessageComponent from '../form-error-message/form-error-message.
         FormErrorMessageComponent,
         TranslatePath,
     ],
-    templateUrl: './form-select.component.html'
+    templateUrl: './form-select.component.html',
 })
 export default class FormSelectComponent<T> {
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();

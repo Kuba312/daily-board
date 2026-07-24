@@ -177,7 +177,7 @@ describe('planner effects', () => {
 		);
 	});
 
-	function createGetPlannerEffect() {
+	function createGetPlannerEffect(): ReturnType<typeof getPlannerEffect> {
 		return getPlannerEffect(
 			new Actions(actions$),
 			plannerControllerServiceSpy,
@@ -188,7 +188,9 @@ describe('planner effects', () => {
 		);
 	}
 
-	function createUpdatePlannerEffect() {
+	function createUpdatePlannerEffect(): ReturnType<
+		typeof updatePlannerEffect
+	> {
 		return updatePlannerEffect(
 			new Actions(actions$),
 			plannerControllerServiceSpy,
@@ -199,7 +201,9 @@ describe('planner effects', () => {
 		);
 	}
 
-	function createDeletePlannerEffect() {
+	function createDeletePlannerEffect(): ReturnType<
+		typeof deletePlannerEffect
+	> {
 		return deletePlannerEffect(
 			new Actions(actions$),
 			plannerControllerServiceSpy,

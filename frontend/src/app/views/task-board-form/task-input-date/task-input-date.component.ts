@@ -32,7 +32,7 @@ import { SnackBarService } from '@shared/services/snackbar-service/snack-bar.ser
         ChipTagsContainerComponent,
     ],
     templateUrl: './task-input-date.component.html',
-    styleUrl: './task-input-date.component.scss'
+    styleUrl: './task-input-date.component.scss',
 })
 export default class TaskInputDateComponent {
 	private readonly _dateHelperService: DateHelperService =

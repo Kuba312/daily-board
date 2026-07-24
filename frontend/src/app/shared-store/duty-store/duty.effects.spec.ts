@@ -317,7 +317,9 @@ describe('duty effects', () => {
 		);
 	});
 
-	function createStaticDutiesEffect() {
+	function createStaticDutiesEffect(): ReturnType<
+		typeof getDutiesByPlannerIdEffect
+	> {
 		return getDutiesByPlannerIdEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
@@ -328,7 +330,9 @@ describe('duty effects', () => {
 		);
 	}
 
-	function createDynamicDutiesEffect() {
+	function createDynamicDutiesEffect(): ReturnType<
+		typeof getDutiesByPlannerIdAndRangeTime
+	> {
 		return getDutiesByPlannerIdAndRangeTime(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
@@ -339,7 +343,7 @@ describe('duty effects', () => {
 		);
 	}
 
-	function createSaveDutyEffect() {
+	function createSaveDutyEffect(): ReturnType<typeof saveDutyEffect> {
 		return saveDutyEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
@@ -350,7 +354,7 @@ describe('duty effects', () => {
 		);
 	}
 
-	function createUpdateDutyEffect() {
+	function createUpdateDutyEffect(): ReturnType<typeof updateDutyEffect> {
 		return updateDutyEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,
@@ -361,7 +365,7 @@ describe('duty effects', () => {
 		);
 	}
 
-	function createDeleteDutyEffect() {
+	function createDeleteDutyEffect(): ReturnType<typeof deleteDutyEffect> {
 		return deleteDutyEffect(
 			new Actions(actions$),
 			dutyControllerServiceSpy,

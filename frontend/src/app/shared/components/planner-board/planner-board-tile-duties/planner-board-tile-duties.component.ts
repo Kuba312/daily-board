@@ -19,7 +19,7 @@ import { DutyDto } from 'src/api/models';
 @Component({
     selector: 'app-planner-board-tile-duties',
     imports: [MatIconModule, SafeValue],
-    templateUrl: './planner-board-tile-duties.component.html'
+    templateUrl: './planner-board-tile-duties.component.html',
 })
 export default class PlannerBoardTileDutiesComponent {
 	private readonly HEIGHT_OF_TIME_VALUE: number = 0;
@@ -34,7 +34,7 @@ export default class PlannerBoardTileDutiesComponent {
 		Nullable<AnimationPlannerDirection>
 	> = input<Nullable<AnimationPlannerDirection>>(null);
 
-	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
+	public plannerAnimationEnd: OutputEmitterRef<void> = output<void>();
 	public editDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 	public deleteDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 

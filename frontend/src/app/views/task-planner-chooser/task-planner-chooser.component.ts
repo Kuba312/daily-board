@@ -32,7 +32,7 @@ import { PlannerDto } from 'src/api/models';
         PrimaryButtonComponent,
     ],
     templateUrl: './task-planner-chooser.component.html',
-    styleUrl: './task-planner-chooser.component.scss'
+    styleUrl: './task-planner-chooser.component.scss',
 })
 export default class TaskPlannerChooserComponent implements OnInit {
 	private readonly _store: Store = inject(Store);

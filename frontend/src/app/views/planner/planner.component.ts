@@ -41,7 +41,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     selector: 'app-planner',
     imports: [HeaderComponent, PlannerBoardComponent, SafeValue],
     templateUrl: './planner.component.html',
-    styleUrl: './planner.component.scss'
+    styleUrl: './planner.component.scss',
 })
 export default class PlannerComponent {
 	private readonly _store: Store = inject(Store);

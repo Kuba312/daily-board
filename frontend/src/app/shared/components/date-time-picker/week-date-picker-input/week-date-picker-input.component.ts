@@ -52,7 +52,7 @@ import CalendarWeeksRangerComponent from '../calendar-weeks-ranger/calendar-week
         },
         provideNgxMask(),
     ],
-    templateUrl: './week-date-picker-input.component.html'
+    templateUrl: './week-date-picker-input.component.html',
 })
 export default class WeekDatePickerInputComponent
 	implements ControlValueAccessor

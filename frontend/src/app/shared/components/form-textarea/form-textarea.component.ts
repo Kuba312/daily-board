@@ -17,7 +17,7 @@ import SafeValue from '@shared/pipes/safe-value.pipe';
         SafeValue,
         FormErrorMessageComponent,
     ],
-    templateUrl: './form-textarea.component.html'
+    templateUrl: './form-textarea.component.html',
 })
 export default class FormTextareaComponent {
 	formGroup: InputSignal<FormGroup> = input.required<FormGroup>();

@@ -9,7 +9,7 @@ import SafeValue from '@shared/pipes/safe-value.pipe';
     selector: 'app-date-range-configurer',
     imports: [LocaleDatePipe, SafeValue],
     styles: ':host { display: block }',
-    templateUrl: './date-range-configurer.component.html'
+    templateUrl: './date-range-configurer.component.html',
 })
 export class DateRangeConfigurerComponent {
 	public properDateDisplayMode: InputSignal<DisplayDateMode> =

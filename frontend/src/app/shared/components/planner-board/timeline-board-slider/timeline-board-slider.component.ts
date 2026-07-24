@@ -6,7 +6,7 @@ import { TimelineSliderDetails } from '@shared/models/time-slider-details';
     selector: 'app-timeline-board-slider',
     imports: [],
     templateUrl: './timeline-board-slider.component.html',
-    styles: ':host { display: block; width: 100%; height: 100%; }'
+    styles: ':host { display: block; width: 100%; height: 100%; }',
 })
 export default class TimelineBoardSliderComponent {
 	timelineSliderDetails: InputSignal<Option<TimelineSliderDetails>> =

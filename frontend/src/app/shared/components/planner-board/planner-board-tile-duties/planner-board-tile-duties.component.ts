@@ -19,7 +19,7 @@ import { DutyDto } from 'src/api/models';
 @Component({
     selector: 'app-planner-board-tile-duties',
     imports: [MatIconModule, SafeValue],
-    templateUrl: './planner-board-tile-duties.component.html'
+    templateUrl: './planner-board-tile-duties.component.html',
 })
 export default class PlannerBoardTileDutiesComponent {
 	private readonly HEIGHT_OF_TIME_VALUE: number = 0;

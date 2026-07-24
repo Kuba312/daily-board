@@ -22,7 +22,7 @@ import { PopoverPosition } from '@shared/enums/popover-positon.enum';
         PrimaryButtonComponent,
         PopoverDirective,
     ],
-    templateUrl: './planner-card.component.html'
+    templateUrl: './planner-card.component.html',
 })
 export default class PlannerCardComponent {
 	public plannerDetails: InputSignal<PlannerDto> =

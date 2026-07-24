@@ -38,7 +38,7 @@ export const ValidatorsImportanceOrderList: ValidatorNames[] = [
 	ValidatorNames.INVALID_TIME_DUTY_DIFFERENCE,
 ];
 
-export const FORM_ERROR_MESSAGES: { [keys in ValidatorNames]: string } = {
+export const FORM_ERROR_MESSAGES: Record<ValidatorNames, string> = {
 	[ValidatorNames.REQUIRED]: 'form-validators.required',
 	[ValidatorNames.EMAIL]: 'form-validators.email',
 	[ValidatorNames.PATTERN]: 'form-validators.pattern',

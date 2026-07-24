@@ -13,7 +13,7 @@ import PrimaryButtonComponent from '../primary-button/primary-button.component';
         TranslateModule,
         PrimaryButtonComponent,
     ],
-    templateUrl: './information-dialog.component.html'
+    templateUrl: './information-dialog.component.html',
 })
 export default class InformationDialogComponent {
 	private readonly _dialogRef: MatDialogRef<InformationDialogComponent> =

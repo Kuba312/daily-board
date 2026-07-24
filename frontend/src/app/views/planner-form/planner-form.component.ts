@@ -44,7 +44,7 @@ import { take } from 'rxjs';
         WeekDatePickerInputComponent,
     ],
     templateUrl: './planner-form.component.html',
-    styleUrl: './planner-form.component.scss'
+    styleUrl: './planner-form.component.scss',
 })
 export default class PlannerFormComponent implements OnInit {
 	private readonly _injector: Injector = inject(Injector);

@@ -14,7 +14,7 @@ import { PopoverDirective } from '@shared/directives/popover.directive';
 @Component({
     selector: 'app-tile-color',
     imports: [NgClass, PopoverDirective, TranslateModule],
-    templateUrl: './tile-color.component.html'
+    templateUrl: './tile-color.component.html',
 })
 export default class TileColorComponent {
 	public tileColor: InputSignal<string> = input.required<string>();

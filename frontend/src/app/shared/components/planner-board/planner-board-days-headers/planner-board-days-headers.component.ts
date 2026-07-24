@@ -24,7 +24,7 @@ import { WeekBoundary } from '@shared/types/week-range.type';
 @Component({
     selector: 'app-planner-board-days-headers',
     imports: [DayShortcutResponsivePipe, TranslateModule, MatIcon, NgClass],
-    templateUrl: './planner-board-days-headers.component.html'
+    templateUrl: './planner-board-days-headers.component.html',
 })
 export default class PlannerBoardDaysHeadersComponent implements OnInit {
 	private readonly _ngZone: NgZone = inject(NgZone);

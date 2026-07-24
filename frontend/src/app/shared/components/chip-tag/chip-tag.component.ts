@@ -4,7 +4,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
     selector: 'app-chip-tag',
     imports: [MatIcon],
-    templateUrl: './chip-tag.component.html'
+    templateUrl: './chip-tag.component.html',
 })
 export default class ChipTagComponent {
 	public chipContent: InputSignal<string> = input.required<string>();

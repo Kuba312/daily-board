@@ -201,12 +201,12 @@ There is no data or application migration. Removing the nested workflow is safe 
 
 #### Automated
 
-- [x] 2.1 Workflow YAML parses without syntax errors
-- [x] 2.2 Git diff validation passes
-- [x] 2.3 Frontend unit tests pass in ChromeHeadless
-- [x] 2.4 Frontend production build passes
-- [x] 2.5 Backend tests pass with 37 tests
-- [x] 2.6 Only the repository-root project workflow remains
+- [x] 2.1 Workflow YAML parses without syntax errors — 029dd84
+- [x] 2.2 Git diff validation passes — 029dd84
+- [x] 2.3 Frontend unit tests pass in ChromeHeadless — 029dd84
+- [x] 2.4 Frontend production build passes — 029dd84
+- [x] 2.5 Backend tests pass with 37 tests — 029dd84
+- [x] 2.6 Only the repository-root project workflow remains — 029dd84
 
 #### Manual
 

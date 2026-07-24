@@ -10,5 +10,5 @@ export default class ChipTagComponent {
 	public chipContent: InputSignal<string> = input.required<string>();
 	public index: InputSignal<number> = input.required<number>();
 
-	public onChipRemoved: OutputEmitterRef<number> = output<number>();
+	public chipRemoved: OutputEmitterRef<number> = output<number>();
 }

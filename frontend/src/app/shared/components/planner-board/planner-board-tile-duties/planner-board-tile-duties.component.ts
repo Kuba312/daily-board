@@ -34,7 +34,7 @@ export default class PlannerBoardTileDutiesComponent {
 		Nullable<AnimationPlannerDirection>
 	> = input<Nullable<AnimationPlannerDirection>>(null);
 
-	public onPlannerAnimationEnd: OutputEmitterRef<void> = output<void>();
+	public plannerAnimationEnd: OutputEmitterRef<void> = output<void>();
 	public editDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 	public deleteDuty: OutputEmitterRef<DutyDto> = output<DutyDto>();
 

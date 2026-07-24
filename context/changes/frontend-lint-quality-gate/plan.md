@@ -434,30 +434,30 @@ revert only one template level.
 
 #### Automated
 
-- [x] 2.1 Effect helper return-type findings are resolved against production factory types
-- [x] 2.2 Dynamic planner fixture keys preserve reducer expectations
-- [x] 2.3 Lint leaves only three output-prefix errors and zero warnings
-- [x] 2.4 Frontend tests pass after manual typing and fixture cleanup
-- [x] 2.5 Whitespace validation passes
+- [x] 2.1 Effect helper return-type findings are resolved against production factory types — dc51df2
+- [x] 2.2 Dynamic planner fixture keys preserve reducer expectations — dc51df2
+- [x] 2.3 Lint leaves only three output-prefix errors and zero warnings — dc51df2
+- [x] 2.4 Frontend tests pass after manual typing and fixture cleanup — dc51df2
+- [x] 2.5 Whitespace validation passes — dc51df2
 
 #### Manual
 
-- [x] 2.6 Typing and fixture changes preserve test intent
+- [x] 2.6 Typing and fixture changes preserve test intent — dc51df2
 
 ### Phase 3: Rename Angular Output Contracts Atomically
 
 #### Automated
 
-- [ ] 3.1 Old output names are absent from declarations, emissions, and bindings
-- [ ] 3.2 Frontend lint passes with zero errors and zero warnings
-- [ ] 3.3 Frontend tests pass after output renames
-- [ ] 3.4 Frontend production build passes after output renames
-- [ ] 3.5 Generated API diff is empty and whitespace validation passes
+- [x] 3.1 Old output names are absent from declarations, emissions, and bindings
+- [x] 3.2 Frontend lint passes with zero errors and zero warnings
+- [x] 3.3 Frontend tests pass after output renames
+- [x] 3.4 Frontend production build passes after output renames
+- [x] 3.5 Generated API diff is empty and whitespace validation passes
 
 #### Manual
 
-- [ ] 3.6 Date-chip removal still propagates the correct index
-- [ ] 3.7 Dynamic week animation completes and subsequent switching remains available
+- [x] 3.6 Date-chip removal still propagates the correct index
+- [x] 3.7 Dynamic week animation completes and subsequent switching remains available
 
 ### Phase 4: Enable the CI Gate and Synchronize Repository Guidance
 

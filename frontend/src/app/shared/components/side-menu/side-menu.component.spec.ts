@@ -77,16 +77,15 @@ describe('SideMenuComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	it('should highlight item on nav menu when user direct to proper page', () => {
+	it('should show only working navigation items and highlight planners', () => {
 		routerHelperServiceSpy.isActive.withArgs('/planners').and.returnValue(true);
-		routerHelperServiceSpy.isActive.withArgs('/calendar').and.returnValue(false);
-		routerHelperServiceSpy.isActive.withArgs('/tasks').and.returnValue(false);
-		routerHelperServiceSpy.isActive.withArgs('/settings').and.returnValue(false);
 		fixture.detectChanges();
-	
+
+		const navigationItems = el.queryAll(By.css('.side-menu__nav-links a'));
 		const plannerActiveLink = el.query(By.css('.active-link span'));
-		
-		expect(plannerActiveLink.nativeElement.textContent).toBe('side-menu.planners')
+
+		expect(navigationItems.length).toBe(1);
+		expect(plannerActiveLink.nativeElement.textContent).toBe('side-menu.planners');
 	});
 
 	it('should hide authenticated actions when user is not authenticated', () => {

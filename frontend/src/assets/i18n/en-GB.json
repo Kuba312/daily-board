@@ -3,11 +3,7 @@
 		"name": "Daily Board"
 	},
 	"side-menu": {
-		"today": "Today",
-		"calendar": "Calendar",
 		"planners": "Planners",
-		"tasks": "Tasks",
-		"settings": "Settings",
 		"new-duty": "Create task",
 		"add-planner": "Add planner",
 		"logout": "Logout"

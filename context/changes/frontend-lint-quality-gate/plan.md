@@ -422,27 +422,27 @@ revert only one template level.
 
 #### Automated
 
-- [x] 1.1 Generated API ignore leaves an authored baseline of 40 errors and four warnings
-- [x] 1.2 Authored-source autofix leaves exactly 14 errors and four warnings
-- [x] 1.3 Generated API diff is empty and whitespace validation passes
+- [x] 1.1 Generated API ignore leaves an authored baseline of 40 errors and four warnings — d259ad4
+- [x] 1.2 Authored-source autofix leaves exactly 14 errors and four warnings — d259ad4
+- [x] 1.3 Generated API diff is empty and whitespace validation passes — d259ad4
 
 #### Manual
 
-- [x] 1.4 Autofix diff contains only the approved mechanical changes
+- [x] 1.4 Autofix diff contains only the approved mechanical changes — d259ad4
 
 ### Phase 2: Resolve Manual Typing, Fixture, and Warning Findings
 
 #### Automated
 
-- [ ] 2.1 Effect helper return-type findings are resolved against production factory types
-- [ ] 2.2 Dynamic planner fixture keys preserve reducer expectations
-- [ ] 2.3 Lint leaves only three output-prefix errors and zero warnings
-- [ ] 2.4 Frontend tests pass after manual typing and fixture cleanup
-- [ ] 2.5 Whitespace validation passes
+- [x] 2.1 Effect helper return-type findings are resolved against production factory types
+- [x] 2.2 Dynamic planner fixture keys preserve reducer expectations
+- [x] 2.3 Lint leaves only three output-prefix errors and zero warnings
+- [x] 2.4 Frontend tests pass after manual typing and fixture cleanup
+- [x] 2.5 Whitespace validation passes
 
 #### Manual
 
-- [ ] 2.6 Typing and fixture changes preserve test intent
+- [x] 2.6 Typing and fixture changes preserve test intent
 
 ### Phase 3: Rename Angular Output Contracts Atomically
 

@@ -5,6 +5,7 @@ import {
 	OnInit,
 	effect,
 	runInInjectionContext,
+	Signal,
 	signal,
 	WritableSignal,
 } from '@angular/core';
@@ -56,14 +57,14 @@ export default class PlannerFormComponent implements OnInit {
 
 	public formModel: WritableSignal<Option<PlannerFormModel>> = signal(null);
 	public clearDateInput: WritableSignal<boolean> = signal(false);
-	public readonly BACK_URL = '/planners';
+	public readonly BACK_URL: string = '/planners';
 	private readonly _plannerId: Option<string> =
 		this._activatedRoute.snapshot.paramMap.get('plannerId');
-	private readonly _planner = this._plannerId
+	private readonly _planner: Signal<PlannerDto | undefined> = this._plannerId
 		? this._store.selectSignal(selectPlannerById(this._plannerId))
 		: signal(undefined);
-	private _editFormInitialized = false;
-	private _editFormInitializedWithPlannerShape = false;
+	private _editFormInitialized: boolean = false;
+	private _editFormInitializedWithPlannerShape: boolean = false;
 
 	ngOnInit(): void {
 		this._initializeForm();

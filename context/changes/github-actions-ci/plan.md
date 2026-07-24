@@ -210,6 +210,6 @@ There is no data or application migration. Removing the nested workflow is safe 
 
 #### Manual
 
-- [x] 2.7 Pull request run exposes separate frontend and backend jobs
-- [x] 2.8 Both hosted-runner jobs pass without secrets or MySQL
-- [ ] 2.9 Push to main starts the CI workflow after merge
+- [x] 2.7 Pull request run exposes separate frontend and backend jobs — e5d8f85
+- [x] 2.8 Both hosted-runner jobs pass without secrets or MySQL — e5d8f85
+- [x] 2.9 Push to main starts the CI workflow after merge — fe4ce4d

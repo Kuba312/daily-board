@@ -13,10 +13,10 @@ last_updated_by: Codex
 
 # Research: Frontend lint baseline and required CI gate
 
-**Date**: 2026-07-24T20:23:33+02:00  
-**Researcher**: Codex  
-**Git Commit**: 76fbb0db06c9ba33cd61f52303091391eea5b023  
-**Branch**: DB-61  
+**Date**: 2026-07-24T20:23:33+02:00\
+**Researcher**: Codex\
+**Git Commit**: 76fbb0db06c9ba33cd61f52303091391eea5b023\
+**Branch**: DB-61\
 **Repository**: daily-board
 
 ## Research Question

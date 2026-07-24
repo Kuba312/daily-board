@@ -1,6 +1,6 @@
 # Frontend Lint Quality Gate — Plan Brief
 
-> Full plan: `context/changes/frontend-lint-quality-gate/plan.md`  
+> Full plan: `context/changes/frontend-lint-quality-gate/plan.md`\
 > Research: `context/changes/frontend-lint-quality-gate/research.md`
 
 ## What & Why
@@ -61,7 +61,7 @@ compilation and tests, then enable the green command in CI.
 | 3. Output contracts | Renamed event chains with green lint/test/build | Stale nested template binding |
 | 4. CI + guidance | Fail-fast lint gate and accurate agent instructions | Enabling CI before baseline is green |
 
-**Prerequisites:** Frontend dependencies and a Node 22-compatible runtime.  
+**Prerequisites:** Frontend dependencies and a Node 22-compatible runtime.\
 **Estimated effort:** 1–2 implementation sessions plus hosted CI verification.
 
 ## Open Risks & Assumptions

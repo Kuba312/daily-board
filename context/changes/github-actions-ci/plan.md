@@ -190,23 +190,23 @@ There is no data or application migration. Removing the nested workflow is safe 
 
 #### Automated
 
-- [x] 1.1 The context test uses the Surefire-compatible singular file and class name
-- [x] 1.2 Backend tests pass with 37 tests and zero failures/errors
+- [x] 1.1 The context test uses the Surefire-compatible singular file and class name — 606e97f
+- [x] 1.2 Backend tests pass with 37 tests and zero failures/errors — 606e97f
 
 #### Manual
 
-- [x] 1.3 Maven output confirms DailyboardApplicationTest executed
+- [x] 1.3 Maven output confirms DailyboardApplicationTest executed — 606e97f
 
 ### Phase 2: Add Repository-Root GitHub Actions CI
 
 #### Automated
 
-- [ ] 2.1 Workflow YAML parses without syntax errors
-- [ ] 2.2 Git diff validation passes
-- [ ] 2.3 Frontend unit tests pass in ChromeHeadless
-- [ ] 2.4 Frontend production build passes
-- [ ] 2.5 Backend tests pass with 37 tests
-- [ ] 2.6 Only the repository-root project workflow remains
+- [x] 2.1 Workflow YAML parses without syntax errors
+- [x] 2.2 Git diff validation passes
+- [x] 2.3 Frontend unit tests pass in ChromeHeadless
+- [x] 2.4 Frontend production build passes
+- [x] 2.5 Backend tests pass with 37 tests
+- [x] 2.6 Only the repository-root project workflow remains
 
 #### Manual
 

@@ -359,16 +359,16 @@ No database, API, generated-client, backend, or data migration work is required.
 
 #### Automated
 
-- [x] 2.1 Side menu component tests pass
-- [x] 2.2 Frontend tests pass if practical
-- [x] 2.3 Frontend build passes
+- [x] 2.1 Side menu component tests pass — 87625fa
+- [x] 2.2 Frontend tests pass if practical — 87625fa
+- [x] 2.3 Frontend build passes — 87625fa
 
 #### Manual
 
-- [x] 2.4 Logged-out `/auth` view hides create task, add planner, and logout actions
-- [x] 2.5 Logged-in view shows create task, add planner, and logout actions
-- [x] 2.6 Logout still clears planner/duty state and routes to `/auth`
-- [x] 2.7 No unrelated side-menu layout redesign is introduced
+- [x] 2.4 Logged-out `/auth` view hides create task, add planner, and logout actions — 87625fa
+- [x] 2.5 Logged-in view shows create task, add planner, and logout actions — 87625fa
+- [x] 2.6 Logout still clears planner/duty state and routes to `/auth` — 87625fa
+- [x] 2.7 No unrelated side-menu layout redesign is introduced — 87625fa
 
 ### Phase 3: Planner Empty States
 

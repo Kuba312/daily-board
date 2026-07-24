@@ -9,6 +9,7 @@ import PlannerCardComponent from '@shared/components/planner-card/planner-card.c
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { DialogService } from '@shared/services/dialog/dialog.service';
 import { MockComponent } from 'ng-mocks';
 import { PlannerDto } from 'src/api/models';
 import { MOCK_PLANNERS } from 'src/mocks/mock-data';
@@ -19,6 +20,7 @@ describe('TaskPlannerChooserComponent', () => {
 	let component: TaskPlannerChooserComponent;
 	let mockStore: jasmine.SpyObj<Store>;
 	let routerHelperServiceSpy: jasmine.SpyObj<RouterHelperService>;
+	let dialogServiceSpy: jasmine.SpyObj<DialogService>;
 	let el: DebugElement;
 	let planners: PlannerDto[];
 
@@ -27,6 +29,10 @@ describe('TaskPlannerChooserComponent', () => {
 		routerHelperServiceSpy = jasmine.createSpyObj('RouterHelperService', [
 			'directToUrl',
 		]);
+		dialogServiceSpy = jasmine.createSpyObj<DialogService>(
+			'DialogService',
+			['openSimpleDialog'],
+		);
 
 		planners = MOCK_PLANNERS;
 
@@ -48,6 +54,7 @@ describe('TaskPlannerChooserComponent', () => {
 					provide: RouterHelperService,
 					useValue: routerHelperServiceSpy,
 				},
+				{ provide: DialogService, useValue: dialogServiceSpy },
 				{ provide: Store, useValue: mockStore },
 			],
 		})
@@ -130,5 +137,33 @@ describe('TaskPlannerChooserComponent', () => {
 		);
 	
 		expect(noPlannersInfo).toBeTruthy();
+		expect(noPlannersInfo.nativeElement.textContent).toContain(
+			'task-planner-chooser.empty-title',
+		);
+		expect(noPlannersInfo.nativeElement.textContent).toContain(
+			'task-planner-chooser.empty-body',
+		);
+	});
+
+	it('should not show no-planners empty state when planners exist', () => {
+		fixture.detectChanges();
+
+		const noPlannersInfo = el.query(
+			By.css('.task-planner-chooser__no-planners'),
+		);
+
+		expect(noPlannersInfo).toBeFalsy();
+	});
+
+	it('should direct to planner creator from no-planners empty state action', () => {
+		planners = [];
+		fixture.detectChanges();
+
+		const emptyStateAction = el.query(
+			By.css('.task-planner-chooser__no-planners .primary-button__content'),
+		);
+		emptyStateAction.nativeElement.click();
+
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith('/planner-add');
 	});
 });

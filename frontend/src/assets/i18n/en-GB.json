@@ -35,7 +35,10 @@
 	},
 	"task-planner-chooser": {
 		"title": "Choose planner",
-		"assign-task": "Add task for planner"
+		"assign-task": "Add task for planner",
+		"empty-title": "Create a planner first",
+		"empty-body": "Tasks need a planner before they can be placed on the board. Add a planner, then come back to choose where the task belongs.",
+		"empty-action": "Create planner"
 	},
 	"task-board-form": {
 		"title": "Create board task",
@@ -77,7 +80,10 @@
 	},
 		"planners-dashboard": {
 			"title": "Your planners",
-			"confirm-delete": "Delete this planner and all its duties?"
+			"confirm-delete": "Delete this planner and all its duties?",
+			"empty-title": "No planners yet",
+			"empty-body": "Create your first planner to start organizing tasks on the board.",
+			"empty-action": "Create planner"
 		},
 		"auth": {
 			"form-title": "Account access",

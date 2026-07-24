@@ -17,6 +17,7 @@ import HeaderWithButtonsComponent from '@shared/components/header-with-buttons/h
 import PlannerCardComponent from '@shared/components/planner-card/planner-card.component';
 import PlannerItemsContainerComponent 
 	from '@shared/components/planner-items-container/planner-items-container.component';
+import PrimaryButtonComponent from '@shared/components/primary-button/primary-button.component';
 import { ButtonConfig } from '@shared/models/button-config';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
 import { PlannerDto } from 'src/api/models';
@@ -28,6 +29,7 @@ import { PlannerDto } from 'src/api/models';
         HeaderWithButtonsComponent,
         PlannerCardComponent,
         PlannerItemsContainerComponent,
+        PrimaryButtonComponent,
     ],
     templateUrl: './task-planner-chooser.component.html',
     styleUrl: './task-planner-chooser.component.scss'
@@ -74,6 +76,10 @@ export default class TaskPlannerChooserComponent implements OnInit {
 		}
 
 		this._directToDutyCreationPage(selectedPlannerCardId);
+	}
+
+	public directToPlannerCreator(): void {
+		this._routerHelperService.directToUrl('/planner-add');
 	}
 
 	private _showInformationDialogWhenThereIsNoPlannerCard(): void {

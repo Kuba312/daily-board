@@ -125,7 +125,7 @@ describe('PlannersDashboardComponent', () => {
 
 		fixture.detectChanges();
 
-		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalled();
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith('/planner-add');
 	})
 
 	it('should direct to planner details view', () => {
@@ -171,7 +171,35 @@ describe('PlannersDashboardComponent', () => {
 		);
 
 		expect(noPlannersInfo).toBeTruthy();
+		expect(noPlannersInfo.nativeElement.textContent).toContain(
+			'planners-dashboard.empty-title',
+		);
+		expect(noPlannersInfo.nativeElement.textContent).toContain(
+			'planners-dashboard.empty-body',
+		);
 
 	})
+
+	it('should not show no-planners empty state when planners exist', () => {
+		fixture.detectChanges();
+
+		const noPlannersInfo = el.query(
+			By.css('.planners-dashboard__no-planners'),
+		);
+
+		expect(noPlannersInfo).toBeFalsy();
+	});
+
+	it('should direct to planner creator from no-planners empty state action', () => {
+		planners = [];
+		fixture.detectChanges();
+
+		const emptyStateAction = el.query(
+			By.css('.planners-dashboard__no-planners .primary-button__content'),
+		);
+		emptyStateAction.nativeElement.click();
+
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith('/planner-add');
+	});
 	
 });

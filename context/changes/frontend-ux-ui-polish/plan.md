@@ -374,18 +374,18 @@ No database, API, generated-client, backend, or data migration work is required.
 
 #### Automated
 
-- [ ] 3.1 Planners dashboard tests pass
-- [ ] 3.2 Task planner chooser tests pass
-- [ ] 3.3 Frontend tests pass if practical
-- [ ] 3.4 Frontend build passes
+- [x] 3.1 Planners dashboard tests pass
+- [x] 3.2 Task planner chooser tests pass
+- [x] 3.3 Frontend tests pass if practical
+- [x] 3.4 Frontend build passes
 
 #### Manual
 
-- [ ] 3.5 `/planners` with no planners shows clear copy and next action
-- [ ] 3.6 `/choose-planner` with no planners explains that a planner is required before adding a task
-- [ ] 3.7 Planner cards still render correctly when planners exist
-- [ ] 3.8 Planner selection in `/choose-planner` still works when planners exist
-- [ ] 3.9 No planner board or week-switching behavior is changed
+- [x] 3.5 `/planners` with no planners shows clear copy and next action
+- [x] 3.6 `/choose-planner` with no planners explains that a planner is required before adding a task
+- [x] 3.7 Planner cards still render correctly when planners exist
+- [x] 3.8 Planner selection in `/choose-planner` still works when planners exist
+- [x] 3.9 No planner board or week-switching behavior is changed
 
 ### Phase 4: Verification and Smoke Documentation
 

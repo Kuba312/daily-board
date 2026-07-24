@@ -391,15 +391,15 @@ No database, API, generated-client, backend, or data migration work is required.
 
 #### Automated
 
-- [ ] 4.1 Auth component tests pass
-- [ ] 4.2 Side menu component tests pass
-- [ ] 4.3 Planners dashboard tests pass
-- [ ] 4.4 Task planner chooser tests pass
-- [ ] 4.5 Frontend tests pass if practical
-- [ ] 4.6 Frontend build passes
+- [x] 4.1 Auth component tests pass
+- [x] 4.2 Side menu component tests pass
+- [x] 4.3 Planners dashboard tests pass
+- [x] 4.4 Task planner chooser tests pass
+- [x] 4.5 Frontend tests pass if practical
+- [x] 4.6 Frontend build passes
 
 #### Manual
 
-- [ ] 4.7 Manual smoke checklist exists
-- [ ] 4.8 Smoke checklist confirms auth loading/error UX, logged-out action visibility, logged-in action visibility, and planner empty states
-- [ ] 4.9 Smoke checklist explicitly confirms no intended backend, business logic, AI, board, or week-switching changes
+- [x] 4.7 Manual smoke checklist exists
+- [x] 4.8 Smoke checklist confirms auth loading/error UX, logged-out action visibility, logged-in action visibility, and planner empty states
+- [x] 4.9 Smoke checklist explicitly confirms no intended backend, business logic, AI, board, or week-switching changes

@@ -26,10 +26,7 @@ export default class SideMenuComponent {
 	private readonly _authService: AuthService = inject(AuthService);
 	private readonly _store: Store = inject(Store);
 
-	readonly CALENDAR_URL: string = '/calendar';
 	readonly PLANNERS_URL: string = '/planners';
-	readonly TASKS_URL: string = '/tasks';
-	readonly SETTINGS_URL: string = '/settings';
 
 	public isActive(link: string): boolean {
 		return this._routerHelperService.isActive(link);

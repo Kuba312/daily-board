@@ -1,27 +1,92 @@
-# DailyBoard
+# Daily Board — frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+Frontend Daily Board jest aplikacją Angular 21 napisaną w TypeScripcie. Obsługuje
+rejestrację i logowanie, listę planerów, formularze planerów i zadań oraz
+statyczny i dynamiczny widok tygodnia. Stan danych planerów i zadań jest
+zarządzany przez NgRx.
 
-## Development server
+Ogólny opis projektu i pełna instrukcja uruchomienia znajdują się w
+[`../README.md`](../README.md).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Wymagania i instalacja
 
-## Code scaffolding
+- Node.js 22;
+- npm;
+- działający backend pod adresem skonfigurowanym w
+  `src/assets/app-config.json`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm ci --legacy-peer-deps
+npm run start
+```
 
-## Build
+Aplikacja jest dostępna pod `http://localhost:4200`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Konfiguracja API
 
-## Running unit tests
+Konfiguracja runtime jest ładowana z `src/assets/app-config.json`:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```json
+{
+  "apiBaseUrl": "http://localhost:8080"
+}
+```
 
-## Running end-to-end tests
+Pozwala to zmienić adres backendu bez modyfikowania kodu TypeScript. Jeżeli plik
+nie zostanie załadowany, aplikacja użyje `http://localhost:8080`.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Dostępne polecenia
 
-## Further help
+```bash
+npm run start
+npm run lint
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build
+npm run e2e -- --project=chromium
+npm run openapi-generate
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `start` — serwer developerski;
+- `lint` — ESLint dla plików TypeScript i szablonów;
+- `test` — testy jednostkowe i komponentowe Karma/Jasmine;
+- `build` — produkcyjny build do `dist/daily-board`;
+- `e2e` — krytyczne przepływy Playwright;
+- `openapi-generate` — ponowne wygenerowanie klienta API z działającego
+  backendu.
+
+Przed pierwszym uruchomieniem e2e wykonaj:
+
+```bash
+npx playwright install chromium
+```
+
+Konfiguracja testów e2e i ograniczenia platformowe są opisane w
+[`e2e/README.md`](e2e/README.md).
+
+## Struktura
+
+```text
+src/
+├── api/                 # klient wygenerowany ze specyfikacji OpenAPI
+├── app/
+│   ├── core/            # auth, konfiguracja i usługi aplikacyjne
+│   ├── shared/          # komponenty i usługi współdzielone
+│   ├── shared-store/    # stan, reducery i efekty NgRx
+│   └── views/           # widoki i formularze routingu
+└── assets/
+    ├── app-config.json  # runtime API base URL
+    ├── i18n/            # tłumaczenia
+    └── scss/            # style
+```
+
+## Kontrakt OpenAPI
+
+`openapi-config.json` pobiera specyfikację z
+`http://localhost:8080/v3/api-docs`. Backend musi działać podczas generowania:
+
+```bash
+npm run openapi-generate
+```
+
+Nie należy ręcznie poprawiać wygenerowanych plików w `src/api/`; źródłem zmian
+jest kontrakt backendu.

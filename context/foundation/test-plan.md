@@ -258,8 +258,35 @@ persistence patterns.
 
 ### 6.5 Adding critical-flow e2e smoke
 
-TBD - see §3 Phase 4 for the minimal end-to-end smoke path. Use e2e only for
-critical flows that cheaper backend/frontend tests cannot prove.
+Critical-flow e2e tests live under `frontend/e2e/`. Keep them limited to risks
+that require a browser plus a real API boundary; cheaper backend and frontend
+tests continue to own edge cases.
+
+Use Playwright with isolated users created through the real auth API. Prefer
+`storageState` for authentication, role/label/text locators for UI interaction,
+and API assertions only where the risk explicitly includes direct endpoint
+access. Each test must create unique data and remain independently runnable.
+
+Reference tests:
+
+- `seed.spec.ts` — authenticated user's owned planner is visible.
+- `ownership-boundary.spec.ts` — Risk #1: User B neither sees User A's planner
+  in the UI nor fetches it through the direct API path.
+
+Run commands:
+
+```bash
+cd frontend
+npx playwright install chromium
+npm run e2e -- e2e/seed.spec.ts --project=chromium
+npm run e2e -- e2e/ownership-boundary.spec.ts --project=chromium
+npm run e2e -- --project=chromium
+```
+
+`playwright.config.ts` starts an H2-backed Spring Boot test server and the
+Angular dev server on macOS. On other platforms, start both servers manually;
+Playwright reuses them when they are already available. Further operational
+notes live in `frontend/e2e/README.md`.
 
 ### 6.6 Per-rollout-phase notes
 
@@ -268,6 +295,9 @@ critical flows that cheaper backend/frontend tests cannot prove.
   `plannerId` smuggling, cross-user duty conflict isolation, and minimal auth
   rejection consistency. Verification command: `cd backend/dailyboard-backend
   && JAVA_HOME=$(/usr/libexec/java_home -v 22) ./mvnw test`.
+- Critical-flow e2e coverage currently protects the ownership boundary from
+  Risk #1. The test files and commands are documented in §6.5; this cookbook
+  update does not change the frozen rollout status in §3.
 
 ## 7. What We Deliberately Don't Test
 
@@ -286,6 +316,7 @@ respect these unless the underlying assumption changes.
 - Strategy (§1-§5) last reviewed: 2026-06-01
 - Stack versions last verified: 2026-06-01
 - AI-native tool references last verified: 2026-06-01
+- Cookbook (§6) last updated: 2026-07-25
 
 Refresh (`/10x-test-plan --refresh`) when:
 

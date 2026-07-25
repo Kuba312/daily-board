@@ -3,6 +3,7 @@ project: "Daily Board"
 version: 1
 status: draft
 created: 2026-05-23
+updated: 2026-07-25
 context_type: brownfield
 product_type: web-app
 target_scale:
@@ -21,24 +22,33 @@ System purpose: Daily Board to aplikacja do planowania dnia i tygodnia, w ktorej
 
 Key architecture: Aplikacja jest podzielona na frontend i backend. Istnieje juz dzialajacy flow planowania oraz dwa warianty boardu: statyczny i dynamiczny.
 
-Tech stack: Frontend: Angular. Backend: Java + Spring Boot. Baza danych: MySQL. Auth nie jest jeszcze dostepny dla uzytkownika. Funkcja AI jest planowana, ale nie jest jeszcze dostepna.
+Tech stack: Frontend: Angular. Backend: Java + Spring Boot. Baza danych: MySQL. Uwierzytelnianie email + haslo, tokeny JWT i wlasnosc danych per-user sa zaimplementowane. Funkcja AI pozostaje opcjonalnym, przyszlym rozszerzeniem i nie jest jeszcze dostepna.
 
-Current user base: Docelowo aplikacja sluzy osobom planujacym w jednym miejscu prace, nauke i zycie prywatne. W obecnym stanie projekt ma juz zaimplementowane podstawowe funkcje planowania, ale bez modelu konta koncowego uzytkownika.
+Current user base: Aplikacja sluzy osobom planujacym w jednym miejscu prace, nauke i zycie prywatne. Obecny rdzen MVP ma model konta uzytkownika, dane per-user oraz pelny CRUD plannerow i elementow planu.
 
 Core functionality:
+- rejestracja, logowanie i wylogowanie,
 - tworzenie planera,
 - dodawanie zadan i wydarzen do planera,
+- edycja i usuwanie plannerow oraz elementow planu,
 - wyswietlanie boardu lub kalendarza,
 - board statyczny,
 - board dynamiczny ze zmieniajacymi sie tygodniami.
 
+### Implementation Status Snapshot (2026-07-25)
+
+- Core MVP implemented: auth, account-owned planner and duty data, planner/duty CRUD, static and dynamic board behavior, and ownership-boundary coverage.
+- Preserved behavior: dynamic week switching remains part of the implemented manual planning flow.
+- Optional/later: AI weekly proposal preview and explicit accept/reject flow. No AI integration or AI-triggered persistence exists in the current codebase.
+- Delivery status is tracked in `context/foundation/roadmap.md`; this PRD remains the broader product and requirements foundation.
+
 ## Problem Statement & Motivation
 
-The specific pain or gap: Obecna aplikacja wspiera samo planowanie, ale nie ma jeszcze logowania, przypisania danych do konkretnego uzytkownika, edycji i usuwania plannerow oraz elementow planu, ani funkcji AI wspierajacej szkic tygodnia.
+Baseline pain at shaping time: Aplikacja wspierala samo planowanie, ale nie miala jeszcze logowania, przypisania danych do konkretnego uzytkownika, edycji i usuwania plannerow oraz elementow planu ani funkcji AI wspierajacej szkic tygodnia. Auth, ownership i CRUD zostaly od tego czasu zaimplementowane; AI pozostaje opcjonalne i niezrealizowane.
 
 Why this change is needed now: Zmiana jest potrzebna, poniewaz projekt ma juz dzialajacy model planowania i widoki boardu, ale bez konta uzytkownika i pelnego zarzadzania danymi nie domyka glownego przeplywu korzystania z aplikacji. Funkcja AI ma wspierac glowne zalozenie produktu, czyli szybkie ulozenie realistycznego planu tygodnia bez rezygnacji z kontroli po stronie uzytkownika.
 
-Current workaround and its cost: Dzis planery, zadania i wydarzenia nie sa jeszcze osadzone w kontekscie konkretnego uzytkownika, przez co aplikacja nie wspiera bezpiecznego powrotu do swoich danych ani pelnego zarzadzania nimi. Brak AI oznacza tez, ze pierwszy szkic planu uzytkownik musi ukladac calkowicie recznie.
+Baseline workaround and its cost: Przed wdrozeniem kont planery, zadania i wydarzenia nie byly osadzone w kontekscie konkretnego uzytkownika, przez co aplikacja nie wspierala bezpiecznego powrotu do swoich danych ani pelnego zarzadzania nimi. Ten problem zostal rozwiazany w rdzeniu MVP. Brak opcjonalnej funkcji AI nadal oznacza, ze pierwszy szkic planu uzytkownik uklada recznie.
 
 ## User & Persona
 
@@ -110,9 +120,9 @@ Change: Planners and tasks/events operate in the context of the logged-in user (
 
 ## Access Control Changes
 
-Current model: Brak dostepnego logowania dla uzytkownika w aplikacji. Brak rol dostepnych w UI.
+Baseline model at shaping time: Brak dostepnego logowania dla uzytkownika w aplikacji. Brak rol dostepnych w UI.
 
-Planned change: Dodac uwierzytelnianie email plus haslo oraz przypisac planery, zadania i wydarzenia do konkretnego uzytkownika.
+Implemented change: Uwierzytelnianie email plus haslo oraz przypisanie plannerow, zadan i wydarzen do konkretnego uzytkownika sa zaimplementowane.
 
 Roles: Jedna rola uzytkownika w MVP.
 

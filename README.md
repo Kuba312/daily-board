@@ -192,3 +192,28 @@ kontraktu backendu.
 | statyczny i dynamiczny board oraz przełączanie tygodni | gotowe |
 | wykrywanie konfliktów terminów | gotowe |
 | propozycja planu generowana przez AI | opcjonalne / niezrealizowane |
+
+------------------------------------------------------------------------------------------------------------------------------------
+ekran logowania:
+
+<img width="1800" height="961" alt="Zrzut ekranu 2026-07-25 o 12 46 22" src="https://github.com/user-attachments/assets/548d1c24-96f3-4030-9839-25784d487c4f" />
+
+strona główna:
+
+<img width="1800" height="999" alt="Zrzut ekranu 2026-07-25 o 12 47 35" src="https://github.com/user-attachments/assets/7c30b4a7-a8c7-4c90-a28c-c1290562fba5" />
+
+Główna funkcjonalność nr 1 (Tworzenie nowego planera z określeniem nazwy, godzin i trybu działania):
+
+<img width="1800" height="999" alt="Zrzut ekranu 2026-07-25 o 12 50 25" src="https://github.com/user-attachments/assets/03661258-da16-49cf-9732-1ff98deb5cac" />
+
+Główna funkcjonalność nr 2 (Tygodniowy widok planera z zadaniami przypisanymi do dni i godzin):
+
+<img width="1759" height="972" alt="Zrzut ekranu 2026-07-25 o 13 25 57" src="https://github.com/user-attachments/assets/225f154c-9ba5-4027-abeb-f96f7c50ea18" />
+
+Poprawnie działające testy backend/frontend:
+
+backend:
+<img width="2288" height="394" alt="image" src="https://github.com/user-attachments/assets/6edf5bbf-0db1-42f4-9b64-073e8a3441b7" />
+
+frontend:
+<img width="2288" height="108" alt="image" src="https://github.com/user-attachments/assets/8994b74c-c3c8-4901-9231-a43a507a351a" />

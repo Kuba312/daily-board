@@ -193,7 +193,8 @@ kontraktu backendu.
 | wykrywanie konfliktów terminów | gotowe |
 | propozycja planu generowana przez AI | opcjonalne / niezrealizowane |
 
-------------------------------------------------------------------------------------------------------------------------------------
+## Zrzuty ekranu
+
 ekran logowania:
 
 <img width="1800" height="961" alt="Zrzut ekranu 2026-07-25 o 12 46 22" src="https://github.com/user-attachments/assets/548d1c24-96f3-4030-9839-25784d487c4f" />
@@ -210,7 +211,7 @@ Główna funkcjonalność nr 2 (Tygodniowy widok planera z zadaniami przypisany
 
 <img width="1759" height="972" alt="Zrzut ekranu 2026-07-25 o 13 25 57" src="https://github.com/user-attachments/assets/225f154c-9ba5-4027-abeb-f96f7c50ea18" />
 
-Poprawnie działające testy backend/frontend:
+## Wyniki testów
 
 backend:
 <img width="2288" height="394" alt="image" src="https://github.com/user-attachments/assets/6edf5bbf-0db1-42f4-9b64-073e8a3441b7" />

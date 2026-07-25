@@ -185,6 +185,7 @@ kontraktu backendu.
 
 | Obszar | Stan |
 |---|---|
+
 | rejestracja, logowanie i wylogowanie | gotowe |
 | własność i izolacja danych użytkowników | gotowe |
 | tworzenie, odczyt, edycja i usuwanie planerów | gotowe |
@@ -205,16 +206,30 @@ strona główna:
 
 Główna funkcjonalność nr 1 (Tworzenie nowego planera z określeniem nazwy, godzin i trybu działania):
 
+Dodawanie planera:
 <img width="1800" height="999" alt="Zrzut ekranu 2026-07-25 o 12 50 25" src="https://github.com/user-attachments/assets/03661258-da16-49cf-9732-1ff98deb5cac" />
+
+Dodawanie zadania do planera:
+<img width="1782" height="998" alt="Zrzut ekranu 2026-07-25 o 14 13 07" src="https://github.com/user-attachments/assets/865bf59d-03a3-4f99-9992-cdb16ed15834" />
+
 
 Główna funkcjonalność nr 2 (Tygodniowy widok planera z zadaniami przypisanymi do dni i godzin):
 
+Planer dynamiczny z zadaniami:
+
 <img width="1759" height="972" alt="Zrzut ekranu 2026-07-25 o 13 25 57" src="https://github.com/user-attachments/assets/225f154c-9ba5-4027-abeb-f96f7c50ea18" />
+
+Planer statyczny z zadaniami:
+
+<img width="1782" height="998" alt="Zrzut ekranu 2026-07-25 o 14 14 28" src="https://github.com/user-attachments/assets/97bd57f3-3289-4e27-8d7c-d78ec3e3a2dd" />
+
 
 ## Wyniki testów
 
 backend:
+
 <img width="2288" height="394" alt="image" src="https://github.com/user-attachments/assets/6edf5bbf-0db1-42f4-9b64-073e8a3441b7" />
 
 frontend:
+
 <img width="2288" height="108" alt="image" src="https://github.com/user-attachments/assets/8994b74c-c3c8-4901-9231-a43a507a351a" />

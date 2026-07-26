@@ -49,7 +49,7 @@ import TimelineBoardSliderComponent from './timeline-board-slider/timeline-board
         TimelineBoardSliderComponent,
     ],
     templateUrl: './planner-board.component.html',
-    styles: ':host { display: block; width: 100% }',
+    styles: ':host { display: block; width: 100%; max-width: 1920px; }',
 })
 export default class PlannerBoardComponent {
 	private readonly _timeManagerService: TimeManagerService =

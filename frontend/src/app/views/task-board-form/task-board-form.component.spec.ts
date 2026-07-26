@@ -98,6 +98,10 @@ describe('TaskBoardFormComponent', () => {
 					provide: ActivatedRoute,
 					useValue: {
 						snapshot: {
+							queryParams: {
+								from: '2026-06-22',
+								to: '2026-06-28',
+							},
 							paramMap: {
 								has(param: string): boolean {
 									return param === 'dutyId' && !!routeDutyId;
@@ -493,6 +497,39 @@ describe('TaskBoardFormComponent', () => {
 		);
 	});
 
+	it('should preserve the source week when leaving dynamic duty edit', () => {
+		routeDutyId = 'duty-a';
+
+		let selectSignalCallIndex = 0;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		mockStore.selectSignal.and.callFake((): any => {
+			selectSignalCallIndex++;
+
+			if (selectSignalCallIndex === 1) {
+				return signal(MOCK_PLANNERS[3]);
+			}
+
+			return signal({
+				id: 'duty-a',
+				plannerId: dynamicRoutePlannerId,
+				name: 'Dynamic duty',
+				effectiveDate: '2026-06-24',
+				weekDay: 'WEDNESDAY',
+				from: '08:00',
+				to: '09:00',
+			});
+		});
+
+		fixture = TestBed.createComponent(TaskBoardFormComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+
+		expect(component.backQueryParams).toEqual({
+			from: '2026-06-22',
+			to: '2026-06-28',
+		});
+	});
+
 	it('should block dynamic planner save if date was typed but not added as a chip', () => {
 		fixture.detectChanges();
 
@@ -567,5 +604,18 @@ describe('TaskBoardFormComponent', () => {
 		expect(component.formModel()?.formGroup().get(dateControl)?.value).toBe(
 			'12-12-2024, 12:00 - 13:00',
 		);
+	});
+
+	it('should clear added dynamic dates when preparing another task', () => {
+		const formModel = TestBed.runInInjectionContext(
+			() => new TaskBoardFormModel(false, MOCK_PLANNERS[3]),
+		);
+
+		formModel.addedChipTagsDates.set([
+			'12-12-2024, 12:00 - 13:00',
+		]);
+		formModel.clearForm();
+
+		expect(formModel.addedChipTagsDates()).toBeNull();
 	});
 });

@@ -4,7 +4,7 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Option } from '@core/types/basics.types';
 import { FormFactory } from '@core/services/form-factory/form-factory.service';
 import { TimeValidators } from '@shared/validators/time.validators';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
 import moment from 'moment';
 import { MOMENT_MINUTES_TYPE, TIME_FORMAT } from '@shared/constants/shared-consts.const';
 import { TimeValueConnectorService } from '@shared/services/time-value-connector.service';
@@ -26,6 +26,9 @@ export class CalendarTimeRangerFormModel {
 	}
 
 	private _buildForm(fromTime: Option<string>, toTime: Option<string>): void {
+		this._timeValueConnector.changeTimeFromValue(fromTime);
+		this._timeValueConnector.changeTimeToValue(toTime);
+
 		this.formGroup.set(
 			this._formFactory.createForm({
 				controls: {
@@ -56,14 +59,11 @@ export class CalendarTimeRangerFormModel {
 
 		toTimeControl.valueChanges
 			.pipe(
-				debounceTime(500),
 				distinctUntilChanged(),
 				takeUntilDestroyed(this._dRef),
 			)
 			.subscribe((value) => {
-				const splittedValue = !value.includes(':')
-					? this._splitTime(value)
-					: value;
+				const splittedValue = this._normalizeTime(value);
 
 				this.fromTime?.updateValueAndValidity();
 				this._timeValueConnector.changeTimeToValue(splittedValue);
@@ -79,14 +79,11 @@ export class CalendarTimeRangerFormModel {
 
 		fromTimeControl.valueChanges
 			.pipe(
-				debounceTime(500),
 				distinctUntilChanged(),
 				takeUntilDestroyed(this._dRef),
 			)
 			.subscribe((value) => {
-				const splittedValue = !value.includes(':')
-					? this._splitTime(value)
-					: value;
+				const splittedValue = this._normalizeTime(value);
 
 				this._timeValueConnector.changeTimeFromValue(splittedValue);
 			});
@@ -194,6 +191,14 @@ export class CalendarTimeRangerFormModel {
 
 	private _splitTime(value: string): string {
 		return value.slice(0, 2) + ':' + value.slice(2);
+	}
+
+	private _normalizeTime(value: Option<string>): Option<string> {
+		if (!value || value.includes(':')) {
+			return value;
+		}
+
+		return this._splitTime(value);
 	}
 
 	get toTime(): Option<AbstractControl> {

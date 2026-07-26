@@ -3,6 +3,7 @@
 		[label]="isEditMode ? 'task-board-form.edit-title' : 'task-board-form.title'"
 		[additionalTextLabel]="currentPlannerLabel()"
 		[backToUrl]="backUrl"
+		[backQueryParams]="backQueryParams"
 	/>
 	<div class="task-board-form__wrapper">
 		@let formGroupValue = formModel()?.formGroup();

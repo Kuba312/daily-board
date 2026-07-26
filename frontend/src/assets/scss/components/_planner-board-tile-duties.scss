@@ -7,6 +7,11 @@
 	overflow: hidden;
 
 	@include full-screen;
+
+	@media (width > 139.375em) {
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+	}
+
 	@include media-columns-grid(7, 139.375em, 20rem);
 	@include media-columns-grid(7, 134.375em, 18rem);
 	@include media-columns-grid(7, 124.375em, 17rem);

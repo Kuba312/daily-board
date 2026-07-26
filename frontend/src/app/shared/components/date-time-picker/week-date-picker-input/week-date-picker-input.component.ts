@@ -3,6 +3,8 @@ import {
 	ElementRef,
 	effect,
 	forwardRef,
+	HostListener,
+	inject,
 	input,
 	InputSignal,
 	Signal,
@@ -60,10 +62,14 @@ export default class WeekDatePickerInputComponent
 	public fromInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('fromInput');
 	public toInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('toInput');
 	public dateInput: Signal<Option<ElementRef>> = viewChild<ElementRef>('dateInput');
+	public calendarWeeksRanger: Signal<Option<CalendarWeeksRangerComponent>> =
+		viewChild<CalendarWeeksRangerComponent>(CalendarWeeksRangerComponent);
 
 	public readonly TIME_MASK_FORMAT: string = TIME_MASK_FORMAT;
 
 	private readonly INVALID_DATE_ERROR: string = 'invalidDate';
+	private readonly _elementRef: ElementRef<HTMLElement> =
+		inject<ElementRef<HTMLElement>>(ElementRef);
 
 	public formGroup: InputSignal<FormGroup> = input.required<FormGroup>();
 	public controlName: InputSignal<string> = input.required<string>();
@@ -147,10 +153,35 @@ export default class WeekDatePickerInputComponent
 	}
 
 	onCloseCalendarWeek(calendarDatesDetails: CalendarDateDetails): void {
-		this.isWeeklyCalendarOpened.update((value) => !value);
+		this.isWeeklyCalendarOpened.set(false);
 
 		this._updateCalendarInputs(calendarDatesDetails);
 		this._generateNotifierDate();
+	}
+
+	@HostListener('document:mousedown', ['$event'])
+	onDocumentMouseDown(event: MouseEvent): void {
+		const target = event.target;
+
+		if (
+			!this.isWeeklyCalendarOpened() ||
+			!(target instanceof Node) ||
+			this._elementRef.nativeElement.contains(target)
+		) {
+			return;
+		}
+
+		this._closeCalendarWeek();
+	}
+
+	@HostListener('document:keydown.escape', ['$event'])
+	onEscapePress(event: Event): void {
+		if (!this.isWeeklyCalendarOpened()) {
+			return;
+		}
+
+		event.preventDefault();
+		this._closeCalendarWeek();
 	}
 
 	private _triggerFormNotifiers(date: string): void {
@@ -159,6 +190,18 @@ export default class WeekDatePickerInputComponent
 		if (this._onChange()) {
 			this._onChange()(date);
 		}
+	}
+
+	private _closeCalendarWeek(): void {
+		const calendarWeeksRanger = this.calendarWeeksRanger();
+
+		if (calendarWeeksRanger) {
+			calendarWeeksRanger.closeCalendar();
+
+			return;
+		}
+
+		this.isWeeklyCalendarOpened.set(false);
 	}
 
 	private _adjustTypedDate(

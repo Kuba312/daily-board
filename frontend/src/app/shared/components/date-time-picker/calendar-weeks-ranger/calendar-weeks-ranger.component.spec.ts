@@ -37,7 +37,12 @@ describe('CalendarWeeksRangerComponent', () => {
 		]);
 		timeValueConnectorServiceSpy = jasmine.createSpyObj(
 			'TimeValueConnectorService',
-			['timeValueFrom', 'timeValueTo'],
+			[
+				'timeValueFrom',
+				'timeValueTo',
+				'changeTimeFromValue',
+				'changeTimeToValue',
+			],
 		);
 
 		TestBed.configureTestingModule({

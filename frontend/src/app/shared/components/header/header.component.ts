@@ -19,6 +19,7 @@ import { DateHelperService } from '@shared/services/locale-date/date-helper.serv
 import { DisplayDateMode } from '@shared/types/display-date-mode.type';
 import { DateRangeConfigurerComponent } from '../date-range-configurer/date-range-configurer.component';
 import { RouterHelperService } from '@shared/services/router-helper/router-helper.service';
+import { Params } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -41,6 +42,8 @@ export default class HeaderComponent implements OnInit, OnDestroy {
 	public additionalTextLabel: InputSignal<Option<string>> =
 		input<Option<string>>();
 	public backToUrl: InputSignal<Option<string>> = input<Option<string>>();
+	public backQueryParams: InputSignal<Option<Params>> =
+		input<Option<Params>>(null);
 	public useTranslate: InputSignal<boolean> = input<boolean>(true);
 
 	public properDateDisplayMode: WritableSignal<DisplayDateMode> =
@@ -65,7 +68,12 @@ export default class HeaderComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this._routerHelperService.directToUrl(backToUrl)
+		this._routerHelperService.directToUrl(
+			backToUrl,
+			undefined,
+			false,
+			this.backQueryParams() ?? undefined,
+		);
 	}
 
 	private _setProperDateDisplayMode(): void {

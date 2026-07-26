@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { notEmpty } from '@core/helpers/not-empty-operator.helper';
 import { Option, Optional } from '@core/types/basics.types';
 import { Store } from '@ngrx/store';
@@ -265,5 +265,15 @@ export default class TaskBoardFormComponent {
 				? PlannerType.Constant
 				: DYNAMIC_PLANNER
 		}`;
+	}
+
+	get backQueryParams(): Option<Params> {
+		if (!this.isEditMode || this.isConstantPlanner()) {
+			return null;
+		}
+
+		const { from, to } = this._activatedRoute.snapshot.queryParams;
+
+		return from && to ? { from, to } : null;
 	}
 }

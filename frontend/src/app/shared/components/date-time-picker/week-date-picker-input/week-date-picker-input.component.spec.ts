@@ -149,6 +149,36 @@ describe('WeekDatePickerInputComponent', () => {
 		expect(component.isWeeklyCalendarOpened()).toBeFalse();
 	});
 
+	it('should close the calendar on Escape', () => {
+		component.toggleCalendarWeek();
+		fixture.detectChanges();
+
+		const calendar = el.query(
+			By.directive(CalendarWeeksRangerComponent),
+		).componentInstance as CalendarWeeksRangerComponent;
+		spyOn(calendar, 'closeCalendar');
+
+		component.onEscapePress(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+		expect(calendar.closeCalendar).toHaveBeenCalled();
+	});
+
+	it('should close the calendar when clicking outside the component', () => {
+		component.toggleCalendarWeek();
+		fixture.detectChanges();
+
+		const calendar = el.query(
+			By.directive(CalendarWeeksRangerComponent),
+		).componentInstance as CalendarWeeksRangerComponent;
+		spyOn(calendar, 'closeCalendar');
+
+		component.onDocumentMouseDown(
+			{ target: document.body } as unknown as MouseEvent,
+		);
+
+		expect(calendar.closeCalendar).toHaveBeenCalled();
+	});
+
 	it('should render time values written before inputs are available', () => {
 		const lateFixture = TestBed.createComponent(WeekDatePickerInputComponent);
 		const lateComponent = lateFixture.componentInstance;

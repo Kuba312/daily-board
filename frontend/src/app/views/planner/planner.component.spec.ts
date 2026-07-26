@@ -264,6 +264,11 @@ describe('PlannerComponent', () => {
 		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
 			'/task-board-edit',
 			[plannerId, 'duty-a'],
+			false,
+			{
+				from: '2026-06-08',
+				to: '2026-06-14',
+			},
 		);
 	});
 

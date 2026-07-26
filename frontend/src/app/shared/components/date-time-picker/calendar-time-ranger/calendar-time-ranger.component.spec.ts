@@ -93,6 +93,16 @@ describe('CalendarTimeRangerComponent', () => {
 		);
 	});
 
+	it('should publish the end time immediately when it is typed', () => {
+		timeValueConnectorServiceSpy.changeTimeToValue.calls.reset();
+
+		component.formModel?.formGroup().get(toHourControl)?.setValue('1230');
+
+		expect(
+			timeValueConnectorServiceSpy.changeTimeToValue,
+		).toHaveBeenCalledWith('12:30');
+	});
+
 	it('should control from hour contains error if the value is incorrect', () => {
 		component.formModel
 			?.formGroup()

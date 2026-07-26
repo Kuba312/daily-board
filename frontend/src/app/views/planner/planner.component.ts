@@ -132,7 +132,12 @@ export default class PlannerComponent {
 		this._routerHelperService.directToUrl('/task-board-edit', [
 			this.plannerId,
 			duty.id,
-		]);
+		], false, this.isDynamic
+			? {
+					from: this.fromDate(),
+					to: this.toDate(),
+			  }
+			: undefined);
 	}
 
 	public onDeleteDuty(duty: DutyDto): void {

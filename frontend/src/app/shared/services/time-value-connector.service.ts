@@ -17,11 +17,11 @@ export class TimeValueConnectorService {
 	);
 	timeValueTo: Signal<Option<string>> = computed(() => this._timeValueTo());
 
-	changeTimeFromValue(value: string): void {
+	changeTimeFromValue(value: Option<string>): void {
 		this._timeValueFrom.set(value);
 	}
 
-	changeTimeToValue(value: string): void {
+	changeTimeToValue(value: Option<string>): void {
 		this._timeValueTo.set(value);
 	}
 }

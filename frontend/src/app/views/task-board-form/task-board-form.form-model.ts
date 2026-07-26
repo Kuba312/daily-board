@@ -78,6 +78,7 @@ export class TaskBoardFormModel {
 
 	public clearForm(): void {
 		this.formGroup().reset();
+		this.addedChipTagsDates.set(null);
 	}
 
 	public patchDuty(duty: DutyDto): void {

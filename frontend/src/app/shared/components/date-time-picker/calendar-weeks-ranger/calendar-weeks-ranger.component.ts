@@ -96,10 +96,9 @@ export default class CalendarWeeksRangerComponent implements OnInit {
 	}
 
 	@HostListener('document:keydown.enter', ['$event'])
-	onEnterPress(event: Event | null): void {
-		if (event instanceof KeyboardEvent && event.key === 'Enter') {
-			this.closeCalendar();
-		}
+	onEnterPress(event: Event): void {
+		event.preventDefault();
+		this.closeCalendar();
 	}
 
 	closeCalendar(): void {

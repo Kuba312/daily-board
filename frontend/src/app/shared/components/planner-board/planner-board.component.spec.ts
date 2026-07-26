@@ -100,6 +100,10 @@ describe('PlannerBoardComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
+	it('should stop expanding on wide screens', () => {
+		expect(getComputedStyle(fixture.nativeElement).maxWidth).toBe('1920px');
+	});
+
 	it('should apply partial hour hidden into partial hour', () => {
 		const hiddenPartialHourClass = 'hidden-partial-hour';
 		const partialHourElement = el.queryAll(

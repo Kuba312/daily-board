@@ -14,6 +14,11 @@
 		border-top: none;
 		margin-bottom: 3rem;
 		border-radius: 0 0 $normal-border-radius $normal-border-radius;
+
+		@media (width > 139.375em) {
+			display: grid;
+			grid-template-columns: 0.1rem 5rem minmax(0, 1fr);
+		}
 	}
 
 	#{$self}__timeline-slider {

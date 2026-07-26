@@ -93,9 +93,22 @@ describe('HeaderComponent', () => {
 	});
 
 	it('should back to prev page', () => {
+		fixture.componentRef.setInput('backQueryParams', {
+			from: '2026-06-22',
+			to: '2026-06-28',
+		});
+
 		component.directToPreviousPage();
 		fixture.detectChanges();
 
-		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalled();
+		expect(routerHelperServiceSpy.directToUrl).toHaveBeenCalledWith(
+			'/choose-planner',
+			undefined,
+			false,
+			{
+				from: '2026-06-22',
+				to: '2026-06-28',
+			},
+		);
 	})
 });
